@@ -1,0 +1,7 @@
+{
+  "id": "8",
+  "title": "Synchronize All Enhancements into Production Codebase & Re-run Test Suite",
+  "priority": "P3",
+  "passes": false,
+  "description": "Push all optimized parameters, filters, and safety guards to CombinedStrategy.py, brain_api, and config.yaml, ensuring 100% test pass rate."
+}

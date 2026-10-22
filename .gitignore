@@ -1,0 +1,42 @@
+# Secrets & Environment
+.env
+*.pem
+*.key
+
+# SQLite Databases & Data
+data/*.db
+data/*.csv
+*.sqlite3
+signals.db
+backups/*.tar.gz
+
+# Machine Learning models
+models/*.pkl
+models/*.joblib
+user_data/model_xgb.pkl
+
+# Logs
+logs/*.log
+*.log
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# FreqTrade artifacts
+services/freqtrade/user_data/backtest_results/
+services/freqtrade/user_data/data/
+services/freqtrade/user_data/notebooks/
+services/freqtrade/user_data/tradesv3.sqlite
+services/freqtrade/user_data/tradesv3.dryrun.sqlite

@@ -1,0 +1,7 @@
+{
+  "id": "4",
+  "title": "Monte Carlo Stress Testing & Production Strategy Synchronization",
+  "priority": "P3",
+  "passes": false,
+  "description": "Run 10,000 Monte Carlo permutations to verify 95th percentile DD < 8% and sync optimized parameters into CombinedStrategy.py, config_production.json, and brain_api."
+}

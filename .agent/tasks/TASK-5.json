@@ -1,0 +1,7 @@
+{
+  "id": "5",
+  "title": "Engineer Volatility Quality Filter & False-Expansion Suppression",
+  "priority": "P0",
+  "passes": false,
+  "description": "Analyze the 8-loss cluster. Implement Volume Climax / False Expansion filtering and regime trend consensus (e.g. ADX/EMA alignment) to prune low-conviction fakeouts."
+}
