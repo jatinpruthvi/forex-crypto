@@ -225,12 +225,18 @@ async def generate_signal(req: SignalRequest):
         ema50_slope_up = ema50_series.iloc[-1] > ema50_series.iloc[-4] if len(df) > 4 else True
         ema50_slope_down = ema50_series.iloc[-1] < ema50_series.iloc[-4] if len(df) > 4 else True
 
-        if ema21 > ema50 and ema50_slope_up and signal_dir in ["LONG", "NEUTRAL"]:
+        # Calculate 30-period rolling VWAP for institutional bias
+        typical_p = (df["high"] + df["low"] + df["close"]) / 3.0
+        rolling_vol = df["volume"].rolling(30, min_periods=1).sum().replace(0, 1)
+        rolling_vwap = (typical_p * df["volume"]).rolling(30, min_periods=1).sum() / rolling_vol
+        latest_vwap = rolling_vwap.iloc[-1]
+
+        if ema21 > ema50 and ema50_slope_up and latest_close > latest_vwap and signal_dir in ["LONG", "NEUTRAL"]:
             action = "BUY"
-            reason_parts.append("Bullish EMA trend with slope confirmation")
-        elif ema21 < ema50 and ema50_slope_down and signal_dir in ["SHORT", "NEUTRAL"]:
+            reason_parts.append("Bullish EMA trend + VWAP institutional confirmation")
+        elif ema21 < ema50 and ema50_slope_down and latest_close < latest_vwap and signal_dir in ["SHORT", "NEUTRAL"]:
             action = "SELL"
-            reason_parts.append("Bearish EMA trend with slope confirmation")
+            reason_parts.append("Bearish EMA trend + VWAP institutional confirmation")
     elif current_regime == "RANGE":
         sma20 = df["close"].rolling(window=20, min_periods=1).mean().iloc[-1]
         std20 = df["close"].rolling(window=20, min_periods=1).std().iloc[-1]

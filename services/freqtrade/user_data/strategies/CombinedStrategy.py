@@ -78,6 +78,11 @@ class CombinedStrategy(IStrategy):
                 slope_approx[i] = (poly[0] * len(chunk)) / std_c
         dataframe["hurst_proxy"] = slope_approx
 
+        # Rolling 30-period VWAP for Institutional Confirmation
+        typical_p = (dataframe["high"] + dataframe["low"] + dataframe["close"]) / 3.0
+        rolling_vol = dataframe["volume"].rolling(30, min_periods=1).sum().replace(0, 1)
+        dataframe["vwap30"] = (typical_p * dataframe["volume"]).rolling(30, min_periods=1).sum() / rolling_vol
+
         return dataframe
 
     def populate_entry_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
@@ -88,23 +93,25 @@ class CombinedStrategy(IStrategy):
         large_candle = dataframe["candle_range"] > (1.8 * dataframe["atr"])
         vol_surge = dataframe["volume"] > dataframe["vol_ma20"]
 
-        # Long: Bullish expansion candle + above 50 EMA + 50 EMA upward slope + not overextended (>5% stretch)
+        # Long: Bullish expansion + above 50 EMA + 50 EMA slope up + above VWAP + not overextended (<5%)
         ema50_slope_up = dataframe["ema50"] > dataframe["ema50"].shift(3)
         long_expansion = (
             (dataframe["close"] > dataframe["open"])
             & large_candle
             & (dataframe["close"] > dataframe["ema50"])
+            & (dataframe["close"] > dataframe["vwap30"])
             & ema50_slope_up
             & vol_surge
             & (dataframe["price_stretch"] < 0.05)
         )
 
-        # Short: Bearish expansion candle + below 50 EMA + 50 EMA downward slope + not overextended (<-5% stretch)
+        # Short: Bearish expansion + below 50 EMA + 50 EMA slope down + below VWAP + not overextended (>-5%)
         ema50_slope_down = dataframe["ema50"] < dataframe["ema50"].shift(3)
         short_expansion = (
             (dataframe["close"] < dataframe["open"])
             & large_candle
             & (dataframe["close"] < dataframe["ema50"])
+            & (dataframe["close"] < dataframe["vwap30"])
             & ema50_slope_down
             & vol_surge
             & (dataframe["price_stretch"] > -0.05)
