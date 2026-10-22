@@ -77,6 +77,9 @@ Add:
 
 # Weekly database pruning & log rotation (Sundays at 04:00 UTC)
 0 4 * * 0 cd /home/ubuntu/trading && /home/ubuntu/trading/venv/bin/python scripts/prune_maintenance.py >> logs/maintenance.log 2>&1
+
+# Weekly automated ML walk-forward retraining & drift check (Sundays at 05:00 UTC)
+0 5 * * 0 cd /home/ubuntu/trading && /home/ubuntu/trading/venv/bin/python scripts/auto_retrain_scheduler.py >> logs/auto_retrain.log 2>&1
 ```
 
 ---

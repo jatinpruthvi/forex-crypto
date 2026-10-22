@@ -106,14 +106,14 @@ class BacktestSimulator:
                             t["sl"] = trail_candidate
                             sl = trail_candidate
 
-                    # Partial TP at 2.0x ATR
+                    # Partial TP at 2.0x ATR with Breakeven Profit Buffer (+0.25x ATR locked)
                     if partial_take_profit and not partial_taken and current_high >= entry_p + (current_atr * 2.0):
                         t["partial_taken"] = True
                         partial_gain = ((entry_p + current_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
                         partial_fee = (size_usd * 0.5) * self.taker_fee
                         capital += (partial_gain - partial_fee)
                         t["size_usd"] *= 0.5
-                        t["sl"] = max(sl, entry_p)  # Lock in breakeven
+                        t["sl"] = max(sl, entry_p + (current_atr * 0.25))  # Lock in breakeven + buffer profit
 
                     # Hit SL
                     if current_low <= sl:
@@ -138,13 +138,14 @@ class BacktestSimulator:
                             t["sl"] = trail_candidate
                             sl = trail_candidate
 
+                    # Partial TP at 2.0x ATR with Breakeven Profit Buffer (-0.25x ATR locked)
                     if partial_take_profit and not partial_taken and current_low <= entry_p - (current_atr * 2.0):
                         t["partial_taken"] = True
                         partial_gain = (entry_p - (entry_p - current_atr * 2.0)) / entry_p * (size_usd * 0.5)
                         partial_fee = (size_usd * 0.5) * self.taker_fee
                         capital += (partial_gain - partial_fee)
                         t["size_usd"] *= 0.5
-                        t["sl"] = min(sl, entry_p)
+                        t["sl"] = min(sl, entry_p - (current_atr * 0.25))
 
                     if current_high >= sl:
                         exit_trade = True
