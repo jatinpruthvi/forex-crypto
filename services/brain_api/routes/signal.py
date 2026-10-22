@@ -286,7 +286,7 @@ async def generate_signal(req: SignalRequest):
         sl = round(latest_close + sl_dist, 5)
         tp = round(latest_close - tp_dist, 5)
 
-    # 10. Position Sizing with ML Dynamic Conviction Adjustment
+    # 10. Position Sizing with ML Dynamic Conviction Adjustment & Covariance Deflation
     # If ML strongly confirms direction (BUY & prob >= 0.53 or SELL & prob <= 0.47) -> boost 1.35x
     # If ML diverges (BUY & prob <= 0.47 or SELL & prob >= 0.53) -> damp 0.40x
     ml_size_mult = 1.0
@@ -307,6 +307,11 @@ async def generate_signal(req: SignalRequest):
 
     combined_size_mult = dd_status["size_multiplier"] * ml_size_mult
 
+    # Check Portfolio Covariance Deflation if open positions exist
+    cov_deflation = cross_asset_monitor.check_correlation_risk(req.open_positions) if req.open_positions else 1.0
+    if cov_deflation < 1.0:
+        reason_parts.append(f"Covariance Risk Deflation ({cov_deflation:.2f}x)")
+
     # Forex pip sizing approximation (EURUSD pip ~ 0.0001)
     pip_scale = 0.0001 if latest_close < 500 else 1.0
     sl_pips = max(5.0, sl_dist / pip_scale)
@@ -315,6 +320,7 @@ async def generate_signal(req: SignalRequest):
         sl_distance_pips=sl_pips,
         pip_value=10.0 if pip_scale == 0.0001 else 1.0,
         size_multiplier=combined_size_mult,
+        covariance_deflation_factor=cov_deflation,
         max_lot=1.0,
         min_lot=0.01,
     )

@@ -5,6 +5,7 @@ Computes conviction score (0-100) and directional bias (LONG, SHORT, NEUTRAL).
 """
 import sqlite3
 import os
+import numpy as np
 from typing import Dict, Any, Optional
 
 
@@ -131,7 +132,22 @@ class SignalFusion:
         elif taker_ratio < 0.95:
             taker_score = -25.0 * (0.95 - taker_ratio) / 0.05
 
-        total_net = funding_score + oi_score + ls_score + taker_score
+        # 5. Microstructure Pressure Index (MPI):
+        # Combines aggressive net taker bias and open-interest institutional delta.
+        # MPI > 0.35 confirms strong institutional aggressive accumulation.
+        # MPI < -0.35 alerts to aggressive institutional liquidation.
+        taker_delta = (taker_ratio - 1.0) / max(0.01, taker_ratio + 1.0)
+        oi_direction = 1.0 if (oi_change > 0 and price_change_pct >= 0) else (-1.0 if oi_change > 0 else 0.0)
+        mpi_index = round(float(np.clip((taker_delta * 0.7) + (oi_direction * 0.3), -1.0, 1.0)), 3)
+
+        # Funding Climax Penalty: if funding rate is exorbitantly positive (>0.05%), penalize long conviction
+        funding_penalty = 0.0
+        if funding > 0.0005:
+            funding_penalty = -15.0  # Overcrowded long climax risk
+        elif funding < -0.0003:
+            funding_penalty = 15.0   # Overcrowded short squeeze bonus
+
+        total_net = funding_score + oi_score + ls_score + taker_score + funding_penalty
         conviction = min(100.0, max(0.0, abs(total_net)))
 
         if total_net >= 25.0:
@@ -145,17 +161,20 @@ class SignalFusion:
             "conviction": round(conviction, 1),
             "direction": direction,
             "net_score": round(total_net, 1),
+            "mpi_index": mpi_index,
             "breakdown": {
                 "funding": round(funding_score, 1),
                 "oi": round(oi_score, 1),
                 "ls_ratio": round(ls_score, 1),
                 "taker": round(taker_score, 1),
+                "mpi_index": mpi_index,
             },
             "signals": {
                 "funding_rate": funding,
                 "oi_change_pct": oi_change,
                 "long_short_ratio": ls_ratio,
                 "taker_ratio": taker_ratio,
+                "mpi_index": mpi_index,
             },
         }
 

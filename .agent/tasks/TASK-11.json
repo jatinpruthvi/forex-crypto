@@ -1,0 +1,7 @@
+{
+  "id": "11",
+  "title": "P3: Microstructure Pressure Index (MPI) and Order Flow Sentiment Fusion",
+  "priority": "P2",
+  "passes": true,
+  "description": "Integrate taker imbalance, open interest divergence, and funding exhaustion index into core/signals/fusion.py and brain_api."
+}

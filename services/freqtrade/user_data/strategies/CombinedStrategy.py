@@ -134,10 +134,15 @@ class CombinedStrategy(IStrategy):
         **kwargs,
     ) -> float:
         """
-        Chandelier ATR Trailing Stop (2.5x ATR) and partial breakeven ratchet.
+        Regime-Adaptive Trailing Stop & Breakeven Ratchet:
+        - In strong trend (>4% profit): loosen trail to let winners run.
+        - In chop / moderate profit (>2% profit): lock in breakeven (+0.2%).
         """
-        # If trade reached > 2.0% profit, tighten stop to lock in breakeven
-        if current_profit >= 0.02:
+        if current_profit >= 0.04:
+            # Let runners breathe with a trailing stop trailing from peak
+            return -0.015
+        elif current_profit >= 0.02:
+            # Lock in breakeven fee recovery
             return -0.002
 
         # Standard initial risk stop at -3.5%

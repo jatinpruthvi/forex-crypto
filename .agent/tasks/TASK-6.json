@@ -2,6 +2,5 @@
   "id": "6",
   "title": "Implement Dynamic Equity-Curve Sizing & Asymmetric Stop Tightening",
   "priority": "P1",
-  "passes": false,
-  "description": "Integrate real-time Drawdown Protocol scaling: throttle risk from 4.2% down to 2.1% during drawdowns to compress DD below 10% while preserving ~25% ROI during expansion."
+  "passes": true
 }

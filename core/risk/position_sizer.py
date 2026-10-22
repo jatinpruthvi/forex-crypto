@@ -17,16 +17,18 @@ class PositionSizer:
         pip_value: float = 10.0,
         risk_pct_override: Optional[float] = None,
         size_multiplier: float = 1.0,
+        covariance_deflation_factor: float = 1.0,
         max_lot: float = 1.0,
         min_lot: float = 0.01,
     ) -> Dict[str, Any]:
         """
-        Forex / Index Lot Sizing formula:
-        risk_amount = account_equity * (risk_pct / 100) * size_multiplier
+        Forex / Index Lot Sizing formula with Covariance Deflation:
+        risk_amount = account_equity * (risk_pct / 100) * size_multiplier * covariance_deflation_factor
         lot_size = risk_amount / (sl_distance_pips * pip_value)
         """
         risk_pct = risk_pct_override if risk_pct_override is not None else self.default_risk_pct
-        risk_amount = account_equity * (risk_pct / 100.0) * max(0.0, size_multiplier)
+        effective_mult = max(0.0, size_multiplier * covariance_deflation_factor)
+        risk_amount = account_equity * (risk_pct / 100.0) * effective_mult
 
         if sl_distance_pips <= 0 or pip_value <= 0:
             return {"lots": 0.0, "risk_amount": 0.0, "sl_distance_pips": sl_distance_pips}
@@ -39,7 +41,7 @@ class PositionSizer:
             "raw_lots": round(raw_lots, 4),
             "risk_amount": round(risk_amount, 2),
             "sl_distance_pips": round(sl_distance_pips, 1),
-            "risk_pct_effective": round(risk_pct * size_multiplier, 3),
+            "risk_pct_effective": round(risk_pct * effective_mult, 3),
         }
 
     def calculate_crypto_stake(
@@ -50,9 +52,10 @@ class PositionSizer:
         leverage: float = 3.0,
         risk_pct: float = 1.0,
         size_multiplier: float = 1.0,
+        covariance_deflation_factor: float = 1.0,
     ) -> float:
         """
-        Crypto Perpetual Stake Amount in USDT.
+        Crypto Perpetual Stake Amount in USDT with Covariance Hedging.
         """
         if entry_price <= 0 or stop_loss_price <= 0:
             return 10.0
@@ -61,7 +64,8 @@ class PositionSizer:
         if sl_distance_pct < 0.001:
             sl_distance_pct = 0.02
 
-        risk_usd = account_equity * (risk_pct / 100.0) * size_multiplier
+        effective_mult = max(0.0, size_multiplier * covariance_deflation_factor)
+        risk_usd = account_equity * (risk_pct / 100.0) * effective_mult
         target_position_usd = risk_usd / sl_distance_pct
         # Cap with leverage limit
         max_position = account_equity * leverage

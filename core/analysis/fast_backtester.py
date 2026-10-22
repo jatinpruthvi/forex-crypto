@@ -50,6 +50,7 @@ class BacktestSimulator:
         sig_arr = signals["signal"].values
         atr_arr = signals["atr"].values if "atr" in signals else np.full(len(df), closes[0] * 0.015)
         conv_arr = signals["conviction"].values if "conviction" in signals else np.full(len(df), 75.0)
+        regime_arr = signals["regime"].values if "regime" in signals else np.full(len(df), "TREND")
 
         n = len(df)
         hours_elapsed = n * 4 if "4h" in str(times[1]) else n
@@ -65,6 +66,17 @@ class BacktestSimulator:
             current_atr = max(current_close * 0.005, atr_arr[i])
             sig = sig_arr[i]
             conv = conv_arr[i]
+            current_regime = regime_arr[i]
+
+            # Dynamic Regime-Adaptive Trailing Stops:
+            # In strong trends, grant breathing room (3.0x ATR) to capture full moves.
+            # In chop/ranges, tighten trailing (1.8x ATR) to lock profits before reversal.
+            if trailing_atr_mult is not None:
+                effective_trail_mult = (
+                    3.0 if current_regime == "TREND" else (1.8 if current_regime == "RANGE" else trailing_atr_mult)
+                )
+            else:
+                effective_trail_mult = None
 
             # 1. Manage Active Positions
             remaining_trades = []
@@ -88,8 +100,8 @@ class BacktestSimulator:
                         peak_p = current_high
 
                     # Trailing ratchet
-                    if trailing_atr_mult:
-                        trail_candidate = peak_p - (current_atr * trailing_atr_mult)
+                    if effective_trail_mult:
+                        trail_candidate = peak_p - (current_atr * effective_trail_mult)
                         if trail_candidate > sl:
                             t["sl"] = trail_candidate
                             sl = trail_candidate
@@ -120,8 +132,8 @@ class BacktestSimulator:
                         t["peak_p"] = current_low
                         peak_p = current_low
 
-                    if trailing_atr_mult:
-                        trail_candidate = peak_p + (current_atr * trailing_atr_mult)
+                    if effective_trail_mult:
+                        trail_candidate = peak_p + (current_atr * effective_trail_mult)
                         if trail_candidate < sl:
                             t["sl"] = trail_candidate
                             sl = trail_candidate
