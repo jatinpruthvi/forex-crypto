@@ -53,12 +53,12 @@ class BacktestSimulator:
         regime_arr = signals["regime"].values if "regime" in signals else np.full(len(df), "TREND")
 
         n = len(df)
-        hours_elapsed = n * 4 if "4h" in str(times[1]) else n
+        hours_elapsed = n * 4 if len(times) > 1 and "4h" in str(times[1]) else n
         months_elapsed = max(1.0, hours_elapsed / (24.0 * 30.4))
 
         prev_sig = 0
 
-        for i in range(1, n):
+        for i in range(0, n):
             current_close = closes[i]
             current_high = highs[i]
             current_low = lows[i]
@@ -115,16 +115,16 @@ class BacktestSimulator:
                         t["size_usd"] *= 0.5
                         t["sl"] = max(sl, entry_p + (current_atr * 0.25))  # Lock in breakeven + buffer profit
 
-                    # Hit SL
-                    if current_low <= sl:
-                        exit_trade = True
-                        exit_price = sl * (1.0 - self.slippage)
-                        exit_reason = "SL"
                     # Hit TP
-                    elif current_high >= tp:
+                    if current_high >= tp:
                         exit_trade = True
                         exit_price = tp * (1.0 - self.slippage)
                         exit_reason = "TP"
+                    # Hit SL
+                    elif current_low <= sl:
+                        exit_trade = True
+                        exit_price = sl * (1.0 - self.slippage)
+                        exit_reason = "SL"
 
                 # SHORT Position Execution
                 elif direction == -1:
@@ -147,14 +147,14 @@ class BacktestSimulator:
                         t["size_usd"] *= 0.5
                         t["sl"] = min(sl, entry_p - (current_atr * 0.25))
 
-                    if current_high >= sl:
-                        exit_trade = True
-                        exit_price = sl * (1.0 + self.slippage)
-                        exit_reason = "SL"
-                    elif current_low <= tp:
+                    if current_low <= tp:
                         exit_trade = True
                         exit_price = tp * (1.0 + self.slippage)
                         exit_reason = "TP"
+                    elif current_high >= sl:
+                        exit_trade = True
+                        exit_price = sl * (1.0 + self.slippage)
+                        exit_reason = "SL"
 
                 if exit_trade:
                     pnl_pct = (exit_price - entry_p) / entry_p if direction == 1 else (entry_p - exit_price) / entry_p

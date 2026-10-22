@@ -17,7 +17,13 @@ class MonteCarloSimulator:
         trade_returns: list of return percentages (e.g. [+1.5, -0.8, +2.1])
         """
         if not trade_returns:
-            return {"max_dd_95": 0.0, "max_dd_99": 0.0, "ruin_prob": 0.0}
+            return {
+                "n_simulations": self.n_simulations,
+                "max_dd_95_pct": 0.0,
+                "max_dd_99_pct": 0.0,
+                "probability_of_ruin_pct": 0.0,
+                "verdict": "SAFE",
+            }
 
         returns_arr = np.array(trade_returns) / 100.0
         n_trades = len(returns_arr)

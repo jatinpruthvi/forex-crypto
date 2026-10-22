@@ -41,7 +41,7 @@ class CrossAssetMonitor:
         if len(valid_syms) < 2:
             return 1.0
 
-        sub_matrix = correlation_matrix.loc[valid_syms, valid_syms].values
+        sub_matrix = correlation_matrix.loc[valid_syms, valid_syms].values.copy()
         # Off-diagonal elements
         np.fill_diagonal(sub_matrix, 0.0)
         max_corr = np.max(np.abs(sub_matrix))
