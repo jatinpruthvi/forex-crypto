@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Option A: Pure 12-Bar Compressed Donchian Engine (BTC/USDT)
+  freqtrade_option_a:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_option_a_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8081:8081"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_a.json
+      --strategy OptionA_BTC_CompressedDonchian
+
+  # Option B: Multi-Strategy Concurrent Portfolio (BTC, SOL, BNB, LINK)
+  freqtrade_option_b:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_option_b_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8082:8082"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_b.json
+      --strategy OptionB_MultiAsset_Portfolio
