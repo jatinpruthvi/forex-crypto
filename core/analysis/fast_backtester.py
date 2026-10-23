@@ -60,8 +60,19 @@ class BacktestSimulator:
         regime_arr = signals["regime"].values if "regime" in signals else np.full(len(df), "TREND")
 
         n = len(df)
-        hours_elapsed = n * 4 if len(times) > 1 and "4h" in str(times[1]) else n
-        months_elapsed = max(1.0, hours_elapsed / (24.0 * 30.4))
+        # Compute exact duration in months from timestamps if available, fallback to candle count
+        try:
+            t_first = pd.to_datetime(times[0])
+            t_last = pd.to_datetime(times[-1])
+            diff_sec = abs((t_last - t_first).total_seconds())
+            if diff_sec > 3600:
+                months_elapsed = max(0.1, diff_sec / (86400.0 * 30.4375))
+            else:
+                hours_elapsed = n * 4 if len(times) > 1 and "4h" in str(times[1]) else n
+                months_elapsed = max(0.1, hours_elapsed / (24.0 * 30.4375))
+        except Exception:
+            hours_elapsed = n * 4 if len(times) > 1 and "4h" in str(times[1]) else n
+            months_elapsed = max(0.1, hours_elapsed / (24.0 * 30.4375))
 
         prev_sig = 0
 
