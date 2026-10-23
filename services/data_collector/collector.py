@@ -11,6 +11,7 @@ import sys
 import os
 from services.data_collector.storage import SignalStorage
 from services.data_collector.sources.bybit import BybitSource
+from services.data_collector.sources.mexc import MEXCSource
 from services.data_collector.sources.binance import BinanceSource
 from core.signals.event_filter import EventFilter
 

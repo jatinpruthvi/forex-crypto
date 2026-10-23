@@ -106,3 +106,35 @@ def test_option_a_backtest_simulation():
     res = sim.run_backtest(df_sub, sig, risk_per_trade_pct=3.0, atr_sl_mult=1.3, atr_tp_mult=2.0)
     assert res["max_drawdown_pct"] <= 10.0
     assert res["final_capital"] > 0
+
+def test_mexc_and_bybit_compatibility():
+    import json
+    # Verify Bybit configs
+    with open("services/freqtrade/user_data/config_option_a.json") as f:
+        conf_a_bybit = json.load(f)
+    assert conf_a_bybit["exchange"]["name"] == "bybit"
+    assert conf_a_bybit["order_types"]["entry"] == "limit"
+
+    with open("services/freqtrade/user_data/config_option_b.json") as f:
+        conf_b_bybit = json.load(f)
+    assert conf_b_bybit["exchange"]["name"] == "bybit"
+
+    # Verify MEXC configs
+    with open("services/freqtrade/user_data/config_option_a_mexc.json") as f:
+        conf_a_mexc = json.load(f)
+    assert conf_a_mexc["exchange"]["name"] == "mexc"
+    assert conf_a_mexc["fee"] == 0.0000
+    assert conf_a_mexc["order_types"]["entry"] == "limit"
+
+    with open("services/freqtrade/user_data/config_option_b_mexc.json") as f:
+        conf_b_mexc = json.load(f)
+    assert conf_b_mexc["exchange"]["name"] == "mexc"
+    assert conf_b_mexc["fee"] == 0.0000
+
+    # Verify CCXT data source compatibility
+    from services.data_collector.sources.bybit import BybitSource
+    from services.data_collector.sources.mexc import MEXCSource
+    bybit_src = BybitSource(testnet=True)
+    mexc_src = MEXCSource(testnet=True)
+    assert bybit_src.exchange.id == "bybit"
+    assert mexc_src.exchange.id == "mexc"
