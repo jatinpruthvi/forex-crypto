@@ -72,6 +72,17 @@ df_stream["vwap"] = (typical_p * vol).rolling(30).sum() / vol.rolling(30).sum().
 df_stream["donchian_high"] = high.rolling(12).max().shift(1)
 df_stream["donchian_low"] = low.rolling(12).min().shift(1)
 
+# ADX Regime Filter Indicator
+plus_dm = high.diff()
+minus_dm = low.diff()
+plus_dm[plus_dm < 0] = 0
+minus_dm[minus_dm > 0] = 0
+minus_dm = minus_dm.abs()
+plus_di = 100 * (plus_dm.ewm(alpha=1/14).mean() / df_stream["atr"])
+minus_di = 100 * (minus_dm.ewm(alpha=1/14).mean() / df_stream["atr"])
+dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di).replace(0, 1))
+df_stream["adx"] = dx.ewm(alpha=1/14).mean()
+
 # 3 Real Paper Trading Accounts
 accounts = {
     "mexc_opt_a": RealPaperAccount("MEXC Option A (0.00% Maker)", initial_capital=10000.0, maker_fee=0.0000),
@@ -118,16 +129,20 @@ async def walk_forward_streaming_loop():
                 "timestamp": ts,
                 "open": o, "high": h, "low": l, "close": c,
                 "atr": atr_val, "macro_trend": "BULLISH" if macro == 1 else "BEARISH",
-                "dh": dh, "dl": dl, "vwap": vwap
+                "dh": dh, "dl": dl, "vwap": vwap,
+                "adx": float(row["adx"])
             }
 
             # 1. Update all open positions with this candle's price action
             for acc in accounts.values():
                 acc.on_candle(ts, h, l, c)
 
-            # 2. Check for fresh breakout signals (Transition only)
-            bull = (macro == 1) and (c > o) and (c > vwap) and (ema20 > ema50) and (h >= dh)
-            bear = (macro == -1) and (c < o) and (c < vwap) and (ema20 < ema50) and (l <= dl)
+            # 2. Check for fresh breakout signals with ADX Regime Filter (ADX >= 18.0)
+            cur_adx = float(row["adx"])
+            cond_adx = cur_adx >= 18.0
+
+            bull = (macro == 1) and (c > o) and (c > vwap) and (ema20 > ema50) and (h >= dh) and cond_adx
+            bear = (macro == -1) and (c < o) and (c < vwap) and (ema20 < ema50) and (l <= dl) and cond_adx
             sig = 1 if bull else (-1 if bear else 0)
 
             is_transition = (sig != 0) and (sig != prev_sig)
@@ -157,12 +172,14 @@ async def start_feed():
         ts = str(row["timestamp"])
         c, h, l, o, atr_val = float(row["close"]), float(row["high"]), float(row["low"]), float(row["open"]), float(row["atr"])
         macro, dh, dl, vwap, ema20, ema50 = int(row["macro_trend"]), float(row["donchian_high"]), float(row["donchian_low"]), float(row["vwap"]), float(row["ema20"]), float(row["ema50"])
+        cur_adx = float(row["adx"])
         
         for acc in accounts.values():
             acc.on_candle(ts, h, l, c)
             
-        bull = (macro == 1) and (c > o) and (c > vwap) and (ema20 > ema50) and (h >= dh)
-        bear = (macro == -1) and (c < o) and (c < vwap) and (ema20 < ema50) and (l <= dl)
+        cond_adx = cur_adx >= 18.0
+        bull = (macro == 1) and (c > o) and (c > vwap) and (ema20 > ema50) and (h >= dh) and cond_adx
+        bear = (macro == -1) and (c < o) and (c < vwap) and (ema20 < ema50) and (l <= dl) and cond_adx
         sig = 1 if bull else (-1 if bear else 0)
         
         if (sig != 0) and (sig != prev_sig):
@@ -278,6 +295,7 @@ def index_html():
     <div class="ticker-item"><span>TIMESTAMP:</span><strong id="barTime">Loading...</strong></div>
     <div class="ticker-item"><span>BTC CLOSE:</span><strong id="barClose">$0.00</strong></div>
     <div class="ticker-item"><span>4H MACRO:</span><strong id="barMacro">--</strong></div>
+    <div class="ticker-item"><span>ADX (14):</span><strong id="barAdx">0.0</strong></div>
     <div class="ticker-item"><span>ATR (14):</span><strong id="barAtr">$0.00</strong></div>
     <div class="ticker-item"><span>DONCHIAN 12:</span><strong id="barDonchian">$0 / $0</strong></div>
   </div>
@@ -350,6 +368,10 @@ def index_html():
           const macroEl = document.getElementById('barMacro');
           macroEl.innerText = c.macro_trend;
           macroEl.className = c.macro_trend === 'BULLISH' ? 'status-badge badge-bull' : 'status-badge badge-bear';
+          if (c.adx !== undefined) {
+            document.getElementById('barAdx').innerText = c.adx.toFixed(1) + (c.adx >= 18.0 ? ' (TREND)' : ' (CHOP)');
+            document.getElementById('barAdx').style.color = c.adx >= 18.0 ? 'var(--success)' : 'var(--warning)';
+          }
           document.getElementById('barAtr').innerText = '$' + c.atr.toFixed(2);
           document.getElementById('barDonchian').innerText = '$' + c.dl.toFixed(0) + ' - $' + c.dh.toFixed(0);
         }

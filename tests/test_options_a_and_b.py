@@ -12,7 +12,8 @@ def test_option_a_strategy_interface():
     assert strat.donchian_lookback == 12
     assert strat.atr_sl_mult == 1.3
     assert strat.atr_tp_mult == 2.0
-    assert strat.trailing_atr_mult == 3.0
+    assert strat.trailing_atr_mult == 2.5
+    assert strat.adx_min == 18.0
     assert strat.be_profit_buffer == 0.25
 
     # Mock OHLCV DataFrame

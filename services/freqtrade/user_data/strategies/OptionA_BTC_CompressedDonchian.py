@@ -20,6 +20,10 @@ except ImportError:
     class IStrategy:
         def __init__(self, config: Optional[Dict[str, Any]] = None):
             self.config = config or {}
+    def informative(timeframe):
+        def decorator(f):
+            return f
+        return decorator
 
 if TYPE_CHECKING:
     from freqtrade.persistence import Trade
@@ -57,9 +61,11 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
     # Parameters
     donchian_lookback = 12
     atr_period = 14
+    adx_period = 14
+    adx_min = 18.0
     atr_sl_mult = 1.3
     atr_tp_mult = 2.0
-    trailing_atr_mult = 3.0
+    trailing_atr_mult = 2.5
     be_activation_mult = 1.0
     be_profit_buffer = 0.25
 
@@ -90,6 +96,17 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
         dataframe["donchian_high"] = high.rolling(self.donchian_lookback).max().shift(1)
         dataframe["donchian_low"] = low.rolling(self.donchian_lookback).min().shift(1)
 
+        # ADX Regime Filter Indicator
+        plus_dm = high.diff()
+        minus_dm = low.diff()
+        plus_dm[plus_dm < 0] = 0
+        minus_dm[minus_dm > 0] = 0
+        minus_dm = minus_dm.abs()
+        plus_di = 100 * (plus_dm.ewm(alpha=1/self.adx_period).mean() / dataframe["atr"])
+        minus_di = 100 * (minus_dm.ewm(alpha=1/self.adx_period).mean() / dataframe["atr"])
+        dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di).replace(0, 1))
+        dataframe["adx"] = dx.ewm(alpha=1/self.adx_period).mean()
+
         return dataframe
 
     def populate_entry_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
@@ -100,7 +117,8 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
             (dataframe["close"] > dataframe["open"]) &
             (dataframe["close"] > dataframe["vwap"]) &
             (dataframe["ema20"] > dataframe["ema50"]) &
-            (dataframe["high"] >= dataframe["donchian_high"])
+            (dataframe["high"] >= dataframe["donchian_high"]) &
+            (dataframe["adx"] >= self.adx_min)
         )
 
         short_cond = (
@@ -108,7 +126,8 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
             (dataframe["close"] < dataframe["open"]) &
             (dataframe["close"] < dataframe["vwap"]) &
             (dataframe["ema20"] < dataframe["ema50"]) &
-            (dataframe["low"] <= dataframe["donchian_low"])
+            (dataframe["low"] <= dataframe["donchian_low"]) &
+            (dataframe["adx"] >= self.adx_min)
         )
 
         dataframe.loc[long_cond, "enter_long"] = 1
@@ -148,6 +167,13 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
         sl_pct = self.atr_sl_mult * atr_pct
         be_activation_pct = self.be_activation_mult * atr_pct
         be_buffer_pct = self.be_profit_buffer * atr_pct
+
+        # Dynamic Trailing Ratchet: Ratchet SL up when profit exceeds 1.5x ATR
+        trailing_sl_mult = getattr(self, "trailing_atr_mult", 2.5)
+        if current_profit >= (1.5 * atr_pct):
+            trailing_offset = current_profit - (trailing_sl_mult * atr_pct)
+            if trailing_offset > (be_buffer_pct - current_profit):
+                return trailing_offset
 
         # 1. Breakeven Lock with Profit Buffer
         if current_profit >= be_activation_pct:

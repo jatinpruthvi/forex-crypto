@@ -40,7 +40,17 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         cfg = dict(config or {})
         if "candle_type_def" not in cfg:
             cfg["candle_type_def"] = "spot"
-        super().__init__(cfg)
+        # Custom stake weighting per pair
+        self.custom_stake_weights = {
+            "BTC/USDT:USDT": 0.40,
+            "SOL/USDT:USDT": 0.30,
+            "BNB/USDT:USDT": 0.15,
+            "LINK/USDT:USDT": 0.15,
+            "BTC/USDT": 0.40,
+            "SOL/USDT": 0.30,
+            "BNB/USDT": 0.15,
+            "LINK/USDT": 0.15,
+        }
 
     # Global emergency stop
     stoploss = -0.05
@@ -57,17 +67,11 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         "stoploss_on_exchange": False,
     }
 
-    # Custom stake weighting per pair
-    custom_stake_weights = {
-        "BTC/USDT:USDT": 0.40,
-        "SOL/USDT:USDT": 0.30,
-        "BNB/USDT:USDT": 0.15,
-        "LINK/USDT:USDT": 0.15,
-        "BTC/USDT": 0.40,
-        "SOL/USDT": 0.30,
-        "BNB/USDT": 0.15,
-        "LINK/USDT": 0.15,
-    }
+    # Parameters
+    atr_period = 14
+    adx_period = 14
+    adx_min = 18.0
+    trailing_atr_mult = 2.5
 
     @informative("4h")
     def populate_indicators_4h(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
@@ -90,6 +94,17 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
 
         typical_p = (high + low + close) / 3.0
         dataframe["vwap"] = (typical_p * vol).rolling(30).sum() / vol.rolling(30).sum().replace(0, 1)
+
+        # ADX Regime Filter
+        plus_dm = high.diff()
+        minus_dm = low.diff()
+        plus_dm[plus_dm < 0] = 0
+        minus_dm[minus_dm > 0] = 0
+        minus_dm = minus_dm.abs()
+        plus_di = 100 * (plus_dm.ewm(alpha=1/self.adx_period).mean() / dataframe["atr"])
+        minus_di = 100 * (minus_dm.ewm(alpha=1/self.adx_period).mean() / dataframe["atr"])
+        dx = 100 * (abs(plus_di - minus_di) / (plus_di + minus_di).replace(0, 1))
+        dataframe["adx"] = dx.ewm(alpha=1/self.adx_period).mean()
 
         # BTC: 12-bar Donchian
         dataframe["donchian_high"] = high.rolling(12).max().shift(1)
@@ -119,14 +134,16 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
                 (dataframe["close"] > dataframe["open"]) &
                 (dataframe["close"] > dataframe["vwap"]) &
                 (dataframe["ema20"] > dataframe["ema50"]) &
-                (dataframe["high"] >= dataframe["donchian_high"])
+                (dataframe["high"] >= dataframe["donchian_high"]) &
+                (dataframe["adx"] >= self.adx_min)
             )
             short_cond = (
                 (macro == -1) &
                 (dataframe["close"] < dataframe["open"]) &
                 (dataframe["close"] < dataframe["vwap"]) &
                 (dataframe["ema20"] < dataframe["ema50"]) &
-                (dataframe["low"] <= dataframe["donchian_low"])
+                (dataframe["low"] <= dataframe["donchian_low"]) &
+                (dataframe["adx"] >= self.adx_min)
             )
             dataframe.loc[long_cond, "enter_tag"] = "btc_donchian_long"
             dataframe.loc[short_cond, "enter_tag"] = "btc_donchian_short"
@@ -189,6 +206,13 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         sl_pct = sl_mult * atr_pct
         be_active_pct = be_active_mult * atr_pct
         be_buffer_pct = 0.25 * atr_pct
+
+        # Dynamic Trailing Ratchet: Ratchet SL up/down when profit exceeds 1.5x ATR
+        trailing_sl_mult = getattr(self, "trailing_atr_mult", 2.5)
+        if current_profit >= (1.5 * atr_pct):
+            trailing_offset = current_profit - (trailing_sl_mult * atr_pct)
+            if trailing_offset > (be_buffer_pct - current_profit):
+                return trailing_offset
 
         if current_profit >= be_active_pct:
             return be_buffer_pct - current_profit

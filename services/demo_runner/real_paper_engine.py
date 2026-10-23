@@ -24,7 +24,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(na
 logger = logging.getLogger("real_paper_engine")
 
 class RealPaperAccount:
-    def __init__(self, name: str, initial_capital: float = 10000.0, maker_fee: float = 0.0000):
+    def __init__(
+        self,
+        name: str,
+        initial_capital: float = 10000.0,
+        maker_fee: float = 0.0000,
+        trailing_atr_mult: float = 2.5,
+    ):
         self.name = name
         self.initial_capital = initial_capital
         self.balance = initial_capital
@@ -33,6 +39,7 @@ class RealPaperAccount:
         self.max_drawdown_pct = 0.0
         self.current_drawdown_pct = 0.0
         self.maker_fee = maker_fee
+        self.trailing_atr_mult = trailing_atr_mult
         
         self.position: Optional[dict] = None
         self.closed_trades: List[dict] = []
@@ -120,6 +127,11 @@ class RealPaperAccount:
             pos["unrealized_pnl"] = (close - entry) * size
             if high > pos["peak_price"]:
                 pos["peak_price"] = high
+                # Dynamic Trailing Ratchet: Ratchet SL up when profit exceeds 1.5x ATR
+                if self.trailing_atr_mult > 0.0 and (high - entry) >= (1.5 * atr):
+                    trailing_sl = high - (self.trailing_atr_mult * atr)
+                    if trailing_sl > pos["sl_price"]:
+                        pos["sl_price"] = trailing_sl
 
             # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry + 0.25x ATR
             if not pos["be_locked"] and (high - entry) >= (1.0 * atr):
@@ -131,7 +143,12 @@ class RealPaperAccount:
 
             # Check SL & TP against candle High / Low
             if low <= pos["sl_price"]:
-                exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_buffer"
+                if not pos["be_locked"]:
+                    exit_reason = "stop_loss"
+                elif pos["sl_price"] > (entry + 0.25 * atr):
+                    exit_reason = "trailing_stop"
+                else:
+                    exit_reason = "breakeven_buffer"
                 exit_price = pos["sl_price"]
             elif high >= tp:
                 exit_reason = "take_profit_2x_atr"
@@ -142,6 +159,11 @@ class RealPaperAccount:
             pos["unrealized_pnl"] = (entry - close) * size
             if low < pos["peak_price"]:
                 pos["peak_price"] = low
+                # Dynamic Trailing Ratchet: Ratchet SL down when profit exceeds 1.5x ATR
+                if self.trailing_atr_mult > 0.0 and (entry - low) >= (1.5 * atr):
+                    trailing_sl = low + (self.trailing_atr_mult * atr)
+                    if trailing_sl < pos["sl_price"]:
+                        pos["sl_price"] = trailing_sl
 
             # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry - 0.25x ATR
             if not pos["be_locked"] and (entry - low) >= (1.0 * atr):
@@ -152,7 +174,12 @@ class RealPaperAccount:
                     logger.info(f"[{self.name}] BREAKEVEN LOCKED on SHORT at {new_sl:.2f}")
 
             if high >= pos["sl_price"]:
-                exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_buffer"
+                if not pos["be_locked"]:
+                    exit_reason = "stop_loss"
+                elif pos["sl_price"] < (entry - 0.25 * atr):
+                    exit_reason = "trailing_stop"
+                else:
+                    exit_reason = "breakeven_buffer"
                 exit_price = pos["sl_price"]
             elif low <= tp:
                 exit_reason = "take_profit_2x_atr"
