@@ -40,6 +40,23 @@ class CombinedStrategy(IStrategy):
 
     trailing_stop = False
 
+    # Dynamic Post-Only Maker Order Pricing (Eliminates slippage & secures maker fee rebates)
+    order_types = {
+        "entry": "limit",
+        "exit": "limit",
+        "emergency_exit": "market",
+        "force_entry": "market",
+        "force_exit": "market",
+        "stoploss": "market",
+        "stoploss_on_exchange": False,
+    }
+
+    # Time-in-force for maker limit orders (Good-Till-Cancelled)
+    order_time_in_force = {
+        "entry": "gtc",
+        "exit": "gtc",
+    }
+
     def __init__(self, config: dict) -> None:
         super().__init__(config)
         self.regime_detector = RegimeDetector()
@@ -174,4 +191,13 @@ class CombinedStrategy(IStrategy):
         is_news, _ = self.event_filter.is_high_impact_window(pair, current_time, window_minutes=30)
         if is_news:
             return False
+
+        # Session Rollover Guard: avoid entering during liquidity vacuum (21:30 - 22:30 UTC)
+        # where broker spreads widen substantially
+        if current_time and hasattr(current_time, "hour"):
+            hour = current_time.hour
+            minute = current_time.minute
+            if (hour == 21 and minute >= 30) or (hour == 22 and minute <= 30):
+                return False
+
         return True

@@ -277,7 +277,7 @@ async def generate_signal(req: SignalRequest):
         system_state["last_signal"] = resp.dict()
         return resp
 
-    # 9. Stop Loss & Take Profit calculations
+    # 10. Stop Loss & Take Profit calculations
     # Optimized Strategy Parameters from Ralph Loop:
     # sl_mult = 1.6x ATR, tp_mult = 2.4x ATR, trailing = 2.5x ATR
     sl_mult = 1.6
@@ -292,7 +292,18 @@ async def generate_signal(req: SignalRequest):
         sl = round(latest_close + sl_dist, 5)
         tp = round(latest_close - tp_dist, 5)
 
-    # 10. Position Sizing with ML Dynamic Conviction Adjustment & Covariance Deflation
+    # 11. Limit Order Routing Optimization (Post-Only Maker Pricing)
+    # Market taker orders incur 0.055% fee + 0.1% slippage.
+    # By placing passive post-only limit orders at or inside the best bid/ask (0.05x ATR offset),
+    # the system captures maker rebate (-0.02% fee) and eliminates slippage.
+    limit_entry_price = latest_close
+    limit_offset = atr * 0.05
+    if action == "BUY":
+        limit_entry_price = round(latest_close - limit_offset, 5)
+    elif action == "SELL":
+        limit_entry_price = round(latest_close + limit_offset, 5)
+
+    # 12. Position Sizing with ML Dynamic Conviction Adjustment & Covariance Deflation
     # If ML strongly confirms direction (BUY & prob >= 0.53 or SELL & prob <= 0.47) -> boost 1.35x
     # If ML diverges (BUY & prob <= 0.47 or SELL & prob >= 0.53) -> damp 0.40x
     ml_size_mult = 1.0
@@ -312,6 +323,12 @@ async def generate_signal(req: SignalRequest):
             reason_parts.append(f"ML Divergence (P={ml_prob:.2f}, 0.40x damp)")
 
     combined_size_mult = dd_status["size_multiplier"] * ml_size_mult
+
+    # Check Macro DXY Beta Inversion Filter
+    dxy_eval = cross_asset_monitor.evaluate_dxy_liquidity_filter(dxy_daily_change_pct=0.0)
+    if action == "BUY" and dxy_eval["dollar_squeeze"]:
+        combined_size_mult *= dxy_eval["risk_multiplier"]
+        reason_parts.append(f"DXY Squeeze Long Throttling ({dxy_eval['risk_multiplier']:.2f}x)")
 
     # Check Portfolio Covariance Deflation if open positions exist
     cov_deflation = cross_asset_monitor.check_correlation_risk(req.open_positions) if req.open_positions else 1.0
@@ -339,6 +356,7 @@ async def generate_signal(req: SignalRequest):
         lots=sized["lots"],
         sl=sl,
         tp=tp,
+        limit_price=limit_entry_price,
         confidence=final_confidence,
         reason=" + ".join(reason_parts),
         regime=current_regime,

@@ -270,6 +270,38 @@ def test_cross_asset_risk_regime_classification():
     regime = cam.evaluate_risk_regime(crypto_return=0.02, stock_return=0.01, gold_return=-0.005, dxy_return=-0.002)
     assert regime in ["RISK_ON", "RISK_OFF", "MIXED"]
 
+def test_dxy_liquidity_squeeze_filter():
+    cam = CrossAssetMonitor()
+    # Spiking DXY triggers squeeze
+    res_spike = cam.evaluate_dxy_liquidity_filter(dxy_daily_change_pct=0.45)
+    assert res_spike["dollar_squeeze"] is True
+    assert res_spike["risk_multiplier"] == 0.50
+
+    # Normal DXY conditions
+    res_normal = cam.evaluate_dxy_liquidity_filter(dxy_daily_change_pct=0.10)
+    assert res_normal["dollar_squeeze"] is False
+    assert res_normal["risk_multiplier"] == 1.0
+
+def test_backtester_maker_execution_mode():
+    sim = BacktestSimulator(order_execution_mode="maker")
+    assert sim.slippage == 0.0
+    assert sim.taker_fee == 0.0002
+
+def test_feature_engineering_cvd_and_time_seasonality():
+    fe = FeatureEngineer()
+    df_ohlcv = pd.DataFrame({
+        "timestamp": ["2023-01-01 14:00:00", "2023-01-01 15:00:00", "2023-01-01 16:00:00"],
+        "open": [100.0, 101.0, 102.0],
+        "high": [102.0, 103.0, 104.0],
+        "low": [99.0, 100.0, 101.0],
+        "close": [101.0, 102.0, 103.0],
+        "volume": [1000.0, 1200.0, 1500.0],
+    })
+    feat = fe.create_features(df_ohlcv)
+    assert "cvd_divergence" in feat.columns
+    assert "is_weekend" in feat.columns
+    assert "is_london_ny" in feat.columns
+
 # ==========================================
 # 6. EVENT FILTER TESTCASES
 # ==========================================

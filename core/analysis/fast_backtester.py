@@ -16,9 +16,16 @@ class BacktestSimulator:
         slippage_pct: float = 0.1,  # 0.1% market slippage
         taker_fee_pct: float = 0.055,  # 0.055% Bybit taker fee
         initial_capital: float = 323.0,  # $323 crypto directional capital
+        order_execution_mode: str = "taker",  # "taker" or "maker" (post-only)
     ):
-        self.slippage = slippage_pct / 100.0
-        self.taker_fee = taker_fee_pct / 100.0
+        self.order_execution_mode = order_execution_mode
+        # Maker orders receive fee discounts (0.02% maker fee vs 0.055% taker) and zero market slippage
+        if order_execution_mode == "maker":
+            self.slippage = 0.0
+            self.taker_fee = 0.0002  # 0.02% Bybit maker fee
+        else:
+            self.slippage = slippage_pct / 100.0
+            self.taker_fee = taker_fee_pct / 100.0
         self.initial_capital = initial_capital
 
     def run_backtest(

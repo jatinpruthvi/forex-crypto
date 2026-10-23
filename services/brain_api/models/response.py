@@ -8,6 +8,7 @@ class SignalResponse(BaseModel):
     lots: float = 0.0
     sl: float = 0.0
     tp: float = 0.0
+    limit_price: Optional[float] = None  # Maker post-only limit price
     confidence: int = 0
     reason: str = ""
     regime: str = "UNKNOWN"

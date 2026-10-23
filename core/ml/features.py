@@ -94,22 +94,34 @@ class FeatureEngineer:
         df["taker_ratio"] = sig.get("taker_ratio", 1.0)
         df["conviction"] = sig.get("conviction", 50.0)
 
+        # Microstructure Flow & CVD Divergence proxy:
+        # Approximate Cumulative Volume Delta (CVD) using signed candle volume
+        signed_vol = np.where(close >= open_p, vol, -vol)
+        cvd_20 = pd.Series(signed_vol, index=df.index).rolling(window=20, min_periods=1).sum()
+        cvd_norm = cvd_20 / (vol.rolling(window=20, min_periods=1).sum().replace(0, 1e-6))
+        price_ret_20 = (close - close.shift(20).fillna(close.iloc[0])) / (close.shift(20).replace(0, 1e-6))
+        # CVD Divergence: negative if price is rising but volume delta is falling (absorption/exhaustion)
+        df["cvd_divergence"] = (cvd_norm - price_ret_20).fillna(0.0)
+
         # 21-22. Time features
         if "timestamp" in df.columns:
             dt_series = pd.to_datetime(df["timestamp"])
             df["hour_of_day"] = dt_series.dt.hour
             # London (07:00-16:00 UTC) & NY (13:00-20:00 UTC) active hours
             df["is_london_ny"] = ((df["hour_of_day"] >= 7) & (df["hour_of_day"] <= 20)).astype(int)
+            # Weekend liquidity thinning flag
+            df["is_weekend"] = (dt_series.dt.dayofweek >= 5).astype(int)
         else:
             df["hour_of_day"] = 12
             df["is_london_ny"] = 1
+            df["is_weekend"] = 0
 
         feature_cols = [
             "returns_1h", "returns_4h", "returns_24h", "volatility_20", "volatility_ratio",
             "price_position", "trend_strength", "momentum", "volume_ratio", "candle_body",
             "upper_wick", "lower_wick", "hurst", "atr_percentile", "regime_encoded",
             "funding_rate", "oi_change_pct", "long_short_ratio", "taker_ratio", "conviction",
-            "hour_of_day", "is_london_ny"
+            "cvd_divergence", "hour_of_day", "is_london_ny", "is_weekend"
         ]
         return df[feature_cols]
 

@@ -17,6 +17,8 @@ input double InpRiskPercent      = 0.5;                      // Risk % per trade
 input int    InpMagicNumber      = 777123;                   // Magic Number
 input int    InpMaxOpenTrades    = 3;                        // Max open positions
 input int    InpCandleBars       = 100;                      // Bars to send to Brain
+input int    InpMaxSpreadPoints  = 25;                       // Max allowed spread (points) to avoid rollover slippage
+input bool   InpUseLimitOrders   = true;                     // Use post-only limit orders instead of market execution
 
 CBrainClient brainClient;
 CTrade       trade;
@@ -158,12 +160,36 @@ void OnTick()
       return;
    }
 
+   // 7. Check Broker Spread Filter (Rollover / High Slippage Guard)
+   long currentSpread = SymbolInfoInteger(_Symbol, SYMBOL_SPREAD);
+   if(currentSpread > InpMaxSpreadPoints)
+   {
+      PrintFormat("Trade blocked by Spread Filter: Current %d points > Max %d points (avoiding rollover slippage)", currentSpread, InpMaxSpreadPoints);
+      return;
+   }
+
+   double limitPrice = ExtractJsonDouble(response, "limit_price");
+
    if(action == "BUY" && lots >= 0.01)
    {
-      trade.Buy(lots, _Symbol, 0, sl, tp, "AMATS Brain Signal");
+      if(InpUseLimitOrders && limitPrice > 0.0)
+      {
+         trade.BuyLimit(lots, limitPrice, _Symbol, sl, tp, ORDER_TIME_GTC, 0, "AMATS Brain Maker Limit");
+      }
+      else
+      {
+         trade.Buy(lots, _Symbol, 0, sl, tp, "AMATS Brain Signal");
+      }
    }
    else if(action == "SELL" && lots >= 0.01)
    {
-      trade.Sell(lots, _Symbol, 0, sl, tp, "AMATS Brain Signal");
+      if(InpUseLimitOrders && limitPrice > 0.0)
+      {
+         trade.SellLimit(lots, limitPrice, _Symbol, sl, tp, ORDER_TIME_GTC, 0, "AMATS Brain Maker Limit");
+      }
+      else
+      {
+         trade.Sell(lots, _Symbol, 0, sl, tp, "AMATS Brain Signal");
+      }
    }
 }

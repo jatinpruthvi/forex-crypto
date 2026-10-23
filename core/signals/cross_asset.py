@@ -73,3 +73,36 @@ class CrossAssetMonitor:
         elif risk_asset_score < 0 and safe_asset_score >= 0:
             return "RISK_OFF"
         return "MIXED"
+
+    def evaluate_dxy_liquidity_filter(
+        self,
+        dxy_series: Optional[pd.Series] = None,
+        dxy_daily_change_pct: float = 0.0,
+    ) -> Dict[str, Any]:
+        """
+        DXY (US Dollar Index) Beta Inversion Filter:
+        Crypto, Gold (XAU/USD), and major FX pairs (EUR/USD, GBP/USD) exhibit severe
+        negative beta to explosive US Dollar rallies.
+        - If DXY rallies > +0.4% intraday or breaks above 20-period high:
+          Trigger DOLLAR_SQUEEZE warning and scale back Long risk by 50%.
+        """
+        dollar_squeeze = False
+        reasons = []
+
+        if dxy_daily_change_pct >= 0.40:
+            dollar_squeeze = True
+            reasons.append(f"DXY intraday spike (+{dxy_daily_change_pct:.2f}%)")
+
+        if dxy_series is not None and len(dxy_series) >= 20:
+            recent_high = dxy_series.iloc[-21:-1].max()
+            current_dxy = dxy_series.iloc[-1]
+            if current_dxy >= recent_high:
+                dollar_squeeze = True
+                reasons.append("DXY 20-period breakout high")
+
+        risk_mult = 0.50 if dollar_squeeze else 1.0
+        return {
+            "dollar_squeeze": dollar_squeeze,
+            "risk_multiplier": risk_mult,
+            "reason": " + ".join(reasons) if reasons else "DXY normal",
+        }
