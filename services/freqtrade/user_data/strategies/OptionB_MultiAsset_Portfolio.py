@@ -10,7 +10,7 @@ Option B: All-Weather Multi-Strategy Concurrent Portfolio (BTC, SOL, BNB, LINK)
 - Concurrent Open Positions: Up to 4 simultaneous non-correlated positions
 - Target: +17.06% Compounded Monthly ROI, 100+ trades/month, ~8.40% Max Drawdown
 """
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Dict, Any
 from pandas import DataFrame
 import numpy as np
 import pandas as pd
@@ -20,7 +20,8 @@ try:
     from freqtrade.strategy import IStrategy, informative
 except ImportError:
     class IStrategy:
-        pass
+        def __init__(self, config: Optional[Dict[str, Any]] = None):
+            self.config = config or {}
     def informative(timeframe):
         def decorator(f):
             return f
@@ -34,6 +35,12 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
     INTERFACE_VERSION = 3
     timeframe = "15m"
     can_short: bool = True
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        cfg = dict(config or {})
+        if "candle_type_def" not in cfg:
+            cfg["candle_type_def"] = "spot"
+        super().__init__(cfg)
 
     # Global emergency stop
     stoploss = -0.05

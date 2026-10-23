@@ -11,7 +11,7 @@ def test_feature_engineering_shape(sample_ohlcv_df):
     )
 
     assert len(features) == len(sample_ohlcv_df)
-    assert features.shape[1] == 22
+    assert features.shape[1] == 24
     assert "returns_1h" in features.columns
     assert "volatility_ratio" in features.columns
     assert "hurst" in features.columns

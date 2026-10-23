@@ -50,22 +50,6 @@
   "slippage": {
     "market_orders": 0.0003
   },
-  "protections": [
-    {
-      "method": "StoplossGuard",
-      "lookback_period_candles": 30,
-      "trade_limit": 3,
-      "stop_duration_candles": 8,
-      "only_per_pair": false
-    },
-    {
-      "method": "MaxDrawdown",
-      "lookback_period_candles": 40,
-      "trade_limit": 1,
-      "stop_duration_candles": 16,
-      "max_allowed_drawdown": 0.08
-    }
-  ],
   "api_server": {
     "enabled": true,
     "listen_ip_address": "0.0.0.0",
@@ -73,7 +57,9 @@
     "verbosity": "error",
     "enable_openapi": false,
     "jwt_secret_key": "secret-key-option-a-demo",
-    "CORS_origins": ["*"],
+    "CORS_origins": [
+      "*"
+    ],
     "username": "admin_option_a",
     "password": "change_me_option_a"
   },

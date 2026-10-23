@@ -8,7 +8,7 @@ Option A: Pure Alpha 12-Bar Compressed Donchian Engine (BTC/USDT)
 - Breakeven Lock: Moves SL to +0.25x ATR profit buffer once trade reaches +1.0x ATR gain
 - Execution: Maker Post-Only Limit Orders (Zero Slippage + 0.02% Fee Rebate)
 """
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Dict, Any
 from pandas import DataFrame
 import numpy as np
 import pandas as pd
@@ -18,11 +18,8 @@ try:
     from freqtrade.strategy import IStrategy, informative
 except ImportError:
     class IStrategy:
-        pass
-    def informative(timeframe):
-        def decorator(f):
-            return f
-        return decorator
+        def __init__(self, config: Optional[Dict[str, Any]] = None):
+            self.config = config or {}
 
 if TYPE_CHECKING:
     from freqtrade.persistence import Trade
@@ -32,6 +29,12 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
     INTERFACE_VERSION = 3
     timeframe = "15m"
     can_short: bool = True
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        cfg = dict(config or {})
+        if "candle_type_def" not in cfg:
+            cfg["candle_type_def"] = "spot"
+        super().__init__(cfg)
 
     # Fallback emergency stop loss (ATR dynamic stops handle active trade risk)
     stoploss = -0.05
