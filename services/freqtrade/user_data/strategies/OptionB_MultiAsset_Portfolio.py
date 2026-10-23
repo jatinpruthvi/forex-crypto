@@ -40,6 +40,7 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         cfg = dict(config or {})
         if "candle_type_def" not in cfg:
             cfg["candle_type_def"] = "spot"
+        super().__init__(cfg)
         # Custom stake weighting per pair
         self.custom_stake_weights = {
             "BTC/USDT:USDT": 0.40,
