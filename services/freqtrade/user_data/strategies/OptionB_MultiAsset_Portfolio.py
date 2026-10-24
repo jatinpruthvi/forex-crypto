@@ -213,15 +213,25 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         trailing_sl_mult = getattr(self, "trailing_atr_mult", 2.5)
         if current_profit >= (1.5 * atr_pct):
             trailing_stop_distance = -(trailing_sl_mult * atr) / current_rate
-            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
-            be_stop_distance = (be_buffer_pct - current_profit) / max(0.001, divisor)
+            if is_short:
+                target_be_sl = entry_price - (0.25 * atr)
+                be_stop_distance = (current_rate - target_be_sl) / current_rate
+            else:
+                target_be_sl = entry_price + (0.25 * atr)
+                be_stop_distance = (target_be_sl - current_rate) / current_rate
+            be_stop_distance = min(-0.0001, be_stop_distance)
             if trailing_stop_distance > be_stop_distance:
                 return trailing_stop_distance
             return be_stop_distance
 
         if current_profit >= be_active_pct:
-            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
-            return (be_buffer_pct - current_profit) / max(0.001, divisor)
+            if is_short:
+                target_be_sl = entry_price - (0.25 * atr)
+                be_stop_distance = (current_rate - target_be_sl) / current_rate
+            else:
+                target_be_sl = entry_price + (0.25 * atr)
+                be_stop_distance = (target_be_sl - current_rate) / current_rate
+            return min(-0.0001, be_stop_distance)
 
         return -sl_pct
 

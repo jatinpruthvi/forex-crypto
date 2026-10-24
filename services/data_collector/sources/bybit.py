@@ -33,16 +33,22 @@ class BybitSource:
         # 1. Fetch Ticker via CCXT or REST
         try:
             ticker = self.exchange.fetch_ticker(symbol)
-            funding_rate = float(ticker.get("info", {}).get("fundingRate", 0.0) or 0.0)
-            open_interest = float(ticker.get("info", {}).get("openInterest", 0.0) or 0.0)
+            info = ticker.get("info") or {}
+            fr_raw = info.get("fundingRate")
+            oi_raw = info.get("openInterest")
+            funding_rate = float(fr_raw) if fr_raw is not None else 0.0
+            open_interest = float(oi_raw) if oi_raw is not None else 0.0
         except Exception:
             # REST Fallback
             url = f"https://api.bybit.com/v5/market/tickers?category=linear&symbol={clean_symbol}"
             try:
                 res = requests.get(url, timeout=5).json()
-                item = res.get("result", {}).get("list", [{}])[0]
-                funding_rate = float(item.get("fundingRate", 0.0) or 0.0)
-                open_interest = float(item.get("openInterest", 0.0) or 0.0)
+                items = res.get("result", {}).get("list", [])
+                item = items[0] if items else {}
+                fr_raw = item.get("fundingRate")
+                oi_raw = item.get("openInterest")
+                funding_rate = float(fr_raw) if fr_raw is not None else 0.0
+                open_interest = float(oi_raw) if oi_raw is not None else 0.0
             except Exception:
                 pass
 

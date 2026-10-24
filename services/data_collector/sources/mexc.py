@@ -36,16 +36,21 @@ class MEXCSource:
         # 1. Fetch Ticker via CCXT or REST
         try:
             ticker = self.exchange.fetch_ticker(symbol)
-            funding_rate = float(ticker.get("info", {}).get("fundingRate", 0.0) or 0.0)
-            open_interest = float(ticker.get("info", {}).get("holdVol", 0.0) or ticker.get("info", {}).get("openInterest", 0.0) or 0.0)
+            info = ticker.get("info") or {}
+            fr_raw = info.get("fundingRate")
+            oi_raw = info.get("holdVol") if info.get("holdVol") is not None else info.get("openInterest")
+            funding_rate = float(fr_raw) if fr_raw is not None else 0.0
+            open_interest = float(oi_raw) if oi_raw is not None else 0.0
         except Exception:
             # REST Fallback for MEXC Contract API
             url = f"https://contract.mexc.com/api/v1/contract/ticker?symbol={clean_symbol}"
             try:
                 res = requests.get(url, timeout=5).json()
-                data = res.get("data", {})
-                funding_rate = float(data.get("fundingRate", 0.0) or 0.0)
-                open_interest = float(data.get("holdVol", 0.0) or 0.0)
+                data = res.get("data") or {}
+                fr_raw = data.get("fundingRate")
+                oi_raw = data.get("holdVol")
+                funding_rate = float(fr_raw) if fr_raw is not None else 0.0
+                open_interest = float(oi_raw) if oi_raw is not None else 0.0
             except Exception:
                 pass
 

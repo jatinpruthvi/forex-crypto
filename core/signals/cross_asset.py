@@ -24,16 +24,32 @@ class CrossAssetMonitor:
 
     def check_correlation_risk(
         self,
-        open_positions: List[Dict[str, Any]],
+        open_positions: Any,
         correlation_matrix: Optional[pd.DataFrame] = None,
+        candidate_symbol: Optional[str] = None,
     ) -> float:
         """
         If open positions have correlation > 0.8 -> reduce size multiplier to 0.5.
-        If > 0.7 -> 0.75.
-        Else -> 1.0.
+        If > 0.7 -> 0.75. Else -> 1.0.
+        Accepts list of position dicts, list of symbol strings, or candidate_symbol.
         """
-        symbols = [p.get("symbol") for p in open_positions if p.get("symbol")]
-        if len(symbols) < 2 or correlation_matrix is None:
+        symbols = []
+        if isinstance(open_positions, list):
+            for p in open_positions:
+                if isinstance(p, dict):
+                    sym = p.get("symbol")
+                    if sym:
+                        symbols.append(sym)
+                elif isinstance(p, str):
+                    symbols.append(p)
+        elif isinstance(open_positions, str):
+            symbols.append(open_positions)
+
+        if candidate_symbol and candidate_symbol not in symbols:
+            symbols.append(candidate_symbol)
+        if len(symbols) < 2:
+            return 1.0
+        if correlation_matrix is None:
             return 1.0
 
         # Filter available symbols in correlation matrix

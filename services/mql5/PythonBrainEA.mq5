@@ -47,7 +47,7 @@ void OnDeinit(const int reason)
 {
 }
 
-// Convert string simple search for JSON fields
+// Robust JSON string and number parsers handling whitespace around keys and colons
 string ExtractJsonString(string json, string key)
 {
    int keyPos = StringFind(json, "\"" + key + "\"");
@@ -71,9 +71,12 @@ double ExtractJsonDouble(string json, string key)
    int bracePos = StringFind(json, "}", colonPos);
    int endPos = commaPos;
    if(commaPos < 0 || (bracePos > 0 && bracePos < commaPos)) endPos = bracePos;
+   if(endPos < 0) endPos = StringLen(json);
    string valStr = StringSubstr(json, colonPos + 1, endPos - colonPos - 1);
    StringTrimLeft(valStr);
    StringTrimRight(valStr);
+   // Remove quotes if parsed as string representation
+   StringReplace(valStr, "\"", "");
    return StringToDouble(valStr);
 }
 
@@ -133,11 +136,17 @@ void OnTick()
    }
    lastSuccessfulPing = GetTickCount();
 
-   // 6. Parse response
+   // 6. Parse response and apply MasterRiskEA dynamic size multiplier sync
    string action = ExtractJsonString(response, "action");
    double lots   = ExtractJsonDouble(response, "lots");
    double sl     = ExtractJsonDouble(response, "sl");
    double tp     = ExtractJsonDouble(response, "tp");
+
+   if(GlobalVariableCheck("SIZE_MULT"))
+   {
+      double sizeMult = GlobalVariableGet("SIZE_MULT");
+      lots = NormalizeDouble(lots * sizeMult, 2);
+   }
 
    if(action == "CLOSE_ALL")
    {

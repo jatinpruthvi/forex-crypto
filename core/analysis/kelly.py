@@ -18,11 +18,13 @@ class KellyCalculator:
         if avg_loss <= 0 or avg_win <= 0:
             return {"full_kelly": 0.0, "half_kelly": 0.0, "quarter_kelly": 0.0, "recommendation": 0.0}
 
-        r = avg_win / avg_loss
+        # Clamp win/loss ratio r to prevent runaway sizing on small losses
+        r = min(10.0, avg_win / max(0.001, avg_loss))
         w = win_rate if win_rate <= 1.0 else win_rate / 100.0
 
         kelly = w - ((1.0 - w) / r)
-        kelly = max(0.0, min(1.0, kelly))
+        # Cap full Kelly at 25% max allocation to prevent catastrophic non-stationary ruin
+        kelly = max(0.0, min(0.25, kelly))
 
         half_kelly = kelly / 2.0
         quarter_kelly = kelly / 4.0

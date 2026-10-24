@@ -70,6 +70,14 @@ class WalkForwardLearner:
                 "model_updated": False,
             }
 
+        # Guard against single-class stratification crash (e.g. all 0s or all 1s in strong trend)
+        if len(np.unique(y_tr)) < 2 or len(np.unique(y_v)) < 2:
+            return {
+                "status": "skipped",
+                "reason": "Single-class training/validation window detected (insufficient class variety)",
+                "model_updated": False,
+            }
+
         # Candidate Model Training
         candidate_model = xgb.XGBClassifier(
             n_estimators=100,

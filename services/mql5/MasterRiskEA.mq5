@@ -24,8 +24,19 @@ datetime lastResetDay = 0;
 
 int OnInit()
 {
-   initialDayBalance = AccountInfoDouble(ACCOUNT_BALANCE);
-   lastResetDay = TimeCurrent() / 86400;
+   datetime currentDay = TimeCurrent() / 86400;
+   if(GlobalVariableCheck("LAST_RESET_DAY") && (datetime)GlobalVariableGet("LAST_RESET_DAY") == currentDay && GlobalVariableCheck("DAY_BASELINE_BALANCE"))
+   {
+      initialDayBalance = GlobalVariableGet("DAY_BASELINE_BALANCE");
+      lastResetDay = currentDay;
+   }
+   else
+   {
+      initialDayBalance = AccountInfoDouble(ACCOUNT_BALANCE);
+      lastResetDay = currentDay;
+      GlobalVariableSet("DAY_BASELINE_BALANCE", initialDayBalance);
+      GlobalVariableSet("LAST_RESET_DAY", (double)currentDay);
+   }
 
    // Initialize GlobalVariables for Slave EAs
    GlobalVariableSet("MAX_DAILY_LOSS", InpMaxDailyLossPct);
@@ -52,6 +63,8 @@ void OnTimer()
       // Reset at midnight server time
       initialDayBalance = AccountInfoDouble(ACCOUNT_BALANCE);
       lastResetDay = currentDay;
+      GlobalVariableSet("DAY_BASELINE_BALANCE", initialDayBalance);
+      GlobalVariableSet("LAST_RESET_DAY", (double)currentDay);
       GlobalVariableSet("ALLOW_NEW_TRADES", 1.0);
       GlobalVariableSet("CURRENT_DAILY_PNL", 0.0);
       GlobalVariableSet("SIZE_MULT", 1.0);

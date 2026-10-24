@@ -53,7 +53,11 @@ class EventFilter:
     def refresh_calendar(self) -> bool:
         """Fetch latest weekly calendar from remote feed."""
         try:
-            resp = requests.get(self.feed_url, timeout=10)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                "Accept": "application/json, text/plain, */*",
+            }
+            resp = requests.get(self.feed_url, headers=headers, timeout=10)
             if resp.status_code == 200:
                 raw_data = resp.json()
                 parsed = []

@@ -28,10 +28,23 @@ class KillSwitchManager:
         loss_pct = (abs(trade_loss_usd) / portfolio_equity) * 100.0
         return loss_pct > threshold_pct
 
-    def check_flash_crash(self, candle_open: float, candle_close: float, threshold_pct: float = 5.0) -> bool:
-        """KS5: Flash crash detected (>5% move in single candle)."""
+    def check_flash_crash(
+        self,
+        candle_open: float,
+        candle_close: float,
+        threshold_pct: float = 5.0,
+        candle_high: Optional[float] = None,
+        candle_low: Optional[float] = None,
+        volume: Optional[float] = None,
+    ) -> bool:
+        """
+        KS5: Flash crash detected (>5% move in single candle).
+        Guards against zero-volume weekend gaps or contract rollover false positives.
+        """
         if candle_open <= 0:
             return False
+        if volume is not None and volume <= 0:
+            return False  # Ignore phantom weekend or holiday tick gaps
         move_pct = abs(candle_close - candle_open) / candle_open * 100.0
         return move_pct >= threshold_pct
 

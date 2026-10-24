@@ -227,7 +227,8 @@ async def generate_signal(req: SignalRequest):
 
         # Calculate 30-period rolling VWAP for institutional bias
         typical_p = (df["high"] + df["low"] + df["close"]) / 3.0
-        rolling_vol = df["volume"].rolling(30, min_periods=1).sum().replace(0, 1)
+        rolling_vol = df["volume"].rolling(30, min_periods=1).sum()
+        rolling_vol = rolling_vol.apply(lambda x: 1.0 if x <= 0 else x)
         rolling_vwap = (typical_p * df["volume"]).rolling(30, min_periods=1).sum() / rolling_vol
         latest_vwap = rolling_vwap.iloc[-1]
 
@@ -335,25 +336,42 @@ async def generate_signal(req: SignalRequest):
     if cov_deflation < 1.0:
         reason_parts.append(f"Covariance Risk Deflation ({cov_deflation:.2f}x)")
 
-    # Forex pip sizing approximation (EURUSD pip ~ 0.0001)
-    pip_scale = 0.0001 if latest_close < 500 else 1.0
-    sl_pips = max(5.0, sl_dist / pip_scale)
-    sized = position_sizer.calculate_lot_size(
-        account_equity=req.account_equity,
-        sl_distance_pips=sl_pips,
-        pip_value=10.0 if pip_scale == 0.0001 else 1.0,
-        size_multiplier=combined_size_mult,
-        covariance_deflation_factor=cov_deflation,
-        max_lot=1.0,
-        min_lot=0.01,
-    )
+    # Asset-class specific sizing: Crypto Perpetual (USDT) vs Forex (Lots)
+    is_crypto = any(c in req.symbol.upper() for c in ["BTC", "ETH", "SOL", "BNB", "LINK", "USDT"])
+    if is_crypto:
+        position_usd = position_sizer.calculate_crypto_stake(
+            account_equity=req.account_equity,
+            entry_price=latest_close,
+            stop_loss_price=sl,
+            leverage=3.0,
+            risk_pct=0.5,
+            size_multiplier=combined_size_mult,
+            covariance_deflation_factor=cov_deflation,
+        )
+        calculated_lots = round(position_usd / latest_close, 4)
+        risk_amt_usd = round(abs(latest_close - sl) * calculated_lots, 2)
+    else:
+        # Forex pip sizing approximation (EURUSD pip ~ 0.0001)
+        pip_scale = 0.0001 if latest_close < 500 else 1.0
+        sl_pips = max(5.0, sl_dist / pip_scale)
+        sized = position_sizer.calculate_lot_size(
+            account_equity=req.account_equity,
+            sl_distance_pips=sl_pips,
+            pip_value=10.0 if pip_scale == 0.0001 else 1.0,
+            size_multiplier=combined_size_mult,
+            covariance_deflation_factor=cov_deflation,
+            max_lot=1.0,
+            min_lot=0.01,
+        )
+        calculated_lots = sized["lots"]
+        risk_amt_usd = sized["risk_amount"]
 
     final_confidence = int(min(100, (conviction * 0.6) + (ml_prob * 100.0 * 0.4)))
 
     resp = SignalResponse(
         action=action,
         symbol=req.symbol,
-        lots=sized["lots"],
+        lots=calculated_lots,
         sl=sl,
         tp=tp,
         limit_price=limit_entry_price,
@@ -365,8 +383,8 @@ async def generate_signal(req: SignalRequest):
         conviction_breakdown=fusion_result["breakdown"],
         risk={
             **dd_status,
-            "lots": sized["lots"],
-            "risk_amount_usd": sized["risk_amount"],
+            "lots": calculated_lots,
+            "risk_amount_usd": risk_amt_usd,
         },
         expiry_seconds=3600,
         timestamp=timestamp_str,

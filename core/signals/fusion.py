@@ -14,9 +14,29 @@ class SignalFusion:
         self.db_path = db_path
 
     def _get_connection(self) -> Optional[sqlite3.Connection]:
-        if not os.path.exists(self.db_path):
-            return None
-        return sqlite3.connect(self.db_path)
+        os.makedirs(os.path.dirname(self.db_path) or ".", exist_ok=True)
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS market_signals (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp DATETIME NOT NULL,
+                symbol TEXT NOT NULL,
+                funding_rate REAL,
+                open_interest REAL,
+                oi_change_pct REAL,
+                long_short_ratio REAL,
+                taker_buy_volume REAL,
+                taker_sell_volume REAL,
+                taker_ratio REAL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(timestamp, symbol)
+            );
+        """)
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_time ON market_signals(timestamp);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_symbol ON market_signals(symbol);")
+        conn.commit()
+        return conn
 
     def get_latest_signals(self, symbol: str) -> Dict[str, Any]:
         """Fetch latest market signal record from SQLite for given symbol."""

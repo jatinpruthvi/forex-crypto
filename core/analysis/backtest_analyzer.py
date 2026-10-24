@@ -55,7 +55,28 @@ class BacktestAnalyzer:
     def generate_html_report(self, output_html: str = "report.html") -> bool:
         try:
             import quantstats as qs
-            # If returns series can be reconstructed
+            metrics = self.extract_metrics()
+            if metrics["total_trades"] == 0:
+                with open(output_html, "w") as f:
+                    f.write("<html><body><h1>No trades in backtest to generate report</h1></body></html>")
+                return True
+            # Build report template
+            html_content = f"""<!DOCTYPE html>
+<html>
+<head><title>Backtest Report - AMATS</title><style>body {{ font-family: sans-serif; padding: 20px; }} table {{ border-collapse: collapse; width: 50%; }} td, th {{ border: 1px solid #ddd; padding: 8px; }}</style></head>
+<body>
+<h2>AMATS Strategy Tearsheet Summary</h2>
+<table>
+  <tr><th>Metric</th><th>Value</th></tr>
+  <tr><td>Total Trades</td><td>{metrics['total_trades']}</td></tr>
+  <tr><td>Win Rate</td><td>{metrics['win_rate']}%</td></tr>
+  <tr><td>Profit Factor</td><td>{metrics['profit_factor']}</td></tr>
+  <tr><td>Max Drawdown</td><td>{metrics['max_drawdown_pct']}%</td></tr>
+  <tr><td>Sharpe Ratio</td><td>{metrics['sharpe']}</td></tr>
+</table>
+</body></html>"""
+            with open(output_html, "w") as f:
+                f.write(html_content)
             return True
-        except ImportError:
+        except Exception:
             return False

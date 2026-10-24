@@ -5,6 +5,7 @@ and dispatches Telegram alerts on stale feeds or outages.
 """
 import time
 import requests
+from typing import Optional
 import os
 import shutil
 from datetime import datetime, timezone
@@ -12,7 +13,9 @@ from datetime import datetime, timezone
 from services.monitoring.telegram_bot import TelegramAlert
 
 
-def run_health_check(brain_api_url: str = "http://127.0.0.1:8000"):
+def run_health_check(brain_api_url: Optional[str] = None):
+    if brain_api_url is None:
+        brain_api_url = os.getenv("BRAIN_API_URL", "http://127.0.0.1:8000")
     telegram = TelegramAlert()
     print(f"Running AMATS Health Check against {brain_api_url}...")
 
