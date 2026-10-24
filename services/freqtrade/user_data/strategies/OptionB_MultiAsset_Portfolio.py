@@ -192,8 +192,9 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
             return None
 
         last_candle = dataframe.iloc[-1]
-        atr = last_candle["atr"]
-        entry_price = trade.open_rate
+        atr = float(last_candle["atr"])
+        entry_price = float(trade.open_rate)
+        is_short = getattr(trade, "is_short", False)
         atr_pct = atr / entry_price
 
         # Asset-tailored ATR parameters
@@ -208,15 +209,19 @@ class OptionB_MultiAsset_Portfolio(IStrategy):
         be_active_pct = be_active_mult * atr_pct
         be_buffer_pct = 0.25 * atr_pct
 
-        # Dynamic Trailing Ratchet: Ratchet SL up/down when profit exceeds 1.5x ATR
+        # Dynamic Trailing Ratchet: Ratchet SL from current price once profit >= 1.5x ATR
         trailing_sl_mult = getattr(self, "trailing_atr_mult", 2.5)
         if current_profit >= (1.5 * atr_pct):
-            trailing_offset = current_profit - (trailing_sl_mult * atr_pct)
-            if trailing_offset > (be_buffer_pct - current_profit):
-                return trailing_offset
+            trailing_stop_distance = -(trailing_sl_mult * atr) / current_rate
+            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
+            be_stop_distance = (be_buffer_pct - current_profit) / max(0.001, divisor)
+            if trailing_stop_distance > be_stop_distance:
+                return trailing_stop_distance
+            return be_stop_distance
 
         if current_profit >= be_active_pct:
-            return be_buffer_pct - current_profit
+            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
+            return (be_buffer_pct - current_profit) / max(0.001, divisor)
 
         return -sl_pct
 

@@ -153,34 +153,40 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
         **kwargs,
     ) -> Optional[float]:
         """
-        Dynamic ATR Stop Loss, Breakeven Lock (+0.25x ATR), and Trailing Ratchet (3.0x ATR).
+        Dynamic ATR Stop Loss, Breakeven Lock (+0.25x ATR), and Trailing Ratchet (2.5x ATR).
+        All returned values represent negative relative distances from current_rate.
         """
         dataframe, _ = self.dp.get_analyzed_dataframe(pair, self.timeframe)
         if dataframe.empty:
             return None
 
         last_candle = dataframe.iloc[-1]
-        atr = last_candle["atr"]
-        entry_price = trade.open_rate
+        atr = float(last_candle["atr"])
+        entry_price = float(trade.open_rate)
+        is_short = getattr(trade, "is_short", False)
 
         atr_pct = atr / entry_price
         sl_pct = self.atr_sl_mult * atr_pct
         be_activation_pct = self.be_activation_mult * atr_pct
         be_buffer_pct = self.be_profit_buffer * atr_pct
 
-        # Dynamic Trailing Ratchet: Ratchet SL up when profit exceeds 1.5x ATR
+        # 1. Dynamic Trailing Ratchet: Ratchet SL from current price once profit >= 1.5x ATR
         trailing_sl_mult = getattr(self, "trailing_atr_mult", 2.5)
         if current_profit >= (1.5 * atr_pct):
-            trailing_offset = current_profit - (trailing_sl_mult * atr_pct)
-            if trailing_offset > (be_buffer_pct - current_profit):
-                return trailing_offset
+            trailing_stop_distance = -(trailing_sl_mult * atr) / current_rate
+            # Breakeven buffer distance from current price
+            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
+            be_stop_distance = (be_buffer_pct - current_profit) / max(0.001, divisor)
+            if trailing_stop_distance > be_stop_distance:
+                return trailing_stop_distance
+            return be_stop_distance
 
-        # 1. Breakeven Lock with Profit Buffer
+        # 2. Breakeven Lock with +0.25x ATR profit buffer once profit >= 1.0x ATR
         if current_profit >= be_activation_pct:
-            # Lock in +0.25x ATR profit buffer
-            return be_buffer_pct - current_profit
+            divisor = (1.0 - current_profit) if is_short else (1.0 + current_profit)
+            return (be_buffer_pct - current_profit) / max(0.001, divisor)
 
-        # 2. Standard ATR Initial Stop Loss
+        # 3. Standard initial ATR stop loss from current price
         return -sl_pct
 
     def custom_exit(
