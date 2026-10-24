@@ -102,8 +102,8 @@ stream_pointer = {
 START_INDEX = max(0, len(df_stream) - 1500)
 stream_pointer["current_index"] = START_INDEX
 
-async def walk_forward_streaming_loop():
-    prev_sig = 0
+async def walk_forward_streaming_loop(initial_prev_sig: int = 0):
+    prev_sig = initial_prev_sig
     idx = stream_pointer["current_index"]
     
     while True:
@@ -164,7 +164,8 @@ async def walk_forward_streaming_loop():
 
 @app.on_event("startup")
 async def start_feed():
-    # Warm up first 1000 bars so user immediately sees live active stats from the historical feed
+    global START_INDEX
+    # Warm up first 800 bars so user immediately sees live active stats from the historical feed
     warmup_start = START_INDEX - 800
     prev_sig = 0
     for i in range(warmup_start, START_INDEX):
@@ -191,7 +192,7 @@ async def start_feed():
                     acc.open_trade(ts, "short", c, atr_val, base_risk_pct=3.0)
         prev_sig = sig
 
-    asyncio.create_task(walk_forward_streaming_loop())
+    asyncio.create_task(walk_forward_streaming_loop(initial_prev_sig=prev_sig))
 
 @app.get("/api/state")
 @app.get("/api/accounts")
