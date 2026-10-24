@@ -1,0 +1,74 @@
+system:
+  version: "1.0.0"
+  environment: "production"
+  log_level: "INFO"
+
+exchange:
+  name: "bybit"
+  testnet: true
+  api_key: "${BYBIT_API_KEY}"
+  api_secret: "${BYBIT_API_SECRET}"
+  trading_mode: "futures"
+  margin_mode: "isolated"
+  max_leverage: 3
+
+capital:
+  total: 500
+  crypto_allocation: 323
+  prop_firm_allocation: 177
+  max_monthly_dd_pct: 8.0
+  max_daily_dd_pct: 2.0
+
+risk:
+  risk_per_trade_pct: 0.5
+  max_open_trades: 4
+  max_correlation: 0.7
+  dd_protocol:
+    green:
+      max_dd: 3.0
+      size_mult: 1.0
+      conviction_min: 60
+      ml_min: 0.55
+    yellow:
+      max_dd: 5.0
+      size_mult: 0.5
+      conviction_min: 75
+      ml_min: 0.65
+    orange:
+      max_dd: 7.0
+      size_mult: 0.25
+      conviction_min: 85
+      ml_min: 0.70
+    red:
+      max_dd: 8.0
+      size_mult: 0.0
+      conviction_min: 100
+      ml_min: 1.0
+    black:
+      action: "CLOSE_ALL"
+
+strategy:
+  timeframes: ["1h", "15m"]
+  pairs: ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT"]
+  sl_atr_mult: 1.6
+  tp_atr_mult: 2.4
+  trailing_atr_mult: 2.5
+  hard_stoploss: -0.05
+  regime:
+    hurst_window: 100
+    atr_window: 200
+    trend_threshold: 0.55
+    range_threshold: 0.45
+
+ml:
+  enabled: true
+  model_path: "models/model_xgb.pkl"
+  threshold: 0.60
+  min_accuracy: 0.53
+
+monitoring:
+  telegram:
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    chat_id: "${TELEGRAM_CHAT_ID}"
+    heartbeat_interval_min: 30
+  health_check_interval_sec: 300

@@ -1,0 +1,6 @@
+{
+  "id": "6",
+  "title": "Implement Dynamic Equity-Curve Sizing & Asymmetric Stop Tightening",
+  "priority": "P1",
+  "passes": true
+}

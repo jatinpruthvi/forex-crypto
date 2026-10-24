@@ -1,0 +1,7 @@
+{
+  "id": "2",
+  "title": "Optimize Dynamic ATR Trailing Stops, Take Profits & Regime Sizing",
+  "priority": "P1",
+  "passes": false,
+  "description": "Implement ATR trailing stops (chandelier/trailing ratchets) and optimize entry thresholds for TREND, RANGE, and BREAKOUT regimes to maximize risk-adjusted monthly returns."
+}

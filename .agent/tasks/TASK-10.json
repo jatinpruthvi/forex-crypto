@@ -1,0 +1,7 @@
+{
+  "id": "10",
+  "title": "P2: Continuous Walk-Forward Auto-Retraining Pipeline",
+  "priority": "P1",
+  "passes": true,
+  "description": "Build automated rolling walk-forward learner with drift detection and safety fallback guards in core/ml/walk_forward_learner.py."
+}
