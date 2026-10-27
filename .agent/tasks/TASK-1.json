@@ -1,0 +1,7 @@
+{
+  "id": "1",
+  "title": "Establish Real Dataset Loader and Fast Strategy Backtesting Engine",
+  "priority": "P0",
+  "passes": false,
+  "description": "Construct realistic multi-regime crypto dataset combining real historical candles and create vector backtest engine with 0.1% slippage + 0.055% taker fees to evaluate monthly ROI and maximum drawdown."
+}

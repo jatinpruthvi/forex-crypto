@@ -1,0 +1,141 @@
+"""
+ROI Progress & Backtest Experiment Ledger:
+Tracks all backtest runs, parameters, savepoint states, regime analytics, and decision milestones.
+Supports point-in-time state restoration and quantitative progression auditing.
+"""
+import os
+import json
+import time
+from typing import Dict, Any, List, Optional
+import pandas as pd
+import numpy as np
+
+LEDGER_FILE = "reports/roi_progress_ledger.json"
+
+class ROILedger:
+    def __init__(self, ledger_path: str = LEDGER_FILE):
+        self.ledger_path = ledger_path
+        os.makedirs(os.path.dirname(ledger_path), exist_ok=True)
+        if not os.path.exists(ledger_path):
+            self.save_empty_ledger()
+
+    def save_empty_ledger(self):
+        initial_data = {
+            "version": "1.0",
+            "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
+            "last_updated": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+            "champion_savepoint": None,
+            "experiments": [],
+            "savepoints": {}
+        }
+        with open(self.ledger_path, "w") as f:
+            json.dump(initial_data, f, indent=2)
+
+    def load_ledger(self) -> Dict[str, Any]:
+        if not os.path.exists(self.ledger_path):
+            self.save_empty_ledger()
+        with open(self.ledger_path, "r") as f:
+            return json.load(f)
+
+    def record_experiment(
+        self,
+        experiment_id: str,
+        strategy_name: str,
+        asset: str,
+        timeframe: str,
+        duration_desc: str,
+        params: Dict[str, Any],
+        results: Dict[str, Any],
+        notes: str = "",
+        tag: str = "BENCHMARK",
+        create_savepoint: bool = False
+    ) -> str:
+        data = self.load_ledger()
+        
+        entry = {
+            "experiment_id": experiment_id,
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+            "strategy_name": strategy_name,
+            "asset": asset,
+            "timeframe": timeframe,
+            "duration": duration_desc,
+            "parameters": params,
+            "metrics": {
+                "initial_capital": results.get("initial_capital", 1000.0),
+                "final_capital": results.get("final_capital", 0.0),
+                "net_total_roi_pct": results.get("net_roi_total_pct", results.get("total_return_pct", 0.0)),
+                "monthly_roi_pct": results.get("monthly_roi_pct", 0.0),
+                "max_drawdown_pct": results.get("max_drawdown_pct", 0.0),
+                "win_rate_pct": results.get("win_rate", results.get("win_rate_pct", 0.0)),
+                "total_trades": results.get("total_trades", 0),
+                "profit_factor": results.get("profit_factor", 0.0),
+                "months_elapsed": results.get("months_elapsed", results.get("months", 0.0))
+            },
+            "tag": tag,
+            "notes": notes
+        }
+
+        # Update or append
+        existing_idx = None
+        for i, exp in enumerate(data["experiments"]):
+            if exp["experiment_id"] == experiment_id:
+                existing_idx = i
+                break
+
+        if existing_idx is not None:
+            data["experiments"][existing_idx] = entry
+        else:
+            data["experiments"].append(entry)
+
+        if create_savepoint:
+            savepoint_key = f"SAVEPOINT_{experiment_id}"
+            data["savepoints"][savepoint_key] = {
+                "experiment_id": experiment_id,
+                "strategy_name": strategy_name,
+                "parameters": params,
+                "target_monthly_roi": results.get("monthly_roi_pct", 0.0),
+                "max_drawdown": results.get("max_drawdown_pct", 0.0),
+                "created_at": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
+            }
+            if data["champion_savepoint"] is None or results.get("monthly_roi_pct", 0.0) > data["savepoints"].get(data["champion_savepoint"], {}).get("target_monthly_roi", -100):
+                data["champion_savepoint"] = savepoint_key
+
+        data["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
+
+        with open(self.ledger_path, "w") as f:
+            json.dump(data, f, indent=2)
+
+        return experiment_id
+
+    def get_summary_table(self) -> pd.DataFrame:
+        data = self.load_ledger()
+        rows = []
+        for exp in data["experiments"]:
+            m = exp["metrics"]
+            rows.append({
+                "ID": exp["experiment_id"],
+                "Strategy": exp["strategy_name"],
+                "Asset": exp["asset"],
+                "TF": exp["timeframe"],
+                "Duration": exp["duration"],
+                "Monthly ROI (%)": m["monthly_roi_pct"],
+                "Total Net (%)": m["net_total_roi_pct"],
+                "Max DD (%)": m["max_drawdown_pct"],
+                "Win Rate (%)": m["win_rate_pct"],
+                "Trades": m["total_trades"],
+                "PF": m["profit_factor"],
+                "Tag": exp["tag"]
+            })
+        return pd.DataFrame(rows)
+
+    def restore_savepoint(self, savepoint_key: str) -> Optional[Dict[str, Any]]:
+        data = self.load_ledger()
+        if savepoint_key in data["savepoints"]:
+            sp = data["savepoints"][savepoint_key]
+            print(f"[ROILedger] Restored savepoint '{savepoint_key}':")
+            print(f"  Strategy: {sp['strategy_name']}")
+            print(f"  Parameters: {sp['parameters']}")
+            print(f"  Target Monthly ROI: +{sp['target_monthly_roi']}%/mo (Max DD: {sp['max_drawdown']}%)")
+            return sp
+        print(f"[ROILedger] Savepoint '{savepoint_key}' not found.")
+        return None

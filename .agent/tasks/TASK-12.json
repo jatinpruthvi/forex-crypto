@@ -1,0 +1,7 @@
+{
+  "id": "12",
+  "title": "P4: Cross-Asset Covariance Deflation and Portfolio Volatility Parity",
+  "priority": "P2",
+  "passes": true,
+  "description": "Integrate correlation matrix hedging and position deflation in core/risk/position_sizer.py to prevent concurrent multi-asset drawdowns."
+}
