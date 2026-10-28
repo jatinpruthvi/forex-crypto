@@ -915,91 +915,254 @@ def index_html():
   </div>
 
   <script>
-    let chart, candleSeries, upperSeries, lowerSeries;
-    let chartInitialized = false;
+    class CandlestickDonchianTerminal {
+      constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) return;
+        
+        this.container.innerHTML = '';
+        this.container.style.position = 'relative';
+        this.container.style.width = '100%';
+        this.container.style.height = '320px';
+        this.container.style.background = '#111827';
+        this.container.style.borderRadius = '8px';
+        this.container.style.overflow = 'hidden';
 
-    function initChart() {
-      try {
-        const container = document.getElementById('tvChart');
-        if (!container || typeof LightweightCharts === 'undefined') {
-          console.warn('LightweightCharts library not loaded yet');
-          return;
-        }
-        chart = LightweightCharts.createChart(container, {
-          width: container.clientWidth || 800,
-          height: 320,
-          layout: {
-            background: { color: '#111827' },
-            textColor: '#9ca3af'
-          },
-          grid: {
-            vertLines: { color: 'rgba(31, 41, 55, 0.5)' },
-            horzLines: { color: 'rgba(31, 41, 55, 0.5)' }
-          },
-          crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-          timeScale: {
-            timeVisible: true,
-            secondsVisible: false,
-            borderColor: '#1f2937'
-          },
-          rightPriceScale: {
-            borderColor: '#1f2937'
-          }
-        });
+        this.canvas = document.createElement('canvas');
+        this.canvas.style.display = 'block';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        this.container.appendChild(this.canvas);
+        this.ctx = this.canvas.getContext('2d');
 
-        candleSeries = chart.addCandlestickSeries({
-          upColor: '#10b981',
-          downColor: '#ef4444',
-          borderUpColor: '#10b981',
-          borderDownColor: '#ef4444',
-          wickUpColor: '#10b981',
-          wickDownColor: '#ef4444',
-        });
+        // Dynamic legend
+        this.legend = document.createElement('div');
+        this.legend.style.position = 'absolute';
+        this.legend.style.top = '10px';
+        this.legend.style.left = '16px';
+        this.legend.style.display = 'flex';
+        this.legend.style.gap = '14px';
+        this.legend.style.fontSize = '12px';
+        this.legend.style.fontFamily = "'JetBrains Mono', monospace";
+        this.legend.style.color = '#9ca3af';
+        this.legend.style.pointerEvents = 'none';
+        this.legend.style.zIndex = '10';
+        this.legend.style.flexWrap = 'wrap';
+        this.container.appendChild(this.legend);
 
-        upperSeries = chart.addLineSeries({
-          color: '#3b82f6',
-          lineWidth: 1,
-          lineStyle: LightweightCharts.LineStyle.Dashed,
-          title: 'Donchian High (12)'
-        });
-
-        lowerSeries = chart.addLineSeries({
-          color: '#f59e0b',
-          lineWidth: 1,
-          lineStyle: LightweightCharts.LineStyle.Dashed,
-          title: 'Donchian Low (12)'
-        });
+        this.candles = [];
+        this.maxCandles = 60;
+        this.resize();
 
         window.addEventListener('resize', () => {
-          if (chart && container) {
-            chart.applyOptions({ width: container.clientWidth });
-          }
+          this.resize();
+          this.render();
         });
 
-        fetch('/api/candles?limit=150')
-          .then(res => res.json())
-          .then(data => {
-            if (Array.isArray(data) && data.length > 0) {
-              const candles = data.map(d => ({
-                time: d.time,
-                open: d.open,
-                high: d.high,
-                low: d.low,
-                close: d.close
-              }));
-              const uppers = data.map(d => ({ time: d.time, value: d.dh }));
-              const lowers = data.map(d => ({ time: d.time, value: d.dl }));
-              candleSeries.setData(candles);
-              upperSeries.setData(uppers);
-              lowerSeries.setData(lowers);
-              chart.timeScale().fitContent();
-              chartInitialized = true;
-            }
-          })
-          .catch(e => console.error('Error preloading candles:', e));
+        this.loadInitialData();
+      }
 
+      resize() {
+        const rect = this.container.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        this.width = rect.width || 800;
+        this.height = rect.height || 320;
+        this.canvas.width = this.width * dpr;
+        this.canvas.height = this.height * dpr;
+        if (this.ctx) {
+          this.ctx.resetTransform();
+          this.ctx.scale(dpr, dpr);
+        }
+      }
+
+      async loadInitialData() {
+        try {
+          const res = await fetch('/api/candles?limit=60');
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              this.candles = data;
+              this.render();
+            }
+          }
+        } catch(e) {
+          console.warn('Initial candle preloading error:', e);
+        }
+      }
+
+      updateCandle(c) {
+        if (!c || c.close === undefined) return;
+        const t_unix = c.timestamp ? Math.floor(new Date(c.timestamp).getTime() / 1000) : Math.floor(Date.now() / 1000);
+        const candleObj = {
+          time: t_unix,
+          open: c.open,
+          high: c.high,
+          low: c.low,
+          close: c.close,
+          dh: c.dh,
+          dl: c.dl
+        };
+
+        if (this.candles.length === 0) {
+          this.candles.push(candleObj);
+        } else {
+          const last = this.candles[this.candles.length - 1];
+          if (last.time === t_unix) {
+            this.candles[this.candles.length - 1] = candleObj;
+          } else {
+            this.candles.push(candleObj);
+            if (this.candles.length > this.maxCandles) {
+              this.candles.shift();
+            }
+          }
+        }
+        this.render();
+      }
+
+      render() {
+        const ctx = this.ctx;
+        const w = this.width;
+        const h = this.height;
+        if (!ctx || !w || !h || this.candles.length === 0) return;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const paddingRight = 75;
+        const paddingBottom = 26;
+        const paddingTop = 22;
+        const chartW = w - paddingRight;
+        const chartH = h - paddingBottom - paddingTop;
+
+        let minP = Infinity;
+        let maxP = -Infinity;
+        for (const c of this.candles) {
+          if (c.low < minP) minP = c.low;
+          if (c.high > maxP) maxP = c.high;
+          if (c.dl !== undefined && c.dl < minP) minP = c.dl;
+          if (c.dh !== undefined && c.dh > maxP) maxP = c.dh;
+        }
+        const range = (maxP - minP) || 1;
+        minP -= range * 0.04;
+        maxP += range * 0.04;
+        const fullRange = maxP - minP;
+
+        const getY = (val) => paddingTop + chartH - ((val - minP) / fullRange) * chartH;
+
+        // Grid lines & price labels
+        ctx.strokeStyle = 'rgba(31, 41, 55, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+
+        const priceSteps = 5;
+        for (let i = 0; i <= priceSteps; i++) {
+          const p = minP + (fullRange * (i / priceSteps));
+          const y = getY(p);
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(chartW, y);
+          ctx.stroke();
+          ctx.fillText('$' + p.toFixed(0), chartW + 8, y + 3);
+        }
+
+        const n = this.candles.length;
+        const slotW = chartW / n;
+
+        // Draw Donchian Fill
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+          const x = i * slotW + (slotW / 2);
+          const yDh = getY(this.candles[i].dh !== undefined ? this.candles[i].dh : this.candles[i].high);
+          if (i === 0) ctx.moveTo(x, yDh);
+          else ctx.lineTo(x, yDh);
+        }
+        for (let i = n - 1; i >= 0; i--) {
+          const x = i * slotW + (slotW / 2);
+          const yDl = getY(this.candles[i].dl !== undefined ? this.candles[i].dl : this.candles[i].low);
+          ctx.lineTo(x, yDl);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
+        ctx.fill();
+
+        // Donchian High line
+        ctx.beginPath();
+        ctx.strokeStyle = '#3b82f6';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.5;
+        for (let i = 0; i < n; i++) {
+          const x = i * slotW + (slotW / 2);
+          const y = getY(this.candles[i].dh !== undefined ? this.candles[i].dh : this.candles[i].high);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Donchian Low line
+        ctx.beginPath();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.5;
+        for (let i = 0; i < n; i++) {
+          const x = i * slotW + (slotW / 2);
+          const y = getY(this.candles[i].dl !== undefined ? this.candles[i].dl : this.candles[i].low);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw Candlesticks
+        const barW = Math.max(3, slotW * 0.65);
+        for (let i = 0; i < n; i++) {
+          const c = this.candles[i];
+          const cx = i * slotW + (slotW / 2);
+          const isUp = c.close >= c.open;
+          const color = isUp ? '#10b981' : '#ef4444';
+
+          const yO = getY(c.open);
+          const yC = getY(c.close);
+          const yH = getY(c.high);
+          const yL = getY(c.low);
+
+          // Wicks
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(cx, yH);
+          ctx.lineTo(cx, yL);
+          ctx.stroke();
+
+          // Body
+          const topY = Math.min(yO, yC);
+          const bodyH = Math.max(2, Math.abs(yC - yO));
+          ctx.fillStyle = color;
+          ctx.fillRect(cx - (barW / 2), topY, barW, bodyH);
+        }
+
+        // Legend overlay
+        const latest = this.candles[this.candles.length - 1];
+        if (latest) {
+          const isUp = latest.close >= latest.open;
+          this.legend.innerHTML = `
+            <span>O: <strong style="color:#fff;">$${latest.open.toFixed(2)}</strong></span>
+            <span>H: <strong style="color:#fff;">$${latest.high.toFixed(2)}</strong></span>
+            <span>L: <strong style="color:#fff;">$${latest.low.toFixed(2)}</strong></span>
+            <span>C: <strong style="color:${isUp ? '#10b981' : '#ef4444'};">$${latest.close.toFixed(2)}</strong></span>
+            <span>Upper (12): <strong style="color:#3b82f6;">$${(latest.dh || 0).toFixed(0)}</strong></span>
+            <span>Lower (12): <strong style="color:#f59e0b;">$${(latest.dl || 0).toFixed(0)}</strong></span>
+          `;
+        }
+      }
+    }
+
+    let terminalChart = null;
+    function initChart() {
+      try {
+        terminalChart = new CandlestickDonchianTerminal('tvChart');
       } catch(e) {
-        console.error('TV chart init error:', e);
+        console.error('Terminal init error:', e);
       }
     }
 
@@ -1008,6 +1171,7 @@ def index_html():
     } else {
       initChart();
     }
+
 
     function renderSparkline(values, strokeColor) {
       if (!values || values.length < 2) return '';
@@ -1122,13 +1286,8 @@ def index_html():
         }
         document.getElementById('barDonchian').innerText = '$' + c.dl.toFixed(0) + ' - $' + c.dh.toFixed(0);
 
-        if (candleSeries && c.open && c.high && c.low && c.close) {
-          const t_unix = Math.floor(new Date(c.timestamp).getTime() / 1000);
-          if (!isNaN(t_unix)) {
-            candleSeries.update({ time: t_unix, open: c.open, high: c.high, low: c.low, close: c.close });
-            if (upperSeries && c.dh !== undefined) upperSeries.update({ time: t_unix, value: c.dh });
-            if (lowerSeries && c.dl !== undefined) lowerSeries.update({ time: t_unix, value: c.dl });
-          }
+        if (terminalChart) {
+          terminalChart.updateCandle(c);
         }
       }
 
