@@ -23,6 +23,7 @@ import uvicorn
 from services.demo_runner.real_paper_engine import RealPaperAccount
 from services.demo_runner.multi_asset_engine import MultiAssetPortfolioAccount
 from services.demo_runner.quantum_paper_engine import QuantumHybridPortfolioAccount
+from services.demo_runner.dual_slot_paper_engine import DualSlotSharedPoolAccount
 from core.ml.predict import MLPredictor
 from core.risk.position_sizer import PositionSizer
 from core.signals.alpha_enhancements import (
@@ -216,7 +217,16 @@ def build_default_accounts():
             max_open_positions=4,
             laddered_tp=True,
         ),
-        # Option C: Triple-Confluence Quantum Hybrid (Champion)
+        # Champion: Dual-Slot Shared Margin Pool (100% Crypto Universe)
+        "opt_d_dual_slot_shared": DualSlotSharedPoolAccount(
+            "Champion: Dual-Slot Shared Margin Pool (1.5% Risk, 2.0x Lev)",
+            initial_capital=10000.0,
+            base_risk_pct=1.5,
+            leverage=2.0,
+            maker_fee=0.00015,
+            max_slots=2,
+        ),
+        # Option C: Triple-Confluence Quantum Hybrid
         "opt_c_quantum_hybrid": QuantumHybridPortfolioAccount(
             "Option C: Quantum Hybrid (35% BTC, 35% BNB, 30% Gold)",
             initial_capital=10000.0,
@@ -314,6 +324,15 @@ def process_candle_bar(row, prev_signals: Dict[str, int]) -> Dict[str, int]:
         b_acc.on_asset_candle(ts, "LINK/USDT", h_link, l_link, c_link)
         b_acc.finish_candle(ts)
 
+    # Update Dual-Slot Shared Margin Pool Account
+    if "opt_d_dual_slot_shared" in accounts:
+        d_acc = accounts["opt_d_dual_slot_shared"]
+        d_acc.on_asset_candle(ts, "BTC/USDT", h_btc, l_btc, c_btc)
+        d_acc.on_asset_candle(ts, "SOL/USDT", h_sol, l_sol, c_sol)
+        d_acc.on_asset_candle(ts, "BNB/USDT", h_bnb, l_bnb, c_bnb)
+        d_acc.on_asset_candle(ts, "LINK/USDT", h_link, l_link, c_link)
+        d_acc.finish_candle(ts)
+
     # Update Option C Quantum Hybrid Account
     if "opt_c_quantum_hybrid" in accounts:
         c_acc = accounts["opt_c_quantum_hybrid"]
@@ -388,15 +407,32 @@ def process_candle_bar(row, prev_signals: Dict[str, int]) -> Dict[str, int]:
                     smc_entry_discount=smc_disc,
                 )
 
+    # Execute Dual-Slot Shared Margin Pool Opportunity Routing
+    if "opt_d_dual_slot_shared" in accounts:
+        d_acc = accounts["opt_d_dual_slot_shared"]
+        pool_candidates = []
+        if sig_btc != 0 and sig_btc != prev_signals.get("btc", 0):
+            pool_candidates.append(("BTC/USDT", "long" if sig_btc == 1 else "short", c_btc, atr_btc, float(row.get("adx", 20.0))))
+        if sig_sol != 0 and sig_sol != prev_signals.get("sol", 0):
+            pool_candidates.append(("SOL/USDT", "long" if sig_sol == 1 else "short", c_sol, atr_sol, float(row.get("sol_adx", 18.0))))
+        if sig_bnb != 0 and sig_bnb != prev_signals.get("bnb", 0):
+            pool_candidates.append(("BNB/USDT", "long" if sig_bnb == 1 else "short", c_bnb, atr_bnb, float(row.get("bnb_adx", 20.0))))
+        if sig_link != 0 and sig_link != prev_signals.get("link", 0):
+            pool_candidates.append(("LINK/USDT", "long" if sig_link == 1 else "short", c_link, atr_link, float(row.get("link_adx", 18.0))))
+
+        # Prioritize setups with strongest trend conviction
+        pool_candidates.sort(key=lambda x: x[4], reverse=True)
+        for sym_c, side_c, price_c, atr_c, adx_v in pool_candidates:
+            if len(d_acc.positions) < d_acc.max_slots:
+                d_acc.open_trade(ts, sym_c, side_c, price_c, atr_c, regime="TREND" if adx_v >= 18.0 else "CHOP_MEAN_REV")
+
     # Execute Option C Quantum Hybrid Entries (Dual Regime + 2-Tier Pyramiding)
     if "opt_c_quantum_hybrid" in accounts:
         c_acc = accounts["opt_c_quantum_hybrid"]
-        # BTC check
         if sig_btc != 0 and sig_btc != prev_signals.get("btc", 0):
             side_c = "long" if sig_btc == 1 else "short"
             regime_c = "TREND" if row.get("adx", 20.0) >= 20.0 else "CHOP_MEAN_REV"
             c_acc.open_trade(ts, "BTC/USDT", side_c, c_btc, atr_btc, base_risk_pct=2.0, regime=regime_c)
-        # BNB check
         if sig_bnb != 0 and sig_bnb != prev_signals.get("bnb", 0):
             side_c = "long" if sig_bnb == 1 else "short"
             regime_c = "TREND" if row.get("bnb_adx", 20.0) >= 20.0 else "CHOP_MEAN_REV"
@@ -784,6 +820,15 @@ def index_html():
     <div id="tvChart"></div>
   </div>
 
+  <!-- SECTION: CHAMPION DUAL-SLOT SHARED MARGIN POOL -->
+  <div class="strategy-section-header" style="border-bottom-color: #10b981;">
+    <span class="strategy-badge" style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; font-size: 13px;">🏆 Champion — Dual-Slot Shared Margin Pool (100% Crypto Universe)</span>
+    <span class="strategy-desc" style="color: #6ee7b7; font-weight: 500;">Dynamic Liquidity Pool (1.5% Risk, 2.0x Lev) • Max 2 Concurrent Positions • Asymmetric Ratchet (+0.25x ATR BE Lock)</span>
+  </div>
+  <div class="cards-grid" id="optDCardsGrid">
+    <div style="color: var(--subtext);">Initializing Dual-Slot Shared Margin Pool engine...</div>
+  </div>
+
   <!-- SECTION: OPTION A -->
   <div class="strategy-section-header">
     <span class="strategy-badge badge-opt-a">Option A — Single-Asset Dedicated Execution</span>
@@ -986,11 +1031,19 @@ def index_html():
     }
 
     function createAccountCardHtml(key, acc) {
+      const isOptionD = key.startsWith('opt_d');
+      const isOptionC = key.startsWith('opt_c');
       const isOptionB = key.startsWith('opt_b');
       const isMexc = key.includes('mexc');
       let tagClass = 'tag-mexc';
       let tagText = 'MEXC ZERO MAKER';
-      if (isOptionB) {
+      if (isOptionD) {
+        tagClass = 'tag-portfolio';
+        tagText = 'CHAMPION DUAL-SLOT • SHARED POOL';
+      } else if (isOptionC) {
+        tagClass = 'tag-portfolio';
+        tagText = 'OPTION C • QUANTUM HYBRID';
+      } else if (isOptionB) {
         tagClass = 'tag-portfolio';
         tagText = isMexc ? 'OPTION B • MEXC (0.00%)' : 'OPTION B • BYBIT (0.02%)';
       } else if (!isMexc) {
@@ -1077,12 +1130,15 @@ def index_html():
       let optAHtml = '';
       let optBHtml = '';
       let optCHtml = '';
+      let optDHtml = '';
       let posRows = '';
       let allTrades = [];
 
       for (const [key, acc] of Object.entries(data.accounts)) {
         const cardHtml = createAccountCardHtml(key, acc);
-        if (key.startsWith('opt_c')) {
+        if (key.startsWith('opt_d')) {
+          optDHtml += cardHtml;
+        } else if (key.startsWith('opt_c')) {
           optCHtml += cardHtml;
         } else if (key.startsWith('opt_b')) {
           optBHtml += cardHtml;
@@ -1090,44 +1146,58 @@ def index_html():
           optAHtml += cardHtml;
         }
 
-        const stratLabel = key.startsWith('opt_c') ?
+        const stratLabel = key.startsWith('opt_d') ?
+          '<span style="color:#10b981; font-weight:700;">Champion Dual-Slot</span>' :
+          (key.startsWith('opt_c') ?
           '<span style="color:#34d399; font-weight:700;">Option C (Quantum)</span>' :
           (key.startsWith('opt_b') ? 
           '<span style="color:#c084fc; font-weight:700;">Option B</span>' : 
-          '<span style="color:#60a5fa; font-weight:700;">Option A</span>');
+          '<span style="color:#60a5fa; font-weight:700;">Option A</span>'));
 
         for (const pos of acc.open_positions) {
-          const pnl = pos.unrealized_pnl;
+          const pnl = pos.unrealized_pnl || 0.0;
           const pnlCls = pnl >= 0 ? 'pos-val' : 'neg-val';
+          const posSide = (pos.side || 'LONG').toUpperCase();
+          const slPrice = pos.sl_price !== undefined ? pos.sl_price : (pos.stop_loss !== undefined ? pos.stop_loss : 0.0);
+          const tpPrice = pos.tp_price !== undefined ? pos.tp_price : (pos.tp1_price !== undefined ? pos.tp1_price : 0.0);
+          const posSize = pos.size !== undefined ? pos.size : 0.0;
+          const entryPrice = pos.entry_price !== undefined ? pos.entry_price : 0.0;
+          const curPrice = pos.current_price !== undefined ? pos.current_price : entryPrice;
+          
           posRows += `
             <tr>
               <td>${stratLabel}</td>
               <td><strong>${acc.name.split('(')[0].trim()}</strong></td>
               <td><strong style="color: #60a5fa;">${pos.symbol}</strong></td>
-              <td><span style="color: ${pos.side === 'LONG' ? 'var(--success)' : 'var(--danger)'}; font-weight: 700;">${pos.side}</span></td>
-              <td>$${pos.entry_price.toFixed(2)}</td>
-              <td>$${pos.current_price.toFixed(2)}</td>
-              <td>${pos.size.toFixed(4)}</td>
-              <td style="color: var(--danger)">$${pos.sl_price.toFixed(2)}</td>
-              <td style="color: var(--success)">$${pos.tp_price.toFixed(2)}</td>
+              <td><span style="color: ${posSide === 'LONG' ? 'var(--success)' : 'var(--danger)'}; font-weight: 700;">${posSide}</span></td>
+              <td>$${entryPrice.toFixed(2)}</td>
+              <td>$${curPrice.toFixed(2)}</td>
+              <td>${posSize.toFixed(4)}</td>
+              <td style="color: var(--danger)">$${slPrice.toFixed(2)}</td>
+              <td style="color: var(--success)">$${tpPrice.toFixed(2)}</td>
               <td>${pos.be_locked ? '<span style="color:var(--success); font-weight:700;">YES (+0.25x ATR)</span>' : '<span style="color:var(--subtext)">NO</span>'}</td>
               <td class="${pnlCls}">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}</td>
             </tr>
           `;
         }
 
-        if (acc.recent_trades) {
-          for (const tr of acc.recent_trades) {
-            allTrades.push({
-              ...tr,
-              accName: acc.name.split('(')[0].trim(),
-              stratLabel: key.startsWith('opt_b') ? 'Option B' : 'Option A',
-              stratColor: key.startsWith('opt_b') ? '#c084fc' : '#60a5fa'
-            });
-          }
+        const tradeList = acc.recent_trades || acc.closed_trades || [];
+        for (const tr of tradeList) {
+          allTrades.push({
+            ...tr,
+            accName: acc.name.split('(')[0].trim(),
+            stratLabel: key.startsWith('opt_d') ? 'Champion Dual-Slot' :
+                        (key.startsWith('opt_c') ? 'Option C (Quantum)' :
+                        (key.startsWith('opt_b') ? 'Option B' : 'Option A')),
+            stratColor: key.startsWith('opt_d') ? '#10b981' :
+                        (key.startsWith('opt_c') ? '#34d399' :
+                        (key.startsWith('opt_b') ? '#c084fc' : '#60a5fa'))
+          });
         }
       }
 
+      const dGrid = document.getElementById('optDCardsGrid');
+      if (dGrid) dGrid.innerHTML = optDHtml;
       document.getElementById('optACardsGrid').innerHTML = optAHtml;
       document.getElementById('optBCardsGrid').innerHTML = optBHtml;
       const cGrid = document.getElementById('optCCardsGrid');
@@ -1139,19 +1209,26 @@ def index_html():
       let tradeRows = '';
       for (const tr of allTrades.slice(0, 20)) {
         const trPnlCls = tr.net_pnl >= 0 ? 'pos-val' : 'neg-val';
+        const trSide = (tr.side || 'LONG').toUpperCase();
+        const trFee = tr.fee !== undefined ? tr.fee : 0.0;
+        const trExitReason = tr.exit_reason ? String(tr.exit_reason).replace(/_/g, ' ') : 'CLOSED';
+        const trRet = tr.return_pct !== undefined ? tr.return_pct : ((tr.net_pnl / 10000.0) * 100.0);
+        const trEntry = tr.entry_price !== undefined ? tr.entry_price : 0.0;
+        const trExit = tr.exit_price !== undefined ? tr.exit_price : 0.0;
+
         tradeRows += `
           <tr>
             <td><strong style="color:${tr.stratColor};">${tr.stratLabel}</strong></td>
             <td>${tr.accName}</td>
             <td><strong>${tr.symbol || 'BTC/USDT'}</strong></td>
-            <td style="color: ${tr.side === 'LONG' ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${tr.side}</td>
-            <td>$${tr.entry_price.toFixed(2)}</td>
-            <td>$${tr.exit_price.toFixed(2)}</td>
-            <td>${tr.exit_reason.replace('_', ' ')}</td>
-            <td>$${tr.fee.toFixed(2)}</td>
+            <td style="color: ${trSide === 'LONG' ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${trSide}</td>
+            <td>$${trEntry.toFixed(2)}</td>
+            <td>$${trExit.toFixed(2)}</td>
+            <td>${trExitReason}</td>
+            <td>$${trFee.toFixed(2)}</td>
             <td class="${trPnlCls}">${tr.net_pnl >= 0 ? '+' : ''}$${tr.net_pnl.toFixed(2)}</td>
-            <td class="${trPnlCls}">${tr.return_pct >= 0 ? '+' : ''}${tr.return_pct.toFixed(2)}%</td>
-            <td style="font-size: 11px; color: var(--subtext);">${tr.exit_time.slice(0, 19)}</td>
+            <td class="${trPnlCls}">${trRet >= 0 ? '+' : ''}${trRet.toFixed(2)}%</td>
+            <td style="font-size: 11px; color: var(--subtext);">${String(tr.exit_time || '').slice(0, 19)}</td>
           </tr>
         `;
       }
