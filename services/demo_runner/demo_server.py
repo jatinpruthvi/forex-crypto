@@ -1056,6 +1056,10 @@ def index_html():
       const chartColor = acc.total_net_profit >= 0 ? '#10b981' : '#ef4444';
       const sparklineSvg = renderSparkline(acc.equity_curve, chartColor);
 
+      const totalTrades = acc.total_trades || 0;
+      let winsCount = acc.winning_trades !== undefined ? acc.winning_trades : Math.round(totalTrades * ((acc.win_rate_pct || 0) / 100));
+      let lossesCount = acc.losing_trades !== undefined ? acc.losing_trades : (totalTrades - winsCount);
+
       const assetBadges = acc.active_assets ? `
         <div style="display:flex; gap:4px; margin-top:8px; flex-wrap:wrap;">
           ${acc.active_assets.map(a => `<span style="font-size:10px; background:rgba(139,92,246,0.15); color:#c084fc; padding:2px 6px; border-radius:3px; font-weight:600;">${a}</span>`).join('')}
@@ -1085,7 +1089,7 @@ def index_html():
           </div>
           <div class="metric-row">
             <span class="metric-label">Wins / Losses:</span>
-            <span class="metric-val"><span style="color:var(--success)">${acc.winning_trades} W</span> / <span style="color:var(--danger)">${acc.losing_trades} L</span></span>
+            <span class="metric-val"><span style="color:var(--success)">${winsCount} W</span> / <span style="color:var(--danger)">${lossesCount} L</span></span>
           </div>
           ${assetBadges}
           <div class="chart-box">
@@ -1097,6 +1101,7 @@ def index_html():
     }
 
     function updateUI(data) {
+      if (!data) return;
       const c = data.candle;
       if (c && c.timestamp) {
         document.getElementById('barTime').innerText = String(c.timestamp).slice(0, 19);
@@ -1235,24 +1240,70 @@ def index_html():
       if (tradeRows) document.getElementById('closedTradesTable').innerHTML = tradeRows;
     }
 
+    let wsConnected = false;
+    let fallbackPollTimer = null;
+
     function initWebSocket() {
-      const loc = window.location;
-      const wsUri = (loc.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + loc.host + '/ws';
-      const ws = new WebSocket(wsUri);
-      ws.onmessage = (e) => {
-        try { updateUI(JSON.parse(e.data)); } catch(err) {}
-      };
-      ws.onclose = () => { setTimeout(initWebSocket, 2000); };
+      try {
+        const loc = window.location;
+        const wsProto = loc.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUri = wsProto + '//' + loc.host + '/ws';
+        const ws = new WebSocket(wsUri);
+        
+        ws.onopen = () => {
+          wsConnected = true;
+          if (fallbackPollTimer) {
+            clearInterval(fallbackPollTimer);
+            fallbackPollTimer = null;
+          }
+        };
+
+        ws.onmessage = (e) => {
+          try {
+            const data = JSON.parse(e.data);
+            updateUI(data);
+          } catch(err) {
+            console.error('WS parse error:', err);
+          }
+        };
+
+        ws.onerror = (err) => {
+          wsConnected = false;
+          startPollingFallback();
+        };
+
+        ws.onclose = () => {
+          wsConnected = false;
+          startPollingFallback();
+          setTimeout(initWebSocket, 2000);
+        };
+      } catch (e) {
+        startPollingFallback();
+        setTimeout(initWebSocket, 3000);
+      }
     }
-    initWebSocket();
+
+    function startPollingFallback() {
+      if (!fallbackPollTimer) {
+        fallbackPollTimer = setInterval(refreshState, 1000);
+      }
+    }
 
     async function refreshState() {
       try {
         const res = await fetch('/api/state');
-        const data = await res.json();
-        updateUI(data);
-      } catch (err) {}
+        if (res.ok) {
+          const data = await res.json();
+          updateUI(data);
+        }
+      } catch (err) {
+        console.error('refreshState error:', err);
+      }
     }
+
+    // Preload state immediately on load so UI is never blank
+    refreshState();
+    initWebSocket();
 
     async function emergencyKill() {
       if (confirm('🚨 ACTIVATE EMERGENCY CIRCUIT BREAKER?\n\nThis will instantly halt the trading feed, liquidate all open positions across Option A & Option B, and engage risk lockout.')) {
