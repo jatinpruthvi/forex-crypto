@@ -250,7 +250,7 @@ class QuantumHybridEngine:
                         tp1_p = entry_p + (a * self.tp1_atr)
                         tp1_hit = False
                         pyramid_step = 0
-                        units = risk_amt / max(stop_dist, 1e-4)
+                        units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "TREND"
                     elif bear:
                         pos = -1
@@ -259,7 +259,7 @@ class QuantumHybridEngine:
                         tp1_p = entry_p - (a * self.tp1_atr)
                         tp1_hit = False
                         pyramid_step = 0
-                        units = risk_amt / max(stop_dist, 1e-4)
+                        units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "TREND"
 
                 # REGIME B: Chop Mean-Reversion Scalper
@@ -271,7 +271,7 @@ class QuantumHybridEngine:
                         tp1_p = bb_mid
                         tp1_hit = False
                         pyramid_step = 2  # Do not pyramid chop trades
-                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4)
+                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 62.0 and c < o:
                         pos = -1
@@ -280,7 +280,7 @@ class QuantumHybridEngine:
                         tp1_p = bb_mid
                         tp1_hit = False
                         pyramid_step = 2
-                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4)
+                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

@@ -134,14 +134,14 @@ def run_5year_intrabar_benchmark():
                             if tier == 0:
                                 pos["pyramid_tier"] = 1
                                 tier = 1
-                                pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage) / max(atr * 1.5, 1e-4)
+                                pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage) / max(atr * 1.5, 1e-4, entry * 5e-4)
                                 units = pos["units"]
                         
                         # Check Tier 2 on tick
                         if tp1_hit and tier == 1 and tick >= entry + atr * engine.tp2_atr:
                             pos["pyramid_tier"] = 2
                             tier = 2
-                            pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage * 0.8) / max(atr * 1.5, 1e-4)
+                            pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage * 0.8) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             units = pos["units"]
                             pos["sl"] = entry + atr * 1.5
                             sl = pos["sl"]
@@ -173,13 +173,13 @@ def run_5year_intrabar_benchmark():
                             if tier == 0:
                                 pos["pyramid_tier"] = 1
                                 tier = 1
-                                pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage) / max(atr * 1.5, 1e-4)
+                                pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage) / max(atr * 1.5, 1e-4, entry * 5e-4)
                                 units = pos["units"]
 
                         if tp1_hit and tier == 1 and tick <= entry - atr * engine.tp2_atr:
                             pos["pyramid_tier"] = 2
                             tier = 2
-                            pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage * 0.8) / max(atr * 1.5, 1e-4)
+                            pos["units"] += (cash * (risk_pct / 100.0) * engine.leverage * 0.8) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             units = pos["units"]
                             pos["sl"] = entry - atr * 1.5
                             sl = pos["sl"]

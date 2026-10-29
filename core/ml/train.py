@@ -45,7 +45,7 @@ def train_xgboost_model(
             eval_metric="logloss",
         )
         model.fit(X_tr, y_tr)
-        os.makedirs(os.path.dirname(model_output_path), exist_ok=True)
+        os.makedirs(os.path.dirname(model_output_path) or '.', exist_ok=True)
         joblib.dump(model, model_output_path)
         return {
             "status": "success",
@@ -111,7 +111,7 @@ def train_xgboost_model(
     roc_auc = float(roc_auc_score(y_te, preds_proba))
     f1 = float(f1_score(y_te, preds_binary, zero_division=0))
 
-    os.makedirs(os.path.dirname(model_output_path), exist_ok=True)
+    os.makedirs(os.path.dirname(model_output_path) or '.', exist_ok=True)
     joblib.dump(final_model, model_output_path)
 
     return {

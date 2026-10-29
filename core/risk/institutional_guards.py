@@ -33,7 +33,7 @@ class PropFirmRiskGuard:
         daily_pnl = current_balance - self.daily_start_balance
         daily_loss_pct = max(0.0, (-daily_pnl / self.daily_start_balance) * 100.0) if self.daily_start_balance > 0 else 0.0
 
-        if daily_loss_pct >= self.lockout_trigger_pct:
+        if daily_loss_pct >= self.lockout_trigger_pct or daily_loss_pct >= self.max_daily_loss_pct:
             self.is_daily_locked = True
 
         return {

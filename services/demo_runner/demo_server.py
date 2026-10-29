@@ -55,7 +55,7 @@ position_sizer = PositionSizer()
 def prepare_asset_frame(m15_path: str, h4_path: str, fallback_symbol: str = "BTCUSD") -> pd.DataFrame:
     # Ensure fallback synthetic data if timeframe file is missing
     if not os.path.exists(h4_path) or not os.path.exists(m15_path):
-        os.makedirs(os.path.dirname(h4_path), exist_ok=True)
+        os.makedirs(os.path.dirname(h4_path) or '.', exist_ok=True)
         if not os.path.exists(h4_path):
             dates_h4 = pd.date_range("2024-01-01", periods=1000, freq="4h")
             p_base = 100.0 if "SOL" in h4_path else (300.0 if "BNB" in h4_path else 15.0)
@@ -364,10 +364,10 @@ def process_candle_bar(row, prev_signals: Dict[str, int]) -> Dict[str, int]:
 
     # SMC Institutional Limit Fill Optimization (SMC FVG & Order Block entry discount)
     btc_smc_entry = None
-    if sig_btc == 1 and row.get("dh") is not None:
+    if sig_btc == 1 and row.get("donchian_high") is not None:
         # Long entry limit order placed at lower limit of breakout candle (0.25x ATR pullback / FVG discount)
         btc_smc_entry = round(c_btc - (0.25 * atr_btc), 2)
-    elif sig_btc == -1 and row.get("dl") is not None:
+    elif sig_btc == -1 and row.get("donchian_low") is not None:
         btc_smc_entry = round(c_btc + (0.25 * atr_btc), 2)
 
     # Execute Option A Entries on breakout transitions

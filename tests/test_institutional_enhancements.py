@@ -221,3 +221,12 @@ def test_tearsheet_and_mt5_bridge():
     polled = bridge.poll_orders()
     assert len(polled) == 1
     assert len(bridge.poll_orders()) == 0
+
+
+def test_prop_guard_enforces_hard_daily_limit():
+    """max_daily_loss_pct must lock the account even if lockout_trigger is raised."""
+    from core.risk.institutional_guards import PropFirmRiskGuard
+    guard = PropFirmRiskGuard(max_daily_loss_pct=4.0, lockout_trigger_pct=99.0)
+    guard.update_daily_state("2026-01-01T00:00", 100.0)  # establish day start
+    state = guard.update_daily_state("2026-01-01T06:00", 95.5)  # -4.5% day
+    assert state["is_daily_locked"] is True

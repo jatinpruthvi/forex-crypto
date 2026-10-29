@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 class SignalStorage:
     def __init__(self, db_path: str = "data/signals.db"):
         self.db_path = db_path
-        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.db_path) or '.', exist_ok=True)
         self.init_db()
 
     def get_connection(self) -> sqlite3.Connection:

@@ -43,7 +43,7 @@ class EventFilter:
                 self.events = []
 
     def _save_cache(self) -> None:
-        os.makedirs(os.path.dirname(self.cache_file), exist_ok=True)
+        os.makedirs(os.path.dirname(self.cache_file) or '.', exist_ok=True)
         try:
             with open(self.cache_file, "w", encoding="utf-8") as f:
                 json.dump(self.events, f, indent=2)

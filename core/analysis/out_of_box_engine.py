@@ -272,7 +272,7 @@ class OutOfTheBoxAlphaEngine:
                         tp1_p = entry_p + (a * self.tp1_atr)
                         tp1_hit = False
                         pyramid_added = False
-                        units = risk_amt / max(stop_dist, 1e-4)
+                        units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "TREND"
                     elif c < dl and ef < es and c < vwap:
                         pos = -1
@@ -281,7 +281,7 @@ class OutOfTheBoxAlphaEngine:
                         tp1_p = entry_p - (a * self.tp1_atr)
                         tp1_hit = False
                         pyramid_added = False
-                        units = risk_amt / max(stop_dist, 1e-4)
+                        units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "TREND"
 
                 # ENGINE B: Chop Mean-Reversion Scalper
@@ -293,7 +293,7 @@ class OutOfTheBoxAlphaEngine:
                         tp1_p = bb_mid
                         tp1_hit = False
                         pyramid_added = True
-                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4)
+                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 65.0 and c < o:
                         pos = -1
@@ -302,7 +302,7 @@ class OutOfTheBoxAlphaEngine:
                         tp1_p = bb_mid
                         tp1_hit = False
                         pyramid_added = True
-                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4)
+                        units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

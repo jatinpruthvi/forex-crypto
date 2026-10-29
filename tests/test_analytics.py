@@ -37,3 +37,11 @@ def test_walk_forward_evaluation():
     assert res["wfe"] > 0.5
     assert res["is_robust"] is True
     assert res["verdict"] == "ROBUST"
+
+
+def test_monte_carlo_seed_reproducible():
+    from core.analysis.monte_carlo import MonteCarloSimulator
+    trades = [1.5, -1.0, 2.0, -1.2, 0.8, -0.9, 1.4, 2.5, -1.1]
+    a = MonteCarloSimulator(n_simulations=200, seed=7).simulate(trades)
+    b = MonteCarloSimulator(n_simulations=200, seed=7).simulate(trades)
+    assert a == b  # identical results for identical seed (restore-point discipline)

@@ -15,7 +15,7 @@ LEDGER_FILE = "reports/roi_progress_ledger.json"
 class ROILedger:
     def __init__(self, ledger_path: str = LEDGER_FILE):
         self.ledger_path = ledger_path
-        os.makedirs(os.path.dirname(ledger_path), exist_ok=True)
+        os.makedirs(os.path.dirname(ledger_path) or ".", exist_ok=True)
         if not os.path.exists(ledger_path):
             self.save_empty_ledger()
 

@@ -211,7 +211,7 @@ for asset_name, file_path, candle_hours in datasets:
         monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / months_elapsed) - 1.0) * 100.0
         tot_profit = sum(t['pnl_usd'] for t in wins)
         tot_loss = abs(sum(t['pnl_usd'] for t in closed_trades if t['pnl_usd'] <= 0)) if len(wins) < tot_trades else 1e-6
-        pf = tot_profit / tot_loss if tot_loss > 0 else 0.0
+        pf = tot_profit / tot_loss if tot_loss > 0 else (10.0 if tot_profit > 0 else 0.0)
 
         return {
             'monthly_roi': monthly_roi,

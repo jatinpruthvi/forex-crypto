@@ -3,17 +3,19 @@ Monte Carlo Stress Simulation:
 Simulates random sequence permutations of backtested trade results
 to calculate 95th/99th percentile maximum drawdowns and risk of ruin.
 """
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import numpy as np
 
 
 class MonteCarloSimulator:
-    def __init__(self, n_simulations: int = 10000):
+    def __init__(self, n_simulations: int = 10000, seed: Optional[int] = None):
         self.n_simulations = n_simulations
+        # Seeded RNG so every run is reproducible (ledger restore-point discipline).
+        self.rng = np.random.default_rng(seed)
 
     def simulate(self, trade_returns: List[float], initial_equity: float = 10000.0) -> Dict[str, Any]:
         """
-        Runs Monte Carlo trade order shuffles.
+        Runs Monte Carlo bootstrap resampling (with replacement) of trade returns.
         trade_returns: list of return percentages (e.g. [+1.5, -0.8, +2.1])
         """
         if not trade_returns:
@@ -32,7 +34,7 @@ class MonteCarloSimulator:
         ruin_count = 0
 
         for _ in range(self.n_simulations):
-            shuffled = np.random.choice(returns_arr, size=n_trades, replace=True)
+            shuffled = self.rng.choice(returns_arr, size=n_trades, replace=True)
             capped_shuffled = np.maximum(-0.999, shuffled)
             equity_curve = initial_equity * np.cumprod(1.0 + capped_shuffled)
             peak = np.maximum.accumulate(equity_curve)

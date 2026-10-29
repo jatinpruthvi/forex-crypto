@@ -133,7 +133,7 @@ def run_dual_slot_benchmark():
                             pos["pyramid_tier"] = 1
                             tier = 1
                             p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             pos["units"] += p_units
                             units = pos["units"]
 
@@ -143,7 +143,7 @@ def run_dual_slot_benchmark():
                             pos["pyramid_tier"] = 2
                             tier = 2
                             p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             pos["units"] += p_units
                             units = pos["units"]
                             pos["sl"] = entry + atr * 1.5
@@ -191,7 +191,7 @@ def run_dual_slot_benchmark():
                             pos["pyramid_tier"] = 1
                             tier = 1
                             p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             pos["units"] += p_units
                             units = pos["units"]
 
@@ -200,7 +200,7 @@ def run_dual_slot_benchmark():
                             pos["pyramid_tier"] = 2
                             tier = 2
                             p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
                             pos["units"] += p_units
                             units = pos["units"]
                             pos["sl"] = entry - atr * 1.5
