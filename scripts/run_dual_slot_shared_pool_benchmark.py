@@ -38,7 +38,8 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                             gate_fn=None, max_slots=2, risk_pct=1.5, lev=2.0,
                             dd_throttle_threshold=0.08,
                             stop_slippage=None, taker_fee_pct=None,
-                            entry_fn=None, time_stop_bars=None):
+                            entry_fn=None, time_stop_bars=None,
+                            initial_capital=1000.0):
     """Corrected dual-slot shared-pool simulation (audited fill model).
 
     Bar-start stop snapshot, stop fills FIRST on ambiguous bars with taker fee
@@ -62,7 +63,7 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
     _slip = STOP_SLIPPAGE if stop_slippage is None else stop_slippage
     _taker = engine.taker_fee_pct if taker_fee_pct is None else taker_fee_pct
 
-    cash = 1000.0
+    cash = float(initial_capital)
     peak_equity = cash
     max_dd = 0.0
     positions = {}
@@ -416,9 +417,9 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
 
     # Calculate final metrics
     final_equity = equity
-    net_profit = final_equity - 1000.0
-    net_roi_total = (net_profit / 1000.0) * 100.0
-    monthly_roi = ((final_equity / 1000.0) ** (1.0 / duration_months) - 1.0) * 100.0
+    net_profit = final_equity - float(initial_capital)
+    net_roi_total = (net_profit / float(initial_capital)) * 100.0
+    monthly_roi = ((final_equity / float(initial_capital)) ** (1.0 / duration_months) - 1.0) * 100.0
     total_trades = len(trade_log)
     winning_trades = sum(1 for t in trade_log if t["pnl"] > 0)  # net-trade rule (audit #20)
     win_rate = (winning_trades / total_trades * 100.0) if total_trades > 0 else 0.0

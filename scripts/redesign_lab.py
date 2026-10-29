@@ -559,9 +559,104 @@ def phase_round3():
     print()
 
 
+def phase_personal():
+    """Personal-account ROI ceiling: upward risk ladder, no prop-firm DD gate.
+
+    Question: with OUR OWN money (no funded-account rules), how much monthly ROI
+    do the redesigned signals deliver at each risk level, and with what
+    drawdown? Ladder 1.5% -> 5% risk per trade (lev 2.0, 2 slots, dd-throttle
+    at 8% stays ON - it is part of the system). Windows: crypto 1d full / early /
+    late-OOS halves + bench 4h. Also a $25 micro-account run through the
+    Hyperliquid lot-viability gate.
+    """
+    print("\n" + "=" * 108)
+    print("PHASE E: PERSONAL-ACCOUNT RISK LADDER (no prop-firm gate - honest ROI vs DD)")
+    print("=" * 108)
+
+    engine = make_engine()
+    ts, aligned, months = load_panel([(f"{c}/USDT", f"data/timeframes/1d_panel/{c}USDT_1d.csv")
+                                      for c in COINS_1D], engine)
+    n = len(ts)
+    split = int(n * 0.55)
+    ts_is, al_is, m_is = window_panel(ts, aligned, 30, split)
+    ts_oos, al_oos, m_oos = window_panel(ts, aligned, split, n)
+    bengine = make_engine()
+    bts, baligned, bmonths = load_panel(BENCH_SPECS, bengine)
+
+    leads = [
+        ("Q_TIGHT_TP", v_q_tight_tp, {}),
+        ("Q_TS8", v_momo_quality, {"time_stop_bars": 8}),
+        ("Q_TS12", v_momo_quality, {"time_stop_bars": 12}),
+    ]
+    risks = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
+
+    print(f"\n  {'variant':<12} {'risk':>4} | {'1d-FULL':>26} | {'1d-OOS':>26} | {'bench4h':>22}")
+    print("  " + "-" * 104)
+    ledger_rows = []
+    for name, fn, kw in leads:
+        for risk in risks:
+            e = make_engine(risk=risk)
+            rf = execute_shared_pool_sim(ts, aligned, e, months, max_slots=2,
+                                         risk_pct=risk, lev=2.0, entry_fn=fn, **kw)
+            ro = execute_shared_pool_sim(ts_oos, al_oos, e, m_oos, max_slots=2,
+                                         risk_pct=risk, lev=2.0, entry_fn=fn, **kw)
+            rb = execute_shared_pool_sim(bts, baligned, e, bmonths, max_slots=2,
+                                         risk_pct=risk, lev=2.0, entry_fn=fn, **kw)
+            f_s = f"{rf['monthly_roi']:+6.2f}%/mo DD{rf['max_drawdown']:5.1f}% PF{rf['profit_factor']:4.2f}"
+            o_s = f"{ro['monthly_roi']:+6.2f}%/mo DD{ro['max_drawdown']:5.1f}% PF{ro['profit_factor']:4.2f}"
+            b_s = f"{rb['monthly_roi']:+6.2f}%/mo DD{rb['max_drawdown']:5.1f}%"
+            print(f"  {name:<12} {risk:>4} | {f_s} | {o_s} | {b_s}")
+            ledger_rows.append({"variant": name, "risk": risk,
+                                "full": {k: rf[k] for k in ("monthly_roi", "max_drawdown", "profit_factor", "total_trades", "final_equity")},
+                                "oos": {k: ro[k] for k in ("monthly_roi", "max_drawdown", "profit_factor", "total_trades", "final_equity")},
+                                "bench": {k: rb[k] for k in ("monthly_roi", "max_drawdown", "profit_factor", "total_trades", "final_equity")}})
+
+    # Expected-range view: fold spread at the two headline risks
+    print("\n[E2] 3-fold spread at risk 2.5% and 4.0% (expected-range view):")
+    bounds = [(30, int(n * 0.38)), (int(n * 0.34), int(n * 0.70)), (int(n * 0.66), n)]
+    for name, fn, kw in leads:
+        for risk in (2.5, 4.0):
+            line = f"  {name:<12} r={risk:<4}"
+            ms = []
+            for k, (a, b) in enumerate(bounds):
+                tsk, alk, mk = window_panel(ts, aligned, a, b)
+                e = make_engine(risk=risk)
+                r = execute_shared_pool_sim(tsk, alk, e, mk, max_slots=2, risk_pct=risk,
+                                            lev=2.0, entry_fn=fn, **kw)
+                ms.append(r["monthly_roi"])
+                line += f" | F{k+1}: {r['monthly_roi']:+6.2f}%/mo DD{r['max_drawdown']:5.1f}%"
+            line += f"  -> range {min(ms):+.2f}% .. {max(ms):+.2f}%/mo"
+            print(line)
+
+    # $25 micro account through the Hyperliquid lot gate
+    print("\n[E3] $25 micro account through Hyperliquid lot-viability gate (risk 3.0%):")
+    from core.execution.live_adapter import SizingViabilityGate
+    def gate25(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult=1.5):
+        g = SizingViabilityGate.check(sym, equity=eq, price=price, atr=atr, risk_pct=risk,
+                                      leverage=leverage, dd_factor=dd_mult,
+                                      stop_atr_mult=stop_atr_mult, max_error_pct=5.0,
+                                      venue="hyperliquid")
+        return g["stepped_qty"] if g["viable"] else 0.0
+    for name, fn, kw in leads:
+        e = make_engine(risk=3.0)
+        r = execute_shared_pool_sim(ts, aligned, e, months, max_slots=2, risk_pct=3.0,
+                                    lev=2.0, entry_fn=fn, gate_fn=gate25,
+                                    initial_capital=25.0, **kw)
+        print(f"  {name:<12} $25: eq ${r['final_equity']:7.2f} | {r['monthly_roi']:+6.2f}%/mo "
+              f"| DD {r['max_drawdown']:5.1f}% | {r['total_trades']:4d}t | PF {r['profit_factor']:.2f}")
+
+    _os.makedirs("reports", exist_ok=True)
+    with open("reports/redesign_personal_ladder.json", "w") as f:
+        json.dump({"ladder": ledger_rows,
+                   "note": "personal-account risk ladder; no prop-firm gate; dd-throttle 8% on; "
+                           "selection-adjusted backtests - forward validation required"},
+                  f, indent=2)
+    print("\nSaved reports/redesign_personal_ladder.json")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=["diag", "sweep", "round2", "round3", "all"], default="all")
+    ap.add_argument("--phase", choices=["diag", "sweep", "round2", "round3", "personal", "all"], default="all")
     args = ap.parse_args()
     if args.phase in ("diag", "all"):
         phase_diag()
@@ -571,3 +666,5 @@ if __name__ == "__main__":
         phase_round2()
     if args.phase in ("round3", "all"):
         phase_round3()
+    if args.phase in ("personal", "all"):
+        phase_personal()

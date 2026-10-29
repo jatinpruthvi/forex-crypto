@@ -68,7 +68,29 @@ robustness problem is unsolved.
    research rounds; the numbers above are in-sample-guided and MUST be confirmed
    by forward paper validation on fresh data before any ROI claim or live use.
 
-## 5. Next steps
+## 5. Personal-account risk ladder (EXP-022 — no prop-firm gate)
+
+Risks 1.5→5%/trade (lev 2.0, 2 slots, dd-throttle ON), crypto 1d panel:
+
+| Risk | Q_TS8 full-period | Q_TIGHT_TP OOS half | Fold range (Q_TS8 r2.5) |
+|---|---|---|---|
+| 1.5% | +2.5%/mo, DD 47% | +3.4%/mo, DD 25% | — |
+| 2.5% | +3.6%/mo, DD 66% | +4.8%/mo, DD 36% | −2.6% .. +13.5%/mo |
+| 3.0% | +3.9%/mo, DD 72% | +5.1%/mo, DD 42% | — |
+| 4.0% | +4.2%/mo, DD 83% | +6.1%/mo, DD 51% | −4.6% .. +18.5%/mo |
+| 5.0% | +4.2%/mo, DD 89% | +6.6%/mo, DD 59% | diminishing |
+
+Key facts:
+- **Raising risk is sublinear for ROI, superlinear for DD** — past ~3% risk the
+  monthly barely improves while DD approaches ruin. Sweet spot: risk 2–3%.
+- **Account size**: $323 / $1,000 / $5,000 give identical percentages through
+  the Hyperliquid lot gate. **$25 is NOT viable** (lot-gate distortion, −1.3%/mo).
+- The 2022-10..2023-04 chop window loses at every risk level — losing for months
+  is part of the honest expectation.
+- Expectation on personal capital: **~2–4%/mo at risk 2–3%, with 55–70% peak
+  drawdowns**; best-regime months double-digit; still selection-adjusted.
+
+## 6. Next steps
 
 1. Volatility-targeted position sizing (rescue fold-2 + DD margin).
 2. Regime gate: skip blow-off/chop phases (fold-2 killer).

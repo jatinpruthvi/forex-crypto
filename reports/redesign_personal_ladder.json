@@ -1,0 +1,455 @@
+{
+  "ladder": [
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 1.5,
+      "full": {
+        "monthly_roi": 1.1454449127432875,
+        "max_drawdown": 36.44056331037806,
+        "profit_factor": 1.218470444793709,
+        "total_trades": 179,
+        "final_equity": 1453.266371258603
+      },
+      "oos": {
+        "monthly_roi": 3.4283327954622855,
+        "max_drawdown": 25.041389711919003,
+        "profit_factor": 1.7049443547678151,
+        "total_trades": 68,
+        "final_equity": 1644.2033431505006
+      },
+      "bench": {
+        "monthly_roi": -2.8538645869156998,
+        "max_drawdown": 47.6655624245246,
+        "profit_factor": 0.901195435640795,
+        "total_trades": 140,
+        "final_equity": 853.9282140698817
+      }
+    },
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 2.0,
+      "full": {
+        "monthly_roi": 1.397774287948561,
+        "max_drawdown": 47.50244247328437,
+        "profit_factor": 1.2061406594139454,
+        "total_trades": 179,
+        "final_equity": 1577.1063730896722
+      },
+      "oos": {
+        "monthly_roi": 4.367919688936928,
+        "max_drawdown": 30.40597319466663,
+        "profit_factor": 1.7082370082548264,
+        "total_trades": 68,
+        "final_equity": 1878.8505751879572
+      },
+      "bench": {
+        "monthly_roi": -4.623199367369535,
+        "max_drawdown": 58.14625643895782,
+        "profit_factor": 0.8749060019917669,
+        "total_trades": 140,
+        "final_equity": 772.4758236431547
+      }
+    },
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 2.5,
+      "full": {
+        "monthly_roi": 1.1214831970687955,
+        "max_drawdown": 55.85784139925566,
+        "profit_factor": 1.1357335645134599,
+        "total_trades": 179,
+        "final_equity": 1442.0089937512485
+      },
+      "oos": {
+        "monthly_roi": 4.840887155164664,
+        "max_drawdown": 36.361634084808756,
+        "profit_factor": 1.6293358115040553,
+        "total_trades": 68,
+        "final_equity": 2008.441817178874
+      },
+      "bench": {
+        "monthly_roi": -6.232435680743631,
+        "max_drawdown": 66.67327984823278,
+        "profit_factor": 0.8605269359008992,
+        "total_trades": 140,
+        "final_equity": 704.0130270690192
+      }
+    },
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 3.0,
+      "full": {
+        "monthly_roi": 1.0185923508366779,
+        "max_drawdown": 63.058803763483226,
+        "profit_factor": 1.1049967349041272,
+        "total_trades": 179,
+        "final_equity": 1394.62370128488
+      },
+      "oos": {
+        "monthly_roi": 5.095431391568317,
+        "max_drawdown": 41.7999140124344,
+        "profit_factor": 1.5510050626808145,
+        "total_trades": 68,
+        "final_equity": 2081.588302658421
+      },
+      "bench": {
+        "monthly_roi": -8.532472901465804,
+        "max_drawdown": 73.58395454573156,
+        "profit_factor": 0.8357891954485803,
+        "total_trades": 140,
+        "final_equity": 614.8337125377399
+      }
+    },
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 4.0,
+      "full": {
+        "monthly_roi": 0.6456683265630314,
+        "max_drawdown": 74.48697371324732,
+        "profit_factor": 1.0504740131033181,
+        "total_trades": 179,
+        "final_equity": 1235.2036867138581
+      },
+      "oos": {
+        "monthly_roi": 6.069727780799927,
+        "max_drawdown": 51.32746417351625,
+        "profit_factor": 1.5148125422415089,
+        "total_trades": 68,
+        "final_equity": 2385.137180414972
+      },
+      "bench": {
+        "monthly_roi": -13.046257025588194,
+        "max_drawdown": 83.6404665841476,
+        "profit_factor": 0.8002988152567406,
+        "total_trades": 140,
+        "final_equity": 466.54173789800547
+      }
+    },
+    {
+      "variant": "Q_TIGHT_TP",
+      "risk": 5.0,
+      "full": {
+        "monthly_roi": -0.01235243618181725,
+        "max_drawdown": 82.69917781501839,
+        "profit_factor": 0.9954356315549456,
+        "total_trades": 179,
+        "final_equity": 995.9537209579829
+      },
+      "oos": {
+        "monthly_roi": 6.602660962627049,
+        "max_drawdown": 59.33103882046799,
+        "profit_factor": 1.4554213148097013,
+        "total_trades": 68,
+        "final_equity": 2568.1561988365243
+      },
+      "bench": {
+        "monthly_roi": -18.930645793116085,
+        "max_drawdown": 90.07013745006329,
+        "profit_factor": 0.7550700107175466,
+        "total_trades": 140,
+        "final_equity": 318.3631962531279
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 1.5,
+      "full": {
+        "monthly_roi": 2.5209750794151553,
+        "max_drawdown": 47.202401266648906,
+        "profit_factor": 1.302654082265419,
+        "total_trades": 229,
+        "final_equity": 2264.0623910965983
+      },
+      "oos": {
+        "monthly_roi": 1.8785866999240897,
+        "max_drawdown": 28.794963302723193,
+        "profit_factor": 1.3086577612746362,
+        "total_trades": 87,
+        "final_equity": 1315.9378982552046
+      },
+      "bench": {
+        "monthly_roi": -0.6194333253972895,
+        "max_drawdown": 42.274958801511545,
+        "profit_factor": 0.9885842465617493,
+        "total_trades": 164,
+        "final_equity": 966.6800454500686
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 2.0,
+      "full": {
+        "monthly_roi": 3.161362965160275,
+        "max_drawdown": 57.8003608013967,
+        "profit_factor": 1.2768029854183873,
+        "total_trades": 229,
+        "final_equity": 2777.4650444519048
+      },
+      "oos": {
+        "monthly_roi": 2.1900084909635353,
+        "max_drawdown": 36.42917936568652,
+        "profit_factor": 1.2780426000067517,
+        "total_trades": 87,
+        "final_equity": 1376.5402324212985
+      },
+      "bench": {
+        "monthly_roi": -2.9809928522969598,
+        "max_drawdown": 52.67377506146541,
+        "profit_factor": 0.9303463531719602,
+        "total_trades": 164,
+        "final_equity": 847.8514620555511
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 2.5,
+      "full": {
+        "monthly_roi": 3.6172366303932613,
+        "max_drawdown": 66.4609341376847,
+        "profit_factor": 1.237294438677238,
+        "total_trades": 229,
+        "final_equity": 3209.95798246571
+      },
+      "oos": {
+        "monthly_roi": 2.1231240167318477,
+        "max_drawdown": 43.54793329631653,
+        "profit_factor": 1.211750179873482,
+        "total_trades": 87,
+        "final_equity": 1363.3093212626368
+      },
+      "bench": {
+        "monthly_roi": -4.763320710444319,
+        "max_drawdown": 61.47069922765657,
+        "profit_factor": 0.9081990935917539,
+        "total_trades": 164,
+        "final_equity": 766.3066814246108
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 3.0,
+      "full": {
+        "monthly_roi": 3.9134851396548154,
+        "max_drawdown": 72.51834035609474,
+        "profit_factor": 1.2040212472669254,
+        "total_trades": 229,
+        "final_equity": 3525.288847597933
+      },
+      "oos": {
+        "monthly_roi": 1.9314467211694941,
+        "max_drawdown": 49.98735781284937,
+        "profit_factor": 1.1594573420868026,
+        "total_trades": 87,
+        "final_equity": 1326.0459436458386
+      },
+      "bench": {
+        "monthly_roi": -6.758097771770288,
+        "max_drawdown": 68.84298673886282,
+        "profit_factor": 0.889400603774788,
+        "total_trades": 164,
+        "final_equity": 682.755474121577
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 4.0,
+      "full": {
+        "monthly_roi": 4.1969820100521416,
+        "max_drawdown": 82.87184987516666,
+        "profit_factor": 1.1458639028363327,
+        "total_trades": 229,
+        "final_equity": 3855.0489480163733
+      },
+      "oos": {
+        "monthly_roi": 2.2695101045186794,
+        "max_drawdown": 59.100613653605784,
+        "profit_factor": 1.138580915912367,
+        "total_trades": 87,
+        "final_equity": 1392.422714534513
+      },
+      "bench": {
+        "monthly_roi": -12.027190599323735,
+        "max_drawdown": 80.01656631397707,
+        "profit_factor": 0.8472247746981016,
+        "total_trades": 164,
+        "final_equity": 497.15030132472
+      }
+    },
+    {
+      "variant": "Q_TS8",
+      "risk": 5.0,
+      "full": {
+        "monthly_roi": 4.206727731964444,
+        "max_drawdown": 89.54853298928535,
+        "profit_factor": 1.1012142201804773,
+        "total_trades": 229,
+        "final_equity": 3866.9009500655234
+      },
+      "oos": {
+        "monthly_roi": 1.3343762037865803,
+        "max_drawdown": 68.61571097724386,
+        "profit_factor": 1.055931134716164,
+        "total_trades": 87,
+        "final_equity": 1215.9665892538167
+      },
+      "bench": {
+        "monthly_roi": -18.633939691838396,
+        "max_drawdown": 87.49854962115661,
+        "profit_factor": 0.7992312752452001,
+        "total_trades": 164,
+        "final_equity": 324.7698582691498
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 1.5,
+      "full": {
+        "monthly_roi": 0.33092290842160477,
+        "max_drawdown": 42.244221125769535,
+        "profit_factor": 1.044526678070887,
+        "total_trades": 195,
+        "final_equity": 1114.5314200892326
+      },
+      "oos": {
+        "monthly_roi": 1.7749039572923841,
+        "max_drawdown": 25.31225509437639,
+        "profit_factor": 1.2708458004986574,
+        "total_trades": 75,
+        "final_equity": 1296.3196670356879
+      },
+      "bench": {
+        "monthly_roi": -0.01685754349580737,
+        "max_drawdown": 45.452525137995586,
+        "profit_factor": 1.0084437316837778,
+        "total_trades": 151,
+        "final_equity": 999.0809685679686
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 2.0,
+      "full": {
+        "monthly_roi": 0.2837830454810897,
+        "max_drawdown": 51.931934943215765,
+        "profit_factor": 1.0274347960344352,
+        "total_trades": 195,
+        "final_equity": 1097.472195388332
+      },
+      "oos": {
+        "monthly_roi": 1.9396869445562626,
+        "max_drawdown": 32.22507595966243,
+        "profit_factor": 1.235368272477301,
+        "total_trades": 75,
+        "final_equity": 1327.6281682959207
+      },
+      "bench": {
+        "monthly_roi": -0.8593382344082912,
+        "max_drawdown": 56.14725822190737,
+        "profit_factor": 0.9878825436832235,
+        "total_trades": 151,
+        "final_equity": 954.0214625265993
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 2.5,
+      "full": {
+        "monthly_roi": 0.2674805915192424,
+        "max_drawdown": 60.448026478959825,
+        "profit_factor": 1.0194073225269593,
+        "total_trades": 195,
+        "final_equity": 1091.6317033760563
+      },
+      "oos": {
+        "monthly_roi": 1.975316262232285,
+        "max_drawdown": 40.25451691865788,
+        "profit_factor": 1.1936812429108528,
+        "total_trades": 75,
+        "final_equity": 1334.4897148282687
+      },
+      "bench": {
+        "monthly_roi": -1.9157647294263502,
+        "max_drawdown": 65.00583211449741,
+        "profit_factor": 0.9723299784137562,
+        "total_trades": 151,
+        "final_equity": 899.8783098333479
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 3.0,
+      "full": {
+        "monthly_roi": -0.04613778258657497,
+        "max_drawdown": 67.61400725868111,
+        "profit_factor": 0.98795846721645,
+        "total_trades": 195,
+        "final_equity": 984.9675919465758
+      },
+      "oos": {
+        "monthly_roi": 1.9419030082269861,
+        "max_drawdown": 46.46247912863781,
+        "profit_factor": 1.152815480364007,
+        "total_trades": 75,
+        "final_equity": 1328.0539800793022
+      },
+      "bench": {
+        "monthly_roi": -4.44528179974143,
+        "max_drawdown": 72.2741324319777,
+        "profit_factor": 0.938612800161204,
+        "total_trades": 151,
+        "final_equity": 780.3674100405727
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 4.0,
+      "full": {
+        "monthly_roi": -0.9353316864643468,
+        "max_drawdown": 78.6083416231606,
+        "profit_factor": 0.9293381003865421,
+        "total_trades": 195,
+        "final_equity": 734.5969985036736
+      },
+      "oos": {
+        "monthly_roi": 2.4900854001310258,
+        "max_drawdown": 55.209445273745175,
+        "profit_factor": 1.1458808825487494,
+        "total_trades": 75,
+        "final_equity": 1437.3873282410566
+      },
+      "bench": {
+        "monthly_roi": -8.50856929348761,
+        "max_drawdown": 82.95287821972225,
+        "profit_factor": 0.9123567035376382,
+        "total_trades": 151,
+        "final_equity": 615.7105236576563
+      }
+    },
+    {
+      "variant": "Q_TS12",
+      "risk": 5.0,
+      "full": {
+        "monthly_roi": -2.127893799072933,
+        "max_drawdown": 86.15617234076728,
+        "profit_factor": 0.8742617445109745,
+        "total_trades": 195,
+        "final_equity": 493.6436648287283
+      },
+      "oos": {
+        "monthly_roi": 1.2097543688003976,
+        "max_drawdown": 64.14744649114384,
+        "profit_factor": 1.0431019581244874,
+        "total_trades": 75,
+        "final_equity": 1194.092615715664
+      },
+      "bench": {
+        "monthly_roi": -13.222707886517304,
+        "max_drawdown": 89.79726937975376,
+        "profit_factor": 0.8945611857427543,
+        "total_trades": 151,
+        "final_equity": 461.4017426617431
+      }
+    }
+  ],
+  "note": "personal-account risk ladder; no prop-firm gate; dd-throttle 8% on; selection-adjusted backtests - forward validation required"
+}
