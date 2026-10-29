@@ -1275,6 +1275,26 @@
       "honest_summary": "Selection-adjusted; genuine edge is alt-bull concentrated (LOFO chop/bear folds ~0 to slightly negative); fold2 (2021 blow-off) weak regime unsolved but reduced to ~0 by gate+dip blend; worst months -17 to -35%; 3-month forward paper validation required before capital.",
       "tag": "STRATEGY_HUNT",
       "status": "SELECTED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-024-STRATEGY-HUNT-R45",
+      "strategy_name": "Hunt rounds 4-5: new mechanics (vol-target, crash filter, abs-momentum, Donchian, ensemble)",
+      "asset": "21-coin crypto 1d panel (2020-07..2023-04)",
+      "timeframe": "1D",
+      "duration_desc": "32.8 months full panel, 3 chronological folds",
+      "methodology": "Round 4: 18 configs (vol-targeting 20-40%, crash filter, abs-mom filter, Donchian 20/10 and 55/20 state machines, ensemble voting, weekly/golden-cross gates, dip v3) vs Round-3 champion; LOFO validation. Round 5: 14-config GATED_ROT family grid (abs-mom lb x vol-target x K x lb). Same pre-registered rule. Script: scripts/strategy_hunt2.py. Cumulative results saved: reports/strategy_leaderboard.json (48 entries).",
+      "results": {
+        "new_champion": "ABS90_GROT K5lb90 (BTC>MA150-gated top-5 60d-mom inverse-vol rotation, 90d absolute-momentum filter): +11.68%/mo, DD 25.1%, Calmar 11.03, DD/Mo 2.1, folds +31.8/-0.32/+2.04",
+        "best_all_folds_positive": "ABS60_GROT K5lb40: +10.86%/mo, DD 31.9%, Calmar 7.67, folds +29.9/+0.24/+0.92",
+        "steadiest": "VOL_GROT family (20-35% vol target): all-folds-positive every config, DD 16.8-20.9%, +3.0-4.3%/mo",
+        "robustness": "ABS30/60/90 all Calmar 8.95-11.03 (abs-mom overlay is a real improvement, not a lucky row)",
+        "failed_mechanics": "crash filters HURT (whipsaw), Donchian state systems DD 64-85% (trend-late), golden-cross gate weak, dip v3 over-filtered, SUPER_BLEND stacking hurt (too many filters)",
+        "lofo_r4": "held-out: +7.85 (VOL_GROT, DD 19.5%) / -0.80 (GROT) / -0.03 (DIP_V3) %/mo (bull/chop/bear)",
+        "vs_champion_r3": "Calmar 3.92 -> 11.03; DD/Mo 4.5 -> 2.1; monthly +6.7 -> +11.7"
+      },
+      "honest_summary": "Selection-adjusted (many configs on same panel). Real edge is alt-bull concentrated: LOFO chop/bear folds ~0 to slightly negative. Absolute-momentum filter and vol-targeting are the two genuine new discoveries (both reduce DD without killing bull returns). 3-month forward paper validation required before capital.",
+      "tag": "STRATEGY_HUNT",
+      "status": "SELECTED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {

@@ -150,3 +150,42 @@ and (b) limit-buying panic dips (RSI3<15 above the long MA) with quick 5-day-hig
 **Verdict vs user criterion**: old family DD/Mo 11-23 ("10x ROI" complaint) → new family **DD/Mo 2.8-4.5**,
 Calmar 3.9-8.4, no losing fold in the blend. This is the optimum found across 13 archetypes + 37 configs
 with honest fold and LOFO reporting. Next step: wire the family into the paper-trading harness.
+
+
+---
+
+## 7. EXP-024 — Hunt Rounds 4-5: Better Than the Round-3 Champion (2026-10-28)
+
+**Trigger**: user asked to keep hunting for a better strategy and to SAVE all performance results for
+later selection. Saved cumulatively in `reports/strategy_leaderboard.json` (48 entries, all rounds).
+
+**Round 4** (18 new mechanics): portfolio vol-targeting, crash filters, per-asset absolute-momentum
+filters, Donchian state systems, ensemble voting, weekly/golden-cross gates, dip v3. **Round 5**
+(14 configs): GATED_ROT family grid over abs-mom lookback x vol-target x K x lb. Same pre-registered
+rule (max worst-fold monthly s.t. DD/Mo<=10, Calmar>=1.2, maxDD<=35%).
+
+### Leaderboard (top of 48 saved entries, crypto 1d 21c, 10bp/turnover side)
+
+| rank | config | %/mo | maxDD | Calmar | DD/Mo | folds |
+|---|---|---|---|---|---|---|
+| 1 | **ABS90_GROT K5lb90** | **+11.68** | **25.1%** | **11.03** | **2.1** | +31.8 / -0.32 / +2.04 |
+| 2 | ABS60_GROT K5lb90 | +11.43 | 29.7% | 8.97 | 2.6 | +32.2 / -0.99 / +1.78 |
+| 3 | ABS60_GROT K5lb40 (all folds +) | +10.86 | 31.9% | 7.67 | 2.9 | +29.9 / +0.24 / +0.92 |
+| 4 | VOL_GROT 35% (all folds +) | +4.31 | 20.9% | 3.16 | 4.8 | +8.9 / +0.60 / +2.33 |
+| 5 | VOL_GROT 30% (all folds +) | +3.86 | 19.5% | 2.94 | 5.1 | +7.9 / +0.59 / +2.09 |
+| - | (Round-3 champion BLEND ma150) | +6.66 | 29.8% | 3.92 | 4.5 | +18.2 / +0.02 / +0.24 |
+
+**Two genuine discoveries**: (1) the **absolute-momentum filter** (only hold coins with positive
+trailing 90d return) cuts DD 32.8->25.1% while keeping bull returns (Calmar 8.4->11.0); (2)
+**vol-targeting** normalizes risk across regimes (every VOL_GROT config positive in all 3 folds).
+
+**Failed mechanics (negative knowledge, saved in leaderboard)**: crash filters (whipsaw), Donchian
+state systems (DD 64-85%), golden-cross gate (Calmar 1.6), dip v3 (over-filtered), stacking all
+filters into SUPER_BLEND (Calmar 0.5 — filters fight each other).
+
+### Honesty (same as section 6)
+Selection-adjusted; edge concentrated in alt-bull regimes (LOFO held-out: bull +7.9..+31.8 with
+DD 19-33%, chop ~-1..0, bear ~-1.4..+0); fold-2 (2021 blow-off) remains the weak regime though
+smaller; 3-month forward paper validation required before capital. `reports/strategy_leaderboard.json`
+`selection_guide` has the saved picks: best_calmar (ABS90_GROT) and best_all_folds_positive
+(ABS60_GROT K5lb40), plus the VOL_GROT tier as the low-risk option (+3-4%/mo at 17-21% DD).
