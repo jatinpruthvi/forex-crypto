@@ -144,4 +144,55 @@ Scaling to fit prop-firm drawdown limits (with our built-in Dynamic Drawdown Thr
 
 ---
 
+---
+
+## 💵 7. Equal-Capital Head-to-Head ($1,000 vs $1,000 — Same Initial Amount)
+
+Both routes start with exactly **$1,000 of your money**. Route A deposits it on an exchange; Route B spends it on prop evaluation fee(s).
+
+### Assumptions
+- Route A: Champion Dual-Slot @ full 1.50% risk → **+25.01%/mo compounded** (ledger EXP-013).
+- Route B: forex engine @ 0.40% risk on FTMO 100K → **~+13%/mo gross** → $10,400/mo × 80% split = **$10,400/mo take-home** (flat, no compounding; fee refunded with first payout).
+- Route C: crypto engine @ 0.45% risk on HyroTrader 50K → **~+7.5%/mo gross** → **$3,000/mo take-home**.
+- Conservative timing: evaluation takes ~6–8 weeks (P1 10% + P2 5% at throttled risk); first payout lands in Month 3.
+
+### Month-by-Month Cumulative Cash/Equity
+
+| Month | A · Invested $1,000 (equity) | B · FTMO 100K (cash collected) | C · Hyro 50K (cash collected) | D · Both B+C (cash collected) |
+|---|---|---|---|---|
+| 0 | **$1,000** | $1,000 ($580 fee + $420 reserve) | $1,000 ($450 fee + $550 reserve) | $1,030 fees (≈$1,000) |
+| 3 | $1,954 | $11,400 | $4,000 | $15,400 |
+| 6 | $3,817 | $42,600 | $13,000 | $55,600 |
+| 9 | $7,456 | $73,800 | $22,000 | $95,800 |
+| **12** | **$14,567** | **$105,000** | **$31,000** | **$135,000** |
+| Multiple on $1,000 | **14.6x** | **105x** | **31x** | **135x** |
+| Nature of gains | Compounding equity (still at risk) | Cash in pocket (account flat at base) | Cash in pocket | Cash in pocket |
+
+*Route B month-3 figure = $420 reserve + $580 fee refund + $10,400 first payout. Assumed passes on first attempt; no re-buys.*
+
+### The "Truly Everything Equal" Test (Same Account Size AND Same Risk)
+Notional $100K vs $100K, both run at the prop-safe 0.40–0.45% risk, 12 months:
+
+| | Invested $100K (throttled 0.45%) | FTMO $100K Funded (0.40%) |
+|---|---|---|
+| Monthly ROI | +8.0%/mo → **compounds** | +13%/mo gross → +10.4% take-home, **flat** |
+| 12-Month profit | **+$151,800** (equity $251,800) | **+$124,800** (cash; account stays $100K with firm) |
+| Rule/termination risk | None | 5% daily / 10% total limits; account can die |
+| Fee | $0 | $580 (refunded on pass) |
+
+➡️ **On equal notional and equal risk, the invested account wins outright** (+$151,800 vs +$124,800) — and at full champion risk it wins 10x (+$1,356,600). The prop route's only structural advantage is **fee leverage**: $580 rents $100,000 of notional (172x).
+
+### Risk-Adjusted Reality Check
+- Retail prop pass rates run ~10–20% (Propr publishes 15.4%); a disciplined throttled bot should beat that — assume 50–70% first-try.
+- **EV of Route B at M12 with 50% pass probability** = 0.5 × $105,000 + 0.5 × $420 ≈ **$52,700** → still **3.6x** Route A's $14,567.
+- Even if throttled performance delivers **half** the backtest (~6.5%/mo → $5,200/mo), Route B still collects ~$53,000 → 3.6x Route A.
+- Counterweight risks: prop firm solvency (MyForexFunds collapse, 2023), payout reviews, rule changes; Route A risks: backtest ≠ live, slippage, and a 21.86% drawdown is real money.
+
+### Verdict (Equal $1,000 In)
+1. **Route D (prop combo) collects ~9x more cash in year 1** ($135K vs $14.6K) — but only because fees rent 50–100x notional capital, and only if the evals pass and the firms pay.
+2. **Route A is the compounding engine** — its $14.6K keeps growing exponentially (→ ~$212K by year 2 theoretical) while prop accounts stay flat at base size.
+3. **Optimal play with $1,000**: put ~$1,030 into FTMO 100K + HyroTrader 50K evals (income), and route every payout back into the invested account (wealth), scaling prop accounts via firm scaling plans (FTMO +25% per 4 months) as track record builds.
+
+---
+
 *Sources: docs.vestmarkets.com (Vest rules), propfirmpal.com & hyrotrader.com (HyroTrader rules/fees), fundedtrading.com & propfirmbridge.com (Propr rules/fees), bestprops.com & propfirmautotrade.com (FTMO/FundedNext/bot policies), sentinel.redclawey.com & pickmytrade.io (futures firm bot policies) — all verified October 2026.*
