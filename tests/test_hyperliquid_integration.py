@@ -117,6 +117,46 @@ def test_executor_plan_rejects_on_gate_oversize_error():
     assert plan["accepted"] is False
 
 
+# ---------- Regression: Hyperliquid tick/price validity rules ----------
+
+def test_executor_plan_prices_honor_hyperliquid_tick_rules():
+    """Hyperliquid rejects prices with > (6-szDecimals) decimals or > 5 sig figs
+    (BTC allows max 1 decimal). Every planned price must satisfy the rules."""
+    ex = HyperliquidLiveExecutor(dry_run=True, client=FakeHyperliquidClient())
+
+    def decimals_of(x):
+        s = f"{x:.10f}".rstrip("0")
+        return len(s.split(".")[1]) if "." in s else 0
+
+    # BTC: 2-decimal input must be rounded to an exchange-valid price
+    plan = ex.plan_entry("BTC/USDT", "buy", 25.0, 110000.55, 2420.0)
+    assert plan["accepted"] is True
+    for key in ("limit_price", "stop_price", "tp1_price"):
+        px = plan[key]
+        assert px == int(px) or decimals_of(px) <= 1, f"{key}={px} violates BTC 1-decimal rule"
+    # 5-sig-fig rounding for >=100k prices lands on an integer (always valid on HL)
+    assert plan["limit_price"] == 110001.0
+
+    # ETH (max 2 decimals): sig-fig rule applies to non-integers
+    plan_eth = ex.plan_entry("ETH/USDT", "buy", 25.0, 3900.1234, 97.5)
+    assert plan_eth["accepted"] is True
+    assert decimals_of(plan_eth["limit_price"]) <= 2
+
+    # DOGE (max 6 decimals): fine prices must survive with precision intact
+    plan_doge = ex.plan_entry("DOGE/USDT", "buy", 25.0, 0.2203, 0.0077)
+    assert plan_doge["accepted"] is True
+    assert plan_doge["limit_price"] == 0.2203  # NOT crushed to 0.22 by a fake 0.01 tick
+
+
+def test_round_price_for_venue_rules():
+    from core.execution.live_adapter import SizingViabilityGate as G
+    assert G.round_price_for_venue(110000.55, "BTC/USDT", "hyperliquid") == 110001.0
+    assert G.round_price_for_venue(97000.55, "BTC/USDT", "hyperliquid") == 97001.0
+    assert G.round_price_for_venue(0.22023456, "DOGE/USDT", "hyperliquid") == 0.22023  # 5 sig figs
+    assert G.round_price_for_venue(2.600043, "XRP/USDT", "hyperliquid") == 2.6
+    assert G.round_price_for_venue(110000.0, "BTC/USDT", "hyperliquid") == 110000.0  # integer passthrough
+
+
 # ---------- Executor: order routing ----------
 
 def test_executor_dry_run_logs_simulated_orders():

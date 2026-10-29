@@ -225,6 +225,32 @@ class SizingViabilityGate:
         return round(math.floor(qty / step_size) * step_size, precision)
 
     @classmethod
+    def round_price_for_venue(cls, price: float, symbol: str, venue: str = "hyperliquid",
+                              exchange_filters: Optional[Dict[str, Any]] = None) -> float:
+        """
+        Round a price to a value the venue will actually accept.
+
+        Hyperliquid perps (official tick rules): at most (6 - szDecimals) decimal
+        places AND at most 5 significant figures; integer prices are always
+        valid. We satisfy both constraints strictly (the published examples
+        disagree on 6-sig-fig prices, so we round to the stricter, always-valid
+        form). CEX venues: round to the tick size.
+        """
+        f = cls.filters_for(symbol, venue, exchange_filters)
+        step = f.get("step_size", 0.0001)
+        if venue.lower() == "hyperliquid":
+            sz_decimals = max(0, int(round(-math.log10(step)))) if 0 < step < 1 else 0
+            max_decimals = max(0, 6 - sz_decimals)
+            q = round(price, max_decimals)
+            if q != int(q) and q != 0.0:
+                exp = math.floor(math.log10(abs(q)))
+                q = round(q, max(0, 4 - exp))   # 5 significant figures
+                q = round(q, max_decimals)      # re-honour the decimals cap
+            return float(q)
+        tick = f.get("tick_size", 0.01)
+        return float(round(price / tick) * tick) if tick > 0 else float(price)
+
+    @classmethod
     def qty_rounding_error(cls, ideal_qty: float, step_size: float) -> float:
         """Signed % error introduced by stepping the ideal qty DOWN to the lot step."""
         if ideal_qty <= 0:

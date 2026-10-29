@@ -198,6 +198,20 @@ def test_micro_mode_pyramid_add_skipped_below_min_qty():
     assert pos["size"] == pytest.approx(0.020 * 0.6, abs=1e-9)
 
 
+def test_micro_mode_pyramid_add_skipped_below_min_notional_hyperliquid():
+    # Hyperliquid's $10 min-notional must also gate pyramid ADDS (not just entries)
+    acc = DualSlotSharedPoolAccount(initial_capital=25.0, micro_account_mode=True, lot_venue="hyperliquid")
+    assert acc.open_trade("2026-01-01T00:00", "XRP/USDT", "long", 2.60, 0.078)
+    pos = acc.positions["XRP/USDT"]
+    assert pos["size"] == 6.4  # stepped from 6.4103
+    # Equity collapses to $12: tier-1 add = 3.0 XRP = $8.25 notional < $10 floor
+    acc.equity = 12.0
+    acc.on_asset_candle("2026-01-01T04:00", "XRP/USDT", high=2.60 + 1.8 * 0.078, low=2.59, close=2.75)
+    assert pos["tp1_hit"] is True
+    assert pos["pyramid_tier"] == 1
+    assert pos["size"] == pytest.approx(6.4 * 0.6, abs=1e-9)  # add skipped: below min notional
+
+
 def test_micro_mode_summary_exposes_state():
     acc = DualSlotSharedPoolAccount(initial_capital=100.0, micro_account_mode=True, lot_venue="bybit")
     acc.open_trade("2026-01-01T00:00", "BTC/USDT", "long", BTC["price"], BTC["atr"])

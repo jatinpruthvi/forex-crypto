@@ -99,7 +99,7 @@ class DualSlotSharedPoolAccount:
                 # Tier 1 Pyramiding using realized house-money
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0)
+                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0, close)
                     pos["size"] += tier1_qty
 
             # Check Tier 2 Pyramiding (+3.0x ATR)
@@ -107,7 +107,7 @@ class DualSlotSharedPoolAccount:
                 tp2_target = entry + (atr * 3.0)
                 if high >= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8)
+                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8, close)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry + (atr * 1.5)
 
@@ -137,14 +137,14 @@ class DualSlotSharedPoolAccount:
 
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0)
+                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0, close)
                     pos["size"] += tier1_qty
 
             if pos["tp1_hit"] and pos["pyramid_tier"] == 1 and pos.get("regime") == "TREND":
                 tp2_target = entry - (atr * 3.0)
                 if low <= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8)
+                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8, close)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry - (atr * 1.5)
 
@@ -187,9 +187,11 @@ class DualSlotSharedPoolAccount:
             self.emergency_halt = True
             self.emergency_liquidate_all(ts, "PROP_FIRM_DAILY_LOCKOUT_TRIGGERED")
 
-    def _pyramid_add_qty(self, symbol: str, ts: str, tier_label: str, atr: float, mult: float) -> float:
+    def _pyramid_add_qty(self, symbol: str, ts: str, tier_label: str, atr: float, mult: float,
+                         price: Optional[float] = None) -> float:
         """Size a pyramid add; in MICRO_ACCOUNT_MODE step to the exchange lot size
-        and skip the add entirely if it would fall below the exchange min qty."""
+        and skip the add entirely if it would fall below the exchange min qty or
+        min notional (e.g. Hyperliquid's $10 floor)."""
         qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * mult) / max(atr * 1.5, 1e-4)
         if not self.micro_account_mode:
             return qty
@@ -199,6 +201,13 @@ class DualSlotSharedPoolAccount:
             logger.info(
                 "MICRO_ACCOUNT_MODE: %s %s pyramid add skipped — stepped qty %s below min_qty %s",
                 symbol, tier_label, stepped, f.get("min_qty", 0.001),
+            )
+            return 0.0
+        min_notional = f.get("min_notional", 5.0)
+        if price is not None and stepped * price < min_notional:
+            logger.info(
+                "MICRO_ACCOUNT_MODE: %s %s pyramid add skipped — notional $%.2f below min $%.2f",
+                symbol, tier_label, stepped * price, min_notional,
             )
             return 0.0
         return stepped

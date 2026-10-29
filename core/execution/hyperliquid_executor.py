@@ -102,20 +102,21 @@ class HyperliquidLiveExecutor:
             return {"accepted": False, "symbol": symbol, "reason": gate["reason"], "gate": gate}
 
         filters = SizingViabilityGate.filters_for(symbol, "hyperliquid")
+        limit_price = SizingViabilityGate.round_price_for_venue(price, symbol, "hyperliquid")
         sanitized = OrderExecutionSanitizer.sanitize_order(
-            symbol, side, gate["stepped_qty"], price,
-            exchange_filters={**filters, "tick_size": 0.01},
+            symbol, side, gate["stepped_qty"], limit_price,
+            exchange_filters={**filters, "tick_size": 1e-9},  # price pre-rounded to venue rules
         )
         if not sanitized["valid"]:
             return {"accepted": False, "symbol": symbol, "reason": sanitized["error"], "gate": gate}
 
         stop_dist = atr * stop_atr_mult
         if side.lower() == "buy":
-            stop_price = price - stop_dist
-            tp1_price = price + (atr * 1.8)
+            raw_stop, raw_tp1 = limit_price - stop_dist, limit_price + (atr * 1.8)
         else:
-            stop_price = price + stop_dist
-            tp1_price = price - (atr * 1.8)
+            raw_stop, raw_tp1 = limit_price + stop_dist, limit_price - (atr * 1.8)
+        stop_price = SizingViabilityGate.round_price_for_venue(raw_stop, symbol, "hyperliquid")
+        tp1_price = SizingViabilityGate.round_price_for_venue(raw_tp1, symbol, "hyperliquid")
 
         return {
             "accepted": True,
@@ -123,10 +124,10 @@ class HyperliquidLiveExecutor:
             "hl_symbol": to_hyperliquid_symbol(symbol),
             "side": side.lower(),
             "qty": sanitized["qty"],
-            "limit_price": sanitized["price"],
-            "notional": sanitized["notional"],
-            "stop_price": round(stop_dist and stop_price, 6),
-            "tp1_price": round(tp1_price, 6),
+            "limit_price": limit_price,
+            "notional": round(limit_price * sanitized["qty"], 6),
+            "stop_price": stop_price,
+            "tp1_price": tp1_price,
             "atr": atr,
             "gate": gate,
         }
