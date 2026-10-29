@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-29 10:42:17 UTC",
+  "last_updated": "2026-10-29 11:34:03 UTC",
   "champion_savepoint": "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
   "experiments": [
     {
@@ -737,6 +737,225 @@
       },
       "tag": "AUDIT_CORRECTED_SYNTHETIC_SUBTICK",
       "notes": "SYNTHETIC 8-point sub-tick approximation (NOT real tick data): for each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target in the same macro candle are approximations. Results quantify intrabar sweep/chop resilience of the approximated path, not real-tick execution. Use exchange tick data for true validation. CAVEAT: compounded 5-year balances ignore capital-capacity/market-impact constraints (final balances scale into the billions); compare runs by monthly ROI and max DD, not absolute terminal wealth."
+    },
+    {
+      "experiment_id": "EXP-018A-WALKFORWARD-CRYPTO22-OOS",
+      "timestamp": "2026-10-29 11:34:03 UTC",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "asset": "8 Synchronized Crypto Pairs (BTC, ETH, BNB, XRP, ADA, DOGE, LTC, LINK)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "1 held-out fold(s), 2.73 unseen months",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 2.73,
+            "test_months": 2.73,
+            "selected": {
+              "risk_pct": 1.0,
+              "max_slots": 2
+            },
+            "oos": {
+              "final_equity": 1872.2297545322494,
+              "monthly_roi": 25.799389660959694,
+              "max_drawdown": 13.786086407749016,
+              "total_trades": 75,
+              "win_rate": 34.66666666666667,
+              "profit_factor": 1.7880096076754493
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "months_elapsed": 2.73,
+        "win_rate_pct": 0.0,
+        "net_total_roi_pct": 0.0,
+        "monthly_roi_pct": 25.8,
+        "max_drawdown_pct": 13.79,
+        "profit_factor": 0.0,
+        "total_trades": 75,
+        "initial_capital": 1000.0,
+        "final_capital": 0.0
+      },
+      "tag": "POSTFIX_WALKFORWARD_OOS",
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics."
+    },
+    {
+      "experiment_id": "EXP-018B-WALKFORWARD-CRYPTO24-OOS",
+      "timestamp": "2026-10-29 11:34:03 UTC",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "asset": "4 Crypto Pairs (BTC, SOL, BNB, LINK) -- 2024 bull regime",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "1 held-out fold(s), 1.36 unseen months",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 1.36,
+            "test_months": 1.36,
+            "selected": {
+              "risk_pct": 1.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 1070.447795460265,
+              "monthly_roi": 5.1197524034444,
+              "max_drawdown": 1.842959724953905,
+              "total_trades": 0,
+              "win_rate": 0.0,
+              "profit_factor": Infinity
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "months_elapsed": 1.36,
+        "win_rate_pct": 0.0,
+        "net_total_roi_pct": 0.0,
+        "monthly_roi_pct": 5.12,
+        "max_drawdown_pct": 1.84,
+        "profit_factor": 0.0,
+        "total_trades": 0,
+        "initial_capital": 1000.0,
+        "final_capital": 0.0
+      },
+      "tag": "POSTFIX_WALKFORWARD_OOS",
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics. Cross-dataset transfer check (crypto22-selected risk 1.0%/2 slots on the full unseen crypto24 window): +2.83%/mo, DD 4.15%."
+    },
+    {
+      "experiment_id": "EXP-018C-WALKFORWARD-FOREX-OOS",
+      "timestamp": "2026-10-29 11:34:03 UTC",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "asset": "6 Macro Pairs (GBPJPY, XAUUSD, EURJPY, GBPUSD, AUDUSD, USDJPY)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "4 held-out fold(s), 73.66 unseen months",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 37.53,
+            "test_months": 18.64,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 4013.5027606912304,
+              "monthly_roi": 7.738171598617982,
+              "max_drawdown": 11.919588789993037,
+              "total_trades": 187,
+              "win_rate": 40.64171122994652,
+              "profit_factor": 1.8690865086734723
+            }
+          },
+          {
+            "fold": 2,
+            "train_months": 56.18,
+            "test_months": 18.79,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 2940.798350063019,
+              "monthly_roi": 5.909625296072907,
+              "max_drawdown": 10.603946968540708,
+              "total_trades": 179,
+              "win_rate": 40.22346368715084,
+              "profit_factor": 1.6412933598662316
+            }
+          },
+          {
+            "fold": 3,
+            "train_months": 74.97,
+            "test_months": 18.65,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 4251.32594392524,
+              "monthly_roi": 8.06886928071695,
+              "max_drawdown": 11.499417190805026,
+              "total_trades": 180,
+              "win_rate": 42.22222222222222,
+              "profit_factor": 2.143570258888779
+            }
+          },
+          {
+            "fold": 4,
+            "train_months": 93.63,
+            "test_months": 17.58,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 1882.2795288091297,
+              "monthly_roi": 3.6638830528176403,
+              "max_drawdown": 13.256655319377785,
+              "total_trades": 186,
+              "win_rate": 30.64516129032258,
+              "profit_factor": 1.39239133054809
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "months_elapsed": 73.66,
+        "win_rate_pct": 0.0,
+        "net_total_roi_pct": 0.0,
+        "monthly_roi_pct": 6.37,
+        "max_drawdown_pct": 13.26,
+        "profit_factor": 0.0,
+        "total_trades": 732,
+        "initial_capital": 1000.0,
+        "final_capital": 0.0
+      },
+      "tag": "POSTFIX_WALKFORWARD_OOS",
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics."
     }
   ],
   "savepoints": {
@@ -1165,6 +1384,183 @@
       "target_monthly_roi": 34.4,
       "max_drawdown": 17.18,
       "created_at": "2026-10-29 10:42:17 UTC"
+    },
+    "SAVEPOINT_EXP-018A-WALKFORWARD-CRYPTO22-OOS": {
+      "experiment_id": "EXP-018A-WALKFORWARD-CRYPTO22-OOS",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 2.73,
+            "test_months": 2.73,
+            "selected": {
+              "risk_pct": 1.0,
+              "max_slots": 2
+            },
+            "oos": {
+              "final_equity": 1872.2297545322494,
+              "monthly_roi": 25.799389660959694,
+              "max_drawdown": 13.786086407749016,
+              "total_trades": 75,
+              "win_rate": 34.66666666666667,
+              "profit_factor": 1.7880096076754493
+            }
+          }
+        ]
+      },
+      "target_monthly_roi": 25.8,
+      "max_drawdown": 13.79,
+      "created_at": "2026-10-29 11:34:03 UTC"
+    },
+    "SAVEPOINT_EXP-018B-WALKFORWARD-CRYPTO24-OOS": {
+      "experiment_id": "EXP-018B-WALKFORWARD-CRYPTO24-OOS",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 1.36,
+            "test_months": 1.36,
+            "selected": {
+              "risk_pct": 1.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 1070.447795460265,
+              "monthly_roi": 5.1197524034444,
+              "max_drawdown": 1.842959724953905,
+              "total_trades": 0,
+              "win_rate": 0.0,
+              "profit_factor": Infinity
+            }
+          }
+        ]
+      },
+      "target_monthly_roi": 5.12,
+      "max_drawdown": 1.84,
+      "created_at": "2026-10-29 11:34:03 UTC"
+    },
+    "SAVEPOINT_EXP-018C-WALKFORWARD-FOREX-OOS": {
+      "experiment_id": "EXP-018C-WALKFORWARD-FOREX-OOS",
+      "strategy_name": "Dual-Slot Shared Pool -- Walk-Forward OOS Validation (post-bugfix)",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_model": "audited corrected model (bar-start SL-first, taker+slippage, net-trade wins)",
+        "folds": [
+          {
+            "fold": 1,
+            "train_months": 37.53,
+            "test_months": 18.64,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 4013.5027606912304,
+              "monthly_roi": 7.738171598617982,
+              "max_drawdown": 11.919588789993037,
+              "total_trades": 187,
+              "win_rate": 40.64171122994652,
+              "profit_factor": 1.8690865086734723
+            }
+          },
+          {
+            "fold": 2,
+            "train_months": 56.18,
+            "test_months": 18.79,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 2940.798350063019,
+              "monthly_roi": 5.909625296072907,
+              "max_drawdown": 10.603946968540708,
+              "total_trades": 179,
+              "win_rate": 40.22346368715084,
+              "profit_factor": 1.6412933598662316
+            }
+          },
+          {
+            "fold": 3,
+            "train_months": 74.97,
+            "test_months": 18.65,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 4251.32594392524,
+              "monthly_roi": 8.06886928071695,
+              "max_drawdown": 11.499417190805026,
+              "total_trades": 180,
+              "win_rate": 42.22222222222222,
+              "profit_factor": 2.143570258888779
+            }
+          },
+          {
+            "fold": 4,
+            "train_months": 93.63,
+            "test_months": 17.58,
+            "selected": {
+              "risk_pct": 0.5,
+              "max_slots": 1
+            },
+            "oos": {
+              "final_equity": 1882.2795288091297,
+              "monthly_roi": 3.6638830528176403,
+              "max_drawdown": 13.256655319377785,
+              "total_trades": 186,
+              "win_rate": 30.64516129032258,
+              "profit_factor": 1.39239133054809
+            }
+          }
+        ]
+      },
+      "target_monthly_roi": 6.37,
+      "max_drawdown": 13.26,
+      "created_at": "2026-10-29 11:34:03 UTC"
     }
   }
 }

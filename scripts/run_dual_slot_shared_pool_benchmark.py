@@ -32,6 +32,326 @@ from core.analysis.roi_ledger import ROILedger
 STOP_SLIPPAGE = 0.0005
 
 
+def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
+                            gate_fn=None, max_slots=2, risk_pct=1.5, lev=2.0,
+                            dd_throttle_threshold=0.08):
+    """Corrected dual-slot shared-pool simulation (audited fill model).
+
+    Bar-start stop snapshot, stop fills FIRST on ambiguous bars with taker fee
+    + stop_slippage; no TP/pyramid bookkeeping on stopping bars; net-trade win
+    counting. `gate_fn` (optional) applies venue lot viability; without it the
+    raw risk-budget size (equity * risk% * dd_factor * leverage / stop_dist) is
+    used.
+    """
+    def _gated_units(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult=1.5):
+        if gate_fn is not None:
+            return gate_fn(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult)
+        stop_dist = max(atr * stop_atr_mult, 1e-4)
+        return (eq * (risk / 100.0) * dd_mult * leverage) / stop_dist
+
+    cash = 1000.0
+    peak_equity = cash
+    max_dd = 0.0
+    positions = {}
+    trade_log = []
+    equity_curve = []
+    equity = cash
+
+    n_bars = len(timestamps)
+
+    for i in range(30, n_bars):
+        current_bar_time = timestamps[i]
+        closed_this_bar = []
+
+        # -----------------------------------------------------------------
+        # 1. Manage existing open positions
+        # -----------------------------------------------------------------
+        for sym, pos in list(positions.items()):
+            df = aligned_dfs[sym]
+            row = df.iloc[i]
+            c, h, l = row["close"], row["high"], row["low"]
+            atr = row["atr"]
+            side = pos["side"]
+            entry = pos["entry_price"]
+            units = pos["units"]
+            sl = pos["sl"]
+            tp1 = pos["tp1"]
+            tp1_hit = pos["tp1_hit"]
+            tier = pos["pyramid_tier"]
+
+            if side == 1:
+                sl_bar_start = sl
+                # Conservative same-bar resolution: the bar-START stop, if
+                # traded, fills FIRST (taker fee + slippage) -- no TP/pyramid
+                # bookkeeping on this bar.
+                if l <= sl_bar_start:
+                    exit_price = sl_bar_start * (1.0 - STOP_SLIPPAGE)
+                    fee = exit_price * units * (engine.taker_fee_pct / 100.0)
+                    pnl = units * (exit_price - entry) - fee
+                    cash += pnl
+                    trade_log.append({
+                        "sym": sym,
+                        "side": "LONG",
+                        "entry": entry,
+                        "exit": exit_price,
+                        "pnl": pnl,
+                        "tp1_hit": tp1_hit,
+                        "tier": tier,
+                        "time": current_bar_time
+                    })
+                    closed_this_bar.append(sym)
+                    continue
+
+                # Check Partial TP1 (+1.8x ATR)
+                if not tp1_hit and h >= tp1:
+                    pos["tp1_hit"] = True
+                    tp1_hit = True
+                    part_units = units * 0.40
+                    pnl = part_units * (tp1 - entry) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                    cash += pnl
+                    pos["units"] = units * 0.60
+                    units = pos["units"]
+                    # Lock Stop Loss to entry + 0.25x ATR risk-free buffer
+                    pos["sl"] = entry + atr * 0.25
+                    sl = pos["sl"]
+
+                    # Tier 1 Pyramiding using realized house-money (lot-gated)
+                    if tier == 0:
+                        p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
+                        if p_units > 0:
+                            pos["pyramid_tier"] = 1
+                            tier = 1
+                            pos["units"] += p_units
+                            units = pos["units"]
+
+                # Check Tier 2 Pyramiding (+3.0x ATR)
+                if tp1_hit and tier == 1:
+                    if h >= entry + atr * engine.tp2_atr:
+                        p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
+                        if p_units > 0:
+                            pos["pyramid_tier"] = 2
+                            tier = 2
+                            pos["units"] += p_units
+                            units = pos["units"]
+                            pos["sl"] = entry + atr * 1.5
+                            sl = pos["sl"]
+
+                # Chandelier dynamic trailing stop (effective for FUTURE bars only)
+                if tp1_hit:
+                    ch_sl = h - atr * engine.trail_atr
+                    if ch_sl > sl:
+                        pos["sl"] = ch_sl
+                        sl = ch_sl
+
+            elif side == -1:
+                sl_bar_start = sl
+                # Conservative same-bar resolution against the bar-START stop.
+                if h >= sl_bar_start:
+                    exit_price = sl_bar_start * (1.0 + STOP_SLIPPAGE)
+                    fee = exit_price * units * (engine.taker_fee_pct / 100.0)
+                    pnl = units * (entry - exit_price) - fee
+                    cash += pnl
+                    trade_log.append({
+                        "sym": sym,
+                        "side": "SHORT",
+                        "entry": entry,
+                        "exit": exit_price,
+                        "pnl": pnl,
+                        "tp1_hit": tp1_hit,
+                        "tier": tier,
+                        "time": current_bar_time
+                    })
+                    closed_this_bar.append(sym)
+                    continue
+
+                # Short position management
+                if not tp1_hit and l <= tp1:
+                    pos["tp1_hit"] = True
+                    tp1_hit = True
+                    part_units = units * 0.40
+                    pnl = part_units * (entry - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                    cash += pnl
+                    pos["units"] = units * 0.60
+                    units = pos["units"]
+                    pos["sl"] = entry - atr * 0.25
+                    sl = pos["sl"]
+
+                    if tier == 0:
+                        p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
+                        if p_units > 0:
+                            pos["pyramid_tier"] = 1
+                            tier = 1
+                            pos["units"] += p_units
+                            units = pos["units"]
+
+                if tp1_hit and tier == 1:
+                    if l <= entry - atr * engine.tp2_atr:
+                        p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
+                        if p_units > 0:
+                            pos["pyramid_tier"] = 2
+                            tier = 2
+                            pos["units"] += p_units
+                            units = pos["units"]
+                            pos["sl"] = entry - atr * 1.5
+                            sl = pos["sl"]
+
+                if tp1_hit:
+                    ch_sl = l + atr * engine.trail_atr
+                    if ch_sl < sl:
+                        pos["sl"] = ch_sl
+                        sl = ch_sl
+
+        for sym in closed_this_bar:
+            del positions[sym]
+
+        # Mark to market equity
+        unrealized = 0.0
+        for sym, pos in positions.items():
+            curr_c = aligned_dfs[sym].iloc[i]["close"]
+            mult = 1 if pos["side"] == 1 else -1
+            unrealized += pos["units"] * (curr_c - pos["entry_price"]) * mult
+        equity = cash + unrealized
+
+        if equity > peak_equity:
+            peak_equity = equity
+        cur_dd = (peak_equity - equity) / peak_equity if peak_equity > 0 else 0.0
+        if cur_dd > max_dd:
+            max_dd = cur_dd
+
+        equity_curve.append({"time": current_bar_time, "equity": equity, "drawdown": cur_dd})
+
+        # Drawdown risk throttle (Prop Firm safety rule: if DD >= dd_throttle_threshold, cut risk to 50%)
+        dd_factor = 0.5 if (engine.enable_drawdown_throttle and cur_dd >= dd_throttle_threshold) else 1.0
+
+        # -----------------------------------------------------------------
+        # 2. Evaluate entries across inactive assets if slots are free
+        # -----------------------------------------------------------------
+        open_slots = max_slots - len(positions)
+        if open_slots > 0:
+            candidates = []
+            for sym, df in aligned_dfs.items():
+                if sym in positions:
+                    continue
+                row = df.iloc[i]
+                c, h, l, o = row["close"], row["high"], row["low"], row["open"]
+                atr = row["atr"]
+                adx = row["adx"]
+                dh, dl = row["donchian_high"], row["donchian_low"]
+                ef, es, vwap = row["ema_fast"], row["ema_slow"], row["vwap"]
+                bb_low, bb_up, bb_mid = row["bb_lower"], row["bb_upper"], row["bb_mid"]
+                rsi = row["rsi"]
+                bull_fvg, bear_fvg = row["bull_fvg"], row["bear_fvg"]
+
+                # Regime 1: High Trend Momentum / Volatility Breakout
+                if adx >= 20.0:
+                    if (c > dh or bull_fvg) and ef > es and c > vwap:
+                        candidates.append({
+                            "sym": sym,
+                            "side": 1,
+                            "conviction": adx,
+                            "entry": c,
+                            "sl": c - atr * 1.5,
+                            "tp1": c + atr * engine.tp1_atr
+                        })
+                    elif (c < dl or bear_fvg) and ef < es and c < vwap:
+                        candidates.append({
+                            "sym": sym,
+                            "side": -1,
+                            "conviction": adx,
+                            "entry": c,
+                            "sl": c + atr * 1.5,
+                            "tp1": c - atr * engine.tp1_atr
+                        })
+                # Regime 2: Low-Volatility Bollinger Mean-Reversion
+                else:
+                    if l <= bb_low and rsi < 38.0 and c > o:
+                        candidates.append({
+                            "sym": sym,
+                            "side": 1,
+                            "conviction": (100.0 - rsi),
+                            "entry": c,
+                            "sl": c - atr * 1.2,
+                            "tp1": bb_mid
+                        })
+                    elif h >= bb_up and rsi > 62.0 and c < o:
+                        candidates.append({
+                            "sym": sym,
+                            "side": -1,
+                            "conviction": rsi,
+                            "entry": c,
+                            "sl": c + atr * 1.2,
+                            "tp1": bb_mid
+                        })
+
+            # Sort by conviction score (highest momentum/reversion disparity first)
+            candidates.sort(key=lambda x: x["conviction"], reverse=True)
+
+            for cand in candidates[:open_slots]:
+                sym = cand["sym"]
+                side = cand["side"]
+                entry = cand["entry"]
+                sl = cand["sl"]
+                tp1 = cand["tp1"]
+                
+                # Risk amount is calculated on current TOTAL equity in the shared pool
+                stop_dist = abs(entry - sl)
+                stop_atr_mult = (stop_dist / atr) if atr > 0 else 1.5
+                units = _gated_units(sym, equity, entry, atr, risk_pct, lev, dd_factor, stop_atr_mult)
+                if units <= 0:
+                    continue
+                entry_fee = entry * units * (engine.maker_fee_pct / 100.0)
+                cash -= entry_fee
+
+                positions[sym] = {
+                    "side": side,
+                    "entry_price": entry,
+                    "sl": sl,
+                    "tp1": tp1,
+                    "tp1_hit": False,
+                    "pyramid_tier": 0,
+                    "units": units
+                }
+
+    # Calculate final metrics
+    final_equity = equity
+    net_profit = final_equity - 1000.0
+    net_roi_total = (net_profit / 1000.0) * 100.0
+    monthly_roi = ((final_equity / 1000.0) ** (1.0 / duration_months) - 1.0) * 100.0
+    total_trades = len(trade_log)
+    winning_trades = sum(1 for t in trade_log if t["pnl"] > 0)  # net-trade rule (audit #20)
+    win_rate = (winning_trades / total_trades * 100.0) if total_trades > 0 else 0.0
+    gross_profit = sum(t["pnl"] for t in trade_log if t["pnl"] > 0)
+    gross_loss = abs(sum(t["pnl"] for t in trade_log if t["pnl"] < 0))
+    profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else float("inf")
+
+    # Breakdown by coin
+    coin_breakdown = {}
+    for t in trade_log:
+        c = t["sym"]
+        if c not in coin_breakdown:
+            coin_breakdown[c] = {"trades": 0, "profit": 0.0, "wins": 0}
+        coin_breakdown[c]["trades"] += 1
+        coin_breakdown[c]["profit"] += t["pnl"]
+        if t["pnl"] > 0:
+            coin_breakdown[c]["wins"] += 1
+
+    return {
+        "max_slots": max_slots,
+        "risk_pct": risk_pct,
+        "leverage": lev,
+        "final_equity": final_equity,
+        "net_profit": net_profit,
+        "net_roi_total": net_roi_total,
+        "monthly_roi": monthly_roi,
+        "max_drawdown": max_dd * 100.0,
+        "total_trades": total_trades,
+        "win_rate": win_rate,
+        "profit_factor": profit_factor,
+        "coin_breakdown": coin_breakdown,
+        "duration_months": duration_months,
+        "open_positions_at_end": len(positions),
+    }
+
 def run_dual_slot_benchmark():
     print("=" * 105)
     print("BACKTEST: DUAL-SLOT SHARED POOL ALLOCATION ENGINE WITH ACTUAL HISTORICAL DATA")
@@ -99,308 +419,6 @@ def run_dual_slot_benchmark():
         )
         return gate["stepped_qty"] if gate["viable"] else 0.0
 
-    def execute_shared_pool_sim(max_slots=2, risk_pct=1.5, lev=2.0, dd_throttle_threshold=0.08):
-        cash = 1000.0
-        peak_equity = cash
-        max_dd = 0.0
-        positions = {}
-        trade_log = []
-        equity_curve = []
-        equity = cash
-
-        n_bars = len(timestamps)
-
-        for i in range(30, n_bars):
-            current_bar_time = timestamps[i]
-            closed_this_bar = []
-
-            # -----------------------------------------------------------------
-            # 1. Manage existing open positions
-            # -----------------------------------------------------------------
-            for sym, pos in list(positions.items()):
-                df = aligned_dfs[sym]
-                row = df.iloc[i]
-                c, h, l = row["close"], row["high"], row["low"]
-                atr = row["atr"]
-                side = pos["side"]
-                entry = pos["entry_price"]
-                units = pos["units"]
-                sl = pos["sl"]
-                tp1 = pos["tp1"]
-                tp1_hit = pos["tp1_hit"]
-                tier = pos["pyramid_tier"]
-
-                if side == 1:
-                    sl_bar_start = sl
-                    # Conservative same-bar resolution: the bar-START stop, if
-                    # traded, fills FIRST (taker fee + slippage) -- no TP/pyramid
-                    # bookkeeping on this bar.
-                    if l <= sl_bar_start:
-                        exit_price = sl_bar_start * (1.0 - STOP_SLIPPAGE)
-                        fee = exit_price * units * (engine.taker_fee_pct / 100.0)
-                        pnl = units * (exit_price - entry) - fee
-                        cash += pnl
-                        trade_log.append({
-                            "sym": sym,
-                            "side": "LONG",
-                            "entry": entry,
-                            "exit": exit_price,
-                            "pnl": pnl,
-                            "tp1_hit": tp1_hit,
-                            "tier": tier,
-                            "time": current_bar_time
-                        })
-                        closed_this_bar.append(sym)
-                        continue
-
-                    # Check Partial TP1 (+1.8x ATR)
-                    if not tp1_hit and h >= tp1:
-                        pos["tp1_hit"] = True
-                        tp1_hit = True
-                        part_units = units * 0.40
-                        pnl = part_units * (tp1 - entry) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
-                        cash += pnl
-                        pos["units"] = units * 0.60
-                        units = pos["units"]
-                        # Lock Stop Loss to entry + 0.25x ATR risk-free buffer
-                        pos["sl"] = entry + atr * 0.25
-                        sl = pos["sl"]
-
-                        # Tier 1 Pyramiding using realized house-money (lot-gated)
-                        if tier == 0:
-                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
-                            if p_units > 0:
-                                pos["pyramid_tier"] = 1
-                                tier = 1
-                                pos["units"] += p_units
-                                units = pos["units"]
-
-                    # Check Tier 2 Pyramiding (+3.0x ATR)
-                    if tp1_hit and tier == 1:
-                        if h >= entry + atr * engine.tp2_atr:
-                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
-                            if p_units > 0:
-                                pos["pyramid_tier"] = 2
-                                tier = 2
-                                pos["units"] += p_units
-                                units = pos["units"]
-                                pos["sl"] = entry + atr * 1.5
-                                sl = pos["sl"]
-
-                    # Chandelier dynamic trailing stop (effective for FUTURE bars only)
-                    if tp1_hit:
-                        ch_sl = h - atr * engine.trail_atr
-                        if ch_sl > sl:
-                            pos["sl"] = ch_sl
-                            sl = ch_sl
-
-                elif side == -1:
-                    sl_bar_start = sl
-                    # Conservative same-bar resolution against the bar-START stop.
-                    if h >= sl_bar_start:
-                        exit_price = sl_bar_start * (1.0 + STOP_SLIPPAGE)
-                        fee = exit_price * units * (engine.taker_fee_pct / 100.0)
-                        pnl = units * (entry - exit_price) - fee
-                        cash += pnl
-                        trade_log.append({
-                            "sym": sym,
-                            "side": "SHORT",
-                            "entry": entry,
-                            "exit": exit_price,
-                            "pnl": pnl,
-                            "tp1_hit": tp1_hit,
-                            "tier": tier,
-                            "time": current_bar_time
-                        })
-                        closed_this_bar.append(sym)
-                        continue
-
-                    # Short position management
-                    if not tp1_hit and l <= tp1:
-                        pos["tp1_hit"] = True
-                        tp1_hit = True
-                        part_units = units * 0.40
-                        pnl = part_units * (entry - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
-                        cash += pnl
-                        pos["units"] = units * 0.60
-                        units = pos["units"]
-                        pos["sl"] = entry - atr * 0.25
-                        sl = pos["sl"]
-
-                        if tier == 0:
-                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
-                            if p_units > 0:
-                                pos["pyramid_tier"] = 1
-                                tier = 1
-                                pos["units"] += p_units
-                                units = pos["units"]
-
-                    if tp1_hit and tier == 1:
-                        if l <= entry - atr * engine.tp2_atr:
-                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
-                            if p_units > 0:
-                                pos["pyramid_tier"] = 2
-                                tier = 2
-                                pos["units"] += p_units
-                                units = pos["units"]
-                                pos["sl"] = entry - atr * 1.5
-                                sl = pos["sl"]
-
-                    if tp1_hit:
-                        ch_sl = l + atr * engine.trail_atr
-                        if ch_sl < sl:
-                            pos["sl"] = ch_sl
-                            sl = ch_sl
-
-            for sym in closed_this_bar:
-                del positions[sym]
-
-            # Mark to market equity
-            unrealized = 0.0
-            for sym, pos in positions.items():
-                curr_c = aligned_dfs[sym].iloc[i]["close"]
-                mult = 1 if pos["side"] == 1 else -1
-                unrealized += pos["units"] * (curr_c - pos["entry_price"]) * mult
-            equity = cash + unrealized
-
-            if equity > peak_equity:
-                peak_equity = equity
-            cur_dd = (peak_equity - equity) / peak_equity if peak_equity > 0 else 0.0
-            if cur_dd > max_dd:
-                max_dd = cur_dd
-
-            equity_curve.append({"time": current_bar_time, "equity": equity, "drawdown": cur_dd})
-
-            # Drawdown risk throttle (Prop Firm safety rule: if DD >= dd_throttle_threshold, cut risk to 50%)
-            dd_factor = 0.5 if (engine.enable_drawdown_throttle and cur_dd >= dd_throttle_threshold) else 1.0
-
-            # -----------------------------------------------------------------
-            # 2. Evaluate entries across inactive assets if slots are free
-            # -----------------------------------------------------------------
-            open_slots = max_slots - len(positions)
-            if open_slots > 0:
-                candidates = []
-                for sym, df in aligned_dfs.items():
-                    if sym in positions:
-                        continue
-                    row = df.iloc[i]
-                    c, h, l, o = row["close"], row["high"], row["low"], row["open"]
-                    atr = row["atr"]
-                    adx = row["adx"]
-                    dh, dl = row["donchian_high"], row["donchian_low"]
-                    ef, es, vwap = row["ema_fast"], row["ema_slow"], row["vwap"]
-                    bb_low, bb_up, bb_mid = row["bb_lower"], row["bb_upper"], row["bb_mid"]
-                    rsi = row["rsi"]
-                    bull_fvg, bear_fvg = row["bull_fvg"], row["bear_fvg"]
-
-                    # Regime 1: High Trend Momentum / Volatility Breakout
-                    if adx >= 20.0:
-                        if (c > dh or bull_fvg) and ef > es and c > vwap:
-                            candidates.append({
-                                "sym": sym,
-                                "side": 1,
-                                "conviction": adx,
-                                "entry": c,
-                                "sl": c - atr * 1.5,
-                                "tp1": c + atr * engine.tp1_atr
-                            })
-                        elif (c < dl or bear_fvg) and ef < es and c < vwap:
-                            candidates.append({
-                                "sym": sym,
-                                "side": -1,
-                                "conviction": adx,
-                                "entry": c,
-                                "sl": c + atr * 1.5,
-                                "tp1": c - atr * engine.tp1_atr
-                            })
-                    # Regime 2: Low-Volatility Bollinger Mean-Reversion
-                    else:
-                        if l <= bb_low and rsi < 38.0 and c > o:
-                            candidates.append({
-                                "sym": sym,
-                                "side": 1,
-                                "conviction": (100.0 - rsi),
-                                "entry": c,
-                                "sl": c - atr * 1.2,
-                                "tp1": bb_mid
-                            })
-                        elif h >= bb_up and rsi > 62.0 and c < o:
-                            candidates.append({
-                                "sym": sym,
-                                "side": -1,
-                                "conviction": rsi,
-                                "entry": c,
-                                "sl": c + atr * 1.2,
-                                "tp1": bb_mid
-                            })
-
-                # Sort by conviction score (highest momentum/reversion disparity first)
-                candidates.sort(key=lambda x: x["conviction"], reverse=True)
-
-                for cand in candidates[:open_slots]:
-                    sym = cand["sym"]
-                    side = cand["side"]
-                    entry = cand["entry"]
-                    sl = cand["sl"]
-                    tp1 = cand["tp1"]
-                    
-                    # Risk amount is calculated on current TOTAL equity in the shared pool
-                    stop_dist = abs(entry - sl)
-                    stop_atr_mult = (stop_dist / atr) if atr > 0 else 1.5
-                    units = _gated_units(sym, equity, entry, atr, risk_pct, lev, dd_factor, stop_atr_mult)
-                    if units <= 0:
-                        continue
-                    entry_fee = entry * units * (engine.maker_fee_pct / 100.0)
-                    cash -= entry_fee
-
-                    positions[sym] = {
-                        "side": side,
-                        "entry_price": entry,
-                        "sl": sl,
-                        "tp1": tp1,
-                        "tp1_hit": False,
-                        "pyramid_tier": 0,
-                        "units": units
-                    }
-
-        # Calculate final metrics
-        final_equity = equity
-        net_profit = final_equity - 1000.0
-        net_roi_total = (net_profit / 1000.0) * 100.0
-        monthly_roi = ((final_equity / 1000.0) ** (1.0 / duration_months) - 1.0) * 100.0
-        total_trades = len(trade_log)
-        winning_trades = sum(1 for t in trade_log if t["pnl"] > 0 or t["tp1_hit"])
-        win_rate = (winning_trades / total_trades * 100.0) if total_trades > 0 else 0.0
-        gross_profit = sum(t["pnl"] for t in trade_log if t["pnl"] > 0)
-        gross_loss = abs(sum(t["pnl"] for t in trade_log if t["pnl"] < 0))
-        profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else float("inf")
-
-        # Breakdown by coin
-        coin_breakdown = {}
-        for t in trade_log:
-            c = t["sym"]
-            if c not in coin_breakdown:
-                coin_breakdown[c] = {"trades": 0, "profit": 0.0, "wins": 0}
-            coin_breakdown[c]["trades"] += 1
-            coin_breakdown[c]["profit"] += t["pnl"]
-            if t["pnl"] > 0 or t["tp1_hit"]:
-                coin_breakdown[c]["wins"] += 1
-
-        return {
-            "max_slots": max_slots,
-            "risk_pct": risk_pct,
-            "leverage": lev,
-            "final_equity": final_equity,
-            "net_profit": net_profit,
-            "net_roi_total": net_roi_total,
-            "monthly_roi": monthly_roi,
-            "max_drawdown": max_dd * 100.0,
-            "total_trades": total_trades,
-            "win_rate": win_rate,
-            "profit_factor": profit_factor,
-            "coin_breakdown": coin_breakdown,
-            "duration_months": duration_months
-        }
 
     # -----------------------------------------------------------------
     # Grid Test: Compare Risk Tiers for Dual-Slot Shared Pool
@@ -414,14 +432,16 @@ def run_dual_slot_benchmark():
     risk_levels = [1.5] if os.getenv("CHAMPION_ONLY", "0") == "1" else [1.0, 1.25, 1.5, 1.75, 2.0, 2.5]
     results_map = {}
     for r in risk_levels:
-        res = execute_shared_pool_sim(max_slots=2, risk_pct=r, lev=2.0)
+        res = execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
+                                gate_fn=_gated_units, max_slots=2, risk_pct=r, lev=2.0)
         results_map[r] = res
         tag = f"Dual-Slot (Risk {r:4.2f}%)"
         print(f"{tag:<28} | ${res['final_equity']:>12,.2f} | +{res['net_roi_total']:>9.2f}% | +{res['monthly_roi']:>10.2f}%/mo | {res['max_drawdown']:>8.2f}% | {res['total_trades']:>6d} | {res['win_rate']:>8.2f}% | {res['profit_factor']:>5.2f}")
 
     # Single-Slot comparison
     print("-" * 105)
-    single_res = execute_shared_pool_sim(max_slots=1, risk_pct=1.5, lev=2.0)
+    single_res = execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
+                                  gate_fn=_gated_units, max_slots=1, risk_pct=1.5, lev=2.0)
     print(f"{'Single-Slot Shared (1.5%)':<28} | ${single_res['final_equity']:>12,.2f} | +{single_res['net_roi_total']:>9.2f}% | +{single_res['monthly_roi']:>10.2f}%/mo | {single_res['max_drawdown']:>8.2f}% | {single_res['total_trades']:>6d} | {single_res['win_rate']:>8.2f}% | {single_res['profit_factor']:>5.2f}")
 
     # -----------------------------------------------------------------
@@ -448,6 +468,9 @@ def run_dual_slot_benchmark():
         print(f"{sym:<14} | {data['trades']:>14d} | +${data['profit']:>15,.2f} | {c_wr:>8.2f}%")
 
     # Record into ROILedger
+    if os.getenv("SKIP_LEDGER", "0") == "1":
+        print("\nSKIP_LEDGER=1 -- ledger write skipped")
+        return
     ledger = ROILedger()
     ledger.record_experiment(
         experiment_id=os.getenv("EXP_ID", "EXP-013-DUAL-SLOT-SHARED-POOL"),
