@@ -167,13 +167,32 @@ class SizingViabilityGate:
         "LINK/USDT": {"min_notional": 5.0, "min_qty": 0.1,   "step_size": 0.1},
     }
 
+    # Hyperliquid on-chain perps (Oct 2026): szDecimals lot steps (BTC 5, ETH 4,
+    # BNB 3 decimals) with $10 USDC minimum notional and no true minimum qty
+    # beyond one lot. Verify szDecimals live via meta_and_asset_ctxs().
+    HYPERLIQUID_LOT_FILTERS = {
+        "BTC/USDT":  {"min_notional": 10.0, "min_qty": 0.00001, "step_size": 0.00001},
+        "ETH/USDT":  {"min_notional": 10.0, "min_qty": 0.0001,  "step_size": 0.0001},
+        "BNB/USDT":  {"min_notional": 10.0, "min_qty": 0.001,   "step_size": 0.001},
+        "XRP/USDT":  {"min_notional": 10.0, "min_qty": 0.1,     "step_size": 0.1},
+        "ADA/USDT":  {"min_notional": 10.0, "min_qty": 0.1,     "step_size": 0.1},
+        "DOGE/USDT": {"min_notional": 10.0, "min_qty": 1.0,     "step_size": 1.0},
+        "LTC/USDT":  {"min_notional": 10.0, "min_qty": 0.01,    "step_size": 0.01},
+        "LINK/USDT": {"min_notional": 10.0, "min_qty": 0.01,    "step_size": 0.01},
+    }
+
     GENERIC_FILTERS = {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.0001}
 
     @classmethod
     def filters_for(cls, symbol: str, venue: str = "mexc", exchange_filters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         if exchange_filters:
             return exchange_filters
-        table = cls.BYBIT_LOT_FILTERS if venue.lower() == "bybit" else cls.MEXC_LOT_FILTERS
+        tables = {
+            "mexc": cls.MEXC_LOT_FILTERS,
+            "bybit": cls.BYBIT_LOT_FILTERS,
+            "hyperliquid": cls.HYPERLIQUID_LOT_FILTERS,
+        }
+        table = tables.get(venue.lower(), cls.MEXC_LOT_FILTERS)
         return table.get(symbol, cls.GENERIC_FILTERS)
 
     @classmethod

@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-28 02:53:42 UTC",
+  "last_updated": "2026-10-29 05:59:35 UTC",
   "champion_savepoint": "SAVEPOINT_EXP-015-RISK-EFFICIENCY-FRONTIER-ANALYSIS",
   "experiments": [
     {
@@ -536,6 +536,135 @@
       },
       "tag": "RISK_FRONTIER_ANALYSIS",
       "notes": "Evaluates ROI-to-Drawdown efficiency frontier. While 2.5% risk achieves higher Calmar (1.60x ROI/DD ratio vs 1.14x), 1.5% risk is the optimal choice for prop-firm compliance and maximum 25%/month target fulfillment."
+    },
+    {
+      "experiment_id": "EXP-015A-VENUE-FEE-MEXC",
+      "timestamp": "2026-10-29 05:59:34 UTC",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "asset": "8 Synchronized Crypto Pairs (BTC, DOGE, XRP, LTC, ETH, ADA, BNB, LINK)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "5.47 Months Walk-Forward Historical Panel",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.025,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "metrics": {
+        "initial_capital": 1000.0,
+        "final_capital": 3269.17,
+        "net_total_roi_pct": 226.92,
+        "monthly_roi_pct": 24.18,
+        "max_drawdown_pct": 22.16,
+        "win_rate_pct": 41.9,
+        "total_trades": 179,
+        "profit_factor": 1.18,
+        "months_elapsed": 0.0
+      },
+      "tag": "VENUE_FEE_COMPARISON",
+      "notes": "Venue fee model MEXC: maker 0.00% entries + taker 0.05% stop exits (per-side avg 0.025%)."
+    },
+    {
+      "experiment_id": "EXP-015B-VENUE-FEE-HYPERLIQUID",
+      "timestamp": "2026-10-29 05:59:35 UTC",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "asset": "8 Synchronized Crypto Pairs (BTC, DOGE, XRP, LTC, ETH, ADA, BNB, LINK)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "5.47 Months Walk-Forward Historical Panel",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.03,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "metrics": {
+        "initial_capital": 1000.0,
+        "final_capital": 3209.84,
+        "net_total_roi_pct": 220.98,
+        "monthly_roi_pct": 23.76,
+        "max_drawdown_pct": 22.31,
+        "win_rate_pct": 41.9,
+        "total_trades": 179,
+        "profit_factor": 1.18,
+        "months_elapsed": 0.0
+      },
+      "tag": "VENUE_FEE_COMPARISON",
+      "notes": "Venue fee model Hyperliquid: maker 0.015% entries + taker 0.045% stop exits (per-side avg 0.030%)."
+    },
+    {
+      "experiment_id": "EXP-015C-VENUE-FEE-BYBIT",
+      "timestamp": "2026-10-29 05:59:35 UTC",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "asset": "8 Synchronized Crypto Pairs (BTC, DOGE, XRP, LTC, ETH, ADA, BNB, LINK)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "5.47 Months Walk-Forward Historical Panel",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.0375,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "metrics": {
+        "initial_capital": 1000.0,
+        "final_capital": 3173.19,
+        "net_total_roi_pct": 217.32,
+        "monthly_roi_pct": 23.5,
+        "max_drawdown_pct": 21.29,
+        "win_rate_pct": 41.9,
+        "total_trades": 179,
+        "profit_factor": 1.18,
+        "months_elapsed": 0.0
+      },
+      "tag": "VENUE_FEE_COMPARISON",
+      "notes": "Venue fee model Bybit: maker 0.02% entries + taker 0.055% stop exits (per-side avg 0.0375%)."
     }
   ],
   "savepoints": {
@@ -833,6 +962,93 @@
       "target_monthly_roi": 46.41,
       "max_drawdown": 28.95,
       "created_at": "2026-10-28 02:53:42 UTC"
+    },
+    "SAVEPOINT_EXP-015A-VENUE-FEE-MEXC": {
+      "experiment_id": "EXP-015A-VENUE-FEE-MEXC",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.025,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "target_monthly_roi": 24.18,
+      "max_drawdown": 22.16,
+      "created_at": "2026-10-29 05:59:34 UTC"
+    },
+    "SAVEPOINT_EXP-015B-VENUE-FEE-HYPERLIQUID": {
+      "experiment_id": "EXP-015B-VENUE-FEE-HYPERLIQUID",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.03,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "target_monthly_roi": 23.76,
+      "max_drawdown": 22.31,
+      "created_at": "2026-10-29 05:59:35 UTC"
+    },
+    "SAVEPOINT_EXP-015C-VENUE-FEE-BYBIT": {
+      "experiment_id": "EXP-015C-VENUE-FEE-BYBIT",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.0375,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "target_monthly_roi": 23.5,
+      "max_drawdown": 21.29,
+      "created_at": "2026-10-29 05:59:35 UTC"
     }
   }
 }

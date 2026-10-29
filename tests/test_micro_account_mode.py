@@ -88,6 +88,44 @@ def test_gate_bybit_btc_viable_at_3000():
     assert r["worst_error_pct"] <= 5.0
 
 
+# ---------- Hyperliquid venue: fine lots, $10 min-notional ----------
+
+def test_gate_hyperliquid_all_8_pairs_viable_at_25():
+    # Hyperliquid's fine szDecimals lots + $10 min-notional make even $25 work
+    for sym, px in ALL_PAIRS:
+        r = SizingViabilityGate.check(sym, equity=25.0, venue="hyperliquid", **px)
+        assert r["viable"] is True, f"{sym} should be viable at $25 on Hyperliquid: {r['reason']}"
+        assert abs(r["worst_error_pct"]) <= 5.0
+
+
+def test_gate_hyperliquid_btc_fine_lots_where_bybit_rejects():
+    # Same $100 account: Bybit's 0.001 BTC lot distorts -19.3% (rejected);
+    # Hyperliquid's 0.00001 BTC lot rounds to under 1% (accepted).
+    hl = SizingViabilityGate.check("BTC/USDT", equity=100.0, venue="hyperliquid", **BTC)
+    by = SizingViabilityGate.check("BTC/USDT", equity=100.0, venue="bybit", **BTC)
+    assert hl["viable"] is True
+    assert abs(hl["worst_error_pct"]) <= 1.0
+    assert by["viable"] is False
+
+
+def test_gate_hyperliquid_min_notional_blocks_tiny_accounts():
+    # $10 account: DOGE initial notional ~$5.50 fails the $10 USDC floor
+    r = SizingViabilityGate.check("DOGE/USDT", equity=10.0, venue="hyperliquid", **DOGE)
+    assert r["viable"] is False
+    assert "notional" in r["reason"]
+
+
+def test_gate_hyperliquid_checks_tier2_min_notional():
+    # $15 account: DOGE entry fits ($8.36 notional fails... use LTC where the
+    # Tier-2 add alone drops below the $10 floor while entry passes).
+    r = SizingViabilityGate.check("LTC/USDT", equity=15.0, venue="hyperliquid", **LTC)
+    # entry: ideal 0.0923 LTC -> 0.09 ($11.25 >= $10 OK); tier2: 0.0738 -> 0.07 ($8.75 < $10)
+    assert r["stages"]["initial"]["ok"] is True
+    assert r["stages"]["tier2"]["ok"] is False
+    assert r["viable"] is False
+    assert "tier2" in r["reason"]
+
+
 def test_gate_step_qty_and_rounding_error_helpers():
     assert SizingViabilityGate.step_qty(0.002066, 0.001) == 0.002
     assert SizingViabilityGate.step_qty(259.74, 1.0) == 259.0

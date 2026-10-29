@@ -195,4 +195,57 @@ Notional $100K vs $100K, both run at the prop-safe 0.40–0.45% risk, 12 months:
 
 ---
 
-*Sources: docs.vestmarkets.com (Vest rules), propfirmpal.com & hyrotrader.com (HyroTrader rules/fees), fundedtrading.com & propfirmbridge.com (Propr rules/fees), bestprops.com & propfirmautotrade.com (FTMO/FundedNext/bot policies), sentinel.redclawey.com & pickmytrade.io (futures firm bot policies) — all verified October 2026.*
+---
+
+## ⛓️ 8. Hyperliquid (On-Chain Perp DEX) — Venue Comparison
+
+**What it is**: Decentralized L1 with fully on-chain order books (perps + spot), USDC collateral (Arbitrum bridge), no KYC, own wallet custody. Not a prop firm — an **invested-account venue** like Bybit/MEXC, and also the **execution venue behind Propr.xyz** (its A-book trades route to Hyperliquid perps).
+
+### Venue Specification Comparison (Oct 2026)
+
+| Dimension | **Hyperliquid** | MEXC (futures) | Bybit (linear) |
+|---|---|---|---|
+| Perp fees (base tier) | **0.015% maker / 0.045% taker** | 0.00% maker / 0.05% taker | 0.02% maker / 0.055% taker |
+| Fee discounts | HYPE staking 5–40%; 7 volume tiers (maker → 0%) | MX token discounts | VIP tiers |
+| Lot granularity (BTC) | **0.00001 BTC** (szDecimals 5) | 0.0001 BTC | 0.001 BTC |
+| Min order | **$10 USDC notional** (no min qty) | ~$5 notional + min lots | $5 notional + min lots |
+| 8-pair universe (BTC/ETH/BNB/XRP/ADA/DOGE/LTC/LINK) | ✅ All 8 (231 perps total; CCXT 4.5.20+) | ✅ All 8 | ✅ All 8 |
+| Funding settlement | Hourly | 8-hourly | 8-hourly |
+| API | REST + WebSocket, `hyperliquid-python-sdk`, API wallets, testnet | CCXT / WebSocket | CCXT / WebSocket |
+| Max leverage | 40–50x majors | up to 100x+ | up to 100x+ |
+| Custody / counterparty | Self-custody wallet (bridge + validator risk) | Exchange custodial | Exchange custodial |
+| KYC | None (geo-restricted jurisdictions excluded) | Required | Required |
+
+### Authentic Fee-Drag Backtest (EXP-015A/B/C — real 179-trade, 5.47-month, 8-pair panel)
+Same champion config (1.5% risk, 2.0x lev, 2 slots), only the venue fee model changes:
+
+| Venue Fee Model | Final Balance | Monthly ROI | Max DD | Δ vs MEXC |
+|---|---|---|---|---|
+| Baseline EXP-013 (maker 0.015% both sides) | $3,391 | +25.01%/mo | 21.86% | — |
+| **MEXC** (0% maker entries + 0.05% taker stops) | $3,269 | **+24.18%/mo** | 22.16% | — |
+| **Hyperliquid** (0.015% maker + 0.045% taker) | $3,210 | **+23.76%/mo** | 22.31% | −0.42%/mo |
+| **Bybit** (0.02% maker + 0.055% taker) | $3,173 | **+23.50%/mo** | 21.29% | −0.68%/mo |
+
+➡️ **Fee drag is a second-order effect (~0.7%/mo spread across all three venues).** Venue choice should be driven by lot granularity, custody preference, and reliability — not fees.
+
+### MICRO_ACCOUNT_MODE on Hyperliquid (`LOT_VENUE=hyperliquid`)
+Hyperliquid's fine lots + $10 min-notional **eliminate the micro-account min-lot wall**:
+
+| Equity | Hyperliquid | MEXC | Bybit |
+|---|---|---|---|
+| **$25** | ✅ **All 8 pairs trade** (≤3% distortion) | ❌ BTC+BNB rejected | ❌ BTC+BNB rejected |
+| $100 | ✅ All 8, <1% distortion | ⚠️ BTC+BNB skipped | ❌ BTC skipped (−19.3%) |
+| $500 | ✅ All 8, <1% | ✅ All 8, ≤2% | ⚠️ BTC skipped (tier-2 −9.3%) |
+
+*Floor note: at ~$15–20 the $10 min-notional on Tier-2 pyramid adds starts rejecting pairs; $25 is the safe all-pairs floor.*
+
+### Verdict — Hyperliquid vs the Field
+1. **Best venue for small-account live testing** ($25–$100): fine lots mean the 1.5%-risk sizing survives intact on every pair.
+2. **Fee-wise it splits the difference**: −0.42%/mo vs MEXC, +0.26%/mo vs Bybit (EXP-015B). Negligible next to +23.76%/mo.
+3. **Trade-offs**: bridge/validator risk instead of exchange risk, hourly funding (more neutral), no chargeback/KYC friction, US-restricted (fine for IN users). Withdrawals: 0.2 USDC flat.
+4. **Also unlocks Propr.xyz**: since Propr routes A-book fills to Hyperliquid, running the same bot on both Hyperliquid (invested) and Propr (funded) gives identical execution microstructure across both accounts.
+5. **Recommendation**: run the invested account on **Hyperliquid if starting ≤$500** (granularity), **MEXC if fee-min-maxing at scale** (0% maker), and keep Bybit for its deepest liquidity in BTC/ETH.
+
+---
+
+*Sources: docs.vestmarkets.com (Vest rules), propfirmpal.com & hyrotrader.com (HyroTrader rules/fees), fundedtrading.com & propfirmbridge.com (Propr rules/fees), bestprops.com & propfirmautotrade.com (FTMO/FundedNext/bot policies), sentinel.redclawey.com & pickmytrade.io (futures firm bot policies), dwellir.com & cipher-intelligence.io (Hyperliquid fee schedule), buildix.trade & docs.chainstack.com (Hyperliquid lot/min-notional rules), cryptostruct.com (Hyperliquid lot sizes), github.com/freqtrade/freqtrade#12534 (Hyperliquid pair coverage) — all verified October 2026.*

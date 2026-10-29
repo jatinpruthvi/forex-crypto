@@ -52,7 +52,7 @@ def run_dual_slot_benchmark():
         tp1_atr=1.8,
         tp2_atr=3.0,
         trail_atr=2.0,
-        maker_fee_pct=0.015,
+        maker_fee_pct=float(os.getenv("MAKER_FEE_PCT", "0.015")),
         enable_drawdown_throttle=True
     )
 
@@ -386,7 +386,7 @@ def run_dual_slot_benchmark():
     print(f"{'Config / Model':<28} | {'Final Balance':<14} | {'Net Total %':<12} | {'Monthly ROI':<14} | {'Max DD':<10} | {'Trades':<8} | {'Win Rate':<10} | {'PF':<6}")
     print("-" * 105)
 
-    risk_levels = [1.0, 1.25, 1.5, 1.75, 2.0, 2.5]
+    risk_levels = [1.5] if os.getenv("CHAMPION_ONLY", "0") == "1" else [1.0, 1.25, 1.5, 1.75, 2.0, 2.5]
     results_map = {}
     for r in risk_levels:
         res = execute_shared_pool_sim(max_slots=2, risk_pct=r, lev=2.0)
@@ -425,7 +425,7 @@ def run_dual_slot_benchmark():
     # Record into ROILedger
     ledger = ROILedger()
     ledger.record_experiment(
-        experiment_id="EXP-013-DUAL-SLOT-SHARED-POOL",
+        experiment_id=os.getenv("EXP_ID", "EXP-013-DUAL-SLOT-SHARED-POOL"),
         strategy_name="Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
         asset="8 Synchronized Crypto Pairs (BTC, DOGE, XRP, LTC, ETH, ADA, BNB, LINK)",
         timeframe="H4 Actual Historical Candles",
@@ -439,7 +439,7 @@ def run_dual_slot_benchmark():
             "tp1_atr": 1.8,
             "tp2_atr": 3.0,
             "trail_atr": 2.0,
-            "maker_fee_pct": 0.015,
+            "maker_fee_pct": float(os.getenv("MAKER_FEE_PCT", "0.015")),
             "drawdown_throttle": True,
             "tested_pairs": [s[0] for s in crypto_specs]
         },
@@ -454,8 +454,8 @@ def run_dual_slot_benchmark():
             "total_trades": champ["total_trades"],
             "duration_months": round(champ["duration_months"], 2)
         },
-        notes="Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI.",
-        tag="DUAL_SLOT_SHARED_POOL_CHAMPION",
+        notes=os.getenv("EXP_NOTES", "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI."),
+        tag=os.getenv("EXP_TAG", "DUAL_SLOT_SHARED_POOL_CHAMPION"),
         create_savepoint=True
     )
     print("\nSuccessfully recorded EXP-013 and savepoint into reports/roi_progress_ledger.json")
