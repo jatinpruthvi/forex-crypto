@@ -113,7 +113,13 @@ class DualSlotSharedPoolAccount:
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
                     tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0, close)
-                    pos["size"] += tier1_qty
+                    if tier1_qty > 0:
+                        add_price = close  # market add fills at bar close
+                        add_fee = (add_price * tier1_qty) * self.taker_fee
+                        self.balance -= add_fee
+                        pos["realized_pnl"] -= add_fee
+                        pos["avg_entry"] = (pos["avg_entry"] * pos["size"] + add_price * tier1_qty) / (pos["size"] + tier1_qty)
+                        pos["size"] += tier1_qty
 
             # Check Tier 2 Pyramiding (+3.0x ATR)
             if pos["tp1_hit"] and pos["pyramid_tier"] == 1 and pos.get("regime") == "TREND":
@@ -121,7 +127,13 @@ class DualSlotSharedPoolAccount:
                 if high >= tp2_target:
                     pos["pyramid_tier"] = 2
                     tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8, close)
-                    pos["size"] += tier2_qty
+                    if tier2_qty > 0:
+                        add_price = close  # market add fills at bar close
+                        add_fee = (add_price * tier2_qty) * self.taker_fee
+                        self.balance -= add_fee
+                        pos["realized_pnl"] -= add_fee
+                        pos["avg_entry"] = (pos["avg_entry"] * pos["size"] + add_price * tier2_qty) / (pos["size"] + tier2_qty)
+                        pos["size"] += tier2_qty
                     pos["stop_loss"] = entry + (atr * 1.5)
 
             # Chandelier Trailing Ratchet (from this bar's high; effective for
@@ -153,14 +165,26 @@ class DualSlotSharedPoolAccount:
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
                     tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0, close)
-                    pos["size"] += tier1_qty
+                    if tier1_qty > 0:
+                        add_price = close  # market add fills at bar close
+                        add_fee = (add_price * tier1_qty) * self.taker_fee
+                        self.balance -= add_fee
+                        pos["realized_pnl"] -= add_fee
+                        pos["avg_entry"] = (pos["avg_entry"] * pos["size"] + add_price * tier1_qty) / (pos["size"] + tier1_qty)
+                        pos["size"] += tier1_qty
 
             if pos["tp1_hit"] and pos["pyramid_tier"] == 1 and pos.get("regime") == "TREND":
                 tp2_target = entry - (atr * 3.0)
                 if low <= tp2_target:
                     pos["pyramid_tier"] = 2
                     tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8, close)
-                    pos["size"] += tier2_qty
+                    if tier2_qty > 0:
+                        add_price = close  # market add fills at bar close
+                        add_fee = (add_price * tier2_qty) * self.taker_fee
+                        self.balance -= add_fee
+                        pos["realized_pnl"] -= add_fee
+                        pos["avg_entry"] = (pos["avg_entry"] * pos["size"] + add_price * tier2_qty) / (pos["size"] + tier2_qty)
+                        pos["size"] += tier2_qty
                     pos["stop_loss"] = entry - (atr * 1.5)
 
             if pos["tp1_hit"]:
@@ -172,7 +196,7 @@ class DualSlotSharedPoolAccount:
         cur_pos = self.positions.get(symbol)
         if cur_pos:
             mult = 1 if cur_pos["side"] == "long" else -1
-            cur_pos["unrealized_pnl"] = (close - cur_pos["entry_price"]) * cur_pos["size"] * mult
+            cur_pos["unrealized_pnl"] = (close - cur_pos["avg_entry"]) * cur_pos["size"] * mult
             cur_pos["current_price"] = close
 
     def finish_candle(self, ts: str):
@@ -293,6 +317,7 @@ class DualSlotSharedPoolAccount:
             "side": side,
             "entry_time": ts,
             "entry_price": entry_price,
+            "avg_entry": entry_price,  # volume-weighted entry incl. pyramid adds
             "current_price": entry_price,
             "size": size,
             "initial_size": size,
@@ -313,7 +338,7 @@ class DualSlotSharedPoolAccount:
             return
         pos = self.positions.pop(symbol)
         mult = 1 if pos["side"] == "long" else -1
-        pnl = (exit_price - pos["entry_price"]) * pos["size"] * mult
+        pnl = (exit_price - pos["avg_entry"]) * pos["size"] * mult
         # Trigger/stop exits execute as taker orders (maker only for TP1 partials).
         fee = (exit_price * pos["size"]) * self.taker_fee
         net_trade_pnl = pnl - fee

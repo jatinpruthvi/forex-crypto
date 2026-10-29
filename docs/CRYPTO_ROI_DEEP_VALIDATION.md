@@ -1,5 +1,27 @@
 # Deep Crypto-Only ROI Validation — Is "+25.8%/mo OOS" Real?
 
+> ## ⚠️ CORRECTION (2026-10-29, later the same day) — THIS DOC'S NUMBERS ARE SUPERSEDED
+>
+> A subsequent line-by-line code review found a **pyramid-accounting bug** in every
+> engine/sim used here: pyramid adds were booked at the **ORIGINAL entry** with **no add
+> fee**, crediting each tier-1 unit a phantom +1.8 ATR and each tier-2 unit +3 ATR it
+> never had; `trade_log` PnL also omitted TP1 partials (win-rate/PF distorted).
+> After the fix (volume-weighted `avg_entry` re-basis, taker fee on adds, net-trade PnL),
+> re-validated under the identical harness (**EXP-020**):
+>
+> | view | this doc (buggy) | EXP-020 (corrected) |
+> |---|---|---|
+> | crypto22 bench champion | +25.8%/mo, DD 13.8% | **−13.5%/mo, DD 62.9%**, PF 0.58 |
+> | crypto22 walk-forward OOS | +46.5%/mo aggregate | **−8.25%/mo**, worst DD 26.1% (BREACH) |
+> | crypto24 | dormant (+9.2%/mo on 1 trade) | +1.5%/mo, 0 trades (dormant) |
+> | forex walk-forward | +6.4%/mo | **−3.1%/mo**, worst DD 56.2% (BREACH) |
+>
+> **Honest verdict: the strategy has NO positive edge at the audited fill model.**
+> All prior ROI claims (EXP-007..EXP-019) are artifacts of the phantom pyramid entry.
+> The methodology below remains valid; the numbers do not. See `EXP-020` in
+> `reports/roi_progress_ledger.json`. Strategy redesign is required before any
+> "+25%/mo" target is meaningful.
+
 **Date:** 2026-10-29 · **Scope:** crypto only (user decision: crypto-first deployment) ·
 **Harness:** `scripts/validate_crypto_deep.py` (deterministic, re-runnable) ·
 **Ledger:** `EXP-019A-CRYPTO22-DEEP-OOS`, `EXP-019B-CRYPTO24-DEEP-OOS` ·

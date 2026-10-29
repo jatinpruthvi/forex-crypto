@@ -102,7 +102,6 @@ class BacktestSimulator:
             for t in open_trades:
                 direction = t["direction"]
                 entry_p = t["entry_price"]
-                sl = t["sl"]
                 tp = t["tp"]
                 size_usd = t["size_usd"]
                 peak_p = t["peak_p"]
@@ -180,7 +179,8 @@ class BacktestSimulator:
 
                 if exit_trade:
                     pnl_pct = (exit_price - entry_p) / entry_p if direction == 1 else (entry_p - exit_price) / entry_p
-                    trade_pnl_usd = (pnl_pct * size_usd) - (size_usd * self.taker_fee)
+                    exit_size = t["size_usd"]  # live size: reflects any same-bar partial
+                    trade_pnl_usd = (pnl_pct * exit_size) - (exit_size * self.taker_fee)
                     capital += trade_pnl_usd
                     closed_trades.append({
                         "entry_time": t["entry_time"],

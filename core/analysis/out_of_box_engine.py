@@ -152,6 +152,7 @@ class OutOfTheBoxAlphaEngine:
 
         pos = 0
         entry_p = 0.0
+        avg_entry_p = 0.0  # volume-weighted entry incl. pyramid adds (PnL basis)
         sl_p = 0.0
         tp1_p = 0.0
         tp1_hit = False
@@ -189,7 +190,7 @@ class OutOfTheBoxAlphaEngine:
                 # fills FIRST -- no TP1/partial/pyramid bookkeeping on this bar.
                 if l <= sl_bar_start:
                     exit_price = sl_bar_start - (sl_bar_start * (self.slippage_pct / 100.0))
-                    realized = units * (exit_price - entry_p)
+                    realized = units * (exit_price - avg_entry_p)
                     fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
                     trade_net += (realized - fee)
@@ -201,7 +202,7 @@ class OutOfTheBoxAlphaEngine:
                     if not tp1_hit and h >= tp1_p:
                         tp1_hit = True
                         # Realize 50% partial profit
-                        realized = (units * 0.5) * (tp1_p - entry_p)
+                        realized = (units * 0.5) * (tp1_p - avg_entry_p)
                         fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
                         capital += (realized - fee)
                         trade_net += (realized - fee)
@@ -213,6 +214,11 @@ class OutOfTheBoxAlphaEngine:
                         # Fund runner unit purely out of locked banked gains
                         if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
                             pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
+                            add_price = c + (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (pyramid_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * pyramid_units) / (units + pyramid_units) if (units + pyramid_units) > 0 else avg_entry_p
                             units += pyramid_units
                             pyramid_added = True
 
@@ -228,7 +234,7 @@ class OutOfTheBoxAlphaEngine:
                 # Conservative same-bar resolution against the bar-START stop.
                 if h >= sl_bar_start:
                     exit_price = sl_bar_start + (sl_bar_start * (self.slippage_pct / 100.0))
-                    realized = units * (entry_p - exit_price)
+                    realized = units * (avg_entry_p - exit_price)
                     fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
                     trade_net += (realized - fee)
@@ -239,7 +245,7 @@ class OutOfTheBoxAlphaEngine:
                 else:
                     if not tp1_hit and l <= tp1_p:
                         tp1_hit = True
-                        realized = (units * 0.5) * (entry_p - tp1_p)
+                        realized = (units * 0.5) * (avg_entry_p - tp1_p)
                         fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
                         capital += (realized - fee)
                         trade_net += (realized - fee)
@@ -248,6 +254,11 @@ class OutOfTheBoxAlphaEngine:
 
                         if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
                             pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
+                            add_price = c - (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (pyramid_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * pyramid_units) / (units + pyramid_units) if (units + pyramid_units) > 0 else avg_entry_p
                             units += pyramid_units
                             pyramid_added = True
 
@@ -288,6 +299,7 @@ class OutOfTheBoxAlphaEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "TREND"
                     elif c < dl and ef < es and c < vwap:
                         pos = -1
@@ -300,6 +312,7 @@ class OutOfTheBoxAlphaEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "TREND"
 
                 # ENGINE B: Chop Mean-Reversion Scalper
@@ -315,6 +328,7 @@ class OutOfTheBoxAlphaEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 65.0 and c < o:
                         pos = -1
@@ -327,6 +341,7 @@ class OutOfTheBoxAlphaEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

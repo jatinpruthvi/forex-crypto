@@ -1,5 +1,16 @@
 # Post-Bugfix ROI Validation — Real Historical Data, Strictly Out-of-Sample
 
+> ## ⚠️ CORRECTION (2026-10-29) — SUPERSEDED BY EXP-020
+>
+> The walk-forward harness re-run after fixing the **pyramid-accounting bug** (adds
+> booked at original entry, no add fee → phantom +1.8/+3 ATR per add unit) reports:
+> **crypto22 OOS −8.25%/mo** (worst DD 26.1%, BREACH), **crypto24 +1.5%/mo** (0 trades),
+> **forex OOS −3.14%/mo** (worst DD 56.2%, BREACH). The +25.8%/+6.4%/mo numbers below
+> are pyramid-accounting-optimistic artifacts. Honest verdict: **no positive edge at
+> the audited fill model** — strategy redesign required. See `EXP-020` in
+> `reports/roi_progress_ledger.json` and the correction banner in
+> `docs/CRYPTO_ROI_DEEP_VALIDATION.md`.
+
 **Date:** 2026-10-29 · **Commit basis:** `fda3325` + walk-forward harness ·
 **Ledger entries:** `EXP-018A-WALKFORWARD-CRYPTO22-OOS`, `EXP-018B-WALKFORWARD-CRYPTO24-OOS`,
 `EXP-018C-WALKFORWARD-FOREX-OOS` · **Reproduce:** `PYTHONPATH=. python scripts/validate_roi_postfix.py [--record]`

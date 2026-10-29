@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Institutional VWAP Filter & Breakeven Buffer Optimization)
 - Evaluated VWAP institutional confirmation and Breakeven Profit Lock buffers on real exchange candles:

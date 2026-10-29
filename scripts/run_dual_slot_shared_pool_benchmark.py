@@ -77,6 +77,7 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
             atr = row["atr"]
             side = pos["side"]
             entry = pos["entry_price"]
+            avg = pos["avg_entry"]
             units = pos["units"]
             sl = pos["sl"]
             tp1 = pos["tp1"]
@@ -91,14 +92,15 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 if l <= sl_bar_start:
                     exit_price = sl_bar_start * (1.0 - _slip)
                     fee = exit_price * units * (_taker / 100.0)
-                    pnl = units * (exit_price - entry) - fee
+                    pnl = units * (exit_price - avg) - fee
                     cash += pnl
+                    trade_net = pnl + pos.get("realized", 0.0)  # net trade: exit leg + partials - add fees
                     trade_log.append({
                         "sym": sym,
                         "side": "LONG",
                         "entry": entry,
                         "exit": exit_price,
-                        "pnl": pnl,
+                        "pnl": trade_net,
                         "tp1_hit": tp1_hit,
                         "tier": tier,
                         "time": current_bar_time
@@ -111,8 +113,9 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                     pos["tp1_hit"] = True
                     tp1_hit = True
                     part_units = units * 0.40
-                    pnl = part_units * (tp1 - entry) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                    pnl = part_units * (tp1 - avg) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
                     cash += pnl
+                    pos["realized"] = pos.get("realized", 0.0) + pnl
                     pos["units"] = units * 0.60
                     units = pos["units"]
                     # Lock Stop Loss to entry + 0.25x ATR risk-free buffer
@@ -125,6 +128,11 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         if p_units > 0:
                             pos["pyramid_tier"] = 1
                             tier = 1
+                            add_price = c  # market add fills at bar close
+                            add_fee = add_price * p_units * (engine.taker_fee_pct / 100.0)
+                            cash -= add_fee
+                            pos["realized"] = pos.get("realized", 0.0) - add_fee  # add fee counts against trade PnL
+                            pos["avg_entry"] = (pos["avg_entry"] * units + add_price * p_units) / (units + p_units)
                             pos["units"] += p_units
                             units = pos["units"]
 
@@ -135,6 +143,11 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         if p_units > 0:
                             pos["pyramid_tier"] = 2
                             tier = 2
+                            add_price = c  # market add fills at bar close
+                            add_fee = add_price * p_units * (engine.taker_fee_pct / 100.0)
+                            cash -= add_fee
+                            pos["realized"] = pos.get("realized", 0.0) - add_fee  # add fee counts against trade PnL
+                            pos["avg_entry"] = (pos["avg_entry"] * units + add_price * p_units) / (units + p_units)
                             pos["units"] += p_units
                             units = pos["units"]
                             pos["sl"] = entry + atr * 1.5
@@ -153,14 +166,15 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 if h >= sl_bar_start:
                     exit_price = sl_bar_start * (1.0 + _slip)
                     fee = exit_price * units * (_taker / 100.0)
-                    pnl = units * (entry - exit_price) - fee
+                    pnl = units * (avg - exit_price) - fee
                     cash += pnl
+                    trade_net = pnl + pos.get("realized", 0.0)  # net trade: exit leg + partials - add fees
                     trade_log.append({
                         "sym": sym,
                         "side": "SHORT",
                         "entry": entry,
                         "exit": exit_price,
-                        "pnl": pnl,
+                        "pnl": trade_net,
                         "tp1_hit": tp1_hit,
                         "tier": tier,
                         "time": current_bar_time
@@ -173,8 +187,9 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                     pos["tp1_hit"] = True
                     tp1_hit = True
                     part_units = units * 0.40
-                    pnl = part_units * (entry - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                    pnl = part_units * (avg - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
                     cash += pnl
+                    pos["realized"] = pos.get("realized", 0.0) + pnl
                     pos["units"] = units * 0.60
                     units = pos["units"]
                     pos["sl"] = entry - atr * 0.25
@@ -185,6 +200,11 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         if p_units > 0:
                             pos["pyramid_tier"] = 1
                             tier = 1
+                            add_price = c  # market add fills at bar close
+                            add_fee = add_price * p_units * (engine.taker_fee_pct / 100.0)
+                            cash -= add_fee
+                            pos["realized"] = pos.get("realized", 0.0) - add_fee  # add fee counts against trade PnL
+                            pos["avg_entry"] = (pos["avg_entry"] * units + add_price * p_units) / (units + p_units)
                             pos["units"] += p_units
                             units = pos["units"]
 
@@ -194,6 +214,11 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         if p_units > 0:
                             pos["pyramid_tier"] = 2
                             tier = 2
+                            add_price = c  # market add fills at bar close
+                            add_fee = add_price * p_units * (engine.taker_fee_pct / 100.0)
+                            cash -= add_fee
+                            pos["realized"] = pos.get("realized", 0.0) - add_fee  # add fee counts against trade PnL
+                            pos["avg_entry"] = (pos["avg_entry"] * units + add_price * p_units) / (units + p_units)
                             pos["units"] += p_units
                             units = pos["units"]
                             pos["sl"] = entry - atr * 1.5
@@ -213,7 +238,7 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
         for sym, pos in positions.items():
             curr_c = aligned_dfs[sym].iloc[i]["close"]
             mult = 1 if pos["side"] == 1 else -1
-            unrealized += pos["units"] * (curr_c - pos["entry_price"]) * mult
+            unrealized += pos["units"] * (curr_c - pos["avg_entry"]) * mult
         equity = cash + unrealized
 
         if equity > peak_equity:
@@ -309,6 +334,7 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 positions[sym] = {
                     "side": side,
                     "entry_price": entry,
+                    "avg_entry": entry,  # volume-weighted entry incl. pyramid adds
                     "sl": sl,
                     "tp1": tp1,
                     "tp1_hit": False,

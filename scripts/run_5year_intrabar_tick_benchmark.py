@@ -103,7 +103,7 @@ def run_5year_intrabar_benchmark():
             for sym, pos in list(positions.items()):
                 row = aligned[sym].iloc[i]
                 o, h, l, c, atr = row["open"], row["high"], row["low"], row["close"], row["atr"]
-                side, entry, units, sl, tp1, tp1_hit, tier = pos["side"], pos["entry_price"], pos["units"], pos["sl"], pos["tp1"], pos["tp1_hit"], pos["pyramid_tier"]
+                side, entry, avg, units, sl, tp1, tp1_hit, tier = pos["side"], pos["entry_price"], pos["avg_entry"], pos["units"], pos["sl"], pos["tp1"], pos["tp1_hit"], pos["pyramid_tier"]
 
                 if use_tick_simulation:
                     # Construct 8-sub-tick intrabar price path
@@ -154,7 +154,12 @@ def run_5year_intrabar_benchmark():
                                 tier = 1
                                 p_units = _gated_units(sym, cash, entry, atr, risk_pct, 1.0)
                                 if p_units > 0:
+                                    add_fee = tick * p_units * engine.taker_fee_pct / 100.0  # market add = taker
+                                    cash -= add_fee
+                                    pos["realized"] -= add_fee  # add fee counts against trade PnL
+                                    pos["avg_entry"] = (pos["avg_entry"] * units + tick * p_units) / (units + p_units)
                                     pos["units"] += p_units
+                                    avg = pos["avg_entry"]
                                 units = pos["units"]
                         
                         # Check Tier 2 on tick
@@ -163,7 +168,12 @@ def run_5year_intrabar_benchmark():
                             tier = 2
                             p_units = _gated_units(sym, cash, entry, atr, risk_pct, 0.8)
                             if p_units > 0:
+                                add_fee = tick * p_units * engine.taker_fee_pct / 100.0  # market add = taker
+                                cash -= add_fee
+                                pos["realized"] -= add_fee  # add fee counts against trade PnL
+                                pos["avg_entry"] = (pos["avg_entry"] * units + tick * p_units) / (units + p_units)
                                 pos["units"] += p_units
+                                avg = pos["avg_entry"]
                             units = pos["units"]
                             pos["sl"] = entry + atr * 1.5
                             sl = pos["sl"]
@@ -175,7 +185,7 @@ def run_5year_intrabar_benchmark():
 
                         # Stop out on tick
                         if tick <= sl:
-                            pnl = pos["realized"] + units * (sl - entry) - (sl * units * engine.taker_fee_pct / 100.0)  # trigger exit = taker
+                            pnl = pos["realized"] + units * (sl - avg) - (sl * units * engine.taker_fee_pct / 100.0)  # trigger exit = taker
                             cash += pnl - pos["realized"]
                             trade_log.append({"sym": sym, "pnl": pnl, "tp1_hit": tp1_hit})
                             del positions[sym]
@@ -199,7 +209,12 @@ def run_5year_intrabar_benchmark():
                                 tier = 1
                                 p_units = _gated_units(sym, cash, entry, atr, risk_pct, 1.0)
                                 if p_units > 0:
+                                    add_fee = tick * p_units * engine.taker_fee_pct / 100.0  # market add = taker
+                                    cash -= add_fee
+                                    pos["realized"] -= add_fee  # add fee counts against trade PnL
+                                    pos["avg_entry"] = (pos["avg_entry"] * units + tick * p_units) / (units + p_units)
                                     pos["units"] += p_units
+                                    avg = pos["avg_entry"]
                                 units = pos["units"]
 
                         if tp1_hit and tier == 1 and tick <= entry - atr * engine.tp2_atr:
@@ -207,7 +222,12 @@ def run_5year_intrabar_benchmark():
                             tier = 2
                             p_units = _gated_units(sym, cash, entry, atr, risk_pct, 0.8)
                             if p_units > 0:
+                                add_fee = tick * p_units * engine.taker_fee_pct / 100.0  # market add = taker
+                                cash -= add_fee
+                                pos["realized"] -= add_fee  # add fee counts against trade PnL
+                                pos["avg_entry"] = (pos["avg_entry"] * units + tick * p_units) / (units + p_units)
                                 pos["units"] += p_units
+                                avg = pos["avg_entry"]
                             units = pos["units"]
                             pos["sl"] = entry - atr * 1.5
                             sl = pos["sl"]
@@ -217,7 +237,7 @@ def run_5year_intrabar_benchmark():
                             sl = pos["sl"]
 
                         if tick >= sl:
-                            pnl = pos["realized"] + units * (entry - sl) - (sl * units * engine.taker_fee_pct / 100.0)  # trigger exit = taker
+                            pnl = pos["realized"] + units * (avg - sl) - (sl * units * engine.taker_fee_pct / 100.0)  # trigger exit = taker
                             cash += pnl - pos["realized"]
                             trade_log.append({"sym": sym, "pnl": pnl, "tp1_hit": tp1_hit})
                             del positions[sym]
@@ -225,7 +245,7 @@ def run_5year_intrabar_benchmark():
                             break
 
             # Mark to market equity at candle close
-            unrealized = sum(pos["units"] * (aligned[s].iloc[i]["close"] - pos["entry_price"]) * (1 if pos["side"] == 1 else -1) for s, pos in positions.items())
+            unrealized = sum(pos["units"] * (aligned[s].iloc[i]["close"] - pos["avg_entry"]) * (1 if pos["side"] == 1 else -1) for s, pos in positions.items())
             equity = cash + unrealized
             if equity > peak: peak = equity
             cur_dd = (peak - equity) / peak if peak > 0 else 0.0
@@ -266,7 +286,7 @@ def run_5year_intrabar_benchmark():
                     if units <= 0:
                         continue
                     cash -= entry * units * (engine.maker_fee_pct / 100.0)
-                    positions[sym] = {"side": side, "entry_price": entry, "sl": sl, "tp1": tp1, "tp1_hit": False, "pyramid_tier": 0, "units": units, "realized": 0.0}
+                    positions[sym] = {"side": side, "entry_price": entry, "avg_entry": entry, "sl": sl, "tp1": tp1, "tp1_hit": False, "pyramid_tier": 0, "units": units, "realized": 0.0}
 
         final_equity = equity
         net_ret = (final_equity / 1000.0 - 1.0) * 100.0

@@ -190,3 +190,116 @@ def test_win_counting_uses_net_pnl_not_tp1_flag():
     assert res["win_rate"] == 0.0
     expected = 100.0 * sum(1 for t in tl if t["pnl"] > 0) / len(tl)
     assert res["win_rate"] == pytest.approx(expected)
+
+
+def test_fast_backtester_no_double_count_on_partial_plus_tp_same_bar():
+    """Regression: a bar that fills the 2xATR partial AND the TP must book the
+    partial on half size and the TP exit on the REMAINING half -- never on the
+    full (pre-partial) size."""
+    import pandas as pd
+    from core.analysis.fast_backtester import BacktestSimulator
+
+    sim = BacktestSimulator(initial_capital=1000.0)  # taker mode: 0.1% slip, 0.055% fee
+    df = pd.DataFrame({
+        "timestamp": ["2024-01-01 00:00", "2024-01-01 04:00"],
+        "open": [100.0, 100.0],
+        "high": [100.5, 110.0],   # row 1 sweeps partial (104.1) AND TP (108.1)
+        "low": [99.5, 97.0],      # stays above the bar-start stop (96.1)
+        "close": [100.0, 109.0],
+    })
+    sig = pd.DataFrame({
+        "timestamp": df["timestamp"],
+        "signal": [1, 0],
+        "atr": [2.0, 2.0],
+        "conviction": [75.0, 75.0],
+    })
+    res = sim.run_backtest(df, sig, risk_per_trade_pct=2.0, atr_sl_mult=2.0,
+                           atr_tp_mult=4.0, trailing_atr_mult=None, leverage=3.0,
+                           max_open_trades=2)
+    # entry: risk 1000*2%*0.75 = 15 USD / 4% stop -> size 375, fee 0.20625
+    # partial @104.1 on 187.5: gain 7.4925 - fee 0.1031
+    # TP exit @108.1*(1-0.001) on 187.5: 14.7825 - fee 0.1031
+    expected = 1000.0 - 375.0 * 0.00055 \
+        + (((104.1 - 100.1) / 100.1) * 187.5 - 187.5 * 0.00055) \
+        + (((108.1 * 0.999 - 100.1) / 100.1) * 187.5 - 187.5 * 0.00055)
+    assert res["final_capital"] == pytest.approx(expected, abs=0.05)
+    assert len(res["closed_trades"]) == 1
+    assert res["closed_trades"][0]["pnl_usd"] < 30.0  # buggy path booked ~29.4 on full size
+
+
+def test_pyramid_add_rebases_avg_entry_and_pays_taker_fee():
+    """Pyramid adds must re-basis avg_entry (volume-weighted) and pay taker fee.
+
+    Regression for the phantom-profit bug: exit PnL was computed vs the
+    ORIGINAL entry for the whole basket, crediting each pyramid unit a fake
+    +1.8 ATR move it never had, and no add fee was charged.
+    """
+    import pandas as pd
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+    from run_dual_slot_shared_pool_benchmark import execute_shared_pool_sim
+
+    class _Eng:  # tier1 enabled; adds must charge fee and re-basis avg_entry
+        maker_fee_pct = 0.015
+        taker_fee_pct = 0.045
+        tier1_pyramid_mult = 1.0
+        tier2_pyramid_mult = 0.0
+        tp1_atr = 1.8
+        tp2_atr = 3.0
+        trail_atr = 2.0
+        enable_drawdown_throttle = False
+
+    n = 40
+    ts = pd.date_range("2024-01-01", periods=n, freq="h").strftime("%Y-%m-%d %H:%M:%S")
+    rows = []
+    for i in range(n):
+        rows.append(dict(open=100.0, high=100.001, low=99.999, close=100.0,
+                         atr=2.0, adx=5.0, donchian_high=200.0, donchian_low=0.0,
+                         ema_fast=100.0, ema_slow=100.0, vwap=100.0,
+                         bb_lower=90.0, bb_upper=110.0, bb_mid=100.0, rsi=50.0,
+                         bull_fvg=False, bear_fvg=False))
+    # bar 31: breakout long entry at close 100, ATR 2.0 -> sl 97.0, TP1 = 103.6
+    rows[31].update(adx=30.0, donchian_high=99.9, ema_fast=100.2, ema_slow=99.8, vwap=99.9)
+    # bar 32: TP1 partial @103.6 (40%), BE stop -> 100.25, tier1 add fills at close 101.0
+    rows[32].update(high=103.6, low=99.5, close=101.0)
+    # bar 33: low breaks the BE stop -> exit at 100.25 x (1 - slip)
+    rows[33].update(high=100.5, low=98.0, close=98.5)
+    df = pd.DataFrame(rows)
+    df.insert(0, "timestamp", ts)
+
+    res = execute_shared_pool_sim(
+        list(ts), {"TEST/USDT": df}, _Eng(), 1.0,
+        gate_fn=None, max_slots=2, risk_pct=1.0, lev=2.0,
+    )
+    assert res["total_trades"] == 1
+
+    # --- hand-computed chain (independent of the engine code paths) ---
+    maker, taker, slip = 0.00015, 0.00045, 0.0005
+    atr, entry_px, cash = 2.0, 100.0, 1000.0
+    units = cash * 0.01 * 1.0 * 2.0 / (atr * 1.5)              # 6.666667
+    entry_fee = entry_px * units * maker                         # sim charges maker on entries
+    cash -= entry_fee
+    tp1 = entry_px + 1.8 * atr                                  # 103.6
+    part = units * 0.40
+    part_pnl = part * (tp1 - entry_px) - tp1 * part * maker
+    cash += part_pnl
+    rem = units * 0.60
+    sl_be = entry_px + 0.25 * atr                               # 100.25
+    p_units = cash * 0.01 * 1.0 * 2.0 / (atr * 1.5)             # tier1_mult via dd slot
+    add_price = 101.0                                           # add fills at bar close
+    add_fee = p_units * add_price * taker
+    cash -= add_fee
+    avg = (entry_px * rem + add_price * p_units) / (rem + p_units)
+    exit_px = sl_be * (1 - slip)                                # stop fill = sl x (1 - slip)
+    exit_pnl = (rem + p_units) * (exit_px - avg) - exit_px * (rem + p_units) * taker
+    expected_trade_net = part_pnl - add_fee + exit_pnl
+    expected_final = cash + exit_pnl
+
+    got = res["trade_log"][0]["pnl"]
+    assert got == pytest.approx(expected_trade_net, rel=1e-6), f"trade_net {got} vs {expected_trade_net}"
+    assert res["final_equity"] == pytest.approx(expected_final, rel=1e-6), \
+        f"final {res['final_equity']} vs {expected_final}"
+
+    # The phantom model (exit vs original entry, no add fee) must decisively differ
+    phantom_trade_net = part_pnl + (rem + p_units) * (exit_px - entry_px) - exit_px * (rem + p_units) * taker
+    assert abs(got - phantom_trade_net) > 0.5 * abs(expected_trade_net)

@@ -113,6 +113,7 @@ class QuantumHybridEngine:
 
         pos = 0  # 1 (long), -1 (short), 0 (flat)
         entry_p = 0.0
+        avg_entry_p = 0.0  # volume-weighted entry incl. pyramid adds (PnL basis)
         sl_p = 0.0
         tp1_p = 0.0
         tp1_hit = False
@@ -152,7 +153,7 @@ class QuantumHybridEngine:
                 # fills FIRST -- no TP1/partial/pyramid bookkeeping on this bar.
                 if l <= sl_bar_start:
                     exit_price = sl_bar_start - (sl_bar_start * (self.slippage_pct / 100.0))
-                    realized = units * (exit_price - entry_p)
+                    realized = units * (exit_price - avg_entry_p)
                     fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
                     trade_net += (realized - fee)
@@ -164,7 +165,7 @@ class QuantumHybridEngine:
                     # Check TP1 Hit (+1.8x ATR)
                     if not tp1_hit and h >= tp1_p:
                         tp1_hit = True
-                        realized = (units * 0.40) * (tp1_p - entry_p)
+                        realized = (units * 0.40) * (tp1_p - avg_entry_p)
                         fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
                         capital += (realized - fee)
                         trade_net += (realized - fee)
@@ -176,6 +177,11 @@ class QuantumHybridEngine:
                         if pyramid_step == 0 and regime_mode == "TREND":
                             pyramid_step = 1
                             p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
+                            add_price = c + (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (p_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * p_units) / (units + p_units) if (units + p_units) > 0 else avg_entry_p
                             units += p_units
 
                     # Tier 2 Parabolic Momentum Pyramiding (+3.0x ATR)
@@ -183,6 +189,11 @@ class QuantumHybridEngine:
                         if h >= entry_p + (a * self.tp2_atr):
                             pyramid_step = 2
                             p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
+                            add_price = c + (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (p_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * p_units) / (units + p_units) if (units + p_units) > 0 else avg_entry_p
                             units += p_units
                             sl_p = entry_p + (a * 1.5)  # Lock deep profit
 
@@ -198,7 +209,7 @@ class QuantumHybridEngine:
                 # Conservative same-bar resolution against the bar-START stop.
                 if h >= sl_bar_start:
                     exit_price = sl_bar_start + (sl_bar_start * (self.slippage_pct / 100.0))
-                    realized = units * (entry_p - exit_price)
+                    realized = units * (avg_entry_p - exit_price)
                     fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
                     trade_net += (realized - fee)
@@ -209,7 +220,7 @@ class QuantumHybridEngine:
                 else:
                     if not tp1_hit and l <= tp1_p:
                         tp1_hit = True
-                        realized = (units * 0.40) * (entry_p - tp1_p)
+                        realized = (units * 0.40) * (avg_entry_p - tp1_p)
                         fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
                         capital += (realized - fee)
                         trade_net += (realized - fee)
@@ -219,12 +230,22 @@ class QuantumHybridEngine:
                         if pyramid_step == 0 and regime_mode == "TREND":
                             pyramid_step = 1
                             p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
+                            add_price = c - (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (p_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * p_units) / (units + p_units) if (units + p_units) > 0 else avg_entry_p
                             units += p_units
 
                     if tp1_hit and pyramid_step == 1 and regime_mode == "TREND":
                         if l <= entry_p - (a * self.tp2_atr):
                             pyramid_step = 2
                             p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
+                            add_price = c - (c * (self.slippage_pct / 100.0))  # market add fills at bar close
+                            add_fee = (p_units * add_price) * (self.taker_fee_pct / 100.0)
+                            capital -= add_fee
+                            trade_net -= add_fee
+                            avg_entry_p = (avg_entry_p * units + add_price * p_units) / (units + p_units) if (units + p_units) > 0 else avg_entry_p
                             units += p_units
                             sl_p = entry_p - (a * 1.5)
 
@@ -266,6 +287,7 @@ class QuantumHybridEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "TREND"
                     elif bear:
                         pos = -1
@@ -278,6 +300,7 @@ class QuantumHybridEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "TREND"
 
                 # REGIME B: Chop Mean-Reversion Scalper
@@ -293,6 +316,7 @@ class QuantumHybridEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 62.0 and c < o:
                         pos = -1
@@ -305,6 +329,7 @@ class QuantumHybridEngine:
                         entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
                         capital -= entry_fee
                         trade_net = -entry_fee
+                        avg_entry_p = entry_p
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

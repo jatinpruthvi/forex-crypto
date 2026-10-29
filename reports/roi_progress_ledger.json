@@ -264,7 +264,9 @@
         "months_elapsed": 5.48
       },
       "tag": "OUT_OF_THE_BOX_CHAMPION",
-      "notes": "Out-of-the-box institutional trading architecture: compounds runner size exclusively with locked house money after TP1 to achieve 25.64%/month with Max DD < 12%"
+      "notes": "Out-of-the-box institutional trading architecture: compounds runner size exclusively with locked house money after TP1 to achieve 25.64%/month with Max DD < 12% | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-008-10YEAR-MACRO-PORTFOLIO",
@@ -298,7 +300,9 @@
         "months_elapsed": 112.3
       },
       "tag": "10YEAR_MACRO_VALIDATION",
-      "notes": "Empirically verified across 10 years (14,400 bars per asset) covering bull, bear, and chop regimes without account wipeout"
+      "notes": "Empirically verified across 10 years (14,400 bars per asset) covering bull, bear, and chop regimes without account wipeout | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-009-QUANTUM-HYBRID-BEST-COMBINATION",
@@ -330,7 +334,9 @@
         "months_elapsed": 5.48
       },
       "tag": "ALL_TIME_BEST_COMBINATION",
-      "notes": "Best overall combination: beats EXP-007 with 2-tier pyramiding on FVG+Donchian confluence, producing +25.8% monthly ROI on BNB and +22.1% on Crypto portfolio with tight drawdown"
+      "notes": "Best overall combination: beats EXP-007 with 2-tier pyramiding on FVG+Donchian confluence, producing +25.8% monthly ROI on BNB and +22.1% on Crypto portfolio with tight drawdown | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-010-ALL-WEATHER-NON-BULL-VALIDATION",
@@ -362,7 +368,9 @@
         "months_elapsed": 0.0
       },
       "tag": "ALL_WEATHER_VALIDATED",
-      "notes": "Empirically proves strategy does not rely on buy-and-hold bull runs; generates robust alpha via bidirectional liquidity sweeps and chop scalping"
+      "notes": "Empirically proves strategy does not rely on buy-and-hold bull runs; generates robust alpha via bidirectional liquidity sweeps and chop scalping | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-011-CROSS-PAIR-EMPIRICAL-VALIDATION",
@@ -393,7 +401,9 @@
         "months_elapsed": 0.0
       },
       "tag": "CROSS_PAIR_VALIDATION",
-      "notes": "Empirically confirms strategy effectiveness on volatile cross-pairs and non-USD crosses (GBPJPY, EURJPY) without curve fitting"
+      "notes": "Empirically confirms strategy effectiveness on volatile cross-pairs and non-USD crosses (GBPJPY, EURJPY) without curve fitting | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-012-PARALLEL-MULTI-PAIR-BENCHMARK",
@@ -421,7 +431,9 @@
         "months_elapsed": 0.0
       },
       "tag": "PARALLEL_EXECUTION_CHAMPION",
-      "notes": "Evaluates simultaneous parallel sub-accounts for all pairs generating >=10%/month. Delivers +18.08%/mo across 8 crypto pairs ($8,000 -> $19,892) and +12.70%/mo across 6 forex pairs over a decade"
+      "notes": "Evaluates simultaneous parallel sub-accounts for all pairs generating >=10%/month. Delivers +18.08%/mo across 8 crypto pairs ($8,000 -> $19,892) and +12.70%/mo across 6 forex pairs over a decade | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-013-DUAL-SLOT-SHARED-POOL",
@@ -464,7 +476,9 @@
         "months_elapsed": 5.47
       },
       "tag": "DUAL_SLOT_SHARED_POOL_CHAMPION",
-      "notes": "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI."
+      "notes": "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-014-5YEAR-INTRABAR-TICK-VALIDATION",
@@ -493,7 +507,9 @@
         "months_elapsed": 60.0
       },
       "tag": "TICK_LEVEL_5YEAR_VALIDATION",
-      "notes": "RE-LABELLED (audit #30): SYNTHETIC 8-point sub-tick approximation, NOT real tick data. For each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target within the same macro candle are approximations, and reported figures are capacity-unconstrained compounded backtest artifacts. Metrics preserved from the original run. For real-tick validation use exchange tick data (e.g. Hyperliquid API) instead."
+      "notes": "RE-LABELLED (audit #30): SYNTHETIC 8-point sub-tick approximation, NOT real tick data. For each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target within the same macro candle are approximations, and reported figures are capacity-unconstrained compounded backtest artifacts. Metrics preserved from the original run. For real-tick validation use exchange tick data (e.g. Hyperliquid API) instead. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-015-RISK-EFFICIENCY-FRONTIER-ANALYSIS",
@@ -535,7 +551,9 @@
         "months_elapsed": 5.47
       },
       "tag": "RISK_FRONTIER_ANALYSIS",
-      "notes": "Evaluates ROI-to-Drawdown efficiency frontier. While 2.5% risk achieves higher Calmar (1.60x ROI/DD ratio vs 1.14x), 1.5% risk is the optimal choice for prop-firm compliance and maximum 25%/month target fulfillment."
+      "notes": "Evaluates ROI-to-Drawdown efficiency frontier. While 2.5% risk achieves higher Calmar (1.60x ROI/DD ratio vs 1.14x), 1.5% risk is the optimal choice for prop-firm compliance and maximum 25%/month target fulfillment. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-015A-VENUE-FEE-MEXC",
@@ -578,7 +596,9 @@
         "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
-      "notes": "Venue fee model MEXC: maker 0.00% entries + taker 0.05% stop exits (per-side avg 0.025%)."
+      "notes": "Venue fee model MEXC: maker 0.00% entries + taker 0.05% stop exits (per-side avg 0.025%). | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-015B-VENUE-FEE-HYPERLIQUID",
@@ -621,7 +641,9 @@
         "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
-      "notes": "Venue fee model Hyperliquid: maker 0.015% entries + taker 0.045% stop exits (per-side avg 0.030%)."
+      "notes": "Venue fee model Hyperliquid: maker 0.015% entries + taker 0.045% stop exits (per-side avg 0.030%). | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-015C-VENUE-FEE-BYBIT",
@@ -664,7 +686,9 @@
         "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
-      "notes": "Venue fee model Bybit: maker 0.02% entries + taker 0.055% stop exits (per-side avg 0.0375%)."
+      "notes": "Venue fee model Bybit: maker 0.02% entries + taker 0.055% stop exits (per-side avg 0.0375%). | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
@@ -707,7 +731,9 @@
         "final_capital": 22996.87
       },
       "tag": "AUDIT_CORRECTED_CHAMPION",
-      "notes": "Audit-corrected fill model: bar-start stop snapshot, stop fills FIRST on ambiguous bars (no same-bar TP/pyramid bookkeeping), taker fee (max(3x maker, 0.045%)) plus 0.05% stop slippage on trigger closes, lot-size viability gating on entries/pyramids, net-PnL win counting. Supersedes EXP-013-DUAL-SLOT-SHARED-POOL whose model filled stops at maker fees after same-bar ratchet/TP resolution (control rerun of that model reproduces its ,391.10/+25.01% exactly). The corrected model is more pessimistic on short-stop ratchets and more optimistic on long same-bar ambiguity; net panel effect is higher compounded ROI on this 5.47-month H4 window - treat as model-sensitivity upper bound, real-money results expected lower (see EXP-014/EXP-017 tick-level runs)."
+      "notes": "Audit-corrected fill model: bar-start stop snapshot, stop fills FIRST on ambiguous bars (no same-bar TP/pyramid bookkeeping), taker fee (max(3x maker, 0.045%)) plus 0.05% stop slippage on trigger closes, lot-size viability gating on entries/pyramids, net-PnL win counting. Supersedes EXP-013-DUAL-SLOT-SHARED-POOL whose model filled stops at maker fees after same-bar ratchet/TP resolution (control rerun of that model reproduces its ,391.10/+25.01% exactly). The corrected model is more pessimistic on short-stop ratchets and more optimistic on long same-bar ambiguity; net panel effect is higher compounded ROI on this 5.47-month H4 window - treat as model-sensitivity upper bound, real-money results expected lower (see EXP-014/EXP-017 tick-level runs). | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-017-AUDIT-CORRECTED-INTRABAR-SYNTHETIC",
@@ -736,7 +762,9 @@
         "final_capital": 49463658192.99
       },
       "tag": "AUDIT_CORRECTED_SYNTHETIC_SUBTICK",
-      "notes": "SYNTHETIC 8-point sub-tick approximation (NOT real tick data): for each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target in the same macro candle are approximations. Results quantify intrabar sweep/chop resilience of the approximated path, not real-tick execution. Use exchange tick data for true validation. CAVEAT: compounded 5-year balances ignore capital-capacity/market-impact constraints (final balances scale into the billions); compare runs by monthly ROI and max DD, not absolute terminal wealth."
+      "notes": "SYNTHETIC 8-point sub-tick approximation (NOT real tick data): for each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target in the same macro candle are approximations. Results quantify intrabar sweep/chop resilience of the approximated path, not real-tick execution. Use exchange tick data for true validation. CAVEAT: compounded 5-year balances ignore capital-capacity/market-impact constraints (final balances scale into the billions); compare runs by monthly ROI and max DD, not absolute terminal wealth. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-018A-WALKFORWARD-CRYPTO22-OOS",
@@ -792,7 +820,9 @@
         "final_capital": 0.0
       },
       "tag": "POSTFIX_WALKFORWARD_OOS",
-      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics."
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-018B-WALKFORWARD-CRYPTO24-OOS",
@@ -848,7 +878,9 @@
         "final_capital": 0.0
       },
       "tag": "POSTFIX_WALKFORWARD_OOS",
-      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics. Cross-dataset transfer check (crypto22-selected risk 1.0%/2 slots on the full unseen crypto24 window): +2.83%/mo, DD 4.15%."
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics. Cross-dataset transfer check (crypto22-selected risk 1.0%/2 slots on the full unseen crypto24 window): +2.83%/mo, DD 4.15%. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-018C-WALKFORWARD-FOREX-OOS",
@@ -955,7 +987,9 @@
         "final_capital": 0.0
       },
       "tag": "POSTFIX_WALKFORWARD_OOS",
-      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics."
+      "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-019A-CRYPTO22-DEEP-OOS",
@@ -1028,7 +1062,9 @@
         "final_capital": 0.0
       },
       "tag": "CRYPTO_DEEP_WALKFORWARD_OOS",
-      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md."
+      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
     },
     {
       "experiment_id": "EXP-019B-CRYPTO24-DEEP-OOS",
@@ -1096,7 +1132,57 @@
         "final_capital": 0.0
       },
       "tag": "CRYPTO_DEEP_WALKFORWARD_OOS",
-      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md."
+      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md. | SUPERSEDED by EXP-020 (accounting bug fix): pyramid adds were booked at the ORIGINAL entry with no add fee (phantom +1.8 ATR per tier1 / +3 ATR per tier2 unit), and trade_log PnL omitted TP1 partials. ROI/DD/WR/PF here are pyramid-accounting-optimistic.",
+      "superseded": true,
+      "superseded_by": "EXP-020"
+    },
+    {
+      "experiment_id": "EXP-020",
+      "date": "2026-10-29",
+      "setup": "Bug-fix re-validation after correcting pyramid-add accounting (volume-weighted avg_entry re-basis + taker fee on adds + net-trade PnL in trade_log) across quantum_hybrid_engine, out_of_box_engine, quantum_paper_engine, dual_slot_paper_engine, run_dual_slot_shared_pool_benchmark, run_5year_intrabar_tick_benchmark. Same audited fill model (bar-start stop snapshot, SL-first, taker+0.05% slip on stops, maker TP1/entries, adds at bar close +/- 0.1% slip).",
+      "data": "crypto22 bench_panel (8 pairs, 2022-10-30->2023-04-15) + crypto24 + forex4 (walk-forward, identical harness to EXP-018)",
+      "results": {
+        "bench_champion_dual_1.5pct_2slot": {
+          "final_equity": 451.2,
+          "monthly_roi": -13.54,
+          "max_drawdown": 62.93,
+          "total_trades": 138,
+          "win_rate": 18.84,
+          "profit_factor": 0.58
+        },
+        "bench_single_1.5pct_1slot": {
+          "final_equity": 639.18,
+          "monthly_roi": -7.86,
+          "max_drawdown": 51.31,
+          "total_trades": 74,
+          "win_rate": 18.92,
+          "profit_factor": 0.56
+        },
+        "wf_crypto22_oos": {
+          "monthly_roi": -8.25,
+          "worst_fold_dd": 26.07,
+          "oos_trades": 47,
+          "verdict": "BREACH"
+        },
+        "wf_crypto24_oos": {
+          "monthly_roi": 1.51,
+          "oos_trades": 0,
+          "verdict": "dormant"
+        },
+        "wf_forex_oos": {
+          "monthly_roi": -3.14,
+          "worst_fold_dd": 56.18,
+          "oos_trades": 732,
+          "verdict": "BREACH"
+        },
+        "transfer_crypto22_to_crypto24": {
+          "monthly_roi": 0.19,
+          "max_drawdown": 3.26,
+          "trades": 2
+        }
+      },
+      "conclusion": "HONEST VERDICT: with correct pyramid accounting the strategy has NO positive edge at the audited fill model. All prior ROI claims (EXP-013..019, incl. +25%/mo and +46%/mo OOS) were artifacts of the phantom pyramid-entry bug. Strategy redesign required before any ROI target is meaningful.",
+      "notes": "Full suite 170/170 after fixes. Regression tests pin add re-basis + net-trade PnL."
     }
   ],
   "savepoints": {
