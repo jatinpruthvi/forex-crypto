@@ -77,10 +77,20 @@ void OnTimer()
 
    GlobalVariableSet("CURRENT_DAILY_PNL", -dailyLossPct);
 
-   // 1. Hard Kill Switch: Max Drawdown breached (>8%)
-   if(dailyLossPct >= InpMaxTotalDrawdown)
+   // True TOTAL drawdown from peak equity (the kill switch used to measure the
+   // DAY baseline only, so a slow multi-day bleed could never trip it).
+   double peakEquity = GlobalVariableCheck("PEAK_EQUITY") ? GlobalVariableGet("PEAK_EQUITY") : currentEquity;
+   if(currentEquity > peakEquity)
    {
-      Print("KILL-SWITCH ACTIVE: Total Drawdown breached ", dailyLossPct, "%. Liquidating all!");
+      peakEquity = currentEquity;
+   }
+   GlobalVariableSet("PEAK_EQUITY", peakEquity);
+   double totalDDPct = peakEquity > 0.0 ? ((peakEquity - currentEquity) / peakEquity) * 100.0 : 0.0;
+
+   // 1. Hard Kill Switch: TOTAL Drawdown breached (>8% from peak)
+   if(totalDDPct >= InpMaxTotalDrawdown)
+   {
+      Print("KILL-SWITCH ACTIVE: Total Drawdown breached ", totalDDPct, "%. Liquidating all!");
       GlobalVariableSet("ALLOW_NEW_TRADES", 0.0);
       CRiskManager::CloseAllPositions(777123); // Closes all AMATS slave EA positions
       return;
@@ -94,7 +104,7 @@ void OnTimer()
       return;
    }
 
-   // 3. Escalation sizing tiers
+   // 3. Escalation sizing tiers (size only — never toggles the entry gate)
    if(dailyLossPct >= InpMaxDailyLossPct * 0.75)
    {
       GlobalVariableSet("SIZE_MULT", 0.25);
@@ -106,7 +116,6 @@ void OnTimer()
    else
    {
       GlobalVariableSet("SIZE_MULT", 1.0);
-      GlobalVariableSet("ALLOW_NEW_TRADES", 1.0);
    }
 
    // 4. Weekend Liquidity & Spread Blowout Guard (Friday 20:30 GMT)
@@ -125,11 +134,13 @@ void OnTimer()
    }
 
    // 5. Illiquid Asian Session Filter (00:00 - 06:00 GMT)
-   if(InpFilterAsianSession)
+   // Entry gate state is computed ONCE here. (The old code set ALLOW=0 in the
+   // session filter, then the sizing `else` branch force-set ALLOW=1 on the
+   // next 10s tick — the Asian filter never actually stuck.)
+   bool sessionBlocked = false;
+   if(InpFilterAsianSession && dt.hour >= 0 && dt.hour < 6)
    {
-      if(dt.hour >= 0 && dt.hour < 6)
-      {
-         GlobalVariableSet("ALLOW_NEW_TRADES", 0.0);
-      }
+      sessionBlocked = true;
    }
+   GlobalVariableSet("ALLOW_NEW_TRADES", sessionBlocked ? 0.0 : 1.0);
 }

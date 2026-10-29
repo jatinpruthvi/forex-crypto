@@ -119,6 +119,7 @@ for asset_name, file_path, candle_hours in datasets:
                 sl = t['sl']
                 tp = t['tp']
                 sz = t['sz']
+                sl_bar_start = t['sl']  # bar-START stop: ratchets are future-only
                 peak_p = t['peak_p']
                 part = t['part']
                 ex = False
@@ -137,10 +138,11 @@ for asset_name, file_path, candle_hours in datasets:
                         gain = ((entry_p + c_atr * 2.0) - entry_p) / entry_p * (sz * 0.5)
                         capital += (gain - (sz * 0.5 * taker_fee))
                         t['sz'] *= 0.5
+                        sz = t['sz']  # exit must use post-partial size
                         t['sl'] = max(sl, entry_p)
-                    if c_low <= sl:
+                    if c_low <= sl_bar_start:
                         ex = True
-                        ex_p = sl * (1.0 - slippage)
+                        ex_p = sl_bar_start * (1.0 - slippage)
                     elif c_high >= tp:
                         ex = True
                         ex_p = tp * (1.0 - slippage)
@@ -157,10 +159,11 @@ for asset_name, file_path, candle_hours in datasets:
                         gain = (entry_p - (entry_p - c_atr * 2.0)) / entry_p * (sz * 0.5)
                         capital += (gain - (sz * 0.5 * taker_fee))
                         t['sz'] *= 0.5
+                        sz = t['sz']  # exit must use post-partial size
                         t['sl'] = min(sl, entry_p)
-                    if c_high >= sl:
+                    if c_high >= sl_bar_start:
                         ex = True
-                        ex_p = sl * (1.0 + slippage)
+                        ex_p = sl_bar_start * (1.0 + slippage)
                     elif c_low <= tp:
                         ex = True
                         ex_p = tp * (1.0 + slippage)

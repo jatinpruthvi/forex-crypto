@@ -24,68 +24,74 @@ class SignalStorage:
         return conn
 
     def init_db(self) -> None:
-        with self.get_connection() as conn:
+        # NOTE: execute + commit + close must all happen in one scope; the DDL
+        # used to run *after* the `with conn:` block exited and the connection
+        # leaked (never closed).
+        conn = self.get_connection()
+        try:
             cursor = conn.cursor()
 
-        # Market signals table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS market_signals (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp DATETIME NOT NULL,
-                symbol TEXT NOT NULL,
-                funding_rate REAL,
-                open_interest REAL,
-                oi_change_pct REAL,
-                long_short_ratio REAL,
-                taker_buy_volume REAL,
-                taker_sell_volume REAL,
-                taker_ratio REAL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE(timestamp, symbol)
-            );
-        """)
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_time ON market_signals(timestamp);")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_symbol ON market_signals(symbol);")
+            # Market signals table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS market_signals (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp DATETIME NOT NULL,
+                    symbol TEXT NOT NULL,
+                    funding_rate REAL,
+                    open_interest REAL,
+                    oi_change_pct REAL,
+                    long_short_ratio REAL,
+                    taker_buy_volume REAL,
+                    taker_sell_volume REAL,
+                    taker_ratio REAL,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE(timestamp, symbol)
+                );
+            """)
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_time ON market_signals(timestamp);")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_signals_symbol ON market_signals(symbol);")
 
-        # Economic events table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS events (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                event_time DATETIME NOT NULL,
-                currency TEXT NOT NULL,
-                impact TEXT NOT NULL,
-                event_name TEXT,
-                forecast REAL,
-                previous REAL,
-                actual REAL,
-                week_start DATE
-            );
-        """)
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_time ON events(event_time);")
+            # Economic events table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS events (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    event_time DATETIME NOT NULL,
+                    currency TEXT NOT NULL,
+                    impact TEXT NOT NULL,
+                    event_name TEXT,
+                    forecast REAL,
+                    previous REAL,
+                    actual REAL,
+                    week_start DATE
+                );
+            """)
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_events_time ON events(event_time);")
 
-        # Trade log table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS trade_log (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp DATETIME NOT NULL,
-                source TEXT NOT NULL,
-                symbol TEXT NOT NULL,
-                direction TEXT NOT NULL,
-                entry_price REAL,
-                exit_price REAL,
-                sl REAL,
-                tp REAL,
-                lots REAL,
-                pnl REAL,
-                pnl_pct REAL,
-                regime TEXT,
-                conviction REAL,
-                ml_probability REAL,
-                holding_minutes INTEGER,
-                exit_reason TEXT
-            );
-        """)
-        conn.commit()
+            # Trade log table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS trade_log (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp DATETIME NOT NULL,
+                    source TEXT NOT NULL,
+                    symbol TEXT NOT NULL,
+                    direction TEXT NOT NULL,
+                    entry_price REAL,
+                    exit_price REAL,
+                    sl REAL,
+                    tp REAL,
+                    lots REAL,
+                    pnl REAL,
+                    pnl_pct REAL,
+                    regime TEXT,
+                    conviction REAL,
+                    ml_probability REAL,
+                    holding_minutes INTEGER,
+                    exit_reason TEXT
+                );
+            """)
+            conn.commit()
+        finally:
+            conn.close()
 
     def insert_signal(self, data: Dict[str, Any]) -> bool:
         """Insert a market signal row with INSERT OR IGNORE."""

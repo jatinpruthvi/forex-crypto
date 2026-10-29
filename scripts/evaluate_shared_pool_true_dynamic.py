@@ -132,54 +132,56 @@ def run_true_shared_pool(streams, max_open_pos=4, max_per_symbol=2, risk_pct_per
             trail_mult = 3.0 if pos["regime"] == "TREND" else 1.8
 
             if direction == 1:
-                if c_high > peak_p:
-                    pos["peak_p"] = c_high
-                    peak_p = c_high
-                cand = peak_p - (c_atr * trail_mult)
-                if cand > sl:
-                    pos["sl"] = cand
-                    sl = cand
-                
-                # Partial TP at 2.0x ATR with BE profit buffer (+0.25x ATR)
-                if not partial and c_high >= entry_p + (c_atr * 2.0):
-                    pos["partial_taken"] = True
-                    gain = ((entry_p + c_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
-                    capital += gain - (size_usd * 0.5 * fee)
-                    pos["size_usd"] *= 0.5
-                    size_usd = pos["size_usd"]
-                    pos["sl"] = max(sl, entry_p + (c_atr * 0.25))
-                    sl = pos["sl"]
-
-                if c_high >= tp:
+                # Audit fill convention: bar-START stop, SL-first on ambiguous
+                # bars; peak/trail/BE ratchets apply FUTURE-only.
+                sl_bar_start = pos["sl"]
+                if c_low <= sl_bar_start:
                     exit_now = True
-                    exit_price = tp
-                elif c_low <= sl:
-                    exit_now = True
-                    exit_price = sl
+                    exit_price = sl_bar_start
+                else:
+                    if c_high > peak_p:
+                        pos["peak_p"] = c_high
+                        peak_p = c_high
+                    cand = peak_p - (c_atr * trail_mult)
+                    if cand > sl:
+                        pos["sl"] = cand
+                        sl = cand
+                    # Partial TP at 2.0x ATR with BE profit buffer (+0.25x ATR)
+                    if not partial and c_high >= entry_p + (c_atr * 2.0):
+                        pos["partial_taken"] = True
+                        gain = ((entry_p + c_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
+                        capital += gain - (size_usd * 0.5 * fee)
+                        pos["size_usd"] *= 0.5
+                        size_usd = pos["size_usd"]
+                        pos["sl"] = max(sl, entry_p + (c_atr * 0.25))
+                        sl = pos["sl"]
+                    if c_high >= tp:
+                        exit_now = True
+                        exit_price = tp
             else:
-                if c_low < peak_p:
-                    pos["peak_p"] = c_low
-                    peak_p = c_low
-                cand = peak_p + (c_atr * trail_mult)
-                if cand < sl:
-                    pos["sl"] = cand
-                    sl = cand
-
-                if not partial and c_low <= entry_p - (c_atr * 2.0):
-                    pos["partial_taken"] = True
-                    gain = (entry_p - (entry_p - c_atr * 2.0)) / entry_p * (size_usd * 0.5)
-                    capital += gain - (size_usd * 0.5 * fee)
-                    pos["size_usd"] *= 0.5
-                    size_usd = pos["size_usd"]
-                    pos["sl"] = min(sl, entry_p - (c_atr * 0.25))
-                    sl = pos["sl"]
-
-                if c_low <= tp:
+                sl_bar_start = pos["sl"]
+                if c_high >= sl_bar_start:
                     exit_now = True
-                    exit_price = tp
-                elif c_high >= sl:
-                    exit_now = True
-                    exit_price = sl
+                    exit_price = sl_bar_start
+                else:
+                    if c_low < peak_p:
+                        pos["peak_p"] = c_low
+                        peak_p = c_low
+                    cand = peak_p + (c_atr * trail_mult)
+                    if cand < sl:
+                        pos["sl"] = cand
+                        sl = cand
+                    if not partial and c_low <= entry_p - (c_atr * 2.0):
+                        pos["partial_taken"] = True
+                        gain = (entry_p - (entry_p - c_atr * 2.0)) / entry_p * (size_usd * 0.5)
+                        capital += gain - (size_usd * 0.5 * fee)
+                        pos["size_usd"] *= 0.5
+                        size_usd = pos["size_usd"]
+                        pos["sl"] = min(sl, entry_p - (c_atr * 0.25))
+                        sl = pos["sl"]
+                    if c_low <= tp:
+                        exit_now = True
+                        exit_price = tp
 
             if exit_now:
                 pnl_pct = (exit_price - entry_p) / entry_p if direction == 1 else (entry_p - exit_price) / entry_p

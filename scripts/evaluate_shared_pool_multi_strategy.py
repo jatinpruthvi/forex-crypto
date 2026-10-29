@@ -126,41 +126,45 @@ def run_shared_pool_engine(streams, max_open_positions=4, risk_pct_per_pos=2.0, 
             trail_mult = 3.0 if pos["regime"] == "TREND" else 1.8
 
             if direction == 1:
-                if c_high > peak_p:
-                    pos["peak_p"] = c_high
-                    peak_p = c_high
-                cand = peak_p - (c_atr * trail_mult)
-                if cand > sl:
-                    pos["sl"] = cand
-                    sl = cand
-                if not partial and c_high >= entry_p + (c_atr * 1.0):
-                    pos["partial_taken"] = True
-                    pos["sl"] = max(sl, entry_p + (c_atr * 0.25))
-
-                if c_high >= tp:
+                # Audit fill convention: bar-START stop, SL-first on ambiguous
+                # bars; peak/trail/BE ratchets apply FUTURE-only.
+                sl_bar_start = pos["sl"]
+                if c_low <= sl_bar_start:
                     exit_now = True
-                    exit_price = tp
-                elif c_low <= sl:
-                    exit_now = True
-                    exit_price = sl
+                    exit_price = sl_bar_start
+                else:
+                    if c_high > peak_p:
+                        pos["peak_p"] = c_high
+                        peak_p = c_high
+                    cand = peak_p - (c_atr * trail_mult)
+                    if cand > sl:
+                        pos["sl"] = cand
+                        sl = cand
+                    if not partial and c_high >= entry_p + (c_atr * 1.0):
+                        pos["partial_taken"] = True
+                        pos["sl"] = max(sl, entry_p + (c_atr * 0.25))
+                    if c_high >= tp:
+                        exit_now = True
+                        exit_price = tp
             else:
-                if c_low < peak_p:
-                    pos["peak_p"] = c_low
-                    peak_p = c_low
-                cand = peak_p + (c_atr * trail_mult)
-                if cand < sl:
-                    pos["sl"] = cand
-                    sl = cand
-                if not partial and c_low <= entry_p - (c_atr * 1.0):
-                    pos["partial_taken"] = True
-                    pos["sl"] = min(sl, entry_p - (c_atr * 0.25))
-
-                if c_low <= tp:
+                sl_bar_start = pos["sl"]
+                if c_high >= sl_bar_start:
                     exit_now = True
-                    exit_price = tp
-                elif c_high >= sl:
-                    exit_now = True
-                    exit_price = sl
+                    exit_price = sl_bar_start
+                else:
+                    if c_low < peak_p:
+                        pos["peak_p"] = c_low
+                        peak_p = c_low
+                    cand = peak_p + (c_atr * trail_mult)
+                    if cand < sl:
+                        pos["sl"] = cand
+                        sl = cand
+                    if not partial and c_low <= entry_p - (c_atr * 1.0):
+                        pos["partial_taken"] = True
+                        pos["sl"] = min(sl, entry_p - (c_atr * 0.25))
+                    if c_low <= tp:
+                        exit_now = True
+                        exit_price = tp
 
             if exit_now:
                 pnl_pct = (exit_price - entry_p) / entry_p if direction == 1 else (entry_p - exit_price) / entry_p

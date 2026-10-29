@@ -116,6 +116,7 @@ def run_intelligent_sim(use_adaptive_trail=True, use_ml_sizing=True, dynamic_tp=
             sl = t['sl']
             tp = t['tp']
             size_usd = t['size_usd']
+            sl_bar_start = t['sl']  # bar-START stop: ratchets are future-only
             peak_p = t['peak_p']
             partial = t['partial']
             ex = False
@@ -136,11 +137,12 @@ def run_intelligent_sim(use_adaptive_trail=True, use_ml_sizing=True, dynamic_tp=
                     gain = ((entry_p + c_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
                     capital += (gain - (size_usd * 0.5 * taker_fee))
                     t['size_usd'] *= 0.5
+                    size_usd = t['size_usd']  # exit must use post-partial size
                     t['sl'] = max(sl, entry_p)
 
-                if c_low <= sl:
+                if c_low <= sl_bar_start:
                     ex = True
-                    ex_p = sl * (1.0 - slippage)
+                    ex_p = sl_bar_start * (1.0 - slippage)
                 elif c_high >= tp:
                     ex = True
                     ex_p = tp * (1.0 - slippage)
@@ -158,11 +160,12 @@ def run_intelligent_sim(use_adaptive_trail=True, use_ml_sizing=True, dynamic_tp=
                     gain = (entry_p - (entry_p - c_atr * 2.0)) / entry_p * (size_usd * 0.5)
                     capital += (gain - (size_usd * 0.5 * taker_fee))
                     t['size_usd'] *= 0.5
+                    size_usd = t['size_usd']  # exit must use post-partial size
                     t['sl'] = min(sl, entry_p)
 
-                if c_high >= sl:
+                if c_high >= sl_bar_start:
                     ex = True
-                    ex_p = sl * (1.0 + slippage)
+                    ex_p = sl_bar_start * (1.0 + slippage)
                 elif c_low <= tp:
                     ex = True
                     ex_p = tp * (1.0 + slippage)

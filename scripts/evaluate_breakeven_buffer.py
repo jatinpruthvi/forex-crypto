@@ -79,6 +79,7 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
                 sl = t['sl']
                 tp = t['tp']
                 size_usd = t['size_usd']
+                sl_bar_start = t['sl']  # bar-START stop: ratchets are future-only
                 peak_p = t['peak_p']
                 partial_taken = t.get('partial_taken', False)
 
@@ -102,12 +103,13 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
                         partial_fee = (size_usd * 0.5) * self.taker_fee
                         capital += (partial_gain - partial_fee)
                         t['size_usd'] *= 0.5
+                        size_usd = t['size_usd']  # exit must use post-partial size
                         # Move SL to entry_p + be_buffer_atr to ensure zero loss AND profit locked
                         t['sl'] = max(sl, entry_p + (current_atr * be_buffer_atr))
 
-                    if current_low <= sl:
+                    if current_low <= sl_bar_start:
                         exit_trade = True
-                        exit_price = sl * (1.0 - self.slippage)
+                        exit_price = sl_bar_start * (1.0 - self.slippage)
                     elif current_high >= tp:
                         exit_trade = True
                         exit_price = tp * (1.0 - self.slippage)
@@ -128,11 +130,12 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
                         partial_fee = (size_usd * 0.5) * self.taker_fee
                         capital += (partial_gain - partial_fee)
                         t['size_usd'] *= 0.5
+                        size_usd = t['size_usd']  # exit must use post-partial size
                         t['sl'] = min(sl, entry_p - (current_atr * be_buffer_atr))
 
-                    if current_high >= sl:
+                    if current_high >= sl_bar_start:
                         exit_trade = True
-                        exit_price = sl * (1.0 + self.slippage)
+                        exit_price = sl_bar_start * (1.0 + self.slippage)
                     elif current_low <= tp:
                         exit_trade = True
                         exit_price = tp * (1.0 + self.slippage)

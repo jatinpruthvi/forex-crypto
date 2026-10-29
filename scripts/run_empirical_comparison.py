@@ -100,6 +100,7 @@ def run_simulation(
             side = pos["side"]
             entry = pos["entry_price"]
             rem_size = pos["remaining_size"]
+            sl_bar_start = pos["sl_price"]  # bar-START stop: ratchets are future-only
             pos_atr = pos["atr"]
 
             exit_reason = None
@@ -118,9 +119,9 @@ def run_simulation(
                         pos["sl_price"] = trailing_sl
 
                 # Check SL & TP
-                if l <= pos["sl_price"]:
+                if l <= sl_bar_start:
                     exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_or_trail"
-                    exit_price = pos["sl_price"]
+                    exit_price = sl_bar_start
                 elif h >= pos["tp_price"]:
                     exit_reason = "take_profit"
                     exit_price = pos["tp_price"]
@@ -135,9 +136,9 @@ def run_simulation(
                     if trailing_sl < pos["sl_price"]:
                         pos["sl_price"] = trailing_sl
 
-                if h >= pos["sl_price"]:
+                if h >= sl_bar_start:
                     exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_or_trail"
-                    exit_price = pos["sl_price"]
+                    exit_price = sl_bar_start
                 elif l <= pos["tp_price"]:
                     exit_reason = "take_profit"
                     exit_price = pos["tp_price"]

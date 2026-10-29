@@ -32,7 +32,15 @@ def run_backfill(days: int = 180):
     total_inserted = 0
 
     for sym in symbols:
-        history = backfill_bybit_funding(sym, limit=200)
+        # Bybit funding/history caps at 200 records per request (~33 days at
+        # 8h funding); honour --days as far as the API allows and say so.
+        limit = max(1, min(200, int(days * 3)))
+        if limit < days * 3:
+            logger.info(
+                f"{sym}: requesting {limit} funding records (API cap 200 ~= "
+                f"{200 // 3} days at 8h); --days {days} exceeds one page."
+            )
+        history = backfill_bybit_funding(sym, limit=limit)
         pair_key = f"{sym[:3]}/{sym[3:]}:USDT"
         for item in history:
             funding_ts = int(item.get("fundingRateTimestamp", 0)) / 1000.0
@@ -43,7 +51,10 @@ def run_backfill(days: int = 180):
                 "timestamp": dt,
                 "symbol": pair_key,
                 "funding_rate": rate,
-                "open_interest": 1000000.0,
+                # Unknown in funding history — NEVER fabricate an OI value
+                # (a fake 1,000,000 placeholder used to sit here and poisoned
+                # downstream OI-change computations).
+                "open_interest": 0.0,
                 "oi_change_pct": 0.0,
                 "long_short_ratio": 1.0,
                 "taker_buy_volume": 0.0,
