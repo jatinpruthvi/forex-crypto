@@ -65,7 +65,9 @@ class ValueAtRiskGuard:
                 f"position_notionals ({len(position_notionals)}) and asset_volatilities "
                 f"({len(asset_volatilities)}) must have the same length"
             )
-        z_score = 2.326 if confidence_level == 0.99 else 1.645  # 99% or 95%
+        # Nearest supported level (99% or 95%); float-equality on 0.99 silently
+        # misclassified nearby values like 0.9900000001 as 95%.
+        z_score = 2.326 if abs(confidence_level - 0.99) <= abs(confidence_level - 0.95) else 1.645
         
         # Portfolio standard deviation approximation
         total_risk_sq = sum((pos * vol)**2 for pos, vol in zip(position_notionals, asset_volatilities))

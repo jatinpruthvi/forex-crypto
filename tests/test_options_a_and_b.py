@@ -113,7 +113,7 @@ def test_option_a_backtest_simulation():
     macro = df_sub["macro_trend"]
 
     tr = np.maximum(high - low, np.maximum(abs(high - close.shift(1)), abs(low - close.shift(1))))
-    atr = tr.rolling(14).mean().bfill()
+    atr = tr.rolling(14).mean()  # no .bfill(): warmup must not borrow future ATR
     ema20 = close.ewm(span=20).mean()
     ema50 = close.ewm(span=50).mean()
     typical_p = (high + low + close) / 3.0

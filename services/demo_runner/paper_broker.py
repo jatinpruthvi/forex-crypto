@@ -90,44 +90,48 @@ class PaperAccount:
         if side == "long":
             pos["current_price"] = close
             pos["unrealized_pnl"] = (close - entry) * size
-            
-            # Check Breakeven ratchet condition: +1.0x ATR reached -> Lock SL to entry + 0.25x ATR
-            if not pos["be_locked"] and (high - entry) >= atr:
-                pos["be_locked"] = True
-                new_sl = entry + 0.25 * atr
-                if new_sl > pos["sl_price"]:
-                    pos["sl_price"] = new_sl
-                    logger.info(f"[{self.broker_name}] BREAKEVEN LOCKED on {symbol} Long at {new_sl:.2f}")
 
-            # Check SL
-            if low <= pos["sl_price"]:
+            # Audit fill convention: the bar-START stop, if traded, fills FIRST;
+            # breakeven ratchets triggered by this bar apply FUTURE-only.
+            sl_bar_start = pos["sl_price"]
+            if low <= sl_bar_start:
                 exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_buffer"
-                exit_price = pos["sl_price"]
-            # Check TP
-            elif high >= tp:
-                exit_reason = "take_profit_2x_atr"
-                exit_price = tp
+                exit_price = sl_bar_start
+            else:
+                # Breakeven ratchet: +1.0x ATR reached -> lock SL to entry + 0.25x ATR
+                if not pos["be_locked"] and (high - entry) >= atr:
+                    pos["be_locked"] = True
+                    new_sl = entry + 0.25 * atr
+                    if new_sl > pos["sl_price"]:
+                        pos["sl_price"] = new_sl
+                        logger.info(f"[{self.broker_name}] BREAKEVEN LOCKED on {symbol} Long at {new_sl:.2f}")
+
+                # Check TP
+                if high >= tp:
+                    exit_reason = "take_profit_2x_atr"
+                    exit_price = tp
 
         elif side == "short":
             pos["current_price"] = close
             pos["unrealized_pnl"] = (entry - close) * size
-            
-            # Check Breakeven ratchet condition: +1.0x ATR reached
-            if not pos["be_locked"] and (entry - low) >= atr:
-                pos["be_locked"] = True
-                new_sl = entry - 0.25 * atr
-                if new_sl < pos["sl_price"]:
-                    pos["sl_price"] = new_sl
-                    logger.info(f"[{self.broker_name}] BREAKEVEN LOCKED on {symbol} Short at {new_sl:.2f}")
 
-            # Check SL
-            if high >= pos["sl_price"]:
+            sl_bar_start = pos["sl_price"]
+            if high >= sl_bar_start:
                 exit_reason = "stop_loss" if not pos["be_locked"] else "breakeven_buffer"
-                exit_price = pos["sl_price"]
-            # Check TP
-            elif low <= tp:
-                exit_reason = "take_profit_2x_atr"
-                exit_price = tp
+                exit_price = sl_bar_start
+            else:
+                # Breakeven ratchet: +1.0x ATR reached
+                if not pos["be_locked"] and (entry - low) >= atr:
+                    pos["be_locked"] = True
+                    new_sl = entry - 0.25 * atr
+                    if new_sl < pos["sl_price"]:
+                        pos["sl_price"] = new_sl
+                        logger.info(f"[{self.broker_name}] BREAKEVEN LOCKED on {symbol} Short at {new_sl:.2f}")
+
+                # Check TP
+                if low <= tp:
+                    exit_reason = "take_profit_2x_atr"
+                    exit_price = tp
 
         if exit_reason:
             closed = self._close_position(symbol, exit_price, exit_reason, current_time)

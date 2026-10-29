@@ -59,11 +59,21 @@ def train_xgboost_model(
         model_output_path = _resolve_model_path(model_output_path)
         os.makedirs(os.path.dirname(model_output_path) or '.', exist_ok=True)
         joblib.dump(model, model_output_path)
+        # Report REAL measured metrics (the previous hardcoded 0.55/0.58 were
+        # fabricated placeholders). Guard for degenerate single-class samples.
+        try:
+            sp = model.predict_proba(X_te)[:, 1]
+            sb = (sp >= 0.5).astype(int)
+            acc = float(accuracy_score(y_te, sb))
+            roc = float(roc_auc_score(y_te, sp)) if len(set(y_te)) > 1 else 0.5
+        except Exception:
+            acc, roc = 0.0, 0.5
         return {
             "status": "success",
-            "accuracy": 0.55,
-            "roc_auc": 0.58,
+            "accuracy": round(acc, 4),
+            "roc_auc": round(roc, 4),
             "trials": 0,
+            "sample_warning": f"tiny sample (train={len(X_tr)}, test={len(X_te)}); metrics are unstable",
             "model_path": model_output_path,
         }
 
@@ -83,6 +93,14 @@ def train_xgboost_model(
         import optuna
         optuna.logging.set_verbosity(optuna.logging.WARNING)
 
+        # HPO must NOT tune on the test set (leakage -> optimistic metrics).
+        # Carve a validation split out of the TRAIN data instead.
+        from sklearn.model_selection import train_test_split
+        X_sub, X_val, y_sub, y_val = train_test_split(
+            X_tr, y_tr, test_size=0.25, random_state=42,
+            stratify=y_tr if y_tr.nunique() > 1 else None,
+        )
+
         def objective(trial):
             params = {
                 "max_depth": trial.suggest_int("max_depth", 3, 6),
@@ -98,9 +116,9 @@ def train_xgboost_model(
                 eval_metric="logloss",
                 random_state=42,
             )
-            clf.fit(X_tr, y_tr)
-            preds = clf.predict_proba(X_te)[:, 1]
-            return roc_auc_score(y_te, preds)
+            clf.fit(X_sub, y_sub)
+            preds = clf.predict_proba(X_val)[:, 1]
+            return roc_auc_score(y_val, preds)
 
         study = optuna.create_study(direction="maximize")
         study.optimize(objective, n_trials=n_trials, timeout=180)

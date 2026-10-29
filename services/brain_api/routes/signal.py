@@ -78,7 +78,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=0,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     if dd_status["level"] == "RED":
@@ -92,7 +92,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=3600,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # 3. Check High-Impact News Window
@@ -109,7 +109,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=1800,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # 4. Parse OHLCV bars into DataFrame
@@ -155,7 +155,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=3600,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # 6. Signal Fusion (Funding, OI, L/S, Taker)
@@ -183,7 +183,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=3600,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # 7. ML Probability Filter
@@ -262,7 +262,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=3600,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # Direction-Aware ML Probability Gate (Bug #26 fix):
@@ -290,7 +290,7 @@ async def generate_signal(req: SignalRequest):
             expiry_seconds=3600,
             timestamp=timestamp_str,
         )
-        system_state["last_signal"] = resp.dict()
+        system_state["last_signal"] = resp.model_dump()
         return resp
 
     # 10. Stop Loss & Take Profit calculations
@@ -346,8 +346,14 @@ async def generate_signal(req: SignalRequest):
         combined_size_mult *= dxy_eval["risk_multiplier"]
         reason_parts.append(f"DXY Squeeze Long Throttling ({dxy_eval['risk_multiplier']:.2f}x)")
 
-    # Check Portfolio Covariance Deflation if open positions exist
-    cov_deflation = cross_asset_monitor.check_correlation_risk(req.open_positions) if req.open_positions else 1.0
+    # Check Portfolio Covariance Deflation if open positions exist.
+    # Positions arrive as Pydantic models; check_correlation_risk consumes
+    # dicts/strings — convert at the boundary or the haircut never activates.
+    _pos_views = [
+        (p.model_dump() if hasattr(p, "model_dump") else (p.dict() if hasattr(p, "dict") else p))
+        for p in req.open_positions
+    ]
+    cov_deflation = cross_asset_monitor.check_correlation_risk(_pos_views) if req.open_positions else 1.0
     if cov_deflation < 1.0:
         reason_parts.append(f"Covariance Risk Deflation ({cov_deflation:.2f}x)")
 
@@ -405,5 +411,5 @@ async def generate_signal(req: SignalRequest):
         timestamp=timestamp_str,
     )
 
-    system_state["last_signal"] = resp.dict()
+    system_state["last_signal"] = resp.model_dump()
     return resp

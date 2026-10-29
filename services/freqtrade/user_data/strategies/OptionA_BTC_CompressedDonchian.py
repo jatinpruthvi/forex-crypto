@@ -85,7 +85,8 @@ class OptionA_BTC_CompressedDonchian(IStrategy):
         vol = dataframe["volume"]
 
         tr = np.maximum(high - low, np.maximum(abs(high - close.shift(1)), abs(low - close.shift(1))))
-        dataframe["atr"] = tr.rolling(self.atr_period).mean().bfill()
+        # no .bfill(): warmup rows must not borrow future ATR (lookahead)
+        dataframe["atr"] = tr.rolling(self.atr_period).mean()
         dataframe["ema20"] = close.ewm(span=20).mean()
         dataframe["ema50"] = close.ewm(span=50).mean()
 

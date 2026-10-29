@@ -14,8 +14,13 @@ from core.risk.kill_switch import KillSwitchManager
 router = APIRouter()
 kill_switch_manager = KillSwitchManager()
 
-# Admin secret token for emergency actions
-EMERGENCY_ADMIN_TOKEN = os.getenv("EMERGENCY_ADMIN_TOKEN", "amats-emergency-kill-secret-2026")
+# Admin secret token for emergency actions. When the env var is unset we
+# generate a per-process random secret instead of shipping a known default —
+# a published fallback token is an open door on any non-dev deployment.
+EMERGENCY_ADMIN_TOKEN = os.getenv("EMERGENCY_ADMIN_TOKEN", "")
+if not EMERGENCY_ADMIN_TOKEN:
+    import secrets as _secrets
+    EMERGENCY_ADMIN_TOKEN = _secrets.token_urlsafe(32)
 
 # Global emergency state
 emergency_state = {

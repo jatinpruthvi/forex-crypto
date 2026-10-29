@@ -18,7 +18,7 @@ RESULT_KEY_ALIASES = {
     "months_elapsed": ("months_elapsed", "months", "duration_months"),
     "win_rate_pct": ("win_rate_pct", "win_rate"),
     "net_total_roi_pct": ("net_roi_total_pct", "total_return_pct", "net_total_roi_pct"),
-    "monthly_roi_pct": ("monthly_roi_pct",),
+    "monthly_roi_pct": ("monthly_roi_pct", "monthly_roi"),
     "max_drawdown_pct": ("max_drawdown_pct",),
     "profit_factor": ("profit_factor",),
     "total_trades": ("total_trades",),
@@ -78,7 +78,9 @@ class ROILedger:
         create_savepoint: bool = False
     ) -> str:
         data = self.load_ledger()
-        
+        data.setdefault("experiments", [])
+        data.setdefault("savepoints", {})
+
         entry = {
             "experiment_id": experiment_id,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),

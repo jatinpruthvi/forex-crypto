@@ -91,6 +91,16 @@ class DonchianBreakoutStrategy(Strategy):
                 unrealized_profit = curr_close - self.entry_price
                 be_dist = self.config.be_activation_mult * atr
 
+                # Bar-start stop first (audit convention): ratchets derived from
+                # this bar's close apply FUTURE-only, never to this bar's extremes.
+                sl_bar_start = self.current_sl
+                if sl_bar_start is not None and curr_low <= sl_bar_start:
+                    self._close_position("SL_HIT")
+                    return
+                if self.current_tp is not None and curr_high >= self.current_tp:
+                    self._close_position("TP_HIT")
+                    return
+
                 # Ratchet Breakeven + Buffer
                 if unrealized_profit >= be_dist:
                     target_be_sl = self.entry_price + (self.config.be_profit_buffer_mult * atr)
@@ -103,20 +113,20 @@ class DonchianBreakoutStrategy(Strategy):
                     if self.current_sl is None or trail_sl > self.current_sl:
                         self.current_sl = trail_sl
 
-                # Check Exits
-                if self.current_sl is not None and curr_low <= self.current_sl:
-                    self._close_position("SL_HIT")
-                    return
-                if self.current_tp is not None and curr_high >= self.current_tp:
-                    self._close_position("TP_HIT")
-                    return
-
             elif self.position_side == OrderSide.SELL:
                 if self.valley_price is None or curr_low < self.valley_price:
                     self.valley_price = curr_low
 
                 unrealized_profit = self.entry_price - curr_close
                 be_dist = self.config.be_activation_mult * atr
+
+                sl_bar_start = self.current_sl
+                if sl_bar_start is not None and curr_high >= sl_bar_start:
+                    self._close_position("SL_HIT")
+                    return
+                if self.current_tp is not None and curr_low <= self.current_tp:
+                    self._close_position("TP_HIT")
+                    return
 
                 # Ratchet Breakeven + Buffer (Shorts: lower SL is tighter)
                 if unrealized_profit >= be_dist:
@@ -129,14 +139,6 @@ class DonchianBreakoutStrategy(Strategy):
                     trail_sl = self.valley_price + (self.config.trailing_atr_mult * atr)
                     if self.current_sl is None or trail_sl < self.current_sl:
                         self.current_sl = trail_sl
-
-                # Check Exits
-                if self.current_sl is not None and curr_high >= self.current_sl:
-                    self._close_position("SL_HIT")
-                    return
-                if self.current_tp is not None and curr_low <= self.current_tp:
-                    self._close_position("TP_HIT")
-                    return
 
             return  # In position, don't open secondary
 

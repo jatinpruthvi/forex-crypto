@@ -57,7 +57,8 @@ class BacktestAnalyzer:
 
     def generate_html_report(self, output_html: str = "report.html") -> bool:
         try:
-            import quantstats as qs
+            # Plain-HTML tearsheet: must not depend on quantstats being installed
+            # (it was imported but never used, silently disabling the report).
             metrics = self.extract_metrics()
             if metrics["total_trades"] == 0:
                 with open(output_html, "w", encoding="utf-8") as f:

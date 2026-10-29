@@ -186,7 +186,8 @@ class CombinedStrategy(IStrategy):
     ) -> bool:
         """
         1. News event lockout filter: blocks entries +/- 30 minutes around high-impact events.
-        2. ML Probability check: blocks entry if ML model predicts strong divergence against trade.
+        2. Session rollover guard (21:30-22:30 UTC liquidity vacuum).
+        (An ML probability gate is NOT implemented here — do not assume one.)
         """
         is_news, _ = self.event_filter.is_high_impact_window(pair, current_time, window_minutes=30)
         if is_news:

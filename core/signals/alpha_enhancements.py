@@ -103,7 +103,11 @@ class MicrostructureFlowFilter:
         return {
             "cvd_slope": round(cvd_slope, 2),
             "buy_delta_ratio": round(buy_ratio, 3),
-            "taker_confirmed": True if (buy_ratio > 0.40 and buy_ratio < 0.70) or abs(cvd_slope) > 0 else False,
+            # Confirmed when taker flow shows a clear aggressive imbalance in
+            # EITHER direction (buyers > 55% or sellers > 55% of window volume).
+            # The previous rule (`or abs(cvd_slope) > 0`) was true for virtually
+            # every bar and never filtered anything.
+            "taker_confirmed": bool(buy_ratio > 0.55 or buy_ratio < 0.45),
         }
 
 

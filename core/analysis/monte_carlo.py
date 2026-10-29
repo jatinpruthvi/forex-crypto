@@ -42,7 +42,9 @@ class MonteCarloSimulator:
             shuffled = self.rng.choice(returns_arr, size=n_trades, replace=True)
             capped_shuffled = np.maximum(-0.999, shuffled)
             equity_curve = initial_equity * np.cumprod(1.0 + capped_shuffled)
-            peak = np.maximum.accumulate(equity_curve)
+            # Peak must include the STARTING equity, otherwise an initial losing
+            # streak understates the true peak-to-trough drawdown.
+            peak = np.maximum.accumulate(np.maximum(equity_curve, initial_equity))
             dd = (peak - equity_curve) / peak * 100.0
             max_dd = np.max(dd)
             max_drawdowns.append(max_dd)

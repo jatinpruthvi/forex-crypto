@@ -173,10 +173,10 @@ class VectorBTScanner:
                     "max_drawdown_pct": champion["max_drawdown_pct"],
                     "win_rate": champion["win_rate_pct"],
                     "total_trades": champion["total_trades"],
-                    "profit_factor": champion["calmar_ratio"],
+                    "profit_factor": 0.0,
                     "months_elapsed": champion["months"]
                 },
-                notes="Top Sharpe configuration isolated via 50-combo VectorBT matrix optimization",
+                notes=f"Top Sharpe configuration isolated via 50-combo VectorBT matrix optimization (calmar_ratio={champion['calmar_ratio']})",
                 tag="VBT_OPTIMIZED",
                 create_savepoint=True
             )
