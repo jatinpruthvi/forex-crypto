@@ -881,60 +881,1171 @@
       "worst_fold": 0.98,
       "qualifies": true,
       "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L1/A1",
+      "name": "MOM_RANK (baseline core)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.74,
+      "ann_roi": 205.1,
+      "max_dd": 63.7,
+      "calmar": 3.22,
+      "dd_monthly": 6.5,
+      "worst_month": -29.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        33.46,
+        -4.6,
+        0.11
+      ],
+      "worst_fold": -4.6,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L1/A2",
+      "name": "MOM_ACCEL (mom + acceleration)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 8.52,
+      "ann_roi": 166.8,
+      "max_dd": 60.3,
+      "calmar": 2.77,
+      "dd_monthly": 7.1,
+      "worst_month": -29.9,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.81,
+        -3.63,
+        -1.16
+      ],
+      "worst_fold": -3.63,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L1/A3",
+      "name": "TREND_SLOPE (dist vs 200d MA)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 5.74,
+      "ann_roi": 95.3,
+      "max_dd": 58.9,
+      "calmar": 1.62,
+      "dd_monthly": 10.3,
+      "worst_month": -28.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        19.66,
+        -3.58,
+        0.24
+      ],
+      "worst_fold": -3.58,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L1/A4",
+      "name": "DUAL_TF (weekly trend + daily mom)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.07,
+      "ann_roi": 183.5,
+      "max_dd": 62.1,
+      "calmar": 2.95,
+      "dd_monthly": 6.8,
+      "worst_month": -30.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.48,
+        -3.84,
+        -0.86
+      ],
+      "worst_fold": -3.84,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L1/A5",
+      "name": "LEADER_LAG (BTC impulse -> high-beta alts)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 3.52,
+      "ann_roi": 51.5,
+      "max_dd": 42.6,
+      "calmar": 1.21,
+      "dd_monthly": 12.1,
+      "worst_month": -27.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        12.26,
+        -4.28,
+        1.93
+      ],
+      "worst_fold": -4.28,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L1/A6",
+      "name": "QUALITY_MOM (mom/vol Sharpe-like)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 7.45,
+      "ann_roi": 136.9,
+      "max_dd": 57.0,
+      "calmar": 2.4,
+      "dd_monthly": 7.6,
+      "worst_month": -31.5,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        24.88,
+        -4.0,
+        0.67
+      ],
+      "worst_fold": -4.0,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A1-G1",
+      "name": "MOM_RANK (baseline core) + gate MA150",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.74,
+      "ann_roi": 205.1,
+      "max_dd": 63.7,
+      "calmar": 3.22,
+      "dd_monthly": 6.5,
+      "worst_month": -29.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        33.46,
+        -4.6,
+        0.11
+      ],
+      "worst_fold": -4.6,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A1-G2",
+      "name": "MOM_RANK (baseline core) + gate MA100",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.42,
+      "ann_roi": 228.6,
+      "max_dd": 61.7,
+      "calmar": 3.7,
+      "dd_monthly": 5.9,
+      "worst_month": -29.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.91,
+        -2.26,
+        -0.28
+      ],
+      "worst_fold": -2.26,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A1-G3",
+      "name": "MOM_RANK (baseline core) + gate weeklyMA10",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.04,
+      "ann_roi": 215.1,
+      "max_dd": 64.0,
+      "calmar": 3.36,
+      "dd_monthly": 6.4,
+      "worst_month": -23.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.87,
+        -2.72,
+        -0.2
+      ],
+      "worst_fold": -2.72,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A1-G4",
+      "name": "MOM_RANK (baseline core) + gate MA50>MA200",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 4.09,
+      "ann_roi": 61.8,
+      "max_dd": 76.3,
+      "calmar": 0.81,
+      "dd_monthly": 18.7,
+      "worst_month": -23.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        15.98,
+        -3.81,
+        -0.64
+      ],
+      "worst_fold": -3.81,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A1-G5",
+      "name": "MOM_RANK (baseline core) + gate 2-of-3 ensemble",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.73,
+      "ann_roi": 204.8,
+      "max_dd": 63.8,
+      "calmar": 3.21,
+      "dd_monthly": 6.6,
+      "worst_month": -29.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        33.46,
+        -4.62,
+        0.11
+      ],
+      "worst_fold": -4.62,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A2-G1",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA150",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 8.52,
+      "ann_roi": 166.8,
+      "max_dd": 60.3,
+      "calmar": 2.77,
+      "dd_monthly": 7.1,
+      "worst_month": -29.9,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.81,
+        -3.63,
+        -1.16
+      ],
+      "worst_fold": -3.63,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A2-G2",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA100",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.83,
+      "ann_roi": 207.9,
+      "max_dd": 56.9,
+      "calmar": 3.65,
+      "dd_monthly": 5.8,
+      "worst_month": -29.9,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        30.99,
+        -1.06,
+        -1.47
+      ],
+      "worst_fold": -1.47,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A2-G3",
+      "name": "MOM_ACCEL (mom + acceleration) + gate weeklyMA10",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.89,
+      "ann_roi": 209.9,
+      "max_dd": 64.4,
+      "calmar": 3.26,
+      "dd_monthly": 6.5,
+      "worst_month": -24.7,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.93,
+        -1.93,
+        -1.29
+      ],
+      "worst_fold": -1.93,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A2-G4",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA50>MA200",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 4.93,
+      "ann_roi": 78.2,
+      "max_dd": 73.9,
+      "calmar": 1.06,
+      "dd_monthly": 15.0,
+      "worst_month": -20.7,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        19.13,
+        -2.82,
+        -2.32
+      ],
+      "worst_fold": -2.82,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A2-G5",
+      "name": "MOM_ACCEL (mom + acceleration) + gate 2-of-3 ensemble",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 8.38,
+      "ann_roi": 162.7,
+      "max_dd": 61.9,
+      "calmar": 2.63,
+      "dd_monthly": 7.4,
+      "worst_month": -32.7,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.81,
+        -3.97,
+        -1.16
+      ],
+      "worst_fold": -3.97,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A4-G1",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA150",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.07,
+      "ann_roi": 183.5,
+      "max_dd": 62.1,
+      "calmar": 2.95,
+      "dd_monthly": 6.8,
+      "worst_month": -30.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.48,
+        -3.84,
+        -0.86
+      ],
+      "worst_fold": -3.84,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A4-G2",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA100",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.07,
+      "ann_roi": 216.3,
+      "max_dd": 60.8,
+      "calmar": 3.56,
+      "dd_monthly": 6.0,
+      "worst_month": -30.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.84,
+        -2.0,
+        -1.0
+      ],
+      "worst_fold": -2.0,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A4-G3",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate weeklyMA10",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.92,
+      "ann_roi": 211.2,
+      "max_dd": 64.3,
+      "calmar": 3.28,
+      "dd_monthly": 6.5,
+      "worst_month": -23.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.18,
+        -3.74,
+        0.2
+      ],
+      "worst_fold": -3.74,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A4-G4",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA50>MA200",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 4.27,
+      "ann_roi": 65.2,
+      "max_dd": 69.0,
+      "calmar": 0.94,
+      "dd_monthly": 16.2,
+      "worst_month": -22.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        15.62,
+        -2.09,
+        -1.64
+      ],
+      "worst_fold": -2.09,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L2/A4-G5",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate 2-of-3 ensemble",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.06,
+      "ann_roi": 183.3,
+      "max_dd": 62.2,
+      "calmar": 2.95,
+      "dd_monthly": 6.9,
+      "worst_month": -30.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.48,
+        -3.86,
+        -0.86
+      ],
+      "worst_fold": -3.86,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A1-G2-O1",
+      "name": "MOM_RANK (baseline core) + gate MA100 + abs-mom90 filter",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.36,
+      "ann_roi": 192.6,
+      "max_dd": 66.2,
+      "calmar": 2.91,
+      "dd_monthly": 7.1,
+      "worst_month": -29.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.05,
+        -3.51,
+        -0.92
+      ],
+      "worst_fold": -3.51,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A1-G2-O2",
+      "name": "MOM_RANK (baseline core) + gate MA100 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 3.51,
+      "ann_roi": 51.3,
+      "max_dd": 28.4,
+      "calmar": 1.81,
+      "dd_monthly": 8.1,
+      "worst_month": -12.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        8.5,
+        0.98,
+        -0.17
+      ],
+      "worst_fold": -0.17,
+      "qualifies": true,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A1-G2-O3",
+      "name": "MOM_RANK (baseline core) + gate MA100 + abs-mom90 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 2.48,
+      "ann_roi": 34.2,
+      "max_dd": 40.1,
+      "calmar": 0.85,
+      "dd_monthly": 16.2,
+      "worst_month": -12.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        8.3,
+        -1.1,
+        -0.53
+      ],
+      "worst_fold": -1.1,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A2-G2-O1",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA100 + abs-mom90 filter",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 8.06,
+      "ann_roi": 153.6,
+      "max_dd": 60.8,
+      "calmar": 2.53,
+      "dd_monthly": 7.5,
+      "worst_month": -29.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        28.61,
+        -3.06,
+        -1.97
+      ],
+      "worst_fold": -3.06,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A2-G2-O2",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA100 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 3.68,
+      "ann_roi": 54.2,
+      "max_dd": 26.5,
+      "calmar": 2.05,
+      "dd_monthly": 7.2,
+      "worst_month": -12.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        8.59,
+        1.94,
+        -0.68
+      ],
+      "worst_fold": -0.68,
+      "qualifies": true,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A2-G2-O3",
+      "name": "MOM_ACCEL (mom + acceleration) + gate MA100 + abs-mom90 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 2.48,
+      "ann_roi": 34.2,
+      "max_dd": 38.4,
+      "calmar": 0.89,
+      "dd_monthly": 15.5,
+      "worst_month": -12.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        8.53,
+        -1.02,
+        -0.83
+      ],
+      "worst_fold": -1.02,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A4-G2-O1",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA100 + abs-mom90 filter",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.05,
+      "ann_roi": 182.8,
+      "max_dd": 65.4,
+      "calmar": 2.8,
+      "dd_monthly": 7.2,
+      "worst_month": -30.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.26,
+        -3.09,
+        -1.55
+      ],
+      "worst_fold": -3.09,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A4-G2-O2",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA100 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 3.2,
+      "ann_roi": 46.0,
+      "max_dd": 27.6,
+      "calmar": 1.67,
+      "dd_monthly": 8.6,
+      "worst_month": -12.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        7.78,
+        0.51,
+        -0.43
+      ],
+      "worst_fold": -0.43,
+      "qualifies": true,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L3/A4-G2-O3",
+      "name": "DUAL_TF (weekly trend + daily mom) + gate MA100 + abs-mom90 + vol-target 30%",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 2.4,
+      "ann_roi": 32.9,
+      "max_dd": 39.7,
+      "calmar": 0.83,
+      "dd_monthly": 16.5,
+      "worst_month": -12.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        8.2,
+        -0.99,
+        -0.76
+      ],
+      "worst_fold": -0.99,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L4/M1",
+      "name": "REGIME_SWITCH (trend if high BTC vol else dip-buy)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 9.26,
+      "ann_roi": 189.3,
+      "max_dd": 48.9,
+      "calmar": 3.87,
+      "dd_monthly": 5.3,
+      "worst_month": -16.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.19,
+        -0.31,
+        -1.41
+      ],
+      "worst_fold": -1.41,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L4/M2",
+      "name": "IMPULSE_LAGGARD (BTC impulse -> laggard alts)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 2.64,
+      "ann_roi": 36.7,
+      "max_dd": 41.9,
+      "calmar": 0.88,
+      "dd_monthly": 15.9,
+      "worst_month": -32.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        9.93,
+        -4.0,
+        1.42
+      ],
+      "worst_fold": -4.0,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L4/M3",
+      "name": "STRONGEST_ONLY (30d highs above 200d MA)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 5.26,
+      "ann_roi": 85.1,
+      "max_dd": 77.3,
+      "calmar": 1.1,
+      "dd_monthly": 14.7,
+      "worst_month": -32.9,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        25.97,
+        -8.15,
+        -1.68
+      ],
+      "worst_fold": -8.15,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L4/M4",
+      "name": "MR_TREND_SPLIT (quiet=RSI2, wild=momentum)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 5.28,
+      "ann_roi": 85.5,
+      "max_dd": 41.9,
+      "calmar": 2.04,
+      "dd_monthly": 7.9,
+      "worst_month": -15.7,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        16.98,
+        -2.29,
+        0.09
+      ],
+      "worst_fold": -2.29,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L5/C1",
+      "name": "ABS90_GROT + MA100 gate (L2 discovery)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 13.54,
+      "ann_roi": 359.2,
+      "max_dd": 29.2,
+      "calmar": 12.28,
+      "dd_monthly": 2.2,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.11,
+        1.7,
+        2.47
+      ],
+      "worst_fold": 1.7,
+      "qualifies": true,
+      "all_folds_positive": true,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L5/C2",
+      "name": "ABS90_GROT + quality-mom score (L1/A6 discovery)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.75,
+      "ann_roi": 240.5,
+      "max_dd": 33.0,
+      "calmar": 7.29,
+      "dd_monthly": 3.1,
+      "worst_month": -20.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        26.85,
+        0.75,
+        2.74
+      ],
+      "worst_fold": 0.75,
+      "qualifies": true,
+      "all_folds_positive": true,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L5/C3",
+      "name": "ABS90_GROT / DIP regime-switch (L4/M1 discovery)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 8.45,
+      "ann_roi": 164.7,
+      "max_dd": 42.3,
+      "calmar": 3.9,
+      "dd_monthly": 5.0,
+      "worst_month": -17.6,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        25.33,
+        0.48,
+        -1.18
+      ],
+      "worst_fold": -1.18,
+      "qualifies": false,
+      "all_folds_positive": false,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L5/C4",
+      "name": "ABS90_GROT + rank-proportional sizing (L3/O4 idea)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.22,
+      "ann_roi": 221.3,
+      "max_dd": 41.8,
+      "calmar": 5.29,
+      "dd_monthly": 4.1,
+      "worst_month": -18.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        26.59,
+        0.76,
+        1.51
+      ],
+      "worst_fold": 0.76,
+      "qualifies": false,
+      "all_folds_positive": true,
+      "failed": false
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g85 lb90",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 11.04,
+      "ann_roi": 251.3,
+      "max_dd": 48.0,
+      "calmar": 5.24,
+      "dd_monthly": 4.3,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.39,
+        0.24,
+        1.4
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g100 lb90 (C1)",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 13.54,
+      "ann_roi": 359.2,
+      "max_dd": 29.2,
+      "calmar": 12.28,
+      "dd_monthly": 2.2,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.11,
+        1.7,
+        2.47
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g115 lb90",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 13.05,
+      "ann_roi": 335.9,
+      "max_dd": 33.6,
+      "calmar": 10.0,
+      "dd_monthly": 2.6,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.69,
+        0.4,
+        2.47
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g100 lb80",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 13.71,
+      "ann_roi": 367.5,
+      "max_dd": 31.6,
+      "calmar": 11.64,
+      "dd_monthly": 2.3,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        35.19,
+        1.15,
+        2.59
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g100 lb100",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.69,
+      "ann_roi": 238.4,
+      "max_dd": 30.9,
+      "calmar": 7.71,
+      "dd_monthly": 2.9,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        26.31,
+        0.97,
+        2.43
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g100 K4",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 10.99,
+      "ann_roi": 249.3,
+      "max_dd": 37.9,
+      "calmar": 6.58,
+      "dd_monthly": 3.5,
+      "worst_month": -19.2,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        27.66,
+        0.57,
+        2.45
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/NEIGHBOR",
+      "name": "NEIGHBOR C1 g100 K6",
+      "scope": "crypto_1d_21c_2020-07..2023-04",
+      "monthly_roi": 12.68,
+      "ann_roi": 318.8,
+      "max_dd": 29.5,
+      "calmar": 10.79,
+      "dd_monthly": 2.3,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.8,
+        1.91,
+        1.91
+      ],
+      "all_folds_positive": true
+    },
+    {
+      "round": 6,
+      "node": "L6/LOFO",
+      "name": "LOFO-6 heldout fold1: L5/C1 g100 abs90",
+      "scope": "held-out fold",
+      "monthly_roi": 34.11,
+      "ann_roi": 3283.5,
+      "max_dd": 23.4,
+      "calmar": 140.07,
+      "dd_monthly": 0.7,
+      "worst_month": -10.3
+    },
+    {
+      "round": 6,
+      "node": "L6/LOFO",
+      "name": "LOFO-6 heldout fold2: L5/C2 quality-mom",
+      "scope": "held-out fold",
+      "monthly_roi": 0.75,
+      "ann_roi": 9.4,
+      "max_dd": 33.0,
+      "calmar": 0.29,
+      "dd_monthly": 43.7,
+      "worst_month": -20.1
+    },
+    {
+      "round": 6,
+      "node": "L6/LOFO",
+      "name": "LOFO-6 heldout fold3: L5/C1 g100 abs90",
+      "scope": "held-out fold",
+      "monthly_roi": 2.47,
+      "ann_roi": 34.0,
+      "max_dd": 23.8,
+      "calmar": 1.43,
+      "dd_monthly": 9.6,
+      "worst_month": -1.2
     }
   ],
   "selection_guide": {
     "best_calmar": {
-      "name": "ABS90_GROT K5lb90",
-      "calmar": 11.03,
-      "monthly_roi": 11.68,
-      "max_dd": 25.1,
-      "dd_monthly": 2.1
+      "name": "ABS90_GROT + MA100 gate (L2 discovery)",
+      "calmar": 12.28,
+      "monthly_roi": 13.54,
+      "max_dd": 29.2,
+      "dd_monthly": 2.2,
+      "folds": [
+        34.11,
+        1.7,
+        2.47
+      ]
     },
     "best_all_folds_positive": {
-      "name": "ABS60_GROT K5lb40",
-      "calmar": 7.67,
-      "monthly_roi": 10.86,
-      "max_dd": 31.9,
-      "dd_monthly": 2.9
+      "name": "ABS90_GROT + MA100 gate (L2 discovery)",
+      "calmar": 12.28,
+      "monthly_roi": 13.54,
+      "max_dd": 29.2,
+      "dd_monthly": 2.2,
+      "folds": [
+        34.11,
+        1.7,
+        2.47
+      ]
     },
     "top5": [
       {
+        "name": "ABS90_GROT + MA100 gate (L2 discovery)",
+        "node": "L5/C1",
+        "calmar": 12.28,
+        "monthly_roi": 13.54,
+        "max_dd": 29.2,
+        "dd_monthly": 2.2,
+        "folds": [
+          34.11,
+          1.7,
+          2.47
+        ]
+      },
+      {
+        "name": "NEIGHBOR C1 g100 lb90 (C1)",
+        "node": "L6/NEIGHBOR",
+        "calmar": 12.28,
+        "monthly_roi": 13.54,
+        "max_dd": 29.2,
+        "dd_monthly": 2.2,
+        "folds": [
+          34.11,
+          1.7,
+          2.47
+        ]
+      },
+      {
+        "name": "NEIGHBOR C1 g100 lb80",
+        "node": "L6/NEIGHBOR",
+        "calmar": 11.64,
+        "monthly_roi": 13.71,
+        "max_dd": 31.6,
+        "dd_monthly": 2.3,
+        "folds": [
+          35.19,
+          1.15,
+          2.59
+        ]
+      },
+      {
         "name": "ABS90_GROT K5lb90",
+        "node": null,
         "calmar": 11.03,
         "monthly_roi": 11.68,
         "max_dd": 25.1,
-        "dd_monthly": 2.1
+        "dd_monthly": 2.1,
+        "folds": [
+          31.81,
+          -0.32,
+          2.04
+        ]
       },
       {
-        "name": "N7 ABS_GROT",
-        "calmar": 8.97,
-        "monthly_roi": 11.43,
-        "max_dd": 29.7,
-        "dd_monthly": 2.6
-      },
-      {
-        "name": "ABS60_GROT K5lb90",
-        "calmar": 8.97,
-        "monthly_roi": 11.43,
-        "max_dd": 29.7,
-        "dd_monthly": 2.6
-      },
-      {
-        "name": "ABS30_GROT K5lb90",
-        "calmar": 8.95,
-        "monthly_roi": 11.28,
-        "max_dd": 29.1,
-        "dd_monthly": 2.6
-      },
-      {
-        "name": "P1 CHAMPION GROT ma150 K5lb90",
-        "calmar": 8.37,
-        "monthly_roi": 11.63,
-        "max_dd": 32.8,
-        "dd_monthly": 2.8
+        "name": "NEIGHBOR C1 g100 K6",
+        "node": "L6/NEIGHBOR",
+        "calmar": 10.79,
+        "monthly_roi": 12.68,
+        "max_dd": 29.5,
+        "dd_monthly": 2.3,
+        "folds": [
+          31.8,
+          1.91,
+          1.91
+        ]
       }
     ],
+    "final_lofo": [
+      [
+        "L5/C1 g100 abs90",
+        1,
+        34.11,
+        23.4
+      ],
+      [
+        "L5/C2 quality-mom",
+        2,
+        0.75,
+        33.0
+      ],
+      [
+        "L5/C1 g100 abs90",
+        3,
+        2.47,
+        23.8
+      ]
+    ],
     "user_criterion": "dd_monthly <= 10 and calmar >= 1.2 and max_dd <= 35"
-  }
+  },
+  "tree_round6_nodes_visited": 38
 }

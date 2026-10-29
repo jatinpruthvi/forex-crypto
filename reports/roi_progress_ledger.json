@@ -1295,6 +1295,25 @@
       "honest_summary": "Selection-adjusted (many configs on same panel). Real edge is alt-bull concentrated: LOFO chop/bear folds ~0 to slightly negative. Absolute-momentum filter and vol-targeting are the two genuine new discoveries (both reduce DD without killing bull returns). 3-month forward paper validation required before capital.",
       "tag": "STRATEGY_HUNT",
       "status": "SELECTED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-025-NUCLEAR-TREE-SEARCH",
+      "strategy_name": "Nuclear-explosion tree search (idea->2->4) over strategy space, every node validated",
+      "asset": "21-coin crypto 1d panel (2020-07..2023-04)",
+      "timeframe": "1D",
+      "duration_desc": "32.8 months full panel, 3 chronological folds + LOFO + neighbor plateau check",
+      "methodology": "Explicit tree walk, 38 nodes visited on real data, all saved to reports/strategy_leaderboard.json (96 entries) with tree paths: L1 signal cores x6 (momentum/accel/trend-slope/dual-TF/leader-lag/quality-mom), L2 gates x15 (MA150/MA100/weekly/golden/2-of-3 ensemble on top cores), L3 overlays x9 (abs-mom/vol-target/both), L4 mutations x4 (regime-switch/impulse-laggard/strongest-only/mr-trend-split), L5 combinations x4 (tree discoveries merged onto champion), L6 neighbor plateau x7 + final LOFO x3. Weekly-rebalanced inv-vol weights, 10bp/turnover side. Script: scripts/strategy_hunt3.py",
+      "results": {
+        "champion": "L5/C1 ABS90_GROT + MA100 gate: +13.54%/mo, DD 29.2%, Calmar 12.28, DD/Mo 2.2, folds +34.11/+1.70/+2.47 - ALL FOLDS POSITIVE (first ever)",
+        "final_lofo_heldout": "+34.11 (bull, DD 23.4%) / +0.75 (2021 chop, DD 33.0%) / +2.47 (bear, DD 23.8%) %/mo - first strategy positive in ALL THREE held-out regimes",
+        "neighbor_plateau": "all 7 neighbors ALLPOS, Calmar 5.2-12.3 (g85/g115/lb80/lb100/K4/K6) - broad plateau, not a lucky point",
+        "runner_ups_allpos": "L5/C2 quality-mom +10.75%/mo Calmar 7.29; L5/C4 rank-prop +10.22%/mo Calmar 5.29; ABS90_GROT g150 +11.68%/mo Calmar 11.03",
+        "tree_knowledge": "MA100 gate beats MA150; quality-mom (mom/vol) and rank-prop sizing also allpos; golden-cross gate bad (0.8-1.1); impulse-laggard/strongest-only fail; daily-rebalance cores fee-inferior to weekly; regime-switch works but below C1",
+        "vs_previous_champion": "Calmar 11.03 -> 12.28; monthly +11.7 -> +13.5; folds -0.32/+2.04 -> +1.70/+2.47 (weak folds now positive)"
+      },
+      "honest_summary": "LOFO held-out validates positive in all 3 regimes for the first time, but folds are few (3) and the same 2020-23 panel underlies all searches - forward paper validation still required. Worst held-out month -20.1% (fold2 sleeve). Realistic forward expectation: bull +15-30%/mo, chop +0-2%/mo, bear +0-3%/mo with DD 25-35%.",
+      "tag": "STRATEGY_HUNT",
+      "status": "TREE_COMPLETE_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {

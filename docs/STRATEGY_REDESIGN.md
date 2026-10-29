@@ -189,3 +189,48 @@ DD 19-33%, chop ~-1..0, bear ~-1.4..+0); fold-2 (2021 blow-off) remains the weak
 smaller; 3-month forward paper validation required before capital. `reports/strategy_leaderboard.json`
 `selection_guide` has the saved picks: best_calmar (ABS90_GROT) and best_all_folds_positive
 (ABS60_GROT K5lb40), plus the VOL_GROT tier as the low-risk option (+3-4%/mo at 17-21% DD).
+
+
+---
+
+## 8. EXP-025 — Nuclear-Explosion Tree Search (2026-10-28)
+
+**Method** (user: "think like nuclear explosion in idea where one idea become 2, 2 become 4... visit each
+node of the nuclear path"): an explicit strategy tree, every node validated on the real 21-coin 1d panel
+(3 chronological folds + full period, 10bp/turnover) and saved with its tree path to
+`reports/strategy_leaderboard.json` (96 entries). No production code until the tree was fully visited.
+
+- **L1 signal cores x6**: momentum, momentum-acceleration, trend-slope, dual-timeframe, leader-lag,
+  quality-momentum. Discovery: all viable, but daily-rebalance versions are fee-inferior to weekly.
+- **L2 gates x15** (MA150 / MA100 / weekly-MA10 / golden-cross / 2-of-3 ensemble): **MA100 > MA150**;
+  golden-cross consistently bad (Calmar 0.8-1.1).
+- **L3 overlays x9**: abs-mom, vol-target, both, rank-proportional. Discovery: rank-prop and quality
+  scores keep all folds positive at high Calmar.
+- **L4 mutations x4**: regime-switch (works, Calmar 3.9), impulse-laggard (fails), strongest-only
+  (boom-bust, folds -8.2/-1.7), mr-trend-split (Calmar 2.0).
+- **L5 combinations x4**: tree discoveries merged onto the champion family.
+- **L6**: neighbor-plateau check x7 + final LOFO x3.
+
+### Champion: L5/C1 — ABS90_GROT + MA100 gate
+
+BTC>**MA100** regime gate; in risk-on hold top-5 coins by 90-day momentum (skip=5), inverse-vol
+weights, weekly rebalance, **90-day absolute-momentum filter** (only hold coins with positive own
+trend). Cash otherwise.
+
+| scope | %/mo | maxDD | Calmar | DD/Mo | folds |
+|---|---|---|---|---|---|
+| full period | **+13.54** | **29.2%** | **12.28** | **2.2** | **+34.1 / +1.70 / +2.47 (ALL POSITIVE)** |
+| LOFO held-out bull (fold1) | +34.11 | 23.4% | - | 0.7 | worstM -10.3 |
+| LOFO held-out chop (fold2) | +0.75 | 33.0% | - | 44 | worstM -20.1 |
+| LOFO held-out bear (fold3) | +2.47 | 23.8% | - | 9.6 | worstM -1.2 |
+
+**First strategy in the program whose LOFO held-out returns are positive in all three regimes.**
+Neighbor plateau: all 7 parameter neighbors (gate 85/115, lb 80/100, K 4/6) also all-fold-positive
+(Calmar 5.2-12.3) — a broad plateau, not a lucky point. Runner-ups (saved in leaderboard):
+L5/C2 quality-mom (+10.75, Calmar 7.29, ALLPOS), L5/C4 rank-prop (+10.22, Calmar 5.29, ALLPOS).
+
+### Honesty
+Few folds (3) and one market regime sequence (2020-23 bull->chop->bear); all searches share the same
+panel, so selection-adjustment persists despite LOFO. Worst held-out month -20.1%. Forward paper
+validation (3 months) remains required before capital. Realistic forward expectation: bull +15-30%/mo,
+chop +0-2%, bear +0-3%, DD 25-35%.
