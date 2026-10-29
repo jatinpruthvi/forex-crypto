@@ -100,3 +100,53 @@ Key facts:
 Artifacts: `scripts/redesign_lab.py` (diagnostics + variant harness),
 `reports/redesign_lab_results.json`, `reports/redesign_round2_results.json`,
 ledger entry EXP-021.
+
+
+---
+
+## 6. EXP-023 — Strategy-Type Hunt for Optimum ROI:Drawdown (2026-10-28)
+
+**Trigger**: user — "Peak drawdown is 10 times then ROI... check different type of strategy... check again
+and again until we get optimum... think out of the box, think only on trade." The slot family's DD/Mo ratio
+(11-23x) was rejected; the goal became an archetype with DD/Mo <= ~5-10 and Calmar >= 1.
+
+**Method** (`scripts/strategy_hunt.py`): 13 genuinely different portfolio archetypes on the 21-coin 1d panel
+(2020-07→2023-04, 10bp/side turnover): cross-sectional momentum / trend / mean-reversion / low-vol / tail,
+long-short, BTC time-series momentum, RSI2 mean-reversion, dip-buying (RSI3<15 & >MA100), regime-gated
+variants (BTC vs MA), and blends. Then a 37-config refine grid (gate MA x K x lookback x blend mix) with a
+PRE-REGISTERED selection rule (max worst-fold monthly, s.t. full DD/Mo<=10, Calmar>=1.2, maxDD<=35%), a
+passive gated equal-weight baseline, and leave-one-fold-out (LOFO) anti-curve-fit validation.
+
+### Result — the user criterion is met by the gated-rotation + dip-buying family
+
+| config (full period) | %/mo | maxDD | Calmar | DD/Mo | folds (3) |
+|---|---|---|---|---|---|
+| **BLEND ma150 rot50/dip50** | **+6.66** | **29.8%** | **3.92** | **4.5** | +18.2 / +0.02 / +0.24 |
+| GATED_ROT ma150 K5 lb90 | +11.63 | 32.8% | 8.37 | 2.8 | +31.8 / -0.80 / +2.44 |
+| GATED_ROT ma150 K7 lb40 | +9.96 | 34.9% | 6.08 | 3.5 | +26.7 / -0.19 / +1.72 |
+| passive gated equal-weight | +7.52 | 42.2% | 3.28 | 5.6 | +21.1 / -1.60 / +1.65 |
+| (old slot family Q_TS8) | +3.08 | 54-66% | 0.7 | 11-23 | +13.5 / -2.6 / +2.9 |
+
+Every ma150 blend variant qualifies (worst-fold 0 +/- 0.2) — the FAMILY is robust, not one lucky row. Active
+selection beats the passive gated baseline on return AND drawdown. **MA250 gates are a trap** (they miss the
+rallies and still catch the crashes). Forex panel: no edge in any archetype (best B TSMOM_VOL +0.36%/mo).
+
+**What the strategy IS** (plain words): stay in cash while BTC trades below its 150-day MA; in risk-on,
+hold a 50/50 blend of (a) the 4-7 strongest 60-day-momentum coins, inverse-vol weighted, rotated weekly,
+and (b) limit-buying panic dips (RSI3<15 above the long MA) with quick 5-day-high exits.
+
+### Honesty (mandatory reading)
+
+1. **Selection-adjusted**: configs were chosen on these folds; the reported numbers overstate forward
+   expectations. LOFO held-out folds: **+29.9 / -0.80 / -1.35 %/mo** (bull / chop / bear). The real edge is
+   alt-bull-regime concentration; chop and bear are roughly flat to slightly negative. Per-regime
+   expectations: bull +15-30%/mo, chop ~0, bear -1..+2%/mo.
+2. **Fold 2 (2021 blow-off/crash) is the weak regime for every archetype tested** (slot family and portfolio
+   family alike). The gate + dip blend reduces it to ~0 but does not turn it positive.
+3. Worst months: -17 to -19% (blends), -35% (pure rotation). DD 30-35% remains the price of admission.
+4. Forward paper validation (3 months live-sim) is REQUIRED before any capital allocation. Do not size up on
+   backtest numbers alone.
+
+**Verdict vs user criterion**: old family DD/Mo 11-23 ("10x ROI" complaint) → new family **DD/Mo 2.8-4.5**,
+Calmar 3.9-8.4, no losing fold in the blend. This is the optimum found across 13 archetypes + 37 configs
+with honest fold and LOFO reporting. Next step: wire the family into the paper-trading harness.

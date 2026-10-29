@@ -1256,6 +1256,25 @@
       "honest_summary": "Personal-account expectation ~2-4%/mo at risk 2-3% with 55-70% peak DD; best-regime months can hit double digits, worst regime loses for months. Selection-adjusted backtests; forward validation required.",
       "tag": "PERSONAL_ACCOUNT",
       "status": "SELECTION_ADJUSTED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-023-STRATEGY-HUNT-ROIDD",
+      "strategy_name": "Out-of-the-box strategy-type hunt for optimum ROI:drawdown",
+      "asset": "21-coin crypto 1d panel (2020-07..2023-04) + 4-pair forex 1d control",
+      "timeframe": "1D",
+      "duration_desc": "32.8 months full panel, 3 chronological folds",
+      "methodology": "13 portfolio archetypes (xsec momentum/trend/MR/low-vol/tail, LS, BTC TSMOM, RSI2 MR, dip-buying, regime-gated, blends) at 10bp/turnover side, gross<=2.0; then 37-config refine grid (gate MA x K x lookback x blend mix) with pre-registered rule (max worst-fold monthly s.t. full DD/Mo<=10, Calmar>=1.2, maxDD<=35%); passive gated baseline; LOFO anti-curve-fit validation. Script: scripts/strategy_hunt.py.",
+      "results": {
+        "winner": "BLEND ma150 rot50/dip50: +6.66%/mo, DD 29.8%, Calmar 3.92, DD/Mo 4.5, folds +18.2/+0.02/+0.24",
+        "highest_calmar": "GATED_ROT ma150 K5 lb90: +11.63%/mo, DD 32.8%, Calmar 8.37, DD/Mo 2.8",
+        "robustness": "all ma150 blend variants qualify (worst-fold 0+/-0.2); active beats passive gated baseline (Calmar 3.9-8.4 vs 3.28)",
+        "lofo_heldout": "+29.9 / -0.80 / -1.35 %/mo (bull / chop / bear); held-out DD 20-33%",
+        "traps": "MA250 gates fail (miss rallies, catch crashes); forex panel no edge in any archetype",
+        "vs_old": "old slot family DD/Mo 11-23 -> new family DD/Mo 2.8-4.5 (user criterion met)"
+      },
+      "honest_summary": "Selection-adjusted; genuine edge is alt-bull concentrated (LOFO chop/bear folds ~0 to slightly negative); fold2 (2021 blow-off) weak regime unsolved but reduced to ~0 by gate+dip blend; worst months -17 to -35%; 3-month forward paper validation required before capital.",
+      "tag": "STRATEGY_HUNT",
+      "status": "SELECTED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {
