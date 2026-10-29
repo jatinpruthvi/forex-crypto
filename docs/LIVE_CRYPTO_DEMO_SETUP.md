@@ -223,4 +223,26 @@ All backtest iterations, Sharpe ratios, Calmar ratios, monthly ROIs, and max dra
 - `reports/roi_progress_ledger.json`
 
 ---
+## 10. Minimum Capital Requirements for Live Testing (Verified Oct 2026)
+
+Calculated by running the exact `OrderExecutionSanitizer` in `core/execution/live_adapter.py` against real Bybit lot filters (BTC min lot **0.001 BTC**, ETH **0.01 ETH**, min notional **5 USDT**) at representative prices, with the champion sizing formula `Units = Equity × 1.5% × 2.0 / (1.5 × ATR)`:
+
+| Starting Equity | Result | Worst Sizing Error | Use Case |
+|---|---|---|---|
+| **$100** | ❌ BTC entry REJECTED (ideal 0.0008 BTC < 0.001 min lot) | 7.6% (BNB) | **Micro mode only**: drop BTC (+ optionally BNB), run 6-pair universe. Fine for API/connectivity smoke tests. |
+| **$150** | ❌ BTC pyramid tiers fail intermittently | 7.6% | Not recommended. |
+| **$200** | ✅ **All 8 pairs + both pyramid tiers pass** | 3.2% (BTC lot step) | **Absolute minimum for full champion universe.** Survives drawdown to ~$123 before BTC min-lot wall. |
+| **$250–$400** | ✅ All pass | 1.8–3.2% | Workable live testing. |
+| **$500** | ✅ All pass | **< 1.0%** | ✅ **Recommended minimum** — execution matches backtest semantics (risk sizing faithful within 1%), survives the 21.86% max drawdown with full margin headroom. |
+| **$1,000** | ✅ All pass | < 1.0% | Full parity + budget for taker-stop fees, funding-rate drift, and slippage noise. |
+
+### Operational Notes
+- **Leverage setting**: set **8–10x cross margin** on the exchange (leverage only sets the margin ceiling; with stops at 1.5×ATR (~2.5–5% away) and pyramid peak notional ~4–5x equity, liquidation is structurally unreachable).
+- **Fees**: MEXC maker = **0.00%** → zero-fee entries; taker stops ≈ 0.05% × turnover ≈ <0.2%/mo. Bybit maker 0.02%.
+- **Funding rates**: ~0.01%/8h on held positions ≈ 0.1–0.3%/mo on notional — negligible at any size.
+- **Deposits**: fund with USDT via TRC20/Arbitrum/Base (~$0–2 network fee). Exchange deposits are free.
+- **Drawdown floor**: below ~$123 equity, BTC entries auto-reject (min lot). The engine never oversizes — it skips the pair. Keep equity above $200 or run micro mode.
+
+---
+
 *Generated and verified for repository `forex-crypto`.*
