@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -50,6 +54,10 @@ for lb in [12, 14]:
     sig.loc[bull, "signal"] = 1
     sig.loc[bear, "signal"] = -1
 
+    # ATR above is .bfill()'d over its 14-bar warmup while h_lb/l_lb first signal
+    # at bar 12 - zero signals through bar 13 so no entry uses future-filled ATR.
+    sig.loc[:13, "signal"] = 0
+
     sim = BacktestSimulator(slippage_pct=0.03, taker_fee_pct=0.02, initial_capital=1000.0, order_execution_mode="maker")
     res = sim.run_backtest(df_m15, sig, risk_per_trade_pct=2.5, atr_sl_mult=1.3, atr_tp_mult=2.0)
 
@@ -63,6 +71,6 @@ for lb in [12, 14]:
     pf = res["profit_factor"]
     tc = res["total_trades"]
     print(f"\nDonchian {lb:2d}-Bar Full History ({len(df_m15):,d} bars / {mo:.1f} months / {mo/12.0:.1f} years):")
-    print(f"  Final Capital: ${fc:,.2f} | Total ROI: +{tot:.2f}%")
-    print(f"  Compounded Monthly ROI: +{cm:.2f}% / mo | Linear Monthly ROI: +{lm:.2f}% / mo")
+    print(f"  Final Capital: ${fc:,.2f} | Total ROI: {tot:+.2f}%")
+    print(f"  Compounded Monthly ROI: {cm:+.2f}% / mo | Linear Monthly ROI: {lm:+.2f}% / mo")
     print(f"  Max Drawdown: {dd:.2f}% | Win Rate: {wr:.2f}% | Profit Factor: {pf:.2f} | Total Trades: {tc}")

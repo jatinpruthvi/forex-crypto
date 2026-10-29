@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from scripts.evaluate_dd_scaling import DynamicDDBacktestSimulator
@@ -37,7 +41,8 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
         signals,
         partial_atr_trigger=2.0,
         be_buffer_atr=0.15,
-        trailing_mult=2.5
+        trailing_mult=2.5,
+        base_risk_pct=3.5
     ):
         capital = self.initial_capital
         peak_capital = capital
@@ -54,7 +59,16 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
         conv_arr = signals['conviction'].values
 
         n = len(df)
-        hours_elapsed = n * 4 if '4h' in str(times[1]) else n
+        # Derive the bar duration from real timestamps (the old '4h'-in-str(times)
+        # sniff never matched datetime values and treated 4h bars as 1h, overstating
+        # monthly ROI ~4x).
+        try:
+            bar_hours = float((times[1] - times[0]) / np.timedelta64(1, "h"))
+        except Exception:
+            bar_hours = 1.0
+        if not bar_hours or bar_hours != bar_hours:
+            bar_hours = 1.0
+        hours_elapsed = n * bar_hours
         months_elapsed = max(1.0, hours_elapsed / (24.0 * 30.4))
         prev_sig = 0
 
@@ -153,7 +167,7 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
             prev_sig = sig
 
             if is_new_signal and len(open_trades) < 2:
-                effective_risk_pct = 3.5 * dd_mult
+                effective_risk_pct = base_risk_pct * dd_mult
                 risk_usd = capital * (effective_risk_pct / 100.0)
                 sl_dist = current_atr * 1.6
                 sl_pct = sl_dist / current_close
@@ -204,7 +218,8 @@ class AdvancedExitSimulator(DynamicDDBacktestSimulator):
             'pf': pf,
             'calmar': monthly_roi / max_drawdown if max_drawdown > 0 else 0.0,
             'trades': total_trades,
-            'final_cap': capital
+            'final_cap': capital,
+            'trade_pnls': [t['pnl_usd'] for t in closed_trades]
         }
 
 sim = AdvancedExitSimulator(slippage_pct=0.1, taker_fee_pct=0.055, initial_capital=323.0)

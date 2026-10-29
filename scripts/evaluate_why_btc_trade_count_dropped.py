@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 
@@ -46,11 +50,14 @@ sig["conviction"] = 85.0
 sig["regime"] = "TREND"
 sig.loc[bull, "signal"] = 1
 sig.loc[bear, "signal"] = -1
+# ATR above is .bfill()'d over its 14-bar warmup, and h_12 becomes valid at bar 12 -
+# zero signals through bar 13 so no entry ever uses future-filled ATR (no lookahead).
+sig.loc[:13, "signal"] = 0
 
 sim = BacktestSimulator(slippage_pct=0.03, taker_fee_pct=0.02, initial_capital=1000.0, order_execution_mode="maker")
 # max_open_trades=2 in fast_backtester vs max_open_trades=1
 res_2 = sim.run_backtest(df_m15, sig, risk_per_trade_pct=3.0, atr_sl_mult=1.3, atr_tp_mult=2.0, max_open_trades=2)
 res_1 = sim.run_backtest(df_m15, sig, risk_per_trade_pct=3.0, atr_sl_mult=1.3, atr_tp_mult=2.0, max_open_trades=1)
 
-print(f"BTC Standalone (Max 2 Open Trades): Final ${res_2['final_capital']} | Comp Monthly: +{res_2['monthly_roi_pct']}% | Total: +{res_2['net_roi_total_pct']}% | Trades: {res_2['total_trades']}")
-print(f"BTC Standalone (Max 1 Open Trade ): Final ${res_1['final_capital']} | Comp Monthly: +{res_1['monthly_roi_pct']}% | Total: +{res_1['net_roi_total_pct']}% | Trades: {res_1['total_trades']}")
+print(f"BTC Standalone (Max 2 Open Trades): Final ${res_2['final_capital']} | Comp Monthly: {res_2['monthly_roi_pct']:+.2f}% | Total: {res_2['net_roi_total_pct']:+.2f}% | Trades: {res_2['total_trades']}")
+print(f"BTC Standalone (Max 1 Open Trade ): Final ${res_1['final_capital']} | Comp Monthly: {res_1['monthly_roi_pct']:+.2f}% | Total: {res_1['net_roi_total_pct']:+.2f}% | Trades: {res_1['total_trades']}")

@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 
@@ -13,6 +17,7 @@ open_p = df["open"].values
 n = len(df)
 
 tr = np.maximum(high - low, np.maximum(abs(high - np.roll(close, 1)), abs(low - np.roll(close, 1))))
+tr[0] = high[0] - low[0]  # np.roll wraps the LAST close into bar 0 - kill that lookahead
 atr14 = pd.Series(tr).rolling(14, min_periods=1).mean().values
 ema50 = pd.Series(close).ewm(span=50).mean().values
 vol_sma20 = pd.Series(vol).rolling(20, min_periods=1).mean().replace(0, 1e-6).values
@@ -21,6 +26,9 @@ large_candle = (high - low) > (1.8 * atr14)
 vol_surge = vol > vol_sma20
 ema50_slope_up = ema50 > np.roll(ema50, 3)
 ema50_slope_down = ema50 < np.roll(ema50, 3)
+# np.roll wraps the LAST bars' ema into the first 3 slots - kill that lookahead
+ema50_slope_up[:3] = False
+ema50_slope_down[:3] = False
 price_stretch = (close - ema50) / np.maximum(ema50, 1.0)
 
 # Rolling VWAP

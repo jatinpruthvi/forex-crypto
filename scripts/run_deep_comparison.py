@@ -13,6 +13,8 @@ Evaluates across:
 - Unified Crypto + Forex Combined Super-Portfolio
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 from core.analysis.quantum_hybrid_engine import QuantumHybridEngine
 from core.analysis.roi_ledger import ROILedger

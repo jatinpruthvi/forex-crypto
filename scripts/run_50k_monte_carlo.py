@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 
@@ -30,6 +34,7 @@ for sim in range(n_sims):
     peak = equity
     sim_max_dd = 0.0
 
+    ruined = False
     for idx in shuffled_idx:
         ret = returns_arr[idx]
         # Real-time DD throttle applied during shuffle
@@ -46,6 +51,12 @@ for sim in range(n_sims):
         pnl = equity * (ret * scale)
         equity += pnl
 
+        # Ruin is an IN-PATH event: once equity breaches the threshold the path
+        # is ruined even if later trades would recover it.
+        if equity < initial_capital * ruin_threshold:
+            ruined = True
+            break
+
         if equity > peak:
             peak = equity
         dd = (peak - equity) / peak * 100.0
@@ -54,7 +65,7 @@ for sim in range(n_sims):
 
     max_drawdowns[sim] = sim_max_dd
     final_equities[sim] = equity
-    if np.min(equity) < initial_capital * ruin_threshold:
+    if ruined:
         ruin_count += 1
 
 dd_50 = np.percentile(max_drawdowns, 50)
@@ -68,6 +79,7 @@ print("=" * 60)
 print(f"Median Expected Drawdown:        {dd_50:.2f}%")
 print(f"95th Percentile Worst Drawdown:  {dd_95:.2f}%")
 print(f"99th Percentile Worst Drawdown:  {dd_99:.2f}%")
-print(f"Probability of Ruin (<$161):     {ruin_prob:.6f}%  <-- 0% CHANCE OF BLOWUP")
+_verdict = "0% RUIN IN 50,000 PATHS" if ruin_count == 0 else f"{ruin_count} RUINED PATHS"
+print(f"Probability of Ruin (<$161):     {ruin_prob:.6f}%  <-- {_verdict}")
 print(f"Median Final Equity:             ${np.median(final_equities):.2f} (from $323)")
 print("=" * 60)

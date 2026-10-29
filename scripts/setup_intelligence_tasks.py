@@ -38,8 +38,10 @@ for t in tasks:
 with open(".agent/tasks.json", "r") as f:
     existing = json.load(f)
 
+existing_ids = {e.get("id") for e in existing if isinstance(e, dict)}
 for t in tasks:
-    existing.append(t)
+    if t["id"] not in existing_ids:  # idempotent on re-run
+        existing.append(t)
 
 with open(".agent/tasks.json", "w") as f:
     json.dump(existing, f, indent=2)

@@ -61,3 +61,25 @@ forex_blobs = [
 for b_url, out in forex_blobs:
     fetch_blob(b_url, out)
 
+# Data-honesty fix: the EURJPY blob labelled "H4" actually contains H1 candles
+# (verified earlier: ~1h median bar interval). Resample to genuine 4h bars so the
+# file name matches its content and downstream 4h backtests are not run on H1 bars.
+_eurjpy = "data/forex/EURJPY_H4.csv"
+if os.path.exists(_eurjpy):
+    import pandas as pd
+    _df = pd.read_csv(_eurjpy)
+    _tscol = "timestamp" if "timestamp" in _df.columns else _df.columns[0]
+    _df[_tscol] = pd.to_datetime(_df[_tscol])
+    _df = _df.sort_values(_tscol).set_index(_tscol)
+    _median_h = (_df.index.to_series().diff().median()).total_seconds() / 3600.0
+    if _median_h is not None and _median_h < 2.0:
+        _ohlc = {"open": "first", "high": "max", "low": "min", "close": "last"}
+        if "volume" in _df.columns:
+            _ohlc["volume"] = "sum"
+        _df4 = _df.resample("4h").agg(_ohlc).dropna()
+        _df4 = _df4.reset_index()
+        _df4.to_csv(_eurjpy, index=False)
+        print(f"[FIX] {_eurjpy}: source was ~{_median_h:.1f}h bars - resampled to true 4h ({len(_df4)} bars)")
+    else:
+        print(f"[OK] {_eurjpy}: already ~{_median_h:.1f}h bars")
+

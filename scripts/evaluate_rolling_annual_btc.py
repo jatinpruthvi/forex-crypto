@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -43,6 +47,10 @@ sig_all["regime"] = "TREND"
 sig_all.loc[bull, "signal"] = 1
 sig_all.loc[bear, "signal"] = -1
 
+# ATR above is .bfill()'d over its 14-bar warmup while h_lb/l_lb first signal
+# at bar 12 - zero signals through bar 13 so no entry uses future-filled ATR.
+sig_all.loc[:13, "signal"] = 0
+
 df_m15["year"] = df_m15["timestamp"].dt.year
 sim = BacktestSimulator(slippage_pct=0.03, taker_fee_pct=0.02, initial_capital=1000.0, order_execution_mode="maker")
 
@@ -67,4 +75,4 @@ for yr in sorted(df_m15["year"].unique()):
     tc = res["total_trades"]
     wr = res["win_rate"]
     pf = res["profit_factor"]
-    print(f"{yr} |    {mo:4.1f} mo   | {len(sub_df):6d} | ${fc:13.2f} | +{tot:8.2f}% | +{cm:10.2f}%/mo | {dd:11.2f}% | {tc:6d} | {wr:7.2f}% | {pf:13.2f}")
+    print(f"{yr} |    {mo:4.1f} mo   | {len(sub_df):6d} | ${fc:13.2f} | {tot:+9.2f}% | {cm:+11.2f}%/mo | {dd:11.2f}% | {tc:6d} | {wr:7.2f}% | {pf:13.2f}")

@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import os
 import numpy as np
@@ -18,6 +22,7 @@ n = len(df)
 months_elapsed = (n * 4.0) / (24.0 * 30.4)
 
 tr = np.maximum(high - low, np.maximum(np.abs(high - np.roll(close, 1)), np.abs(low - np.roll(close, 1))))
+tr[0] = high[0] - low[0]  # np.roll wraps the LAST close into bar 0 - kill that lookahead
 atr14 = pd.Series(tr).rolling(14, min_periods=1).mean().values
 ema50 = pd.Series(close).ewm(span=50).mean().values
 vol_sma20 = pd.Series(vol).rolling(20, min_periods=1).mean().replace(0, 1e-6).values
@@ -26,6 +31,9 @@ large_candle = (high - low) > (1.8 * atr14)
 vol_surge = vol > vol_sma20
 ema50_slope_up = ema50 > np.roll(ema50, 3)
 ema50_slope_down = ema50 < np.roll(ema50, 3)
+# np.roll wraps the LAST bars' ema into the first 3 slots - kill that lookahead
+ema50_slope_up[:3] = False
+ema50_slope_down[:3] = False
 price_stretch = (close - ema50) / np.maximum(ema50, 1.0)
 
 bull_expansion = (close > open_p) & large_candle & (close > ema50) & ema50_slope_up & vol_surge & (price_stretch < 0.05)
@@ -94,8 +102,8 @@ def run_comparison():
     print("="*70)
     print(f"RULE-BASED SYSTEM:")
     print(f"  Final Capital:    ${res_base['final_capital']:.2f} (from $323.00)")
-    print(f"  Total Net Return: +{res_base['net_roi_total_pct']:.2f}%")
-    print(f"  Monthly Comp ROI: +{res_base['monthly_roi_pct']:.2f}%")
+    print(f"  Total Net Return: {res_base['net_roi_total_pct']:+.2f}%")
+    print(f"  Monthly Comp ROI: {res_base['monthly_roi_pct']:+.2f}%")
     print(f"  Max Drawdown:     {res_base['max_drawdown_pct']:.2f}%")
     print(f"  Win Rate:         {res_base['win_rate']:.2f}% ({res_base['total_trades']} trades)")
     print(f"  Profit Factor:    {res_base['profit_factor']:.2f}")
@@ -103,8 +111,8 @@ def run_comparison():
 
     print("\nML-AUGMENTED SYSTEM (XGBoost Calibrated Dynamic Sizing):")
     print(f"  Final Capital:    ${res_ml['final_capital']:.2f} (from $323.00)")
-    print(f"  Total Net Return: +{res_ml['net_roi_total_pct']:.2f}%")
-    print(f"  Monthly Comp ROI: +{res_ml['monthly_roi_pct']:.2f}%")
+    print(f"  Total Net Return: {res_ml['net_roi_total_pct']:+.2f}%")
+    print(f"  Monthly Comp ROI: {res_ml['monthly_roi_pct']:+.2f}%")
     print(f"  Max Drawdown:     {res_ml['max_drawdown_pct']:.2f}%")
     print(f"  Win Rate:         {res_ml['win_rate']:.2f}% ({res_ml['total_trades']} trades)")
     print(f"  Profit Factor:    {res_ml['profit_factor']:.2f}")

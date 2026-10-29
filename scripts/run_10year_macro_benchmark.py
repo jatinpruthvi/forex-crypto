@@ -10,6 +10,8 @@ across 14,400 H4 bars (9.35 full years / 112.3 calendar months) on:
 Records long-term validated savepoints into `reports/roi_progress_ledger.json`.
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 from datetime import datetime
 import pandas as pd
 from core.analysis.out_of_box_engine import OutOfTheBoxAlphaEngine

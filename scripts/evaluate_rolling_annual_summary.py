@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -50,6 +54,10 @@ for yr in sorted(df_m15["year"].unique()):
     sig["regime"] = "TREND"
     sig.loc[bull, "signal"] = 1
     sig.loc[bear, "signal"] = -1
+
+    # ATR above is .bfill()'d over its 14-bar warmup while h_lb/l_lb first signal
+    # at bar 12 - zero signals through bar 13 so no entry uses future-filled ATR.
+    sig.loc[:13, "signal"] = 0
 
     res = sim.run_backtest(sub, sig, risk_per_trade_pct=3.0, atr_sl_mult=1.3, atr_tp_mult=2.0)
     records.append({

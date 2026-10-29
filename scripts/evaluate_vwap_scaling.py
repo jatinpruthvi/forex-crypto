@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from scripts.evaluate_breakeven_buffer import AdvancedExitSimulator
@@ -39,5 +43,5 @@ sim = AdvancedExitSimulator(slippage_pct=0.1, taker_fee_pct=0.055, initial_capit
 
 for risk in [3.0, 3.5, 4.0]:
     for be_buf in [0.20, 0.25, 0.30]:
-        res = sim.run_backtest_with_exit_tuning(df, signals, partial_atr_trigger=2.0, be_buffer_atr=be_buf)
+        res = sim.run_backtest_with_exit_tuning(df, signals, partial_atr_trigger=2.0, be_buffer_atr=be_buf, base_risk_pct=risk)
         print(f"Risk: {risk}% | BE Buffer: +{be_buf:4.2f}x ATR | Monthly ROI: {res['monthly_roi']:5.2f}% | Max DD: {res['max_dd']:5.2f}% | Win Rate: {res['win_rate']:5.2f}% | PF: {res['pf']:4.2f} | Calmar: {res['calmar']:4.2f}")

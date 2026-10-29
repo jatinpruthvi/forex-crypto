@@ -6,6 +6,9 @@ Automated Weekly Retraining Scheduler:
 3. Invokes WalkForwardLearner to detect drift and retrain models/model_xgb.pkl
 4. Verifies safety fallback guard and logs status
 """
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import os
 import logging
 import pandas as pd

@@ -6,6 +6,9 @@ Executes:
 3. Dynamic Momentum Carousel Allocation
 Registers the 20%+ ROI configuration into `reports/roi_progress_ledger.json`.
 """
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 from core.analysis.out_of_box_engine import OutOfTheBoxAlphaEngine, MomentumCarouselAllocator
 from core.analysis.roi_ledger import ROILedger
@@ -103,7 +106,7 @@ def run_benchmark():
             "drawdown_throttle": True
         },
         results=res_btc,
-        notes="Out-of-the-box institutional trading architecture: compounds runner size exclusively with locked house money after TP1 to achieve 25.64%/month with Max DD < 12%",
+        notes="Out-of-the-box institutional architecture: compounds runner size with locked house money after TP1. Metrics in results are computed live (the earlier hardcoded 25.64%/month claim came from the phantom-pyramid accounting era and is void).",
         tag="OUT_OF_THE_BOX_CHAMPION",
         create_savepoint=True
     )

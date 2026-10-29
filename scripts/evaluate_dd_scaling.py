@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 
@@ -60,7 +64,16 @@ class DynamicDDBacktestSimulator(BacktestSimulator):
         conv_arr = signals['conviction'].values
 
         n = len(df)
-        hours_elapsed = n * 4 if '4h' in str(times[1]) else n
+        # Derive the bar duration from real timestamps (the old '4h'-in-str(times)
+        # sniff never matched datetime values and treated 4h bars as 1h, overstating
+        # monthly ROI ~4x).
+        try:
+            bar_hours = float((times[1] - times[0]) / np.timedelta64(1, "h"))
+        except Exception:
+            bar_hours = 1.0
+        if not bar_hours or bar_hours != bar_hours:
+            bar_hours = 1.0
+        hours_elapsed = n * bar_hours
         months_elapsed = max(1.0, hours_elapsed / (24.0 * 30.4))
         prev_sig = 0
 

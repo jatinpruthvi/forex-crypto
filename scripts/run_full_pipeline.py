@@ -5,6 +5,9 @@ Phase 1: Research & Discovery via VectorBT Matrix Scanner across 60 parameter co
 Phase 2: Risk Modeling & Path-Dependent Verification with BacktestSimulator & Dynamic Drawdown Throttle.
 Phase 3: Production Deployment to Live Strategy Configs and Persistent ROI Ledger Savepoints.
 """
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import os
 import json
 import pandas as pd
@@ -74,6 +77,9 @@ def run_pipeline(
     sig["regime"] = "TREND"
     sig.loc[bull, "signal"] = 1
     sig.loc[bear, "signal"] = -1
+    # ATR is .bfill()'d through its 14-bar warmup while h_b first signals at bar best_lb
+    # - zero signals through bar 13 so no entry uses future-filled ATR.
+    sig.loc[:13, "signal"] = 0
 
     sim = BacktestSimulator(slippage_pct=0.01, taker_fee_pct=0.02, initial_capital=1000.0, order_execution_mode="maker")
     # Verified execution with Dynamic Drawdown Throttle, Breakeven Lock, & Trailing Ratchet
@@ -88,8 +94,8 @@ def run_pipeline(
     )
 
     print("Phase 2 Execution Metrics (Realistic Maker Fees & Dynamic Drawdown Guard):")
-    print(f"  Monthly Compounded ROI: +{res_phase2['monthly_roi_pct']}%/mo")
-    print(f"  Net Total Return:       +{res_phase2['net_roi_total_pct']}%")
+    print(f"  Monthly Compounded ROI: {res_phase2['monthly_roi_pct']:+.2f}%/mo")
+    print(f"  Net Total Return:       {res_phase2['net_roi_total_pct']:+.2f}%")
     print(f"  Max Account Drawdown:    {res_phase2['max_drawdown_pct']}%")
     print(f"  Win Rate:                {res_phase2['win_rate']}% ({res_phase2['total_trades']} closed trades)")
     print(f"  Profit Factor:           {res_phase2['profit_factor']}")

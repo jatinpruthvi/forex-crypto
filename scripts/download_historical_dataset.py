@@ -32,26 +32,10 @@ try:
 except Exception as e:
     print("Warning on benchmark fetch:", e)
 
-# Fetch doduyquy/sgu-2026-datamining-timeseries btc 1h
-try:
-    raw_url = "https://raw.githubusercontent.com/doduyquy/sgu-2026-datamining-timeseries/main/data/btc_6months_1h.csv"
-    req2 = urllib.request.Request(raw_url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req2) as resp:
-        from io import StringIO
-        df_sgu = pd.read_csv(StringIO(resp.read().decode("utf-8")))
-        print("Fetched doduyquy btc 1h:", len(df_sgu))
-        # Date, BTC-USD
-        df_sgu.rename(columns={"Date": "timestamp", "BTC-USD": "close"}, inplace=True)
-        df_sgu["timestamp"] = pd.to_datetime(df_sgu["timestamp"])
-        # Synthesize open, high, low, volume from close series
-        df_sgu["open"] = df_sgu["close"].shift(1).fillna(df_sgu["close"])
-        volat = (df_sgu["close"].pct_change().abs().rolling(14).mean().fillna(0.005)) * df_sgu["close"]
-        df_sgu["high"] = np.maximum(df_sgu["open"], df_sgu["close"]) + (volat * np.random.uniform(0.1, 0.5, len(df_sgu)))
-        df_sgu["low"] = np.minimum(df_sgu["open"], df_sgu["close"]) - (volat * np.random.uniform(0.1, 0.5, len(df_sgu)))
-        df_sgu["volume"] = np.random.uniform(100, 1000, len(df_sgu))
-        dfs.append(df_sgu[["timestamp", "open", "high", "low", "close", "volume"]])
-except Exception as e:
-    print("Warning on doduyquy fetch:", e)
+# NOTE (data honesty): a close-only series (doduyquy/sgu-2026-datamining-timeseries)
+# was previously expanded into OHLCV by synthesizing random high/low wicks and random
+# volume. That FABRICATES market data and poisons any backtest built on this file, so
+# it is no longer merged here. Only real OHLC sources are combined into the output.
 
 if dfs:
     combined = pd.concat(dfs, ignore_index=True)

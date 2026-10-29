@@ -8,6 +8,9 @@ Evaluates:
 Uses real 99,999 M15 bars + real H4 macro alignment, maker post-only fees (0.02%), slippage (0.03%),
 and authentic partial take-profit laddering + dynamic breakeven buffer ratchet.
 """
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 import ta
@@ -79,13 +82,15 @@ ob = smc.ob(ohlcv_cols, swing_highs_lows=shl)
 fvg_val = fvg["FVG"].fillna(0.0) if "FVG" in fvg.columns else pd.Series(0.0, index=df_m15.index)
 ob_val = ob["OB"].fillna(0.0) if "OB" in ob.columns else pd.Series(0.0, index=df_m15.index)
 
-# SMC confirms bullish breakout if supported by Bullish FVG or Order Block (or impulsive expansion)
-smc_bull = base_bull & ((fvg_val == 1) | (ob_val == 1) | (close > open_p))
-smc_bear = base_bear & ((fvg_val == -1) | (ob_val == -1) | (close < open_p))
+# SMC confirms bullish breakout only if supported by a Bullish FVG or Order Block.
+# (An earlier `(close > open_p)` escape hatch made the gate always-true - base_bull
+# already requires it - so "SMC" was silently identical to baseline. Removed.)
+smc_bull = base_bull & ((fvg_val == 1) | (ob_val == 1))
+smc_bear = base_bear & ((fvg_val == -1) | (ob_val == -1))
 
 # Item 4: Full Synergy (Baseline + TA Filters + SMC Confirmation)
-synergy_bull = ta_bull & ((fvg_val == 1) | (ob_val == 1) | (close > open_p))
-synergy_bear = ta_bear & ((fvg_val == -1) | (ob_val == -1) | (close < open_p))
+synergy_bull = ta_bull & ((fvg_val == 1) | (ob_val == 1))
+synergy_bear = ta_bear & ((fvg_val == -1) | (ob_val == -1))
 
 def create_sig_df(bull_mask, bear_mask):
     sig = pd.DataFrame(index=df_m15.index)
@@ -94,6 +99,11 @@ def create_sig_df(bull_mask, bear_mask):
     sig["conviction"] = 85.0
     sig["regime"] = "TREND"
     return sig
+
+# Warmup honesty: ATR is .bfill()'d through bar 12 and h_12 first signals at bar 12 -
+# zero signals through bar 13 so no entry uses future-filled ATR.
+for _m in (base_bull, base_bear, ta_bull, ta_bear, smc_bull, smc_bear, synergy_bull, synergy_bear):
+    _m.iloc[:14] = False
 
 sig_base = create_sig_df(base_bull, base_bear)
 sig_ta = create_sig_df(ta_bull, ta_bear)

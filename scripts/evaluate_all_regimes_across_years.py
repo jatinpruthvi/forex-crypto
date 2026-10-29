@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -56,6 +60,12 @@ is_trending = pd.Series(adx >= 22.0, index=df_m15.index)
 bull_hybrid = pd.Series(np.where(is_trending, bull_trend, bull_range), index=df_m15.index)
 bear_hybrid = pd.Series(np.where(is_trending, bear_trend, bear_range), index=df_m15.index)
 
+# Warmup honesty: ATR is .bfill()'d through bar 12 and ADX through ~bar 27, and the
+# first possible Donchian signal is bar 12 - zero ALL strategy signals through bar 29
+# so no entry (or regime tag) can use future-filled indicators.
+for _s in (bull_trend, bear_trend, bull_range, bear_range, bull_hybrid, bear_hybrid):
+    _s.iloc[:30] = False
+
 sim = BacktestSimulator(slippage_pct=0.03, taker_fee_pct=0.02, initial_capital=1000.0, order_execution_mode="maker")
 
 print("=== TESTING STRATEGIES ACROSS DIFFERENT HISTORICAL REGIMES ===")
@@ -97,4 +107,4 @@ for strat_name, (b_sig, s_sig, reg_tag) in [
         tc = res["total_trades"]
         wr = res["win_rate"]
         pf = res["profit_factor"]
-        print(f"{yr} |  {mo:4.1f} mo | +{tot:8.2f}% | +{cm:10.2f}%/mo | {dd:11.2f}% | {tc:6d} | {wr:6.2f}% | {pf:13.2f}")
+        print(f"{yr} |  {mo:4.1f} mo | {tot:+9.2f}% | {cm:+11.2f}%/mo | {dd:11.2f}% | {tc:6d} | {wr:6.2f}% | {pf:13.2f}")

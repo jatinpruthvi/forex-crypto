@@ -15,6 +15,8 @@ exchange tick data (e.g. Hyperliquid API) instead.
   2. Synthetic sub-tick path-dependent execution.
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 import time

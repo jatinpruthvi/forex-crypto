@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 from scripts.evaluate_breakeven_buffer import AdvancedExitSimulator
@@ -45,8 +49,46 @@ n_sims = 50000
 ruin_count = 0
 max_dds = []
 
-# Trade PnL sequence
-# We simulate 36 trades randomly resampled 50,000 times
-# If account falls below $161.50 (50% loss), it counts as ruin
-# In our backtest, capital ended at $427.35 with 0 losing streaks exceeding 3
-print("Running 50,000 Monte Carlo Permutations...")
+# Trade PnL bootstrap: resample the realized trade PnL sequence with
+# replacement 50,000 times. If equity falls below $161.50 (50% of the
+# $323 start), that path counts as ruin.
+trade_pnls = np.asarray(res["trade_pnls"], dtype=float)
+if trade_pnls.size == 0:
+    raise SystemExit("No closed trades to bootstrap - cannot run Monte Carlo.")
+
+print(f"Running 50,000 Monte Carlo Permutations over {trade_pnls.size} trades...")
+rng = np.random.default_rng(42)
+ruin_thresh = 0.5 * 323.0
+start_cap = 323.0
+
+max_dds = []
+ruin_count = 0
+final_caps = []
+for _ in range(n_sims):
+    seq = rng.choice(trade_pnls, size=trade_pnls.size, replace=True)
+    equity = start_cap
+    peak = start_cap
+    max_dd = 0.0
+    ruined = False
+    for pnl in seq:
+        equity += pnl
+        if equity <= ruin_thresh:
+            ruined = True
+            break
+        if equity > peak:
+            peak = equity
+        dd = (peak - equity) / peak
+        if dd > max_dd:
+            max_dd = dd
+    if ruined:
+        ruin_count += 1
+    max_dds.append(max_dd)
+    final_caps.append(equity)
+
+max_dds = np.asarray(max_dds)
+final_caps = np.asarray(final_caps)
+print(f"Ruin probability (< 50% equity): {ruin_count / n_sims * 100.0:.3f}% ({ruin_count}/{n_sims})")
+print(f"Max DD  - mean: {max_dds.mean() * 100:.2f}% | p95: {np.percentile(max_dds, 95) * 100:.2f}% | worst: {max_dds.max() * 100:.2f}%")
+print(f"Final equity - mean: ${final_caps.mean():.2f} | p5: ${np.percentile(final_caps, 5):.2f} | p95: ${np.percentile(final_caps, 95):.2f}")
+neg = (final_caps < start_cap).mean() * 100.0
+print(f"Paths ending below start capital: {neg:.2f}%")

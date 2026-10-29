@@ -19,6 +19,8 @@ Also benchmarks varying risk profiles (1.0%, 1.25%, 1.5%, 1.75%, 2.0%, 2.5%) and
 - Static Capital Slicing (EXP-012)
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 import json

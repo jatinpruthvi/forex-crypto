@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -89,4 +93,4 @@ for name, slip, fee_rate in exchanges:
         diff = baseline_mexc - fc
         fee_drag = f"-${diff:,.2f}"
         
-    print(f"{name} |   {fee_rate*100:5.3f}%  |  {slip:4.2f}%   | ${fc:12.2f} | +{tot:8.2f}% | +{cm:10.2f}%/mo | {fee_drag}")
+    print(f"{name} |   {fee_rate*100:5.3f}%  |  {slip:4.2f}%   | ${fc:12.2f} | {tot:+9.2f}% | {cm:+11.2f}%/mo | {fee_drag}")

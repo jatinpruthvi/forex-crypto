@@ -10,6 +10,9 @@ Executes rigorous backtests across:
 7. Regime-Adaptive Hybrid Engine (Trend Breakout in Trending / SMC Reversal in Chop)
 All results are systematically registered in `reports/roi_progress_ledger.json` with savepoints.
 """
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import os
 import pandas as pd
 import numpy as np
@@ -41,6 +44,9 @@ def run_asset_backtest(
     sig["regime"] = "TREND"
     sig.loc[bull_cond, "signal"] = 1
     sig.loc[bear_cond, "signal"] = -1
+    # ATR is .bfill()'d through its 14-bar warmup; zero signals through bar 13 so no
+    # entry uses future-filled ATR (Donchian lookbacks only push first signals later).
+    sig.loc[:13, "signal"] = 0
 
     sim = BacktestSimulator(slippage_pct=slippage, taker_fee_pct=fee_pct, initial_capital=initial_cap, order_execution_mode="maker")
     res = sim.run_backtest(df, sig, risk_per_trade_pct=risk_pct, atr_sl_mult=sl_mult, atr_tp_mult=tp_mult, trailing_atr_mult=trail_mult)
@@ -77,7 +83,7 @@ ledger.record_experiment(
     tag="CRYPTO_CHAMPION",
     create_savepoint=True
 )
-print(f"Recorded EXP-001-BTC-4H-DONCHIAN: +{res_btc['monthly_roi_pct']}%/mo (Max DD: {res_btc['max_drawdown_pct']}%, WR: {res_btc['win_rate']}%)")
+print(f"Recorded EXP-001-BTC-4H-DONCHIAN: {res_btc['monthly_roi_pct']:+.2f}%/mo (Max DD: {res_btc['max_drawdown_pct']}%, WR: {res_btc['win_rate']}%)")
 
 # 2. BNBUSDT 4H Macro Donchian
 df_bnb = pd.read_csv("data/timeframes/BNBUSDT_H4.csv")
@@ -106,7 +112,7 @@ ledger.record_experiment(
     tag="CRYPTO_DIVERSIFICATION",
     create_savepoint=True
 )
-print(f"Recorded EXP-002-BNB-4H-DONCHIAN: +{res_bnb['monthly_roi_pct']}%/mo (Max DD: {res_bnb['max_drawdown_pct']}%, WR: {res_bnb['win_rate']}%)")
+print(f"Recorded EXP-002-BNB-4H-DONCHIAN: {res_bnb['monthly_roi_pct']:+.2f}%/mo (Max DD: {res_bnb['max_drawdown_pct']}%, WR: {res_bnb['win_rate']}%)")
 
 # 3. ETH 1D Macro Trend Expansion (3 Years)
 df_eth_1d = pd.read_csv("data/timeframes/ETH_1d.csv")
@@ -134,7 +140,7 @@ ledger.record_experiment(
     tag="MACRO_SWING",
     create_savepoint=True
 )
-print(f"Recorded EXP-003-ETH-1D-DONCHIAN: +{res_eth_1d['monthly_roi_pct']}%/mo (Max DD: {res_eth_1d['max_drawdown_pct']}%, Total: +{res_eth_1d['net_roi_total_pct']}%)")
+print(f"Recorded EXP-003-ETH-1D-DONCHIAN: {res_eth_1d['monthly_roi_pct']:+.2f}%/mo (Max DD: {res_eth_1d['max_drawdown_pct']}%, Total: {res_eth_1d['net_roi_total_pct']:+.2f}%)")
 
 # 4. Gold (XAUUSD) 5-Year Macro Breakout (2017-2022)
 df_gold = pd.read_csv("data/forex/XAUUSD_H4.csv")
@@ -165,14 +171,23 @@ ledger.record_experiment(
     tag="FOREX_COMMODITY",
     create_savepoint=True
 )
-print(f"Recorded EXP-004-XAUUSD-5YR-H4: +{res_gold['monthly_roi_pct']}%/mo (Max DD: {res_gold['max_drawdown_pct']}%, Total: +{res_gold['net_roi_total_pct']}%)")
+print(f"Recorded EXP-004-XAUUSD-5YR-H4: {res_gold['monthly_roi_pct']:+.2f}%/mo (Max DD: {res_gold['max_drawdown_pct']}%, Total: {res_gold['net_roi_total_pct']:+.2f}%)")
 
 # 5. Multi-Asset Dedicated Sub-Account Portfolio (Option B Architecture)
 # Blends BTC (40%), BNB (30%), ETH (15%), XAUUSD (15%)
-port_tot = 0.40 * res_btc["net_roi_total_pct"] + 0.30 * res_bnb["net_roi_total_pct"] + 0.15 * res_eth_1d["net_roi_total_pct"] + 0.15 * res_gold["net_roi_total_pct"]
-port_months = res_btc["months_elapsed"]
-port_monthly = ((1.0 + port_tot / 100.0) ** (1.0 / max(0.1, port_months)) - 1.0) * 100.0
-port_dd = max(res_btc["max_drawdown_pct"], res_bnb["max_drawdown_pct"]) * 0.85 # portfolio diversification discount
+# NOTE (metric honesty): the components cover DIFFERENT horizons (BTC/BNB ~5.5 months,
+# ETH 3 years, GOLD 5 years). Blending their total returns over one horizon would fake
+# the monthly ROI. Instead each component's own time-normalized monthly ROI is weighted,
+# and the aggregate drawdown is the conservative max across components (the old version
+# multiplied by an invented 0.85 "diversification discount" and hard-coded PF=1.25).
+_w = {"btc": 0.40, "bnb": 0.30, "eth": 0.15, "gold": 0.15}
+port_tot = _w["btc"] * res_btc["net_roi_total_pct"] + _w["bnb"] * res_bnb["net_roi_total_pct"] + _w["eth"] * res_eth_1d["net_roi_total_pct"] + _w["gold"] * res_gold["net_roi_total_pct"]
+port_monthly = (_w["btc"] * res_btc["monthly_roi_pct"] + _w["bnb"] * res_bnb["monthly_roi_pct"] + _w["eth"] * res_eth_1d["monthly_roi_pct"] + _w["gold"] * res_gold["monthly_roi_pct"])
+port_dd = max(res_btc["max_drawdown_pct"], res_bnb["max_drawdown_pct"], res_eth_1d["max_drawdown_pct"], res_gold["max_drawdown_pct"])
+port_trades = int(res_btc["total_trades"] + res_bnb["total_trades"] + res_eth_1d["total_trades"] + res_gold["total_trades"])
+port_wr = (res_btc["win_rate"] * res_btc["total_trades"] + res_bnb["win_rate"] * res_bnb["total_trades"] + res_eth_1d["win_rate"] * res_eth_1d["total_trades"] + res_gold["win_rate"] * res_gold["total_trades"]) / max(1, port_trades)
+port_pf = (_w["btc"] * res_btc["profit_factor"] + _w["bnb"] * res_bnb["profit_factor"] + _w["eth"] * res_eth_1d["profit_factor"] + _w["gold"] * res_gold["profit_factor"])
+port_months = max(res_btc["months_elapsed"], res_bnb["months_elapsed"], res_eth_1d["months_elapsed"], res_gold["months_elapsed"])
 
 res_portfolio = {
     "initial_capital": 1000.0,
@@ -180,9 +195,9 @@ res_portfolio = {
     "net_roi_total_pct": round(port_tot, 2),
     "monthly_roi_pct": round(port_monthly, 2),
     "max_drawdown_pct": round(port_dd, 2),
-    "total_trades": int(res_btc["total_trades"] + res_bnb["total_trades"]),
-    "win_rate": round((res_btc["win_rate"] + res_bnb["win_rate"]) / 2.0, 2),
-    "profit_factor": 1.25,
+    "total_trades": port_trades,
+    "win_rate": round(port_wr, 2),
+    "profit_factor": round(port_pf, 2),
     "months_elapsed": port_months
 }
 
@@ -191,13 +206,15 @@ ledger.record_experiment(
     strategy_name="Option B Concurrent Multi-Asset Portfolio (BTC 40%, BNB 30%, ETH 15%, GOLD 15%)",
     asset="PORTFOLIO (BTC+BNB+ETH+GOLD)",
     timeframe="4H / Multi-TF",
-    duration_desc="5.5 months simultaneous execution",
+    duration_desc=f"blended multi-horizon run (components span 5.5 months - 5 years; max horizon {port_months:.1f} months)",
     params={"btc_weight": 0.40, "bnb_weight": 0.30, "eth_weight": 0.15, "gold_weight": 0.15, "drawdown_throttle": True},
     results=res_portfolio,
-    notes="Champion Option B Architecture: independent sub-accounts eliminate slot cannibalization and correlated co-drawdown drag",
+    notes="Option B multi-asset blend. Aggregates are weighted per-component time-normalized "
+          "metrics (recomputed after the accounting-honesty audit; earlier version blended "
+          "mixed-horizon totals and hard-coded PF/DD figures).",
     tag="PORTFOLIO_CHAMPION",
     create_savepoint=True
 )
-print(f"Recorded EXP-005-PORTFOLIO-OPTION-B: +{res_portfolio['monthly_roi_pct']}%/mo (Max DD: {res_portfolio['max_drawdown_pct']}%, Net: +{res_portfolio['net_roi_total_pct']}%)")
+print(f"Recorded EXP-005-PORTFOLIO-OPTION-B: {res_portfolio['monthly_roi_pct']:+.2f}%/mo (Max DD: {res_portfolio['max_drawdown_pct']}%, Net: {res_portfolio['net_roi_total_pct']:+.2f}%)")
 
 print("\nAll experiments successfully recorded into reports/roi_progress_ledger.json.")

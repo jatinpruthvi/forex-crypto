@@ -12,6 +12,8 @@ Metrics Computed:
 6. Risk of Ruin & Consecutive Loss Absorption
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.quantum_hybrid_engine import QuantumHybridEngine
@@ -75,72 +77,103 @@ def run_risk_frontier():
                 c, h, l, atr = row["close"], row["high"], row["low"], row["atr"]
                 side, entry, units, sl, tp1, tp1_hit, tier = pos["side"], pos["entry_price"], pos["units"], pos["sl"], pos["tp1"], pos["tp1_hit"], pos["pyramid_tier"]
 
+                # Pyramid adds take liquidity -> taker fee (audit convention).
+                add_fee_rate = max(engine.maker_fee_pct * 3.0, 0.045) / 100.0
+
                 if side == 1:
-                    if not tp1_hit and h >= tp1:
-                        pos["tp1_hit"] = True; tp1_hit = True
-                        part = units * 0.40
-                        pnl = part * (tp1 - entry) - (tp1 * part * (engine.maker_fee_pct / 100.0))
-                        cash += pnl
-                        pos["units"] = units * 0.60; units = pos["units"]
-                        pos["sl"] = entry + atr * 0.25; sl = pos["sl"]
-                        if tier == 0:
-                            pos["pyramid_tier"] = 1; tier = 1
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
-                    if tp1_hit and tier == 1 and h >= entry + atr * engine.tp2_atr:
-                        pos["pyramid_tier"] = 2
-                        tier = 2
-                        p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                        p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
-                        pos["units"] += p_units
-                        units = pos["units"]
-                        pos["sl"] = entry + atr * 1.5
-                        sl = pos["sl"]
-                    if tp1_hit:
-                        ch_sl = h - atr * engine.trail_atr
-                        if ch_sl > sl: pos["sl"] = ch_sl; sl = ch_sl
-                    if l <= sl:
-                        exit_price = sl
+                    # Audit fill convention: bar-START stop, SL-first on ambiguous bars.
+                    # TP1/tier events, BE moves and trail ratchets are FUTURE-only, so
+                    # they cannot manufacture a same-bar stop exit.
+                    sl_bar_start = pos["sl"]
+                    if l <= sl_bar_start:
+                        exit_price = sl_bar_start
                         fee = exit_price * units * (engine.maker_fee_pct / 100.0)
-                        pnl = units * (exit_price - entry) - fee
-                        cash += pnl
-                        trade_log.append(pnl)
+                        leg = units * (exit_price - entry) - fee
+                        cash += leg
+                        trade_log.append(leg + pos["realized"])  # net trade PnL (partials + add fees + exit)
                         closed.append(sym)
+                    else:
+                        if not tp1_hit and h >= tp1:
+                            pos["tp1_hit"] = True; tp1_hit = True
+                            part = units * 0.40
+                            pnl = part * (tp1 - entry) - (tp1 * part * (engine.maker_fee_pct / 100.0))
+                            cash += pnl
+                            pos["realized"] += pnl
+                            pos["units"] = units * 0.60; units = pos["units"]
+                            pos["sl"] = entry + atr * 0.25; sl = pos["sl"]
+                            if tier == 0:
+                                pos["pyramid_tier"] = 1; tier = 1
+                                p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
+                                p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                                add_fee = p_units * c * add_fee_rate
+                                cash -= add_fee
+                                pos["realized"] -= add_fee
+                                new_u = units + p_units
+                                # volume-weighted re-basis (no phantom entry credit)
+                                pos["entry_price"] = (entry * units + c * p_units) / new_u
+                                entry = pos["entry_price"]
+                                pos["units"] = new_u; units = new_u
+                        if tp1_hit and tier == 1 and h >= entry + atr * engine.tp2_atr:
+                            pos["pyramid_tier"] = 2
+                            tier = 2
+                            p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            add_fee = p_units * c * add_fee_rate
+                            cash -= add_fee
+                            pos["realized"] -= add_fee
+                            new_u = units + p_units
+                            pos["entry_price"] = (entry * units + c * p_units) / new_u
+                            entry = pos["entry_price"]
+                            pos["units"] = new_u; units = new_u
+                            pos["sl"] = entry + atr * 1.5; sl = pos["sl"]
+                        if tp1_hit:
+                            ch_sl = h - atr * engine.trail_atr
+                            if ch_sl > sl: pos["sl"] = ch_sl; sl = ch_sl
                 elif side == -1:
-                    if not tp1_hit and l <= tp1:
-                        pos["tp1_hit"] = True; tp1_hit = True
-                        part = units * 0.40
-                        pnl = part * (entry - tp1) - (tp1 * part * (engine.maker_fee_pct / 100.0))
-                        cash += pnl
-                        pos["units"] = units * 0.60; units = pos["units"]
-                        pos["sl"] = entry - atr * 0.25; sl = pos["sl"]
-                        if tier == 0:
-                            pos["pyramid_tier"] = 1; tier = 1
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
-                    if tp1_hit and tier == 1 and l <= entry - atr * engine.tp2_atr:
-                        pos["pyramid_tier"] = 2
-                        tier = 2
-                        p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                        p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
-                        pos["units"] += p_units
-                        units = pos["units"]
-                        pos["sl"] = entry - atr * 1.5
-                        sl = pos["sl"]
-                    if tp1_hit:
-                        ch_sl = l + atr * engine.trail_atr
-                        if ch_sl < sl: pos["sl"] = ch_sl; sl = ch_sl
-                    if h >= sl:
-                        exit_price = sl
+                    sl_bar_start = pos["sl"]
+                    if h >= sl_bar_start:
+                        exit_price = sl_bar_start
                         fee = exit_price * units * (engine.maker_fee_pct / 100.0)
-                        pnl = units * (entry - exit_price) - fee
-                        cash += pnl
-                        trade_log.append(pnl)
+                        leg = units * (entry - exit_price) - fee
+                        cash += leg
+                        trade_log.append(leg + pos["realized"])
                         closed.append(sym)
+                    else:
+                        if not tp1_hit and l <= tp1:
+                            pos["tp1_hit"] = True; tp1_hit = True
+                            part = units * 0.40
+                            pnl = part * (entry - tp1) - (tp1 * part * (engine.maker_fee_pct / 100.0))
+                            cash += pnl
+                            pos["realized"] += pnl
+                            pos["units"] = units * 0.60; units = pos["units"]
+                            pos["sl"] = entry - atr * 0.25; sl = pos["sl"]
+                            if tier == 0:
+                                pos["pyramid_tier"] = 1; tier = 1
+                                p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
+                                p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                                add_fee = p_units * c * add_fee_rate
+                                cash -= add_fee
+                                pos["realized"] -= add_fee
+                                new_u = units + p_units
+                                pos["entry_price"] = (entry * units + c * p_units) / new_u
+                                entry = pos["entry_price"]
+                                pos["units"] = new_u; units = new_u
+                        if tp1_hit and tier == 1 and l <= entry - atr * engine.tp2_atr:
+                            pos["pyramid_tier"] = 2
+                            tier = 2
+                            p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
+                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4)
+                            add_fee = p_units * c * add_fee_rate
+                            cash -= add_fee
+                            pos["realized"] -= add_fee
+                            new_u = units + p_units
+                            pos["entry_price"] = (entry * units + c * p_units) / new_u
+                            entry = pos["entry_price"]
+                            pos["units"] = new_u; units = new_u
+                            pos["sl"] = entry - atr * 1.5; sl = pos["sl"]
+                        if tp1_hit:
+                            ch_sl = l + atr * engine.trail_atr
+                            if ch_sl < sl: pos["sl"] = ch_sl; sl = ch_sl
 
             for sym in closed: del positions[sym]
             unrealized = sum(pos["units"] * (c_aligned[s].iloc[i]["close"] - pos["entry_price"]) * (1 if pos["side"] == 1 else -1) for s, pos in positions.items())
@@ -176,7 +209,7 @@ def run_risk_frontier():
                     units = (risk_amount * lev) / max(stop_dist, 1e-4)
                     entry_fee = entry * units * (engine.maker_fee_pct / 100.0)
                     cash -= entry_fee
-                    positions[sym] = {"side": side, "entry_price": entry, "sl": sl, "tp1": tp1, "tp1_hit": False, "pyramid_tier": 0, "units": units}
+                    positions[sym] = {"side": side, "entry_price": entry, "sl": sl, "tp1": tp1, "tp1_hit": False, "pyramid_tier": 0, "units": units, "realized": 0.0}
 
         tot_ret = (equity / 1000.0 - 1.0) * 100.0
         m_roi = ((equity / 1000.0) ** (1.0 / c_months) - 1.0) * 100.0
@@ -193,16 +226,19 @@ def run_risk_frontier():
     print("-" * 115)
 
     crypto_results = []
+    champion = None  # computed metrics for the 1.5% dual-slot run (ledger must use REAL results)
     for r in [0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 3.0]:
         eq, tot, m_roi, dd, rat, cal, tr, wr = sim_crypto(slots=2, risk_pct=r)
         crypto_results.append({"name": f"Dual-Slot ({r:4.2f}%)", "eq": eq, "tot": tot, "m_roi": m_roi, "dd": dd, "ratio": rat, "calmar": cal, "trades": tr, "wr": wr})
-        print(f"Dual-Slot ({r:4.2f}% Risk)  | ${eq:>12,.2f} | +{tot:>9.2f}% | +{m_roi:>10.2f}%/mo | {dd:>7.2f}% | {rat:>11.2f}x | {cal:>6.2f} | {wr:>5.1f}%")
+        if r == 1.5:
+            champion = {"eq": eq, "tot": tot, "m_roi": m_roi, "dd": dd, "trades": tr, "wr": wr}
+        print(f"Dual-Slot ({r:4.2f}% Risk)  | ${eq:>12,.2f} | {tot:>+10.2f}% | {m_roi:>+11.2f}%/mo | {dd:>7.2f}% | {rat:>11.2f}x | {cal:>6.2f} | {wr:>5.1f}%")
 
     print("\n>>> 2. MULTI-SLOT CAPACITY COMPARISON (1-Slot vs 2-Slot vs 3-Slot at 1.5% Risk):")
     print("-" * 115)
     for s in [1, 2, 3]:
         eq, tot, m_roi, dd, rat, cal, tr, wr = sim_crypto(slots=s, risk_pct=1.5)
-        print(f"{s}-Slot Pool (1.50% Risk) | ${eq:>12,.2f} | +{tot:>9.2f}% | +{m_roi:>10.2f}%/mo | {dd:>7.2f}% | {rat:>11.2f}x | {cal:>6.2f} | {wr:>5.1f}%")
+        print(f"{s}-Slot Pool (1.50% Risk) | ${eq:>12,.2f} | {tot:>+10.2f}% | {m_roi:>+11.2f}%/mo | {dd:>7.2f}% | {rat:>11.2f}x | {cal:>6.2f} | {wr:>5.1f}%")
 
     # Record comparison finding into ROILedger
     ledger = ROILedger()
@@ -221,16 +257,16 @@ def run_risk_frontier():
         },
         results={
             "initial_capital": 1000.0,
-            "final_capital": 8048.27,
-            "net_roi_total_pct": 704.83,
-            "monthly_roi_pct": 46.41,
-            "max_drawdown_pct": 28.95,
-            "profit_factor": 1.18,
-            "win_rate_pct": 41.9,
-            "total_trades": 179,
-            "months_elapsed": 5.47
+            "final_capital": round(champion["eq"], 2) if champion else None,
+            "net_roi_total_pct": round(champion["tot"], 2) if champion else None,
+            "monthly_roi_pct": round(champion["m_roi"], 2) if champion else None,
+            "max_drawdown_pct": round(champion["dd"], 2) if champion else None,
+            "win_rate_pct": round(champion["wr"], 2) if champion else None,
+            "total_trades": champion["trades"] if champion else None
         },
-        notes="Evaluates ROI-to-Drawdown efficiency frontier. While 2.5% risk achieves higher Calmar (1.60x ROI/DD ratio vs 1.14x), 1.5% risk is the optimal choice for prop-firm compliance and maximum 25%/month target fulfillment.",
+        notes="ROI-to-Drawdown efficiency frontier; results are the COMPUTED 1.5% dual-slot run "
+              "(re-recorded after the phantom-pyramid accounting fix - earlier hardcoded figures "
+              "were from the buggy accounting and are void).",
         tag="RISK_FRONTIER_ANALYSIS",
         create_savepoint=True
     )

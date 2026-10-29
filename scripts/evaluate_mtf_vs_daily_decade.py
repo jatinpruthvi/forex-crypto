@@ -1,3 +1,7 @@
+
+
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 from core.analysis.fast_backtester import BacktestSimulator
@@ -60,4 +64,4 @@ for r, name in [(r_spot, "10-Year Daily Spot Only   "), (r_fut, "10-Year Daily F
     wr = r["win_rate"]
     pf = r["profit_factor"]
     tc = r["total_trades"]
-    print(f"{name} | ${fc:13.2f} | +{tot:10.2f}% | +{cm:10.2f}%/mo | +{lm:12.2f}%/mo | {dd:11.2f}% | {wr:7.2f}% | {pf:13.2f} | {tc:6d}")
+    print(f"{name} | ${fc:13.2f} | {tot:+11.2f}% | {cm:+11.2f}%/mo | {lm:+13.2f}%/mo | {dd:11.2f}% | {wr:7.2f}% | {pf:13.2f} | {tc:6d}")
