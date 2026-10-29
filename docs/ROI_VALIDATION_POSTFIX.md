@@ -135,5 +135,14 @@ walk-forward discipline:
 - The ~25%/month target is reachable in favorable regimes but is **not** a safe planning
   figure; planning at 6–8%/month with 25% as upside variance matches the evidence.
 
+> **Superseded for the crypto-only scope** (user decision, 2026-10-29): the 5–8%/mo
+> figure above is forex-derived. The deep crypto-only follow-up
+> (`docs/CRYPTO_ROI_DEEP_VALIDATION.md`, EXP-019A/B) shows the 2023 crypto OOS folds
+> ran +11.7%…+81.2%/mo (the +25.8% blend is the conservative end, robust to 6×
+> fill-cost stress, LOPO-stable), and characterizes the real regime risk as
+> **dormant months with no signal** (2024 H1: 1 closed trade in 3.55 unseen months).
+> Crypto-only planning: ~25%/mo active-regime expectation, 10–25%/mo blended,
+> 0.75%/2-slots or 1.0%/1-slot for DD margin.
+
 _Re-run any time: `PYTHONPATH=. python scripts/validate_roi_postfix.py --record` appends
 fresh EXP-018 entries; the harness is deterministic and reproduces every number above._

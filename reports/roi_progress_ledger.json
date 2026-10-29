@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-29 11:34:03 UTC",
+  "last_updated": "2026-10-29 12:11:05 UTC",
   "champion_savepoint": "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
   "experiments": [
     {
@@ -956,6 +956,147 @@
       },
       "tag": "POSTFIX_WALKFORWARD_OOS",
       "notes": "Strictly out-of-sample walk-forward on real historical candles: config selected on TRAIN window only, metrics reported from held-out TEST window only. OOS ROI compounds the unseen folds sequentially; worst DD is the worst held-out fold. No in-sample trades are included in reported metrics."
+    },
+    {
+      "experiment_id": "EXP-019A-CRYPTO22-DEEP-OOS",
+      "timestamp": "2026-10-29 12:11:05 UTC",
+      "strategy_name": "Dual-Slot Shared Pool -- Deep Crypto-Only Walk-Forward (post-bugfix)",
+      "asset": "Crypto perps only (user decision: crypto-first deployment)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "3 non-overlapping OOS folds, 3.55 unseen months",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_cost_baseline": {
+          "slip": 0.0005,
+          "taker": 0.045,
+          "label": "baseline (0.05% slip / 0.045% taker)"
+        },
+        "fill_cost_stress1": {
+          "slip": 0.0015,
+          "taker": 0.075,
+          "label": "stress-1 (0.15% slip / 0.075% taker)"
+        },
+        "fill_cost_stress2": {
+          "slip": 0.003,
+          "taker": 0.1,
+          "label": "stress-2 (0.30% slip / 0.10% taker)"
+        },
+        "reference_fold_oos": {
+          "final_equity": 1872.2297545322494,
+          "monthly_roi": 25.799389660959694,
+          "max_drawdown": 13.786086407749016,
+          "total_trades": 75,
+          "win_rate": 34.66666666666667,
+          "profit_factor": 1.7880096076754493
+        },
+        "reference_fold_selected": {
+          "risk_pct": 1.0,
+          "max_slots": 2
+        },
+        "lopo_monthly_roi_pct": {
+          "DOGE/USDT": 44.57,
+          "BNB/USDT": 24.09,
+          "XRP/USDT": 37.63,
+          "ADA/USDT": 34.67,
+          "BTC/USDT": 23.27,
+          "LTC/USDT": 28.91,
+          "ETH/USDT": 35.01,
+          "LINK/USDT": 34.65
+        }
+      },
+      "metrics": {
+        "months_elapsed": 3.55,
+        "win_rate_pct": 0.0,
+        "net_total_roi_pct": 0.0,
+        "monthly_roi_pct": 46.49,
+        "max_drawdown_pct": 14.69,
+        "profit_factor": 0.0,
+        "total_trades": 88,
+        "initial_capital": 1000.0,
+        "final_capital": 0.0
+      },
+      "tag": "CRYPTO_DEEP_WALKFORWARD_OOS",
+      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md."
+    },
+    {
+      "experiment_id": "EXP-019B-CRYPTO24-DEEP-OOS",
+      "timestamp": "2026-10-29 12:11:05 UTC",
+      "strategy_name": "Dual-Slot Shared Pool -- Deep Crypto-Only Walk-Forward (post-bugfix)",
+      "asset": "Crypto perps only (user decision: crypto-first deployment)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "3 non-overlapping OOS folds, 3.55 unseen months",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_cost_baseline": {
+          "slip": 0.0005,
+          "taker": 0.045,
+          "label": "baseline (0.05% slip / 0.045% taker)"
+        },
+        "fill_cost_stress1": {
+          "slip": 0.0015,
+          "taker": 0.075,
+          "label": "stress-1 (0.15% slip / 0.075% taker)"
+        },
+        "fill_cost_stress2": {
+          "slip": 0.003,
+          "taker": 0.1,
+          "label": "stress-2 (0.30% slip / 0.10% taker)"
+        },
+        "reference_fold_oos": {
+          "final_equity": 1005.1496163891488,
+          "monthly_roi": 0.18815986490468006,
+          "max_drawdown": 2.2402780259349497,
+          "total_trades": 0,
+          "win_rate": 0.0,
+          "profit_factor": Infinity
+        },
+        "reference_fold_selected": {
+          "risk_pct": 1.5,
+          "max_slots": 2
+        },
+        "lopo_monthly_roi_pct": {
+          "SOL/USDT": 0.0,
+          "BNB/USDT": 0.19,
+          "LINK/USDT": 0.19
+        }
+      },
+      "metrics": {
+        "months_elapsed": 3.55,
+        "win_rate_pct": 0.0,
+        "net_total_roi_pct": 0.0,
+        "monthly_roi_pct": 9.17,
+        "max_drawdown_pct": 5.55,
+        "profit_factor": 0.0,
+        "total_trades": 1,
+        "initial_capital": 1000.0,
+        "final_capital": 0.0
+      },
+      "tag": "CRYPTO_DEEP_WALKFORWARD_OOS",
+      "notes": "Deep crypto-only walk-forward: 3 non-overlapping held-out folds per dataset, config selected on TRAIN only. Stress runs raise stop slippage to 0.15%/0.30% and taker fee to 0.075%/0.10% to test fill-cost sensitivity. LOPO = test-window robustness dropping one pair at a time. See docs/CRYPTO_ROI_DEEP_VALIDATION.md."
     }
   ],
   "savepoints": {
@@ -1561,6 +1702,119 @@
       "target_monthly_roi": 6.37,
       "max_drawdown": 13.26,
       "created_at": "2026-10-29 11:34:03 UTC"
+    },
+    "SAVEPOINT_EXP-019A-CRYPTO22-DEEP-OOS": {
+      "experiment_id": "EXP-019A-CRYPTO22-DEEP-OOS",
+      "strategy_name": "Dual-Slot Shared Pool -- Deep Crypto-Only Walk-Forward (post-bugfix)",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_cost_baseline": {
+          "slip": 0.0005,
+          "taker": 0.045,
+          "label": "baseline (0.05% slip / 0.045% taker)"
+        },
+        "fill_cost_stress1": {
+          "slip": 0.0015,
+          "taker": 0.075,
+          "label": "stress-1 (0.15% slip / 0.075% taker)"
+        },
+        "fill_cost_stress2": {
+          "slip": 0.003,
+          "taker": 0.1,
+          "label": "stress-2 (0.30% slip / 0.10% taker)"
+        },
+        "reference_fold_oos": {
+          "final_equity": 1872.2297545322494,
+          "monthly_roi": 25.799389660959694,
+          "max_drawdown": 13.786086407749016,
+          "total_trades": 75,
+          "win_rate": 34.66666666666667,
+          "profit_factor": 1.7880096076754493
+        },
+        "reference_fold_selected": {
+          "risk_pct": 1.0,
+          "max_slots": 2
+        },
+        "lopo_monthly_roi_pct": {
+          "DOGE/USDT": 44.57,
+          "BNB/USDT": 24.09,
+          "XRP/USDT": 37.63,
+          "ADA/USDT": 34.67,
+          "BTC/USDT": 23.27,
+          "LTC/USDT": 28.91,
+          "ETH/USDT": 35.01,
+          "LINK/USDT": 34.65
+        }
+      },
+      "target_monthly_roi": 46.49,
+      "max_drawdown": 14.69,
+      "created_at": "2026-10-29 12:11:05 UTC"
+    },
+    "SAVEPOINT_EXP-019B-CRYPTO24-DEEP-OOS": {
+      "experiment_id": "EXP-019B-CRYPTO24-DEEP-OOS",
+      "strategy_name": "Dual-Slot Shared Pool -- Deep Crypto-Only Walk-Forward (post-bugfix)",
+      "parameters": {
+        "risk_grid_pct": [
+          0.5,
+          0.75,
+          1.0,
+          1.25,
+          1.5
+        ],
+        "slot_grid": [
+          1,
+          2
+        ],
+        "leverage": 2.0,
+        "selection_rule": "max train monthly ROI with train max-DD <= 15.0%",
+        "fill_cost_baseline": {
+          "slip": 0.0005,
+          "taker": 0.045,
+          "label": "baseline (0.05% slip / 0.045% taker)"
+        },
+        "fill_cost_stress1": {
+          "slip": 0.0015,
+          "taker": 0.075,
+          "label": "stress-1 (0.15% slip / 0.075% taker)"
+        },
+        "fill_cost_stress2": {
+          "slip": 0.003,
+          "taker": 0.1,
+          "label": "stress-2 (0.30% slip / 0.10% taker)"
+        },
+        "reference_fold_oos": {
+          "final_equity": 1005.1496163891488,
+          "monthly_roi": 0.18815986490468006,
+          "max_drawdown": 2.2402780259349497,
+          "total_trades": 0,
+          "win_rate": 0.0,
+          "profit_factor": Infinity
+        },
+        "reference_fold_selected": {
+          "risk_pct": 1.5,
+          "max_slots": 2
+        },
+        "lopo_monthly_roi_pct": {
+          "SOL/USDT": 0.0,
+          "BNB/USDT": 0.19,
+          "LINK/USDT": 0.19
+        }
+      },
+      "target_monthly_roi": 9.17,
+      "max_drawdown": 5.55,
+      "created_at": "2026-10-29 12:11:05 UTC"
     }
   }
 }

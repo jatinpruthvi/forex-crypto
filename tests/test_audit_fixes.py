@@ -135,3 +135,58 @@ def test_monte_carlo_ruin_threshold_parameter():
 def test_var_guard_rejects_mismatched_lengths():
     with pytest.raises(ValueError):
         ValueAtRiskGuard.calculate_var(10000.0, [1000.0, 2000.0], [0.02])
+
+
+# ---------------------------------------------------------------------------
+# Regression: audit #20 -- win counting must use NET trade PnL only, never
+# "or tp1_hit". Crafted trade hits TP1 partial but nets a LOSS on fees; the
+# legacy rule counted such trades as wins (inflated win rate).
+# ---------------------------------------------------------------------------
+
+def test_win_counting_uses_net_pnl_not_tp1_flag():
+    import pandas as pd
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+    from run_dual_slot_shared_pool_benchmark import execute_shared_pool_sim
+
+    class _Eng:  # minimal engine attr stub; zero pyramid mults disable adds
+        maker_fee_pct = 0.015
+        taker_fee_pct = 0.045
+        tier1_pyramid_mult = 0.0
+        tier2_pyramid_mult = 0.0
+        tp1_atr = 1.8
+        tp2_atr = 3.0
+        trail_atr = 2.0
+        enable_drawdown_throttle = False
+
+    n = 40
+    ts = pd.date_range("2024-01-01", periods=n, freq="h").strftime("%Y-%m-%d %H:%M:%S")
+    rows = []
+    for i in range(n):
+        quiet = dict(open=100.0, high=100.001, low=99.999, close=100.0,
+                     atr=0.01, adx=5.0, donchian_high=200.0, donchian_low=0.0,
+                     ema_fast=100.0, ema_slow=100.0, vwap=100.0,
+                     bb_lower=90.0, bb_upper=110.0, bb_mid=100.0, rsi=50.0,
+                     bull_fvg=False, bear_fvg=False)
+        rows.append(quiet)
+    # bar 31: breakout long entry at close 100, ATR 0.01 -> TP1 = 100.018
+    rows[31].update(adx=30.0, donchian_high=99.9, ema_fast=100.2, ema_slow=99.8, vwap=99.9)
+    # bar 32: high touches TP1 exactly (partial 40% at 100.018), no stop touch
+    rows[32].update(high=100.018, close=100.01)
+    # bar 33: low breaks the BE stop (entry + 0.25*ATR = 100.0025) -> taker stop exit
+    rows[33].update(low=99.9, high=100.005, close=100.0)
+    df = pd.DataFrame(rows)
+    df.insert(0, "timestamp", ts)
+
+    res = execute_shared_pool_sim(
+        list(ts), {"TEST/USDT": df}, _Eng(), 1.0,
+        gate_fn=None, max_slots=2, risk_pct=1.0, lev=2.0,
+    )
+    tl = res["trade_log"]
+    assert len(tl) == 1
+    assert tl[0]["tp1_hit"] is True        # partial TP DID fill...
+    assert tl[0]["pnl"] < 0                # ...yet the net trade LOST (fees)
+    # net-trade rule: zero wins. The legacy `or t["tp1_hit"]` rule would say 100%.
+    assert res["win_rate"] == 0.0
+    expected = 100.0 * sum(1 for t in tl if t["pnl"] > 0) / len(tl)
+    assert res["win_rate"] == pytest.approx(expected)

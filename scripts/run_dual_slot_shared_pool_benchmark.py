@@ -34,7 +34,8 @@ STOP_SLIPPAGE = 0.0005
 
 def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                             gate_fn=None, max_slots=2, risk_pct=1.5, lev=2.0,
-                            dd_throttle_threshold=0.08):
+                            dd_throttle_threshold=0.08,
+                            stop_slippage=None, taker_fee_pct=None):
     """Corrected dual-slot shared-pool simulation (audited fill model).
 
     Bar-start stop snapshot, stop fills FIRST on ambiguous bars with taker fee
@@ -48,6 +49,9 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
             return gate_fn(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult)
         stop_dist = max(atr * stop_atr_mult, 1e-4)
         return (eq * (risk / 100.0) * dd_mult * leverage) / stop_dist
+
+    _slip = STOP_SLIPPAGE if stop_slippage is None else stop_slippage
+    _taker = engine.taker_fee_pct if taker_fee_pct is None else taker_fee_pct
 
     cash = 1000.0
     peak_equity = cash
@@ -85,8 +89,8 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 # traded, fills FIRST (taker fee + slippage) -- no TP/pyramid
                 # bookkeeping on this bar.
                 if l <= sl_bar_start:
-                    exit_price = sl_bar_start * (1.0 - STOP_SLIPPAGE)
-                    fee = exit_price * units * (engine.taker_fee_pct / 100.0)
+                    exit_price = sl_bar_start * (1.0 - _slip)
+                    fee = exit_price * units * (_taker / 100.0)
                     pnl = units * (exit_price - entry) - fee
                     cash += pnl
                     trade_log.append({
@@ -147,8 +151,8 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 sl_bar_start = sl
                 # Conservative same-bar resolution against the bar-START stop.
                 if h >= sl_bar_start:
-                    exit_price = sl_bar_start * (1.0 + STOP_SLIPPAGE)
-                    fee = exit_price * units * (engine.taker_fee_pct / 100.0)
+                    exit_price = sl_bar_start * (1.0 + _slip)
+                    fee = exit_price * units * (_taker / 100.0)
                     pnl = units * (entry - exit_price) - fee
                     cash += pnl
                     trade_log.append({
@@ -350,6 +354,8 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
         "coin_breakdown": coin_breakdown,
         "duration_months": duration_months,
         "open_positions_at_end": len(positions),
+        "trade_log": trade_log,
+        "equity_curve": equity_curve,
     }
 
 def run_dual_slot_benchmark():
