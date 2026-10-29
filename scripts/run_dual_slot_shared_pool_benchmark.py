@@ -452,7 +452,8 @@ def run_dual_slot_benchmark():
             "profit_factor": round(champ["profit_factor"], 2),
             "win_rate_pct": round(champ["win_rate"], 2),
             "total_trades": champ["total_trades"],
-            "duration_months": round(champ["duration_months"], 2)
+            "duration_months": round(champ["duration_months"], 2),
+            "months_elapsed": round(champ["duration_months"], 2)
         },
         notes=os.getenv("EXP_NOTES", "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI."),
         tag=os.getenv("EXP_TAG", "DUAL_SLOT_SHARED_POOL_CHAMPION"),

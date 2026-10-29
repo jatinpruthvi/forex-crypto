@@ -283,7 +283,34 @@ class SizingViabilityGate:
         step_size = f.get("step_size", 0.0001)
         min_notional = f.get("min_notional", 5.0)
 
+        def _reject(reason: str) -> Dict[str, Any]:
+            return {
+                "symbol": symbol,
+                "viable": False,
+                "reason": reason,
+                "ideal_qty": 0.0,
+                "stepped_qty": 0.0,
+                "worst_error_pct": -100.0,
+                "max_error_pct": max_error_pct,
+                "venue": venue,
+                "stages": {},
+            }
+
+        # Degenerate-input guards: without these, a zero/tiny ATR inflates the
+        # position size enormously (risk / ~0 stop distance) and would sail
+        # through the lot checks into a catastrophic live order.
+        if equity <= 0 or price <= 0 or atr <= 0:
+            return _reject(
+                f"invalid inputs: equity={equity}, price={price}, atr={atr} must all be > 0"
+            )
         stop_dist = max(atr * stop_atr_mult, 1e-4)
+        stop_frac = stop_dist / price
+        if not (0.0005 <= stop_frac <= 0.5):
+            return _reject(
+                f"stop distance {stop_frac * 100:.4f}% of price outside sane band "
+                f"[0.05%, 50%] (atr={atr}, price={price})"
+            )
+
         ideal_qty = (equity * (risk_pct / 100.0) * leverage * dd_factor) / stop_dist
 
         stages = {}

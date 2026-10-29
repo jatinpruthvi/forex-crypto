@@ -69,7 +69,10 @@ class ROILedger:
                 "win_rate_pct": results.get("win_rate", results.get("win_rate_pct", 0.0)),
                 "total_trades": results.get("total_trades", 0),
                 "profit_factor": results.get("profit_factor", 0.0),
-                "months_elapsed": results.get("months_elapsed", results.get("months", 0.0))
+                "months_elapsed": results.get(
+                    "months_elapsed",
+                    results.get("months", results.get("duration_months", 0.0)),
+                )
             },
             "tag": tag,
             "notes": notes

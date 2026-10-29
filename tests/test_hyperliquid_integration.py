@@ -219,3 +219,46 @@ def test_smoke_credentials_check_flags_missing(monkeypatch):
     monkeypatch.setenv("HYPERLIQUID_API_KEY", "0xW")
     monkeypatch.setenv("HYPERLIQUID_API_SECRET", "0xK")
     assert check_credentials()["ok"] is True
+
+
+    def test_plan_entry_accepts_engine_side_names(self):
+        """'long'/'short' (Dual-Slot engine vocabulary) must map to buy/sell
+        with the CORRECT stop/tp1 side — not silently flip the branch."""
+        ex = HyperliquidLiveExecutor(dry_run=True, client=object())
+        long_plan = ex.plan_entry("DOGE/USDT", "long", 25.0, 0.22, 0.0077)
+        assert long_plan["accepted"] is True
+        assert long_plan["side"] == "buy"
+        assert long_plan["stop_price"] < long_plan["limit_price"] < long_plan["tp1_price"]
+
+        short_plan = ex.plan_entry("DOGE/USDT", "short", 25.0, 0.22, 0.0077)
+        assert short_plan["accepted"] is True
+        assert short_plan["side"] == "sell"
+        assert short_plan["tp1_price"] < short_plan["limit_price"] < short_plan["stop_price"]
+
+    def test_plan_entry_invalid_side_raises(self):
+        ex = HyperliquidLiveExecutor(dry_run=True, client=object())
+        with pytest.raises(ValueError):
+            ex.plan_entry("DOGE/USDT", "hodl", 25.0, 0.22, 0.0077)
+
+    def test_plan_entry_rejects_zero_atr_no_size_explosion(self):
+        """atr=0 must never inflate the order (regression: risk/~0 stop dist)."""
+        ex = HyperliquidLiveExecutor(dry_run=True, client=object())
+        plan = ex.plan_entry("DOGE/USDT", "buy", 25.0, 0.22, 0.0)
+        assert plan["accepted"] is False
+        assert "atr" in plan["reason"]
+
+    def test_gate_rejects_degenerate_inputs(self):
+        base = dict(symbol="DOGE/USDT", equity=25.0, price=0.22, atr=0.0077,
+                    venue="hyperliquid")
+        assert SizingViabilityGate.check(**{**base, "atr": 0.0})["viable"] is False
+        assert SizingViabilityGate.check(**{**base, "price": 0.0})["viable"] is False
+        assert SizingViabilityGate.check(**{**base, "equity": 0.0})["viable"] is False
+        # absurdly tight stop (< 0.05% of price) -> size explosion guard
+        assert SizingViabilityGate.check(**{**base, "atr": 1e-7})["viable"] is False
+
+    def test_fetch_equity_dry_run_behavior(self):
+        ex = HyperliquidLiveExecutor(dry_run=True, client=object())
+        with pytest.raises(RuntimeError):
+            ex.fetch_equity()  # no silent 0.0 that zeros replay sizing
+        ex2 = HyperliquidLiveExecutor(dry_run=True, client=object(), dry_run_equity=25.0)
+        assert ex2.fetch_equity() == 25.0

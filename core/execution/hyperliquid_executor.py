@@ -45,10 +45,12 @@ class HyperliquidLiveExecutor:
         testnet: bool = False,
         max_sizing_error_pct: float = 5.0,
         client: Optional[Any] = None,
+        dry_run_equity: Optional[float] = None,
     ):
         self.dry_run = dry_run
         self.testnet = testnet
         self.max_sizing_error_pct = max_sizing_error_pct
+        self.dry_run_equity = dry_run_equity
         self.order_log: list = []
         self.state_machine = LiveOrderStateMachine(timeout_seconds=60)
 
@@ -66,6 +68,21 @@ class HyperliquidLiveExecutor:
     # ------------------------------------------------------------------
     # Sizing & planning (pure — fully testable offline)
     # ------------------------------------------------------------------
+    @staticmethod
+    def normalize_side(side: str) -> str:
+        """
+        Map strategy-side names to exchange-side names. The Dual-Slot engine
+        emits 'long'/'short'; exchanges (ccxt) take 'buy'/'sell'. Passing the
+        raw engine string through would flip the stop/tp1 branch or be rejected
+        by the venue — normalize at the boundary.
+        """
+        s = (side or "").lower()
+        if s in ("buy", "long"):
+            return "buy"
+        if s in ("sell", "short"):
+            return "sell"
+        raise ValueError(f"invalid order side {side!r}: expected buy/sell/long/short")
+
     def plan_entry(
         self,
         symbol: str,
@@ -101,6 +118,7 @@ class HyperliquidLiveExecutor:
             logger.info("PLAN REJECTED %s: %s", symbol, gate["reason"])
             return {"accepted": False, "symbol": symbol, "reason": gate["reason"], "gate": gate}
 
+        side = self.normalize_side(side)
         filters = SizingViabilityGate.filters_for(symbol, "hyperliquid")
         limit_price = SizingViabilityGate.round_price_for_venue(price, symbol, "hyperliquid")
         sanitized = OrderExecutionSanitizer.sanitize_order(
@@ -139,12 +157,13 @@ class HyperliquidLiveExecutor:
         """Submit a post-only limit entry (maker fee) from an accepted plan."""
         if not plan.get("accepted"):
             return {"status": "REJECTED", "reason": plan.get("reason")}
+        side = self.normalize_side(plan.get("side", ""))
         if self.dry_run:
             order = {
                 "id": f"DRY-{int(time.time() * 1000)}",
                 "status": "DRY_FILLED",
                 "symbol": plan["hl_symbol"],
-                "side": plan["side"],
+                "side": side,
                 "qty": plan["qty"],
                 "price": plan["limit_price"],
             }
@@ -154,7 +173,7 @@ class HyperliquidLiveExecutor:
             return order
 
         raw = self.client.create_order(
-            plan["hl_symbol"], "limit", plan["side"], plan["qty"], plan["limit_price"],
+            plan["hl_symbol"], "limit", side, plan["qty"], plan["limit_price"],
             {"timeInForce": "Gtc", "postOnly": True},
         )
         order = {"id": raw.get("id"), "status": raw.get("status", "NEW"), "raw": raw}
@@ -165,9 +184,10 @@ class HyperliquidLiveExecutor:
     def place_stop(self, symbol: str, side: str, qty: float, trigger_price: float) -> Dict[str, Any]:
         """
         Place a reduce-only trigger stop (Hyperliquid tpsl 'sl' order).
-        `side` is the CLOSING side (sell to close a long).
+        `side` is the POSITION side (buy/long closes with a sell stop).
         """
-        close_side = "sell" if side.lower() in ("buy", "long") else "buy"
+        norm = self.normalize_side(side)
+        close_side = "sell" if norm == "buy" else "buy"
         if self.dry_run:
             order = {"id": f"DRY-SL-{int(time.time() * 1000)}", "status": "DRY_PLACED",
                      "symbol": symbol, "side": close_side, "qty": qty, "trigger": trigger_price}
@@ -182,8 +202,9 @@ class HyperliquidLiveExecutor:
         return order
 
     def close_position(self, symbol: str, side: str, qty: float, price: Optional[float] = None) -> Dict[str, Any]:
-        """Reduce-only market close of `qty` on `symbol`."""
-        close_side = "sell" if side.lower() in ("buy", "long") else "buy"
+        """Reduce-only market close of `qty` on `symbol` (`side` = position side)."""
+        norm = self.normalize_side(side)
+        close_side = "sell" if norm == "buy" else "buy"
         if self.dry_run:
             order = {"id": f"DRY-CL-{int(time.time() * 1000)}", "status": "DRY_FILLED",
                      "symbol": symbol, "side": close_side, "qty": qty, "price": price}
@@ -203,7 +224,13 @@ class HyperliquidLiveExecutor:
     def fetch_equity(self) -> float:
         """Total USDC collateral (margin equity) on the Hyperliquid account."""
         if self.dry_run:
-            return 0.0
+            if self.dry_run_equity is not None:
+                return self.dry_run_equity
+            raise RuntimeError(
+                "fetch_equity() has no live account in dry-run mode; pass "
+                "dry_run_equity=... to simulate, or provide equity explicitly "
+                "to plan_entry()."
+            )
         balance = self.client.fetch_balance()
         usdc = balance.get("USDC") or {}
         return float(usdc.get("total") or 0.0)

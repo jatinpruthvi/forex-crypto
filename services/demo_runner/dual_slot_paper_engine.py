@@ -227,6 +227,9 @@ class DualSlotSharedPoolAccount:
             return False
         if len(self.positions) >= self.max_slots:
             return False
+        if atr <= 0 or entry_price <= 0:
+            logger.warning("open_trade rejected %s: atr=%s entry_price=%s must be > 0", symbol, atr, entry_price)
+            return False
 
         # Drawdown safety throttle: if current DD >= 8%, cut risk by 50%
         dd_factor = 0.5 if self.current_drawdown_pct >= 8.0 else 1.0

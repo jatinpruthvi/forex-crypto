@@ -220,3 +220,11 @@ def test_micro_mode_summary_exposes_state():
     assert s["max_sizing_error_pct"] == 5.0
     assert s["lot_venue"] == "bybit"
     assert "BTC/USDT" in s["skipped_symbols"]
+
+
+def test_open_trade_rejects_nonpositive_atr():
+    """Paper engine must share the size-explosion guard: atr<=0 opens nothing."""
+    micro = DualSlotSharedPoolAccount(initial_capital=500.0, micro_account_mode=True)
+    assert micro.open_trade(1600000000000, "BTC/USDT", "long", 110000.0, atr=0.0) is False
+    full = DualSlotSharedPoolAccount(initial_capital=500.0, micro_account_mode=False)
+    assert full.open_trade(1600000000000, "BTC/USDT", "long", 110000.0, atr=0.0) is False

@@ -461,7 +461,7 @@
         "win_rate_pct": 41.9,
         "total_trades": 179,
         "profit_factor": 1.19,
-        "months_elapsed": 0.0
+        "months_elapsed": 5.47
       },
       "tag": "DUAL_SLOT_SHARED_POOL_CHAMPION",
       "notes": "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI."
@@ -490,7 +490,7 @@
         "win_rate_pct": 47.47,
         "total_trades": 1306,
         "profit_factor": 0.0,
-        "months_elapsed": 0.0
+        "months_elapsed": 60.0
       },
       "tag": "TICK_LEVEL_5YEAR_VALIDATION",
       "notes": "Validated on 5 full years of historical data broken down into intrabar price micro-ticks. Proves strategy withstands intraday stop-loss sweeps, wick traps, and choppy periods."
@@ -575,7 +575,7 @@
         "win_rate_pct": 41.9,
         "total_trades": 179,
         "profit_factor": 1.18,
-        "months_elapsed": 0.0
+        "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
       "notes": "Venue fee model MEXC: maker 0.00% entries + taker 0.05% stop exits (per-side avg 0.025%)."
@@ -618,7 +618,7 @@
         "win_rate_pct": 41.9,
         "total_trades": 179,
         "profit_factor": 1.18,
-        "months_elapsed": 0.0
+        "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
       "notes": "Venue fee model Hyperliquid: maker 0.015% entries + taker 0.045% stop exits (per-side avg 0.030%)."
@@ -661,7 +661,7 @@
         "win_rate_pct": 41.9,
         "total_trades": 179,
         "profit_factor": 1.18,
-        "months_elapsed": 0.0
+        "months_elapsed": 5.47
       },
       "tag": "VENUE_FEE_COMPARISON",
       "notes": "Venue fee model Bybit: maker 0.02% entries + taker 0.055% stop exits (per-side avg 0.0375%)."
