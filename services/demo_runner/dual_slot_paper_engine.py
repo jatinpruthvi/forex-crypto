@@ -19,6 +19,7 @@ from datetime import datetime, timezone
 
 from services.monitoring.webhook_notifier import WebhookNotifier
 from core.risk.institutional_guards import PropFirmRiskGuard
+from core.execution.live_adapter import SizingViabilityGate
 
 logger = logging.getLogger("dual_slot_paper_engine")
 
@@ -32,6 +33,9 @@ class DualSlotSharedPoolAccount:
         leverage: float = 2.0,
         maker_fee: float = 0.00015,
         max_slots: int = 2,
+        micro_account_mode: bool = False,
+        max_sizing_error_pct: float = 5.0,
+        lot_venue: str = "mexc",
     ):
         self.name = name
         self.initial_capital = initial_capital
@@ -58,6 +62,15 @@ class DualSlotSharedPoolAccount:
             "BTC/USDT", "DOGE/USDT", "BNB/USDT", "XRP/USDT",
             "ADA/USDT", "LTC/USDT", "ETH/USDT", "LINK/USDT"
         ]
+
+        # MICRO_ACCOUNT_MODE: live-exchange lot-size discipline for small accounts.
+        # When enabled, each candidate symbol is gated through SizingViabilityGate —
+        # pairs whose lot-rounding error exceeds max_sizing_error_pct (or that fall
+        # below exchange min qty/notional) are auto-skipped until equity grows.
+        self.micro_account_mode = micro_account_mode
+        self.max_sizing_error_pct = max_sizing_error_pct
+        self.lot_venue = lot_venue
+        self.skipped_symbols: Dict[str, dict] = {}
 
     def on_asset_candle(self, ts: str, symbol: str, high: float, low: float, close: float):
         if self.emergency_halt or symbol not in self.positions:
@@ -86,7 +99,7 @@ class DualSlotSharedPoolAccount:
                 # Tier 1 Pyramiding using realized house-money
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * 1.0) / max(atr * 1.5, 1e-4)
+                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0)
                     pos["size"] += tier1_qty
 
             # Check Tier 2 Pyramiding (+3.0x ATR)
@@ -94,7 +107,7 @@ class DualSlotSharedPoolAccount:
                 tp2_target = entry + (atr * 3.0)
                 if high >= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * 0.8) / max(atr * 1.5, 1e-4)
+                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry + (atr * 1.5)
 
@@ -124,14 +137,14 @@ class DualSlotSharedPoolAccount:
 
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * 1.0) / max(atr * 1.5, 1e-4)
+                    tier1_qty = self._pyramid_add_qty(symbol, ts, "TIER1", atr, 1.0)
                     pos["size"] += tier1_qty
 
             if pos["tp1_hit"] and pos["pyramid_tier"] == 1 and pos.get("regime") == "TREND":
                 tp2_target = entry - (atr * 3.0)
                 if low <= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * 0.8) / max(atr * 1.5, 1e-4)
+                    tier2_qty = self._pyramid_add_qty(symbol, ts, "TIER2", atr, 0.8)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry - (atr * 1.5)
 
@@ -174,6 +187,22 @@ class DualSlotSharedPoolAccount:
             self.emergency_halt = True
             self.emergency_liquidate_all(ts, "PROP_FIRM_DAILY_LOCKOUT_TRIGGERED")
 
+    def _pyramid_add_qty(self, symbol: str, ts: str, tier_label: str, atr: float, mult: float) -> float:
+        """Size a pyramid add; in MICRO_ACCOUNT_MODE step to the exchange lot size
+        and skip the add entirely if it would fall below the exchange min qty."""
+        qty = (self.equity * (self.base_risk_pct / 100.0) * self.leverage * mult) / max(atr * 1.5, 1e-4)
+        if not self.micro_account_mode:
+            return qty
+        f = SizingViabilityGate.filters_for(symbol, self.lot_venue)
+        stepped = SizingViabilityGate.step_qty(qty, f.get("step_size", 0.0001))
+        if stepped < f.get("min_qty", 0.001):
+            logger.info(
+                "MICRO_ACCOUNT_MODE: %s %s pyramid add skipped — stepped qty %s below min_qty %s",
+                symbol, tier_label, stepped, f.get("min_qty", 0.001),
+            )
+            return 0.0
+        return stepped
+
     def open_trade(
         self,
         ts: str,
@@ -195,6 +224,36 @@ class DualSlotSharedPoolAccount:
         risk_amount = self.equity * (self.base_risk_pct / 100.0) * dd_factor
         stop_dist = atr * 1.5
         size = (risk_amount * self.leverage) / max(stop_dist, 1e-4)
+
+        # MICRO_ACCOUNT_MODE: gate symbol through real exchange lot constraints.
+        # Skips the pair (rather than trading a distorted size) whenever the lot
+        # step would distort risk sizing by more than max_sizing_error_pct.
+        if self.micro_account_mode:
+            gate = SizingViabilityGate.check(
+                symbol,
+                equity=self.equity,
+                price=entry_price,
+                atr=atr,
+                risk_pct=self.base_risk_pct,
+                leverage=self.leverage,
+                dd_factor=dd_factor,
+                max_error_pct=self.max_sizing_error_pct,
+                venue=self.lot_venue,
+            )
+            if not gate["viable"]:
+                self.skipped_symbols[symbol] = {
+                    "reason": gate["reason"],
+                    "ts": ts,
+                    "equity": round(self.equity, 2),
+                    "worst_error_pct": gate["worst_error_pct"],
+                }
+                logger.info(
+                    "MICRO_ACCOUNT_MODE: skipping %s at equity $%.2f — %s",
+                    symbol, self.equity, gate["reason"],
+                )
+                return False
+            # Faithful live sizing: use the exchange-stepped quantity
+            size = gate["stepped_qty"]
 
         if side == "long":
             sl = entry_price - stop_dist
@@ -283,5 +342,9 @@ class DualSlotSharedPoolAccount:
             "equity_curve": self.equity_curve[-100:],
             "drawdown_curve": self.drawdown_curve[-100:],
             "active_slots": f"{len(self.positions)} / {self.max_slots} Active Slots",
-            "is_emergency_halt": self.emergency_halt
+            "is_emergency_halt": self.emergency_halt,
+            "micro_account_mode": self.micro_account_mode,
+            "max_sizing_error_pct": self.max_sizing_error_pct,
+            "lot_venue": self.lot_venue,
+            "skipped_symbols": self.skipped_symbols
         }

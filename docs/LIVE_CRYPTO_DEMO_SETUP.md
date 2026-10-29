@@ -243,6 +243,29 @@ Calculated by running the exact `OrderExecutionSanitizer` in `core/execution/liv
 - **Deposits**: fund with USDT via TRC20/Arbitrum/Base (~$0–2 network fee). Exchange deposits are free.
 - **Drawdown floor**: below ~$123 equity, BTC entries auto-reject (min lot). The engine never oversizes — it skips the pair. Keep equity above $200 or run micro mode.
 
+### MICRO_ACCOUNT_MODE (Implemented ✅)
+Enable real exchange lot-size discipline so a small account only trades pairs it can size faithfully:
+
+```bash
+MICRO_ACCOUNT_MODE=1 LOT_VENUE=mexc python services/demo_runner/demo_server.py
+```
+
+| Env Var | Default | Meaning |
+|---|---|---|
+| `MICRO_ACCOUNT_MODE` | `0` | `1` = gate every entry through `SizingViabilityGate` |
+| `MICRO_MAX_SIZING_ERROR_PCT` | `5.0` | Max lot-rounding distortion allowed per order |
+| `LOT_VENUE` | `mexc` | `mexc` (fine lots) or `bybit` (coarse lots) |
+
+Behavior when enabled:
+- Every candidate symbol is checked at **all three sizing stages** (entry, Tier-1 pyramid +1.0x, Tier-2 pyramid +0.8x) against the venue's real `min_qty` / `step_size` / `min_notional`.
+- Any pair whose lot step distorts the 1.5%-risk size by more than the threshold (or falls below min qty/notional) is **auto-skipped** for that cycle — recorded in `skipped_symbols` and exposed in the account summary (`GET /api/state`).
+- Accepted orders use the **exchange-stepped quantity** (floored to the lot step), so paper and live fill sizes match exactly.
+- Skipped pairs are re-evaluated every candle — as equity grows, BTC/ETH "switch on" automatically.
+
+Verified examples (Oct 2026 prices): $100 on MEXC → BTC & BNB skipped (lot error 7.6%+), DOGE/XRP/LTC/ETH/ADA/LINK trade. $150 on Bybit → BTC skipped (−19.3% lot error), DOGE trades. $500 on MEXC → all 8 pairs trade with ≤2% distortion. $1,000 → all pairs within 1% (backtest-faithful).
+
+Code: `core/execution/live_adapter.py::SizingViabilityGate`, `services/demo_runner/dual_slot_paper_engine.py` (micro gate + stepped pyramid adds). Tests: `tests/test_micro_account_mode.py` (16 tests).
+
 ---
 
 *Generated and verified for repository `forex-crypto`.*

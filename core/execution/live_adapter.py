@@ -128,6 +128,145 @@ class OrderExecutionSanitizer:
         }
 
 
+class SizingViabilityGate:
+    """
+    MICRO_ACCOUNT_MODE gate: decides whether a symbol can be traded faithfully
+    at the current account equity under real exchange lot-size constraints.
+
+    Rejects any symbol whose ideal ATR-scaled position size, after stepping down
+    to the exchange lot step, deviates by more than ``max_error_pct`` — or that
+    falls below the exchange minimum quantity / minimum notional. This lets a
+    small ($100-$500) account trade only the pairs whose lot granularity can
+    honour the 1.5%-risk sizing math, instead of silently oversizing/undersizing.
+
+    Checked stages: initial entry, Tier-1 pyramid add (+1.0x), Tier-2 pyramid
+    add (+0.8x) — all three must fit, since the champion strategy pyramids.
+    """
+
+    # Exchange-default table (repo baseline, MEXC-style fine lot steps).
+    MEXC_LOT_FILTERS = {
+        "BTC/USDT":  {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.0001},
+        "ETH/USDT":  {"min_notional": 5.0, "min_qty": 0.01,  "step_size": 0.001},
+        "BNB/USDT":  {"min_notional": 5.0, "min_qty": 0.01,  "step_size": 0.01},
+        "XRP/USDT":  {"min_notional": 5.0, "min_qty": 0.1,   "step_size": 0.1},
+        "ADA/USDT":  {"min_notional": 5.0, "min_qty": 1.0,   "step_size": 1.0},
+        "DOGE/USDT": {"min_notional": 5.0, "min_qty": 1.0,   "step_size": 1.0},
+        "LTC/USDT":  {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.001},
+        "LINK/USDT": {"min_notional": 5.0, "min_qty": 0.1,   "step_size": 0.01},
+    }
+
+    # Bybit linear-perp lot filters (exchange-published, Oct 2026): coarser steps.
+    BYBIT_LOT_FILTERS = {
+        "BTC/USDT":  {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.001},
+        "ETH/USDT":  {"min_notional": 5.0, "min_qty": 0.01,  "step_size": 0.01},
+        "BNB/USDT":  {"min_notional": 5.0, "min_qty": 0.01,  "step_size": 0.01},
+        "XRP/USDT":  {"min_notional": 5.0, "min_qty": 0.1,   "step_size": 0.1},
+        "ADA/USDT":  {"min_notional": 5.0, "min_qty": 1.0,   "step_size": 1.0},
+        "DOGE/USDT": {"min_notional": 5.0, "min_qty": 1.0,   "step_size": 1.0},
+        "LTC/USDT":  {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.001},
+        "LINK/USDT": {"min_notional": 5.0, "min_qty": 0.1,   "step_size": 0.1},
+    }
+
+    GENERIC_FILTERS = {"min_notional": 5.0, "min_qty": 0.001, "step_size": 0.0001}
+
+    @classmethod
+    def filters_for(cls, symbol: str, venue: str = "mexc", exchange_filters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        if exchange_filters:
+            return exchange_filters
+        table = cls.BYBIT_LOT_FILTERS if venue.lower() == "bybit" else cls.MEXC_LOT_FILTERS
+        return table.get(symbol, cls.GENERIC_FILTERS)
+
+    @classmethod
+    def step_qty(cls, qty: float, step_size: float) -> float:
+        if step_size <= 0:
+            return qty
+        precision = max(0, int(round(-math.log10(step_size)))) if step_size < 1 else 0
+        return round(math.floor(qty / step_size) * step_size, precision)
+
+    @classmethod
+    def qty_rounding_error(cls, ideal_qty: float, step_size: float) -> float:
+        """Signed % error introduced by stepping the ideal qty DOWN to the lot step."""
+        if ideal_qty <= 0:
+            return -100.0
+        stepped = cls.step_qty(ideal_qty, step_size)
+        return (stepped - ideal_qty) / ideal_qty * 100.0
+
+    @classmethod
+    def check(
+        cls,
+        symbol: str,
+        equity: float,
+        price: float,
+        atr: float,
+        risk_pct: float = 1.5,
+        leverage: float = 2.0,
+        dd_factor: float = 1.0,
+        stop_atr_mult: float = 1.5,
+        tier_multipliers: tuple = (1.0, 0.8),
+        max_error_pct: float = 5.0,
+        venue: str = "mexc",
+        exchange_filters: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Evaluate whether `symbol` is tradeable at `equity` with <= max_error_pct
+        lot-rounding distortion across the entry and both pyramid tiers.
+        """
+        f = cls.filters_for(symbol, venue, exchange_filters)
+        min_qty = f.get("min_qty", 0.001)
+        step_size = f.get("step_size", 0.0001)
+        min_notional = f.get("min_notional", 5.0)
+
+        stop_dist = max(atr * stop_atr_mult, 1e-4)
+        ideal_qty = (equity * (risk_pct / 100.0) * leverage * dd_factor) / stop_dist
+
+        stages = {}
+        worst_err = 0.0
+        viable = True
+        reason = None
+
+        for stage, mult in (("initial", 1.0),) + tuple(
+            (f"tier{i}", m) for i, m in enumerate(tier_multipliers, start=1)
+        ):
+            target = ideal_qty * mult
+            stepped = cls.step_qty(target, step_size)
+            err = cls.qty_rounding_error(target, step_size)
+            notional = stepped * price
+            stage_ok = True
+            stage_reason = None
+            if stepped < min_qty:
+                stage_ok = False
+                stage_reason = f"{stage}: qty {stepped} below min_qty {min_qty}"
+            elif notional < min_notional:
+                stage_ok = False
+                stage_reason = f"{stage}: notional ${notional:.2f} below min ${min_notional:.2f}"
+            elif abs(err) > max_error_pct:
+                stage_ok = False
+                stage_reason = f"{stage}: lot-rounding error {err:.1f}% exceeds {max_error_pct:.1f}%"
+            stages[stage] = {
+                "target_qty": target,
+                "stepped_qty": stepped,
+                "rounding_error_pct": round(err, 2),
+                "notional": round(notional, 2),
+                "ok": stage_ok,
+            }
+            worst_err = max(worst_err, abs(err))
+            if not stage_ok and viable:
+                viable = False
+                reason = stage_reason
+
+        return {
+            "symbol": symbol,
+            "viable": viable,
+            "reason": reason,
+            "ideal_qty": ideal_qty,
+            "stepped_qty": stages["initial"]["stepped_qty"],
+            "worst_error_pct": round(worst_err, 2),
+            "max_error_pct": max_error_pct,
+            "venue": venue,
+            "stages": stages,
+        }
+
+
 class LiveOrderStateMachine:
     """
     Tracks order life-cycle:

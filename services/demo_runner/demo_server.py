@@ -225,6 +225,12 @@ def build_default_accounts():
             leverage=2.0,
             maker_fee=0.00015,
             max_slots=2,
+            # MICRO_ACCOUNT_MODE=1 enforces real exchange lot-size discipline
+            # (auto-skips pairs whose lot-rounding error exceeds 5%) — for live
+            # testing on small ($100-$500) accounts. LOT_VENUE=mexc|bybit.
+            micro_account_mode=os.getenv("MICRO_ACCOUNT_MODE", "0") == "1",
+            max_sizing_error_pct=float(os.getenv("MICRO_MAX_SIZING_ERROR_PCT", "5.0")),
+            lot_venue=os.getenv("LOT_VENUE", "mexc"),
         ),
         # Option C: Triple-Confluence Quantum Hybrid
         "opt_c_quantum_hybrid": QuantumHybridPortfolioAccount(
