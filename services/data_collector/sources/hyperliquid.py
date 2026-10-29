@@ -4,6 +4,7 @@ Fetches Ticker, Funding Rate, and H4 OHLCV candles for the crypto universe via
 CCXT (public endpoints — zero API key required for market data).
 Also provides the canonical engine<->Hyperliquid symbol mapping (USDT -> USDC).
 """
+import logging
 from typing import Dict, Any, List, Optional
 import ccxt
 
@@ -26,6 +27,9 @@ def to_hyperliquid_symbol(symbol: str) -> str:
     return SYMBOL_MAP.get(symbol, symbol.replace("/USDT", "/USDC:USDC"))
 
 
+logger = logging.getLogger(__name__)
+
+
 class HyperliquidSource:
     def __init__(self, testnet: bool = False, client: Optional[Any] = None):
         self.testnet = testnet
@@ -46,6 +50,7 @@ class HyperliquidSource:
         open_interest = 0.0
         last_price = 0.0
 
+        fetch_ok = True
         try:
             ticker = self.exchange.fetch_ticker(hl_symbol)
             last_price = float(ticker.get("last") or 0.0)
@@ -53,13 +58,15 @@ class HyperliquidSource:
             oi_raw = info.get("openInterest")
             open_interest = float(oi_raw) if oi_raw is not None else 0.0
         except Exception:
-            pass
+            fetch_ok = False
+            logger.warning("HyperliquidSource: fetch_ticker failed for %s", hl_symbol, exc_info=True)
 
         try:
             fr = self.exchange.fetch_funding_rate(hl_symbol)
             funding_rate = float(fr.get("fundingRate") or 0.0)
         except Exception:
-            pass
+            fetch_ok = False
+            logger.warning("HyperliquidSource: fetch_funding_rate failed for %s", hl_symbol, exc_info=True)
 
         return {
             "symbol": symbol,
@@ -67,6 +74,8 @@ class HyperliquidSource:
             "funding_rate": funding_rate,
             "open_interest": open_interest,
             "taker_ratio": 1.0,
+            # False -> values above may be silent zeros; do NOT treat as live data.
+            "fetch_ok": fetch_ok,
         }
 
     def fetch_h4_candles(self, symbol: str = "BTC/USDT", limit: int = 300) -> List[Dict[str, Any]]:

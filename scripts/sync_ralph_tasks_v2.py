@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 with open('.agent/tasks.json', 'r', encoding='utf-8') as f:
     tasks = json.load(f)
@@ -10,7 +10,7 @@ for t in tasks:
 with open('.agent/tasks.json', 'w', encoding='utf-8') as f:
     json.dump(tasks, f, indent=2)
 
-log_entry = f'''## {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Zero-Blowup & Drawdown Compression)
+log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Zero-Blowup & Drawdown Compression)
 - TASK-5: Formulated EMA50 multi-candle slope confirmation and volume surge qualification, suppressing 19 false breakout signals during choppy consolidations.
 - TASK-6: Incorporated Dynamic Drawdown Throttling into `FastBacktester`:
     • Under normal conditions (DD < 3%): 100% position sizing.

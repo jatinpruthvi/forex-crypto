@@ -31,6 +31,8 @@ class QuantumHybridPortfolioAccount:
         name: str = "Option C: Triple-Confluence Quantum Hybrid (BTC 35%, BNB 35%, Gold 30%)",
         initial_capital: float = 10000.0,
         maker_fee: float = 0.00015,
+        taker_fee: Optional[float] = None,
+        stop_slippage: float = 0.0005,
         max_open_positions: int = 4,
     ):
         self.name = name
@@ -41,6 +43,9 @@ class QuantumHybridPortfolioAccount:
         self.max_drawdown_pct = 0.0
         self.current_drawdown_pct = 0.0
         self.maker_fee = maker_fee
+        # Trigger stops are taker orders: default 3x maker (HL Tier 0).
+        self.taker_fee = taker_fee if taker_fee is not None else max(maker_fee * 3.0, 0.00045)
+        self.stop_slippage = stop_slippage
         self.max_open_positions = max_open_positions
 
         self.positions: Dict[str, dict] = {}
@@ -70,6 +75,13 @@ class QuantumHybridPortfolioAccount:
 
         # Check Stops & Pyramiding
         if side == "long":
+            stop_at_start = pos["stop_loss"]
+            # Conservative same-bar resolution: if the bar traded through the
+            # bar-START stop, the stop fills FIRST -- no TP/pyramid bookkeeping.
+            if low <= stop_at_start:
+                self._close_position(ts, symbol, stop_at_start * (1.0 - self.stop_slippage), "STOP_OR_TRAILING_HIT")
+                return
+
             # Check Tier 1 Take-Profit (+1.8x ATR)
             if not pos["tp1_hit"] and high >= pos["tp1_price"]:
                 pos["tp1_hit"] = True
@@ -87,7 +99,7 @@ class QuantumHybridPortfolioAccount:
                 # Tier 1 House Money Pyramiding
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = (self.equity * 0.02 * 2.0 * 1.0) / max(atr * 1.5, 1e-4)
+                    tier1_qty = (self.equity * 0.02 * 2.0 * 1.0) / max(atr * 1.5, 1e-4, entry * 5e-4)
                     pos["size"] += tier1_qty
 
             # Check Tier 2 Take-Profit (+3.0x ATR)
@@ -95,22 +107,23 @@ class QuantumHybridPortfolioAccount:
                 tp2_target = entry + (atr * 3.0)
                 if high >= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = (self.equity * 0.02 * 2.0 * 0.8) / max(atr * 1.5, 1e-4)
+                    tier2_qty = (self.equity * 0.02 * 2.0 * 0.8) / max(atr * 1.5, 1e-4, entry * 5e-4)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry + (atr * 1.5)  # Lock deep profit
 
-            # Chandelier Trailing Stop Ratchet
+            # Chandelier Trailing Stop Ratchet (effective for FUTURE bars only)
             if pos["tp1_hit"]:
                 chandelier = high - (atr * 2.0)
                 if chandelier > pos["stop_loss"]:
                     pos["stop_loss"] = chandelier
 
-            # Check Stop Loss Fill
-            if low <= pos["stop_loss"]:
-                self._close_position(ts, symbol, pos["stop_loss"], "STOP_OR_TRAILING_HIT")
+        elif side == "short":
+            stop_at_start = pos["stop_loss"]
+            # Conservative same-bar resolution against the bar-START stop.
+            if high >= stop_at_start:
+                self._close_position(ts, symbol, stop_at_start * (1.0 + self.stop_slippage), "STOP_OR_TRAILING_HIT")
                 return
 
-        elif side == "short":
             if not pos["tp1_hit"] and low <= pos["tp1_price"]:
                 pos["tp1_hit"] = True
                 realized_qty = pos["size"] * 0.40
@@ -125,14 +138,14 @@ class QuantumHybridPortfolioAccount:
 
                 if pos["pyramid_tier"] == 0 and pos.get("regime") == "TREND":
                     pos["pyramid_tier"] = 1
-                    tier1_qty = (self.equity * 0.02 * 2.0 * 1.0) / max(atr * 1.5, 1e-4)
+                    tier1_qty = (self.equity * 0.02 * 2.0 * 1.0) / max(atr * 1.5, 1e-4, entry * 5e-4)
                     pos["size"] += tier1_qty
 
             if pos["tp1_hit"] and pos["pyramid_tier"] == 1 and pos.get("regime") == "TREND":
                 tp2_target = entry - (atr * 3.0)
                 if low <= tp2_target:
                     pos["pyramid_tier"] = 2
-                    tier2_qty = (self.equity * 0.02 * 2.0 * 0.8) / max(atr * 1.5, 1e-4)
+                    tier2_qty = (self.equity * 0.02 * 2.0 * 0.8) / max(atr * 1.5, 1e-4, entry * 5e-4)
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry - (atr * 1.5)
 
@@ -140,10 +153,6 @@ class QuantumHybridPortfolioAccount:
                 chandelier = low + (atr * 2.0)
                 if chandelier < pos["stop_loss"]:
                     pos["stop_loss"] = chandelier
-
-            if high >= pos["stop_loss"]:
-                self._close_position(ts, symbol, pos["stop_loss"], "STOP_OR_TRAILING_HIT")
-                return
 
         # Mark-to-Market Unrealized P&L
         cur_pos = self.positions.get(symbol)
@@ -242,7 +251,8 @@ class QuantumHybridPortfolioAccount:
         pos = self.positions.pop(symbol)
         mult = 1 if pos["side"] == "long" else -1
         pnl = (exit_price - pos["entry_price"]) * pos["size"] * mult
-        fee = (exit_price * pos["size"]) * self.maker_fee
+        # Trigger/stop exits execute as taker orders (maker only for TP1 partials).
+        fee = (exit_price * pos["size"]) * self.taker_fee
         net_trade_pnl = pnl - fee
         self.balance += (pnl - fee)
 

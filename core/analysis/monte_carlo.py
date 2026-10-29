@@ -8,8 +8,12 @@ import numpy as np
 
 
 class MonteCarloSimulator:
-    def __init__(self, n_simulations: int = 10000, seed: Optional[int] = None):
+    def __init__(self, n_simulations: int = 10000, seed: Optional[int] = None,
+                 ruin_threshold_pct: float = 50.0):
         self.n_simulations = n_simulations
+        # 'Ruin' here means a peak-to-trough equity drawdown beyond this
+        # threshold (default -50%), NOT a prop-firm daily/total DD breach.
+        self.ruin_threshold_pct = ruin_threshold_pct
         # Seeded RNG so every run is reproducible (ledger restore-point discipline).
         self.rng = np.random.default_rng(seed)
 
@@ -24,6 +28,7 @@ class MonteCarloSimulator:
                 "max_dd_95_pct": 0.0,
                 "max_dd_99_pct": 0.0,
                 "probability_of_ruin_pct": 0.0,
+                "ruin_threshold_pct": self.ruin_threshold_pct,
                 "verdict": "SAFE",
             }
 
@@ -42,7 +47,7 @@ class MonteCarloSimulator:
             max_dd = np.max(dd)
             max_drawdowns.append(max_dd)
 
-            if np.min(equity_curve) < initial_equity * 0.5:
+            if np.min(equity_curve) < initial_equity * (1.0 - self.ruin_threshold_pct / 100.0):
                 ruin_count += 1
 
         dd_95 = float(np.percentile(max_drawdowns, 95))
@@ -54,5 +59,6 @@ class MonteCarloSimulator:
             "max_dd_95_pct": round(dd_95, 2),
             "max_dd_99_pct": round(dd_99, 2),
             "probability_of_ruin_pct": round(ruin_prob, 2),
+            "ruin_threshold_pct": self.ruin_threshold_pct,
             "verdict": "SAFE" if dd_95 < 20.0 else "TOO_RISKY",
         }

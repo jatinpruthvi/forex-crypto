@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 with open('.agent/tasks.json', 'r', encoding='utf-8') as f:
     tasks = json.load(f)
@@ -10,7 +10,7 @@ for t in tasks:
 with open('.agent/tasks.json', 'w', encoding='utf-8') as f:
     json.dump(tasks, f, indent=2)
 
-log_entry = f'''## {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')} - ALL RALPH-LOOP TASKS COMPLETE
+log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ALL RALPH-LOOP TASKS COMPLETE
 - TASK-1: Established historical dataset and vector BacktestSimulator with realistic execution friction (0.1% slippage + 0.055% taker fees).
 - TASK-2: Engineered Chandelier dynamic ATR trailing stops (2.5x ATR) and partial take profits (2.0x ATR to lock in breakeven).
 - TASK-3: Integrated 4-signal multi-layer fusion (Funding stretch, Volume surge, Overextension guard) reaching target:

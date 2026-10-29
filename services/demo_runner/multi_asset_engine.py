@@ -19,6 +19,8 @@ class MultiAssetPortfolioAccount:
         name: str = "Option B Multi-Asset Portfolio (All-Weather)",
         initial_capital: float = 10000.0,
         maker_fee: float = 0.0000,
+        taker_fee: Optional[float] = None,
+        stop_slippage: float = 0.0005,
         max_open_positions: int = 4,
         laddered_tp: bool = True,
     ):
@@ -30,6 +32,10 @@ class MultiAssetPortfolioAccount:
         self.max_drawdown_pct = 0.0
         self.current_drawdown_pct = 0.0
         self.maker_fee = maker_fee
+        # Trigger stops are taker orders: default 3x maker with a realistic
+        # floor for zero-fee maker accounts.
+        self.taker_fee = taker_fee if taker_fee is not None else max(maker_fee * 3.0, 0.00045)
+        self.stop_slippage = stop_slippage
         self.max_open_positions = max_open_positions
         self.laddered_tp = laddered_tp
 
@@ -158,50 +164,56 @@ class MultiAssetPortfolioAccount:
         if side == "long":
             pos["current_price"] = close
             pos["unrealized_pnl"] = (close - entry) * rem_size
-            if high > pos["peak_price"]:
-                pos["peak_price"] = high
-                if (high - entry) >= (1.5 * atr):
-                    trailing_sl = high - (2.5 * atr)
-                    if trailing_sl > pos["sl_price"]:
-                        pos["sl_price"] = trailing_sl
+            sl_bar_start = pos["sl_price"]
+            stop_hit = low <= sl_bar_start
+            if not stop_hit:
+                if high > pos["peak_price"]:
+                    pos["peak_price"] = high
+                    if (high - entry) >= (1.5 * atr):
+                        trailing_sl = high - (2.5 * atr)
+                        if trailing_sl > pos["sl_price"]:
+                            pos["sl_price"] = trailing_sl
 
-            # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry + 0.25x ATR
-            if not pos["be_locked"] and (high - entry) >= (1.0 * atr):
-                pos["be_locked"] = True
-                new_sl = entry + (0.25 * atr)
-                if new_sl > pos["sl_price"]:
-                    pos["sl_price"] = new_sl
+                # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry + 0.25x ATR
+                if not pos["be_locked"] and (high - entry) >= (1.0 * atr):
+                    pos["be_locked"] = True
+                    new_sl = entry + (0.25 * atr)
+                    if new_sl > pos["sl_price"]:
+                        pos["sl_price"] = new_sl
 
-            # Asymmetric Take-Profit Laddering
-            if self.laddered_tp:
-                if not pos["tp1_taken"] and high >= pos["tp1"]:
-                    pos["tp1_taken"] = True
-                    part_size = pos["size"] * 0.40
-                    part_gain = (pos["tp1"] - entry) * part_size
-                    part_fee = (part_size * pos["tp1"]) * self.maker_fee
-                    pos["fee_paid"] += part_fee
-                    self.balance += (part_gain - part_fee)
-                    pos["remaining_size"] -= part_size
-                    pos["sl_price"] = max(pos["sl_price"], entry + (0.35 * atr))
+                # Asymmetric Take-Profit Laddering (TP1: 40% at +1.5x ATR, TP2: 40% at +2.5x ATR, 20% moonbag)
+                if self.laddered_tp:
+                    if not pos["tp1_taken"] and high >= pos["tp1"]:
+                        pos["tp1_taken"] = True
+                        part_size = pos["size"] * 0.40
+                        part_gain = (pos["tp1"] - entry) * part_size
+                        part_fee = (part_size * pos["tp1"]) * self.maker_fee
+                        pos["fee_paid"] += part_fee
+                        self.balance += (part_gain - part_fee)
+                        pos["remaining_size"] -= part_size
+                        pos["sl_price"] = max(pos["sl_price"], entry + (0.35 * atr))
 
-                if not pos["tp2_taken"] and high >= pos["tp2"]:
-                    pos["tp2_taken"] = True
-                    part_size = pos["size"] * 0.40
-                    part_gain = (pos["tp2"] - entry) * part_size
-                    part_fee = (part_size * pos["tp2"]) * self.maker_fee
-                    pos["fee_paid"] += part_fee
-                    self.balance += (part_gain - part_fee)
-                    pos["remaining_size"] -= part_size
-                    pos["sl_price"] = max(pos["sl_price"], entry + (1.2 * atr))
+                    if not pos["tp2_taken"] and high >= pos["tp2"]:
+                        pos["tp2_taken"] = True
+                        part_size = pos["size"] * 0.40
+                        part_gain = (pos["tp2"] - entry) * part_size
+                        part_fee = (part_size * pos["tp2"]) * self.maker_fee
+                        pos["fee_paid"] += part_fee
+                        self.balance += (part_gain - part_fee)
+                        pos["remaining_size"] -= part_size
+                        pos["sl_price"] = max(pos["sl_price"], entry + (1.2 * atr))
 
-            if low <= pos["sl_price"]:
+            # Conservative same-bar resolution vs the bar-START stop (trigger
+            # fills are taker + slippage); TP ladder only books when the stop
+            # was NOT traded this bar.
+            if stop_hit:
                 if not pos["be_locked"]:
                     exit_reason = "stop_loss"
-                elif pos["sl_price"] > (entry + 0.25 * atr):
+                elif sl_bar_start > (entry + 0.25 * atr):
                     exit_reason = "trailing_stop"
                 else:
                     exit_reason = "breakeven_buffer"
-                exit_price = pos["sl_price"]
+                exit_price = sl_bar_start * (1.0 - self.stop_slippage)
             elif high >= pos["tp_price"]:
                 exit_reason = "take_profit_moonbag"
                 exit_price = pos["tp_price"]
@@ -209,50 +221,53 @@ class MultiAssetPortfolioAccount:
         elif side == "short":
             pos["current_price"] = close
             pos["unrealized_pnl"] = (entry - close) * rem_size
-            if low < pos["peak_price"]:
-                pos["peak_price"] = low
-                if (entry - low) >= (1.5 * atr):
-                    trailing_sl = low + (2.5 * atr)
-                    if trailing_sl < pos["sl_price"]:
-                        pos["sl_price"] = trailing_sl
+            sl_bar_start = pos["sl_price"]
+            stop_hit = high >= sl_bar_start
+            if not stop_hit:
+                if low < pos["peak_price"]:
+                    pos["peak_price"] = low
+                    if (entry - low) >= (1.5 * atr):
+                        trailing_sl = low + (2.5 * atr)
+                        if trailing_sl < pos["sl_price"]:
+                            pos["sl_price"] = trailing_sl
 
-            # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry - 0.25x ATR
-            if not pos["be_locked"] and (entry - low) >= (1.0 * atr):
-                pos["be_locked"] = True
-                new_sl = entry - (0.25 * atr)
-                if new_sl < pos["sl_price"]:
-                    pos["sl_price"] = new_sl
+                # Breakeven Lock Rule: Once +1.0x ATR reached, lock SL at Entry - 0.25x ATR
+                if not pos["be_locked"] and (entry - low) >= (1.0 * atr):
+                    pos["be_locked"] = True
+                    new_sl = entry - (0.25 * atr)
+                    if new_sl < pos["sl_price"]:
+                        pos["sl_price"] = new_sl
 
-            # Asymmetric Take-Profit Laddering for SHORT
-            if self.laddered_tp:
-                if not pos["tp1_taken"] and low <= pos["tp1"]:
-                    pos["tp1_taken"] = True
-                    part_size = pos["size"] * 0.40
-                    part_gain = (entry - pos["tp1"]) * part_size
-                    part_fee = (part_size * pos["tp1"]) * self.maker_fee
-                    pos["fee_paid"] += part_fee
-                    self.balance += (part_gain - part_fee)
-                    pos["remaining_size"] -= part_size
-                    pos["sl_price"] = min(pos["sl_price"], entry - (0.35 * atr))
+                # Asymmetric Take-Profit Laddering for SHORT
+                if self.laddered_tp:
+                    if not pos["tp1_taken"] and low <= pos["tp1"]:
+                        pos["tp1_taken"] = True
+                        part_size = pos["size"] * 0.40
+                        part_gain = (entry - pos["tp1"]) * part_size
+                        part_fee = (part_size * pos["tp1"]) * self.maker_fee
+                        pos["fee_paid"] += part_fee
+                        self.balance += (part_gain - part_fee)
+                        pos["remaining_size"] -= part_size
+                        pos["sl_price"] = min(pos["sl_price"], entry - (0.35 * atr))
 
-                if not pos["tp2_taken"] and low <= pos["tp2"]:
-                    pos["tp2_taken"] = True
-                    part_size = pos["size"] * 0.40
-                    part_gain = (entry - pos["tp2"]) * part_size
-                    part_fee = (part_size * pos["tp2"]) * self.maker_fee
-                    pos["fee_paid"] += part_fee
-                    self.balance += (part_gain - part_fee)
-                    pos["remaining_size"] -= part_size
-                    pos["sl_price"] = min(pos["sl_price"], entry - (1.2 * atr))
+                    if not pos["tp2_taken"] and low <= pos["tp2"]:
+                        pos["tp2_taken"] = True
+                        part_size = pos["size"] * 0.40
+                        part_gain = (entry - pos["tp2"]) * part_size
+                        part_fee = (part_size * pos["tp2"]) * self.maker_fee
+                        pos["fee_paid"] += part_fee
+                        self.balance += (part_gain - part_fee)
+                        pos["remaining_size"] -= part_size
+                        pos["sl_price"] = min(pos["sl_price"], entry - (1.2 * atr))
 
-            if high >= pos["sl_price"]:
+            if stop_hit:
                 if not pos["be_locked"]:
                     exit_reason = "stop_loss"
-                elif pos["sl_price"] < (entry - 0.25 * atr):
+                elif sl_bar_start < (entry - 0.25 * atr):
                     exit_reason = "trailing_stop"
                 else:
                     exit_reason = "breakeven_buffer"
-                exit_price = pos["sl_price"]
+                exit_price = sl_bar_start * (1.0 + self.stop_slippage)
             elif low <= pos["tp_price"]:
                 exit_reason = "take_profit_moonbag"
                 exit_price = pos["tp_price"]
@@ -303,7 +318,9 @@ class MultiAssetPortfolioAccount:
         entry = pos["entry_price"]
 
         gross_pnl = (exit_price - entry) * rem_size if side == "long" else (entry - exit_price) * rem_size
-        exit_fee = (rem_size * exit_price) * self.maker_fee
+        # Trigger/stop exits execute as taker orders; TP exits are maker limits.
+        fee_rate = self.maker_fee if reason.startswith("take_profit") else self.taker_fee
+        exit_fee = (rem_size * exit_price) * fee_rate
         net_pnl = gross_pnl - exit_fee
         self.balance += net_pnl
 

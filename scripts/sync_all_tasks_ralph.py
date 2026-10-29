@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 with open('.agent/tasks.json', 'r', encoding='utf-8') as f:
     tasks = json.load(f)
@@ -17,7 +17,7 @@ for t in tasks:
 with open('.agent/tasks.json', 'w', encoding='utf-8') as f:
     json.dump(tasks, f, indent=2)
 
-log_entry = f'''## {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Four Python Intelligence Layers Deployed: P1-P4)
+log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Four Python Intelligence Layers Deployed: P1-P4)
 - TASK-9 (P1: Regime-Adaptive Trailing Stops):
     • Integrated dynamic trailing stop adaptation into `core/analysis/fast_backtester.py` and `CombinedStrategy.py`:
       - Trend Regimes: 3.0x ATR trail (allows multi-day momentum to run).

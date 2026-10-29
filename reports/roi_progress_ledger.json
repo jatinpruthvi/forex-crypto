@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-29 05:59:35 UTC",
-  "champion_savepoint": "SAVEPOINT_EXP-015-RISK-EFFICIENCY-FRONTIER-ANALYSIS",
+  "last_updated": "2026-10-29 10:42:17 UTC",
+  "champion_savepoint": "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
   "experiments": [
     {
       "experiment_id": "EXP-001-BTC-4H-DONCHIAN",
@@ -493,7 +493,7 @@
         "months_elapsed": 60.0
       },
       "tag": "TICK_LEVEL_5YEAR_VALIDATION",
-      "notes": "Validated on 5 full years of historical data broken down into intrabar price micro-ticks. Proves strategy withstands intraday stop-loss sweeps, wick traps, and choppy periods."
+      "notes": "RE-LABELLED (audit #30): SYNTHETIC 8-point sub-tick approximation, NOT real tick data. For each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target within the same macro candle are approximations, and reported figures are capacity-unconstrained compounded backtest artifacts. Metrics preserved from the original run. For real-tick validation use exchange tick data (e.g. Hyperliquid API) instead."
     },
     {
       "experiment_id": "EXP-015-RISK-EFFICIENCY-FRONTIER-ANALYSIS",
@@ -665,6 +665,78 @@
       },
       "tag": "VENUE_FEE_COMPARISON",
       "notes": "Venue fee model Bybit: maker 0.02% entries + taker 0.055% stop exits (per-side avg 0.0375%)."
+    },
+    {
+      "experiment_id": "EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
+      "timestamp": "2026-10-29 10:40:19 UTC",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "asset": "8 Synchronized Crypto Pairs (BTC, DOGE, XRP, LTC, ETH, ADA, BNB, LINK)",
+      "timeframe": "H4 Actual Historical Candles",
+      "duration": "5.47 Months Walk-Forward Historical Panel",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.015,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "metrics": {
+        "months_elapsed": 5.47,
+        "win_rate_pct": 40.58,
+        "net_total_roi_pct": 2199.69,
+        "monthly_roi_pct": 77.39,
+        "max_drawdown_pct": 20.07,
+        "profit_factor": 2.44,
+        "total_trades": 138,
+        "initial_capital": 1000.0,
+        "final_capital": 22996.87
+      },
+      "tag": "AUDIT_CORRECTED_CHAMPION",
+      "notes": "Audit-corrected fill model: bar-start stop snapshot, stop fills FIRST on ambiguous bars (no same-bar TP/pyramid bookkeeping), taker fee (max(3x maker, 0.045%)) plus 0.05% stop slippage on trigger closes, lot-size viability gating on entries/pyramids, net-PnL win counting. Supersedes EXP-013-DUAL-SLOT-SHARED-POOL whose model filled stops at maker fees after same-bar ratchet/TP resolution (control rerun of that model reproduces its ,391.10/+25.01% exactly). The corrected model is more pessimistic on short-stop ratchets and more optimistic on long same-bar ambiguity; net panel effect is higher compounded ROI on this 5.47-month H4 window - treat as model-sensitivity upper bound, real-money results expected lower (see EXP-014/EXP-017 tick-level runs)."
+    },
+    {
+      "experiment_id": "EXP-017-AUDIT-CORRECTED-INTRABAR-SYNTHETIC",
+      "timestamp": "2026-10-29 10:42:17 UTC",
+      "strategy_name": "Quantum Hybrid Dual-Slot 5-Year Intrabar Tick Simulation",
+      "asset": "6 Macro Pairs (GBPJPY, Gold/XAUUSD, EURJPY, GBPUSD, AUDUSD, USDJPY)",
+      "timeframe": "H4 with 8-Leg Micro-Tick Sub-Path Simulation",
+      "duration": "5 Full Calendar Years (2017-01-01 to 2022-01-01)",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 0.75,
+        "leverage": 2.0,
+        "intrabar_sub_ticks": 8,
+        "years_tested": 5.0,
+        "drawdown_throttle": true
+      },
+      "metrics": {
+        "months_elapsed": 59.92,
+        "win_rate_pct": 47.24,
+        "net_total_roi_pct": 4946365719.3,
+        "monthly_roi_pct": 34.4,
+        "max_drawdown_pct": 17.18,
+        "profit_factor": 0.0,
+        "total_trades": 1306,
+        "initial_capital": 1000.0,
+        "final_capital": 49463658192.99
+      },
+      "tag": "AUDIT_CORRECTED_SYNTHETIC_SUBTICK",
+      "notes": "SYNTHETIC 8-point sub-tick approximation (NOT real tick data): for each 4H macro candle an 8-leg micro-path is constructed; trades touching stop and target in the same macro candle are approximations. Results quantify intrabar sweep/chop resilience of the approximated path, not real-tick execution. Use exchange tick data for true validation. CAVEAT: compounded 5-year balances ignore capital-capacity/market-impact constraints (final balances scale into the billions); compare runs by monthly ROI and max DD, not absolute terminal wealth."
     }
   ],
   "savepoints": {
@@ -1049,6 +1121,50 @@
       "target_monthly_roi": 23.5,
       "max_drawdown": 21.29,
       "created_at": "2026-10-29 05:59:35 UTC"
+    },
+    "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT": {
+      "experiment_id": "EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
+      "strategy_name": "Quantum Hybrid Dual-Slot Shared Margin Pool Allocator",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 1.5,
+        "leverage": 2.0,
+        "tier1_pyramid_mult": 1.0,
+        "tier2_pyramid_mult": 0.8,
+        "tp1_atr": 1.8,
+        "tp2_atr": 3.0,
+        "trail_atr": 2.0,
+        "maker_fee_pct": 0.015,
+        "drawdown_throttle": true,
+        "tested_pairs": [
+          "DOGE/USDT",
+          "BNB/USDT",
+          "XRP/USDT",
+          "ADA/USDT",
+          "BTC/USDT",
+          "LTC/USDT",
+          "ETH/USDT",
+          "LINK/USDT"
+        ]
+      },
+      "target_monthly_roi": 77.39,
+      "max_drawdown": 20.07,
+      "created_at": "2026-10-29 10:40:19 UTC"
+    },
+    "SAVEPOINT_EXP-017-AUDIT-CORRECTED-INTRABAR-SYNTHETIC": {
+      "experiment_id": "EXP-017-AUDIT-CORRECTED-INTRABAR-SYNTHETIC",
+      "strategy_name": "Quantum Hybrid Dual-Slot 5-Year Intrabar Tick Simulation",
+      "parameters": {
+        "max_concurrent_slots": 2,
+        "base_risk_pct": 0.75,
+        "leverage": 2.0,
+        "intrabar_sub_ticks": 8,
+        "years_tested": 5.0,
+        "drawdown_throttle": true
+      },
+      "target_monthly_roi": 34.4,
+      "max_drawdown": 17.18,
+      "created_at": "2026-10-29 10:42:17 UTC"
     }
   }
 }

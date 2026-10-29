@@ -32,6 +32,8 @@ class DualSlotSharedPoolAccount:
         base_risk_pct: float = 1.5,
         leverage: float = 2.0,
         maker_fee: float = 0.00015,
+        taker_fee: Optional[float] = None,
+        stop_slippage: float = 0.0005,
         max_slots: int = 2,
         micro_account_mode: bool = False,
         max_sizing_error_pct: float = 5.0,
@@ -47,6 +49,10 @@ class DualSlotSharedPoolAccount:
         self.base_risk_pct = base_risk_pct
         self.leverage = leverage
         self.maker_fee = maker_fee
+        # Trigger stops execute as taker orders: default to 3x maker (HL Tier 0
+        # 0.015% -> 0.045%) with a realistic floor for zero-fee accounts.
+        self.taker_fee = taker_fee if taker_fee is not None else max(maker_fee * 3.0, 0.00045)
+        self.stop_slippage = stop_slippage
         self.max_slots = max_slots
 
         self.positions: Dict[str, dict] = {}
@@ -82,6 +88,13 @@ class DualSlotSharedPoolAccount:
         entry = pos["entry_price"]
 
         if side == "long":
+            stop_at_start = pos["stop_loss"]
+            # Conservative same-bar resolution: if the bar traded through the
+            # bar-START stop, the stop fills FIRST -- no TP1/TP2/pyramid bookkeeping.
+            if low <= stop_at_start:
+                self._close_position(ts, symbol, stop_at_start * (1.0 - self.stop_slippage), "TRAILING_STOP_LOCK_HIT")
+                return
+
             # Check Partial TP1 (+1.8x ATR)
             if not pos["tp1_hit"] and high >= pos["tp1_price"]:
                 pos["tp1_hit"] = True
@@ -111,18 +124,20 @@ class DualSlotSharedPoolAccount:
                     pos["size"] += tier2_qty
                     pos["stop_loss"] = entry + (atr * 1.5)
 
-            # Chandelier Trailing Ratchet
+            # Chandelier Trailing Ratchet (from this bar's high; effective for
+            # FUTURE bars only -- no same-bar ratchet-then-trigger lookahead)
             if pos["tp1_hit"]:
                 chandelier = high - (atr * 2.0)
                 if chandelier > pos["stop_loss"]:
                     pos["stop_loss"] = chandelier
 
-            # Check Stop Loss Trigger
-            if low <= pos["stop_loss"]:
-                self._close_position(ts, symbol, pos["stop_loss"], "TRAILING_STOP_LOCK_HIT")
+        elif side == "short":
+            stop_at_start = pos["stop_loss"]
+            # Conservative same-bar resolution against the bar-START stop.
+            if high >= stop_at_start:
+                self._close_position(ts, symbol, stop_at_start * (1.0 + self.stop_slippage), "TRAILING_STOP_LOCK_HIT")
                 return
 
-        elif side == "short":
             if not pos["tp1_hit"] and low <= pos["tp1_price"]:
                 pos["tp1_hit"] = True
                 realized_qty = pos["size"] * 0.40
@@ -152,10 +167,6 @@ class DualSlotSharedPoolAccount:
                 chandelier = low + (atr * 2.0)
                 if chandelier < pos["stop_loss"]:
                     pos["stop_loss"] = chandelier
-
-            if high >= pos["stop_loss"]:
-                self._close_position(ts, symbol, pos["stop_loss"], "TRAILING_STOP_LOCK_HIT")
-                return
 
         # Mark to market
         cur_pos = self.positions.get(symbol)
@@ -303,7 +314,8 @@ class DualSlotSharedPoolAccount:
         pos = self.positions.pop(symbol)
         mult = 1 if pos["side"] == "long" else -1
         pnl = (exit_price - pos["entry_price"]) * pos["size"] * mult
-        fee = (exit_price * pos["size"]) * self.maker_fee
+        # Trigger/stop exits execute as taker orders (maker only for TP1 partials).
+        fee = (exit_price * pos["size"]) * self.taker_fee
         net_trade_pnl = pnl - fee
         self.balance += (pnl - fee)
 

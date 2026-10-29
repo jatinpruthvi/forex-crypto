@@ -25,7 +25,12 @@ import json
 import os
 from datetime import datetime
 from core.analysis.quantum_hybrid_engine import QuantumHybridEngine
+from core.execution.live_adapter import SizingViabilityGate
 from core.analysis.roi_ledger import ROILedger
+
+# Conservative stop-fill slippage (trigger stops are market orders).
+STOP_SLIPPAGE = 0.0005
+
 
 def run_dual_slot_benchmark():
     print("=" * 105)
@@ -33,14 +38,14 @@ def run_dual_slot_benchmark():
     print("=" * 105)
 
     crypto_specs = [
-        ("DOGE/USDT", "data/timeframes/DOGEUSDT_H4.csv"),
-        ("BNB/USDT", "data/timeframes/BNBUSDT_H4.csv"),
-        ("XRP/USDT", "data/timeframes/XRPUSDT_H4.csv"),
-        ("ADA/USDT", "data/timeframes/ADAUSDT_H4.csv"),
-        ("BTC/USDT", "data/timeframes/BTCUSDT_4h.csv"),
-        ("LTC/USDT", "data/timeframes/LTCUSDT_H4.csv"),
-        ("ETH/USDT", "data/timeframes/ETHUSDT_H4.csv"),
-        ("LINK/USDT", "data/timeframes/LINKUSDT_H4.csv"),
+        ("DOGE/USDT", "data/timeframes/bench_panel/DOGEUSDT_H4.csv"),
+        ("BNB/USDT", "data/timeframes/bench_panel/BNBUSDT_H4.csv"),
+        ("XRP/USDT", "data/timeframes/bench_panel/XRPUSDT_H4.csv"),
+        ("ADA/USDT", "data/timeframes/bench_panel/ADAUSDT_H4.csv"),
+        ("BTC/USDT", "data/timeframes/bench_panel/BTCUSDT_4h.csv"),
+        ("LTC/USDT", "data/timeframes/bench_panel/LTCUSDT_H4.csv"),
+        ("ETH/USDT", "data/timeframes/bench_panel/ETHUSDT_H4.csv"),
+        ("LINK/USDT", "data/timeframes/bench_panel/LINKUSDT_H4.csv"),
     ]
 
     engine = QuantumHybridEngine(
@@ -83,6 +88,17 @@ def run_dual_slot_benchmark():
     for sym in dfs:
         aligned_dfs[sym] = dfs[sym][dfs[sym]["timestamp"].isin(timestamps)].sort_values("timestamp").reset_index(drop=True)
 
+    def _gated_units(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult=1.5):
+        """MICRO_ACCOUNT_MODE gate: venue lot-step must not distort risk > 5%,
+        and the order must clear the venue min notional. Returns 0 -> skip."""
+        gate = SizingViabilityGate.check(
+            sym, equity=eq, price=price, atr=atr, risk_pct=risk,
+            leverage=leverage, dd_factor=dd_mult, stop_atr_mult=stop_atr_mult,
+            max_error_pct=float(os.getenv("MICRO_MAX_SIZING_ERROR_PCT", "5.0")),
+            venue=os.getenv("LOT_VENUE", "mexc"),
+        )
+        return gate["stepped_qty"] if gate["viable"] else 0.0
+
     def execute_shared_pool_sim(max_slots=2, risk_pct=1.5, lev=2.0, dd_throttle_threshold=0.08):
         cash = 1000.0
         peak_equity = cash
@@ -115,51 +131,13 @@ def run_dual_slot_benchmark():
                 tier = pos["pyramid_tier"]
 
                 if side == 1:
-                    # Check Partial TP1 (+1.8x ATR)
-                    if not tp1_hit and h >= tp1:
-                        pos["tp1_hit"] = True
-                        tp1_hit = True
-                        part_units = units * 0.40
-                        pnl = part_units * (tp1 - entry) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
-                        cash += pnl
-                        pos["units"] = units * 0.60
-                        units = pos["units"]
-                        # Lock Stop Loss to entry + 0.25x ATR risk-free buffer
-                        pos["sl"] = entry + atr * 0.25
-                        sl = pos["sl"]
-
-                        # Tier 1 Pyramiding using realized house-money
-                        if tier == 0:
-                            pos["pyramid_tier"] = 1
-                            tier = 1
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
-
-                    # Check Tier 2 Pyramiding (+3.0x ATR)
-                    if tp1_hit and tier == 1:
-                        if h >= entry + atr * engine.tp2_atr:
-                            pos["pyramid_tier"] = 2
-                            tier = 2
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
-                            pos["sl"] = entry + atr * 1.5
-                            sl = pos["sl"]
-
-                    # Chandelier dynamic trailing stop
-                    if tp1_hit:
-                        ch_sl = h - atr * engine.trail_atr
-                        if ch_sl > sl:
-                            pos["sl"] = ch_sl
-                            sl = ch_sl
-
-                    # Stop loss trigger
-                    if l <= sl:
-                        exit_price = sl
-                        fee = exit_price * units * (engine.maker_fee_pct / 100.0)
+                    sl_bar_start = sl
+                    # Conservative same-bar resolution: the bar-START stop, if
+                    # traded, fills FIRST (taker fee + slippage) -- no TP/pyramid
+                    # bookkeeping on this bar.
+                    if l <= sl_bar_start:
+                        exit_price = sl_bar_start * (1.0 - STOP_SLIPPAGE)
+                        fee = exit_price * units * (engine.taker_fee_pct / 100.0)
                         pnl = units * (exit_price - entry) - fee
                         cash += pnl
                         trade_log.append({
@@ -173,48 +151,55 @@ def run_dual_slot_benchmark():
                             "time": current_bar_time
                         })
                         closed_this_bar.append(sym)
+                        continue
 
-                elif side == -1:
-                    # Short position management
-                    if not tp1_hit and l <= tp1:
+                    # Check Partial TP1 (+1.8x ATR)
+                    if not tp1_hit and h >= tp1:
                         pos["tp1_hit"] = True
                         tp1_hit = True
                         part_units = units * 0.40
-                        pnl = part_units * (entry - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                        pnl = part_units * (tp1 - entry) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
                         cash += pnl
                         pos["units"] = units * 0.60
                         units = pos["units"]
-                        pos["sl"] = entry - atr * 0.25
+                        # Lock Stop Loss to entry + 0.25x ATR risk-free buffer
+                        pos["sl"] = entry + atr * 0.25
                         sl = pos["sl"]
 
+                        # Tier 1 Pyramiding using realized house-money (lot-gated)
                         if tier == 0:
-                            pos["pyramid_tier"] = 1
-                            tier = 1
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier1_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
+                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
+                            if p_units > 0:
+                                pos["pyramid_tier"] = 1
+                                tier = 1
+                                pos["units"] += p_units
+                                units = pos["units"]
 
+                    # Check Tier 2 Pyramiding (+3.0x ATR)
                     if tp1_hit and tier == 1:
-                        if l <= entry - atr * engine.tp2_atr:
-                            pos["pyramid_tier"] = 2
-                            tier = 2
-                            p_risk = cash * (risk_pct / 100.0) * engine.tier2_pyramid_mult
-                            p_units = (p_risk * lev) / max(atr * 1.5, 1e-4, entry * 5e-4)
-                            pos["units"] += p_units
-                            units = pos["units"]
-                            pos["sl"] = entry - atr * 1.5
-                            sl = pos["sl"]
+                        if h >= entry + atr * engine.tp2_atr:
+                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
+                            if p_units > 0:
+                                pos["pyramid_tier"] = 2
+                                tier = 2
+                                pos["units"] += p_units
+                                units = pos["units"]
+                                pos["sl"] = entry + atr * 1.5
+                                sl = pos["sl"]
 
+                    # Chandelier dynamic trailing stop (effective for FUTURE bars only)
                     if tp1_hit:
-                        ch_sl = l + atr * engine.trail_atr
-                        if ch_sl < sl:
+                        ch_sl = h - atr * engine.trail_atr
+                        if ch_sl > sl:
                             pos["sl"] = ch_sl
                             sl = ch_sl
 
-                    if h >= sl:
-                        exit_price = sl
-                        fee = exit_price * units * (engine.maker_fee_pct / 100.0)
+                elif side == -1:
+                    sl_bar_start = sl
+                    # Conservative same-bar resolution against the bar-START stop.
+                    if h >= sl_bar_start:
+                        exit_price = sl_bar_start * (1.0 + STOP_SLIPPAGE)
+                        fee = exit_price * units * (engine.taker_fee_pct / 100.0)
                         pnl = units * (entry - exit_price) - fee
                         cash += pnl
                         trade_log.append({
@@ -228,6 +213,44 @@ def run_dual_slot_benchmark():
                             "time": current_bar_time
                         })
                         closed_this_bar.append(sym)
+                        continue
+
+                    # Short position management
+                    if not tp1_hit and l <= tp1:
+                        pos["tp1_hit"] = True
+                        tp1_hit = True
+                        part_units = units * 0.40
+                        pnl = part_units * (entry - tp1) - (tp1 * part_units * (engine.maker_fee_pct / 100.0))
+                        cash += pnl
+                        pos["units"] = units * 0.60
+                        units = pos["units"]
+                        pos["sl"] = entry - atr * 0.25
+                        sl = pos["sl"]
+
+                        if tier == 0:
+                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier1_pyramid_mult)
+                            if p_units > 0:
+                                pos["pyramid_tier"] = 1
+                                tier = 1
+                                pos["units"] += p_units
+                                units = pos["units"]
+
+                    if tp1_hit and tier == 1:
+                        if l <= entry - atr * engine.tp2_atr:
+                            p_units = _gated_units(sym, cash, entry, atr, risk_pct, lev, engine.tier2_pyramid_mult)
+                            if p_units > 0:
+                                pos["pyramid_tier"] = 2
+                                tier = 2
+                                pos["units"] += p_units
+                                units = pos["units"]
+                                pos["sl"] = entry - atr * 1.5
+                                sl = pos["sl"]
+
+                    if tp1_hit:
+                        ch_sl = l + atr * engine.trail_atr
+                        if ch_sl < sl:
+                            pos["sl"] = ch_sl
+                            sl = ch_sl
 
             for sym in closed_this_bar:
                 del positions[sym]
@@ -322,9 +345,11 @@ def run_dual_slot_benchmark():
                     tp1 = cand["tp1"]
                     
                     # Risk amount is calculated on current TOTAL equity in the shared pool
-                    risk_amount = equity * (risk_pct / 100.0) * dd_factor
                     stop_dist = abs(entry - sl)
-                    units = (risk_amount * lev) / max(stop_dist, 1e-4)
+                    stop_atr_mult = (stop_dist / atr) if atr > 0 else 1.5
+                    units = _gated_units(sym, equity, entry, atr, risk_pct, lev, dd_factor, stop_atr_mult)
+                    if units <= 0:
+                        continue
                     entry_fee = entry * units * (engine.maker_fee_pct / 100.0)
                     cash -= entry_fee
 
@@ -404,9 +429,9 @@ def run_dual_slot_benchmark():
     # -----------------------------------------------------------------
     champ = results_map[1.5]
     print("\n" + "=" * 105)
-    print(f"CHAMPION DUAL-SLOT SHARED POOL EXECUTION BREAKDOWN (1.5% Risk, 2.0x Leverage):")
+    print("CHAMPION DUAL-SLOT SHARED POOL EXECUTION BREAKDOWN (1.5% Risk, 2.0x Leverage):")
     print("=" * 105)
-    print(f"• Initial Capital:        $1,000.00 (Single Unified Pool, Zero Static Slicing)")
+    print("• Initial Capital:        $1,000.00 (Single Unified Pool, Zero Static Slicing)")
     print(f"• Final Account Balance:  ${champ['final_equity']:,.2f}")
     print(f"• Total Net Profit:       +${champ['net_profit']:,.2f} (+{champ['net_roi_total']:.2f}%)")
     print(f"• Compounded Monthly ROI: +{champ['monthly_roi']:.2f}% / month (Goal was ~25%/mo)")
@@ -455,11 +480,11 @@ def run_dual_slot_benchmark():
             "duration_months": round(champ["duration_months"], 2),
             "months_elapsed": round(champ["duration_months"], 2)
         },
-        notes=os.getenv("EXP_NOTES", "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series. Surpasses individual pairs and static capital slicing by dynamically reallocating released margin into top-conviction signals, delivering +25.01%/month ROI."),
+        notes=os.getenv("EXP_NOTES", "Empirical validation of Dual-Slot Shared Margin Pool across 8 synchronized real crypto time series, dynamically reallocating released margin into top-conviction signals. Results reported from the audited fill model (bar-start stop snapshot, stop fills first with taker fee + slippage). See experiment metrics for realized ROI."),
         tag=os.getenv("EXP_TAG", "DUAL_SLOT_SHARED_POOL_CHAMPION"),
         create_savepoint=True
     )
-    print("\nSuccessfully recorded EXP-013 and savepoint into reports/roi_progress_ledger.json")
+    print("\nSuccessfully recorded experiment and savepoint into reports/roi_progress_ledger.json")
 
 if __name__ == "__main__":
     run_dual_slot_benchmark()

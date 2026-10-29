@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-log_entry = f'''## {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Machine Learning Optimization: 108 Configurations Tested)
+log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Machine Learning Optimization: 108 Configurations Tested)
 - Evaluated 108 distinct ML configurations across 10 distinct algorithm architectures:
     • XGBoost (Shallow L3, Medium L4, Deep L5)
     • LightGBM (Fast, Robust, Tuned num_leaves)

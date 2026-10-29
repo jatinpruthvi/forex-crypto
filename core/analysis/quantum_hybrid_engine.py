@@ -30,6 +30,7 @@ class QuantumHybridEngine:
         tp2_atr: float = 3.0,
         trail_atr: float = 2.0,
         maker_fee_pct: float = 0.015,
+        taker_fee_pct: Optional[float] = None,
         slippage_pct: float = 0.01,
         enable_drawdown_throttle: bool = True
     ):
@@ -42,6 +43,9 @@ class QuantumHybridEngine:
         self.tp2_atr = tp2_atr
         self.trail_atr = trail_atr
         self.maker_fee_pct = maker_fee_pct
+        # Trigger stops & breakout entries are taker fills: default 3x maker
+        # (0.015% -> 0.045%) with a realistic floor for zero-fee configs.
+        self.taker_fee_pct = taker_fee_pct if taker_fee_pct is not None else max(maker_fee_pct * 3.0, 0.045)
         self.slippage_pct = slippage_pct
         self.enable_drawdown_throttle = enable_drawdown_throttle
 
@@ -118,6 +122,7 @@ class QuantumHybridEngine:
 
         trades = 0
         wins = 0
+        trade_net = 0.0
 
         for i in range(30, n):
             c = data["close"].iloc[i]
@@ -142,84 +147,91 @@ class QuantumHybridEngine:
             # 1. Manage Active Positions & 2-Tier Pyramiding
             # -------------------------------------------------------------
             if pos == 1:
-                # Check TP1 Hit (+1.8x ATR)
-                if not tp1_hit and h >= tp1_p:
-                    tp1_hit = True
-                    realized = (units * 0.40) * (tp1_p - entry_p)
-                    fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
-                    capital += (realized - fee)
-                    units *= 0.60
-                    # Lock Stop Loss at Entry + 0.35x ATR buffer (100% Risk Free)
-                    sl_p = entry_p + (a * 0.35)
-                    wins += 1
-
-                    # Tier 1 House Money Pyramiding
-                    if pyramid_step == 0 and regime_mode == "TREND":
-                        pyramid_step = 1
-                        p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
-                        units += p_units
-
-                # Tier 2 Parabolic Momentum Pyramiding (+3.0x ATR)
-                if tp1_hit and pyramid_step == 1 and regime_mode == "TREND":
-                    if h >= entry_p + (a * self.tp2_atr):
-                        pyramid_step = 2
-                        p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
-                        units += p_units
-                        sl_p = entry_p + (a * 1.5)  # Lock deep profit
-
-                # Chandelier trailing stop ratchet
-                if tp1_hit:
-                    chandelier = h - (a * self.trail_atr)
-                    if chandelier > sl_p:
-                        sl_p = chandelier
-
-                # Check Stop Fill
-                if l <= sl_p:
-                    exit_price = sl_p - (sl_p * (self.slippage_pct / 100.0))
+                sl_bar_start = sl_p
+                # Conservative same-bar resolution: the bar-START stop, if traded,
+                # fills FIRST -- no TP1/partial/pyramid bookkeeping on this bar.
+                if l <= sl_bar_start:
+                    exit_price = sl_bar_start - (sl_bar_start * (self.slippage_pct / 100.0))
                     realized = units * (exit_price - entry_p)
-                    fee = (units * exit_price) * (self.maker_fee_pct / 100.0)
+                    fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
-                    if not tp1_hit and (realized - fee) > 0:
-                        wins += 1
+                    trade_net += (realized - fee)
+                    if trade_net > 0:
+                        wins += 1  # win counted on the NET trade, not on a partial
                     trades += 1
                     pos = 0
+                else:
+                    # Check TP1 Hit (+1.8x ATR)
+                    if not tp1_hit and h >= tp1_p:
+                        tp1_hit = True
+                        realized = (units * 0.40) * (tp1_p - entry_p)
+                        fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
+                        capital += (realized - fee)
+                        trade_net += (realized - fee)
+                        units *= 0.60
+                        # Lock Stop Loss at Entry + 0.35x ATR buffer (100% Risk Free)
+                        sl_p = entry_p + (a * 0.35)
+
+                        # Tier 1 House Money Pyramiding
+                        if pyramid_step == 0 and regime_mode == "TREND":
+                            pyramid_step = 1
+                            p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
+                            units += p_units
+
+                    # Tier 2 Parabolic Momentum Pyramiding (+3.0x ATR)
+                    if tp1_hit and pyramid_step == 1 and regime_mode == "TREND":
+                        if h >= entry_p + (a * self.tp2_atr):
+                            pyramid_step = 2
+                            p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
+                            units += p_units
+                            sl_p = entry_p + (a * 1.5)  # Lock deep profit
+
+                    # Chandelier trailing stop ratchet (effective for FUTURE bars
+                    # only -- no same-bar ratchet-then-trigger lookahead)
+                    if tp1_hit:
+                        chandelier = h - (a * self.trail_atr)
+                        if chandelier > sl_p:
+                            sl_p = chandelier
 
             elif pos == -1:
-                if not tp1_hit and l <= tp1_p:
-                    tp1_hit = True
-                    realized = (units * 0.40) * (entry_p - tp1_p)
-                    fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
-                    capital += (realized - fee)
-                    units *= 0.60
-                    sl_p = entry_p - (a * 0.35)
-                    wins += 1
-
-                    if pyramid_step == 0 and regime_mode == "TREND":
-                        pyramid_step = 1
-                        p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
-                        units += p_units
-
-                if tp1_hit and pyramid_step == 1 and regime_mode == "TREND":
-                    if l <= entry_p - (a * self.tp2_atr):
-                        pyramid_step = 2
-                        p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
-                        units += p_units
-                        sl_p = entry_p - (a * 1.5)
-
-                if tp1_hit:
-                    chandelier = l + (a * self.trail_atr)
-                    if chandelier < sl_p:
-                        sl_p = chandelier
-
-                if h >= sl_p:
-                    exit_price = sl_p + (sl_p * (self.slippage_pct / 100.0))
+                sl_bar_start = sl_p
+                # Conservative same-bar resolution against the bar-START stop.
+                if h >= sl_bar_start:
+                    exit_price = sl_bar_start + (sl_bar_start * (self.slippage_pct / 100.0))
                     realized = units * (entry_p - exit_price)
-                    fee = (units * exit_price) * (self.maker_fee_pct / 100.0)
+                    fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
-                    if not tp1_hit and (realized - fee) > 0:
-                        wins += 1
+                    trade_net += (realized - fee)
+                    if trade_net > 0:
+                        wins += 1  # win counted on the NET trade, not on a partial
                     trades += 1
                     pos = 0
+                else:
+                    if not tp1_hit and l <= tp1_p:
+                        tp1_hit = True
+                        realized = (units * 0.40) * (entry_p - tp1_p)
+                        fee = (units * 0.40 * tp1_p) * (self.maker_fee_pct / 100.0)
+                        capital += (realized - fee)
+                        trade_net += (realized - fee)
+                        units *= 0.60
+                        sl_p = entry_p - (a * 0.35)
+
+                        if pyramid_step == 0 and regime_mode == "TREND":
+                            pyramid_step = 1
+                            p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier1_pyramid_mult) / (a * 1.5)
+                            units += p_units
+
+                    if tp1_hit and pyramid_step == 1 and regime_mode == "TREND":
+                        if l <= entry_p - (a * self.tp2_atr):
+                            pyramid_step = 2
+                            p_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.tier2_pyramid_mult) / (a * 1.5)
+                            units += p_units
+                            sl_p = entry_p - (a * 1.5)
+
+                    if tp1_hit:
+                        chandelier = l + (a * self.trail_atr)
+                        if chandelier < sl_p:
+                            sl_p = chandelier
 
             # -------------------------------------------------------------
             # 2. Dynamic Entry Generation
@@ -251,6 +263,9 @@ class QuantumHybridEngine:
                         tp1_hit = False
                         pyramid_step = 0
                         units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "TREND"
                     elif bear:
                         pos = -1
@@ -260,6 +275,9 @@ class QuantumHybridEngine:
                         tp1_hit = False
                         pyramid_step = 0
                         units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "TREND"
 
                 # REGIME B: Chop Mean-Reversion Scalper
@@ -272,6 +290,9 @@ class QuantumHybridEngine:
                         tp1_hit = False
                         pyramid_step = 2  # Do not pyramid chop trades
                         units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 62.0 and c < o:
                         pos = -1
@@ -281,6 +302,9 @@ class QuantumHybridEngine:
                         tp1_hit = False
                         pyramid_step = 2
                         units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

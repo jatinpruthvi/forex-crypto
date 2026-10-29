@@ -33,7 +33,25 @@ from core.signals.alpha_enhancements import (
 )
 from core.ml.regime_intelligence import RealTimeShapExplainer, RegimeMixtureClusterer
 
-app = FastAPI(title="AMATS Live Walk-Forward Demo Station")
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def _lifespan(_app):
+    # Startup: warm up signal state, then stream (formerly @app.on_event("startup")).
+    warmup_start = max(0, START_INDEX - 500)
+    signals = {"btc": 0, "sol": 0, "bnb": 0, "link": 0}
+    for i in range(warmup_start, START_INDEX):
+        row = df_stream.iloc[i]
+        signals = process_candle_bar(row, signals)
+    task = asyncio.create_task(walk_forward_streaming_loop(signals))
+    try:
+        yield
+    finally:
+        task.cancel()
+
+
+app = FastAPI(title="AMATS Live Walk-Forward Demo Station", lifespan=_lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -105,7 +123,7 @@ def prepare_asset_frame(m15_path: str, h4_path: str, fallback_symbol: str = "BTC
     v = df["volume"]
 
     tr = np.maximum(h - l, np.maximum(abs(h - c.shift(1)), abs(l - c.shift(1))))
-    atr = tr.rolling(14).mean().bfill()
+    atr = tr.rolling(14).mean()  # no .bfill(): warmup rows must not borrow future ATR
     df["atr"] = atr
     df["ema20"] = c.ewm(span=20).mean()
     df["ema50"] = c.ewm(span=50).mean()
@@ -162,6 +180,14 @@ link_sub = extract_sub_cols(df_link, "link")
 df_stream = pd.merge(df_btc, sol_sub, on="timestamp", how="inner")
 df_stream = pd.merge(df_stream, bnb_sub, on="timestamp", how="inner")
 df_stream = pd.merge(df_stream, link_sub, on="timestamp", how="inner").sort_values("timestamp").reset_index(drop=True)
+print(
+    f"  Dataset sizes -> BTC: {len(df_btc)} | SOL: {len(df_sol)} | BNB: {len(df_bnb)} | LINK: {len(df_link)} rows"
+)
+print(
+    f"  Inner-join synchronized frame: {len(df_stream)} rows "
+    f"[{df_stream['timestamp'].iloc[0]} -> {df_stream['timestamp'].iloc[-1]}] "
+    f"(all assets truncated to their common overlap)"
+)
 
 print(f"Synchronized stream ready: {len(df_stream)} candles across all 4 assets.")
 
@@ -460,6 +486,12 @@ async def walk_forward_streaming_loop(prev_signals: Dict[str, int]):
         if not stream_pointer["is_paused"]:
             if idx >= len(df_stream):
                 idx = START_INDEX
+                # Fresh cycle: never double-count the same market period in one
+                # account (demo authenticity) -- rebuild accounts and signals.
+                global accounts
+                accounts = build_default_accounts()
+                curr_signals = {}
+                stream_pointer["cycle"] = stream_pointer.get("cycle", 0) + 1
 
             row = df_stream.iloc[idx]
             ts = str(row["timestamp"])
@@ -499,17 +531,6 @@ async def walk_forward_streaming_loop(prev_signals: Dict[str, int]):
             stream_pointer["current_index"] = idx
 
         await asyncio.sleep(0.5)
-
-
-@app.on_event("startup")
-async def start_feed():
-    warmup_start = max(0, START_INDEX - 500)
-    signals = {"btc": 0, "sol": 0, "bnb": 0, "link": 0}
-    for i in range(warmup_start, START_INDEX):
-        row = df_stream.iloc[i]
-        signals = process_candle_bar(row, signals)
-
-    asyncio.create_task(walk_forward_streaming_loop(signals))
 
 
 @app.websocket("/ws")

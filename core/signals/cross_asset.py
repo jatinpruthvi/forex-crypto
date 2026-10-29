@@ -22,7 +22,9 @@ class CrossAssetMonitor:
         corr_matrix = returns.corr(min_periods=5)
         # Fill missing values and ensure diagonal is 1.0
         mat = corr_matrix.to_numpy(copy=True)
-        mat = np.nan_to_num(mat, nan=0.0)
+        # Unknown/insufficient-history correlations default to 1.0 (fully
+        # correlated) so the concentration haircut is over- not under-applied.
+        mat = np.nan_to_num(mat, nan=1.0)
         np.fill_diagonal(mat, 1.0)
         return pd.DataFrame(mat, index=cols, columns=cols)
 

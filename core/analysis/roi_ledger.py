@@ -6,11 +6,38 @@ Supports point-in-time state restoration and quantitative progression auditing.
 import os
 import json
 import time
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 import pandas as pd
-import numpy as np
 
 LEDGER_FILE = "reports/roi_progress_ledger.json"
+
+# Canonical result keys accepted by record_experiment, with the caller-side
+# aliases that historically caused silent data loss (e.g. months_elapsed stored
+# as 0.0 because callers passed duration_months). Normalize at the boundary.
+RESULT_KEY_ALIASES = {
+    "months_elapsed": ("months_elapsed", "months", "duration_months"),
+    "win_rate_pct": ("win_rate_pct", "win_rate"),
+    "net_total_roi_pct": ("net_roi_total_pct", "total_return_pct", "net_total_roi_pct"),
+    "monthly_roi_pct": ("monthly_roi_pct",),
+    "max_drawdown_pct": ("max_drawdown_pct",),
+    "profit_factor": ("profit_factor",),
+    "total_trades": ("total_trades",),
+    "initial_capital": ("initial_capital",),
+    "final_capital": ("final_capital",),
+}
+
+
+def normalize_results(results: Dict[str, Any]) -> Dict[str, Any]:
+    """Map caller result dicts onto the canonical metric keys."""
+    out = {}
+    for canonical, aliases in RESULT_KEY_ALIASES.items():
+        for key in aliases:
+            if key in results:
+                out[canonical] = results[key]
+                break
+        else:
+            out[canonical] = 0.0
+    return out
 
 class ROILedger:
     def __init__(self, ledger_path: str = LEDGER_FILE):
@@ -60,20 +87,7 @@ class ROILedger:
             "timeframe": timeframe,
             "duration": duration_desc,
             "parameters": params,
-            "metrics": {
-                "initial_capital": results.get("initial_capital", 1000.0),
-                "final_capital": results.get("final_capital", 0.0),
-                "net_total_roi_pct": results.get("net_roi_total_pct", results.get("total_return_pct", 0.0)),
-                "monthly_roi_pct": results.get("monthly_roi_pct", 0.0),
-                "max_drawdown_pct": results.get("max_drawdown_pct", 0.0),
-                "win_rate_pct": results.get("win_rate", results.get("win_rate_pct", 0.0)),
-                "total_trades": results.get("total_trades", 0),
-                "profit_factor": results.get("profit_factor", 0.0),
-                "months_elapsed": results.get(
-                    "months_elapsed",
-                    results.get("months", results.get("duration_months", 0.0)),
-                )
-            },
+            "metrics": normalize_results(results),
             "tag": tag,
             "notes": notes
         }

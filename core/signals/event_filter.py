@@ -3,11 +3,15 @@ Event Calendar Filter:
 Fetches economic calendar from Forex Factory JSON feed.
 Blocks trading +/- 30 minutes around high-impact events.
 """
+import logging
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime, timezone, timedelta
 import requests
 import json
 import os
+
+
+logger = logging.getLogger(__name__)
 
 
 class EventFilter:
@@ -40,6 +44,7 @@ class EventFilter:
                 with open(self.cache_file, "r", encoding="utf-8") as f:
                     self.events = json.load(f)
             except Exception:
+                logger.warning("EventFilter: failed to load calendar cache", exc_info=True)
                 self.events = []
 
     def _save_cache(self) -> None:
@@ -48,7 +53,7 @@ class EventFilter:
             with open(self.cache_file, "w", encoding="utf-8") as f:
                 json.dump(self.events, f, indent=2)
         except Exception:
-            pass
+            logger.warning("EventFilter: failed to save calendar cache", exc_info=True)
 
     def refresh_calendar(self) -> bool:
         """Fetch latest weekly calendar from remote feed."""
@@ -74,7 +79,7 @@ class EventFilter:
                 self._save_cache()
                 return True
         except Exception:
-            pass
+            logger.warning("EventFilter: calendar refresh failed", exc_info=True)
         return False
 
     def is_high_impact_window(

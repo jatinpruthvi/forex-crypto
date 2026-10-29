@@ -45,7 +45,7 @@ def process_asset(df):
         "vol_20": pd.Series(close).pct_change(1).rolling(20, min_periods=1).std().fillna(0.0),
         "vol_ratio": vol / vol_sma20,
         "trend_dist": (close - ema50) / np.maximum(close, 1.0),
-        "ema50_slope": (ema50 - np.roll(ema50, 3)) / np.maximum(close, 1.0),
+        "ema50_slope": (ema50 - np.concatenate([np.full(3, np.nan), ema50[:-3]])) / np.maximum(close, 1.0),
         "atr_rel": atr14 / np.maximum(close, 1.0),
     })
 
@@ -59,7 +59,8 @@ def process_asset(df):
     probs = clf.predict_proba(X_features)[:, 1]
 
     return {
-        "close": close, "high": high, "low": low, "atr": atr14, "signals": raw_signals, "probs": probs
+        "close": close, "high": high, "low": low, "atr": atr14, "signals": raw_signals, "probs": probs,
+        "split_idx": split_idx,
     }
 
 btc = process_asset(df_btc)
@@ -78,7 +79,8 @@ def run_portfolio_sim(base_risk_pct=3.5, max_leverage=3.5):
     prev_sig_btc = 0
     prev_sig_eth = 0
 
-    for i in range(1, n):
+    oos_start = int(btc.get("split_idx", 1))  # model trained on [:split_idx] -> trade OOS only
+    for i in range(oos_start, n):
         curr_dd = (peak_capital - capital) / peak_capital * 100.0 if peak_capital > 0 else 0.0
         if curr_dd < 3.0: dd_mult = 1.0
         elif curr_dd < 5.0: dd_mult = 0.75
@@ -206,7 +208,8 @@ def run_portfolio_sim(base_risk_pct=3.5, max_leverage=3.5):
     wins = [t for t in closed_trades if t['pnl_usd'] > 0]
     win_rate = (len(wins) / tot_trades * 100.0) if tot_trades > 0 else 0.0
     net_roi = (capital - initial_cap) / initial_cap * 100.0
-    monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / months_elapsed) - 1.0) * 100.0
+    sim_months = max(0.1, months_elapsed * (n - oos_start) / n)  # OOS window only
+    monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / sim_months) - 1.0) * 100.0
     tot_profit = sum(t['pnl_usd'] for t in wins)
     tot_loss = abs(sum(t['pnl_usd'] for t in closed_trades if t['pnl_usd'] <= 0)) if len(wins) < tot_trades else 1e-6
     pf = tot_profit / tot_loss if tot_loss > 0 else 0.0

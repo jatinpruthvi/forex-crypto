@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-log_entry = f'''## {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Institutional VWAP Filter & Breakeven Buffer Optimization)
+log_entry = f'''## {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} - ADVANCED RALPH-LOOP TASK COMPLETED (Institutional VWAP Filter & Breakeven Buffer Optimization)
 - Evaluated VWAP institutional confirmation and Breakeven Profit Lock buffers on real exchange candles:
     • Moving Stop to Entry + 0.25x ATR profit buffer turns breakeven trades into guaranteed positive gains, lifting Win Rate from 54.05% to 56.76%.
     • Adding the 30-period rolling Volume-Weighted Average Price (VWAP) filter eliminates false breakout traps where price pushes without volume support.

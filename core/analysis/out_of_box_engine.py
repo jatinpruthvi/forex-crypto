@@ -73,6 +73,7 @@ class OutOfTheBoxAlphaEngine:
         tp1_atr: float = 1.8,
         trail_atr: float = 2.2,
         maker_fee_pct: float = 0.02,
+        taker_fee_pct: Optional[float] = None,
         slippage_pct: float = 0.01,
         enable_pyramiding: bool = True,
         enable_dual_regime: bool = True,
@@ -85,6 +86,9 @@ class OutOfTheBoxAlphaEngine:
         self.tp1_atr = tp1_atr
         self.trail_atr = trail_atr
         self.maker_fee_pct = maker_fee_pct
+        # Trigger stops & breakout entries are taker fills: default 3x maker
+        # with a realistic floor for zero-fee configs.
+        self.taker_fee_pct = taker_fee_pct if taker_fee_pct is not None else max(maker_fee_pct * 3.0, 0.045)
         self.slippage_pct = slippage_pct
         self.enable_pyramiding = enable_pyramiding
         self.enable_dual_regime = enable_dual_regime
@@ -157,6 +161,7 @@ class OutOfTheBoxAlphaEngine:
 
         trades = 0
         wins = 0
+        trade_net = 0.0
 
         for i in range(30, n):
             c = data["close"].iloc[i]
@@ -179,70 +184,77 @@ class OutOfTheBoxAlphaEngine:
             # 1. Manage Open Position & Risk-Free Pyramiding
             # -------------------------------------------------------------
             if pos == 1:
-                if not tp1_hit and h >= tp1_p:
-                    tp1_hit = True
-                    # Realize 50% partial profit
-                    realized = (units * 0.5) * (tp1_p - entry_p)
-                    fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
-                    capital += (realized - fee)
-                    units *= 0.5
-                    # Lock Stop Loss at Entry + 0.30x ATR (100% Risk Free)
-                    sl_p = entry_p + (a * 0.30)
-                    wins += 1
-
-                    # RISK-FREE PYRAMIDING:
-                    # Fund runner unit purely out of locked banked gains
-                    if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
-                        pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
-                        units += pyramid_units
-                        pyramid_added = True
-
-                # Chandelier trailing stop ratchet
-                if tp1_hit:
-                    chandelier = h - (a * self.trail_atr)
-                    if chandelier > sl_p:
-                        sl_p = chandelier
-
-                # Check Stop / Trailing Stop Fill
-                if l <= sl_p:
-                    exit_price = sl_p - (sl_p * (self.slippage_pct / 100.0))
+                sl_bar_start = sl_p
+                # Conservative same-bar resolution: the bar-START stop, if traded,
+                # fills FIRST -- no TP1/partial/pyramid bookkeeping on this bar.
+                if l <= sl_bar_start:
+                    exit_price = sl_bar_start - (sl_bar_start * (self.slippage_pct / 100.0))
                     realized = units * (exit_price - entry_p)
-                    fee = (units * exit_price) * (self.maker_fee_pct / 100.0)
+                    fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
-                    if not tp1_hit and (realized - fee) > 0:
-                        wins += 1
+                    trade_net += (realized - fee)
+                    if trade_net > 0:
+                        wins += 1  # win counted on the NET trade, not on a partial
                     trades += 1
                     pos = 0
+                else:
+                    if not tp1_hit and h >= tp1_p:
+                        tp1_hit = True
+                        # Realize 50% partial profit
+                        realized = (units * 0.5) * (tp1_p - entry_p)
+                        fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
+                        capital += (realized - fee)
+                        trade_net += (realized - fee)
+                        units *= 0.5
+                        # Lock Stop Loss at Entry + 0.30x ATR (100% Risk Free)
+                        sl_p = entry_p + (a * 0.30)
+
+                        # RISK-FREE PYRAMIDING:
+                        # Fund runner unit purely out of locked banked gains
+                        if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
+                            pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
+                            units += pyramid_units
+                            pyramid_added = True
+
+                    # Chandelier trailing stop ratchet (effective for FUTURE bars
+                    # only -- no same-bar ratchet-then-trigger lookahead)
+                    if tp1_hit:
+                        chandelier = h - (a * self.trail_atr)
+                        if chandelier > sl_p:
+                            sl_p = chandelier
 
             elif pos == -1:
-                if not tp1_hit and l <= tp1_p:
-                    tp1_hit = True
-                    realized = (units * 0.5) * (entry_p - tp1_p)
-                    fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
-                    capital += (realized - fee)
-                    units *= 0.5
-                    sl_p = entry_p - (a * 0.30)
-                    wins += 1
-
-                    if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
-                        pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
-                        units += pyramid_units
-                        pyramid_added = True
-
-                if tp1_hit:
-                    chandelier = l + (a * self.trail_atr)
-                    if chandelier < sl_p:
-                        sl_p = chandelier
-
-                if h >= sl_p:
-                    exit_price = sl_p + (sl_p * (self.slippage_pct / 100.0))
+                sl_bar_start = sl_p
+                # Conservative same-bar resolution against the bar-START stop.
+                if h >= sl_bar_start:
+                    exit_price = sl_bar_start + (sl_bar_start * (self.slippage_pct / 100.0))
                     realized = units * (entry_p - exit_price)
-                    fee = (units * exit_price) * (self.maker_fee_pct / 100.0)
+                    fee = (units * exit_price) * (self.taker_fee_pct / 100.0)  # trigger exit = taker
                     capital += (realized - fee)
-                    if not tp1_hit and (realized - fee) > 0:
-                        wins += 1
+                    trade_net += (realized - fee)
+                    if trade_net > 0:
+                        wins += 1  # win counted on the NET trade, not on a partial
                     trades += 1
                     pos = 0
+                else:
+                    if not tp1_hit and l <= tp1_p:
+                        tp1_hit = True
+                        realized = (units * 0.5) * (entry_p - tp1_p)
+                        fee = (units * 0.5 * tp1_p) * (self.maker_fee_pct / 100.0)
+                        capital += (realized - fee)
+                        trade_net += (realized - fee)
+                        units *= 0.5
+                        sl_p = entry_p - (a * 0.30)
+
+                        if self.enable_pyramiding and not pyramid_added and regime_mode == "TREND":
+                            pyramid_units = (capital * (self.base_risk_pct / 100.0) * self.leverage * self.pyramid_multiplier) / (a * 1.5)
+                            units += pyramid_units
+                            pyramid_added = True
+
+                    if tp1_hit:
+                        chandelier = l + (a * self.trail_atr)
+                        if chandelier < sl_p:
+                            sl_p = chandelier
 
             # -------------------------------------------------------------
             # 2. Dynamic Entry Generation (Dual-Engine Trend vs Chop)
@@ -273,6 +285,9 @@ class OutOfTheBoxAlphaEngine:
                         tp1_hit = False
                         pyramid_added = False
                         units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "TREND"
                     elif c < dl and ef < es and c < vwap:
                         pos = -1
@@ -282,6 +297,9 @@ class OutOfTheBoxAlphaEngine:
                         tp1_hit = False
                         pyramid_added = False
                         units = risk_amt / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "TREND"
 
                 # ENGINE B: Chop Mean-Reversion Scalper
@@ -294,6 +312,9 @@ class OutOfTheBoxAlphaEngine:
                         tp1_hit = False
                         pyramid_added = True
                         units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "CHOP_MEAN_REV"
                     elif h >= bb_up and rsi > 65.0 and c < o:
                         pos = -1
@@ -303,6 +324,9 @@ class OutOfTheBoxAlphaEngine:
                         tp1_hit = False
                         pyramid_added = True
                         units = (risk_amt * 0.75) / max(stop_dist, 1e-4, entry_p * 5e-4)
+                        entry_fee = (units * entry_p) * (self.taker_fee_pct / 100.0)  # breakout entry = taker
+                        capital -= entry_fee
+                        trade_net = -entry_fee
                         regime_mode = "CHOP_MEAN_REV"
 
             if capital > peak:

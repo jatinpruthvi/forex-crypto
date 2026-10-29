@@ -6,7 +6,11 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import logging
 from typing import Optional, Dict, Any
+
+
+logger = logging.getLogger(__name__)
 
 
 class MLPredictor:
@@ -52,6 +56,6 @@ class MLPredictor:
                 preds = self.model.predict(input_data)
                 return float(preds[0])
         except Exception:
-            pass
+            logger.warning("MLPredictor: prediction failed; falling back to neutral 0.50", exc_info=True)
 
         return 0.50

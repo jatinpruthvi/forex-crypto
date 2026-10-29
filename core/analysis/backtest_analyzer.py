@@ -39,7 +39,10 @@ class BacktestAnalyzer:
         wins = strat.get("wins", 0)
         win_rate = (wins / total_trades * 100.0) if total_trades > 0 else 0.0
         profit_factor = strat.get("profit_factor", 0.0)
-        max_drawdown = strat.get("max_drawdown_account", 0.0) * 100.0
+        # freqtrade stores max_drawdown_account as a FRACTION (0.xx); accept
+        # already-percent values defensively.
+        dd_raw = strat.get("max_drawdown_account", 0.0)
+        max_drawdown = dd_raw * 100.0 if dd_raw <= 1.0 else dd_raw
         sharpe = strat.get("sharpe", 0.0)
 
         return {

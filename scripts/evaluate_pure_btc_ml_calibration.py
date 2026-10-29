@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import numpy as np
 import joblib
 from scripts.evaluate_dd_scaling import DynamicDDBacktestSimulator
@@ -54,7 +55,7 @@ clf.fit(X_features.iloc[:split_idx][valid_mask], y_labels.iloc[:split_idx][valid
 probs = clf.predict_proba(X_features)[:, 1]
 
 # Save calibrated model
-joblib.dump(clf, "models/model_xgb.pkl")
+joblib.dump(clf, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "model_xgb.pkl"))
 
 # Direct comparison on BTC
 def run_comparison():
@@ -65,13 +66,15 @@ def run_comparison():
     sig_df['signal'] = raw_signals
     sig_df['atr'] = atr14
     sig_df['conviction'] = 85.0
-    res_base = sim.run_backtest_with_dd_guard(df, sig_df, base_risk_pct=3.5, atr_sl_mult=1.6, atr_tp_mult=2.4)
+    # Evaluate on the out-of-sample window only (model trained on [:split_idx])
+    df_oos = df.iloc[split_idx:]
+    res_base = sim.run_backtest_with_dd_guard(df_oos, sig_df.iloc[split_idx:], base_risk_pct=3.5, atr_sl_mult=1.6, atr_tp_mult=2.4)
     
     # 2. ML Strategy with Dynamic Scaling
     # Pass dynamically sized conviction based on ML probability
     # If ML probability aligns with signal, boost conviction to 95. If diverges, damp to 60.
     conv_ml = np.full(n, 75.0)
-    for i in range(n):
+    for i in range(split_idx, n):  # ML conviction applied out-of-sample only
         s = raw_signals[i]
         p = probs[i]
         if s == 1:
@@ -84,7 +87,7 @@ def run_comparison():
     sig_ml_df['atr'] = atr14
     sig_ml_df['conviction'] = conv_ml
     
-    res_ml = sim.run_backtest_with_dd_guard(df, sig_ml_df, base_risk_pct=3.5, atr_sl_mult=1.6, atr_tp_mult=2.4)
+    res_ml = sim.run_backtest_with_dd_guard(df_oos, sig_ml_df.iloc[split_idx:], base_risk_pct=3.5, atr_sl_mult=1.6, atr_tp_mult=2.4)
     
     print("\n" + "="*70)
     print("FINAL RIGOROUS COMPARISON: RULE-BASED VS. ML-AUGMENTED SYSTEM")

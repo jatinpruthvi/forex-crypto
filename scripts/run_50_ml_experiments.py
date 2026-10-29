@@ -83,8 +83,8 @@ X_all = pd.DataFrame(feat_dict)
 # Signals: Volatility Expansion Base
 large_candle = (high - low) > (1.8 * atr14)
 vol_surge = vol > vol_sma20
-ema50_slope_up = ema50 > np.roll(ema50, 3)
-ema50_slope_down = ema50 < np.roll(ema50, 3)
+ema50_slope_up = ema50 > np.concatenate([np.full(3, np.nan), ema50[:-3]])
+ema50_slope_down = ema50 < np.concatenate([np.full(3, np.nan), ema50[:-3]])
 price_stretch = (close - ema50) / np.maximum(ema50, 1.0)
 
 bull_expansion = (close > open_p) & large_candle & (close > ema50) & ema50_slope_up & vol_surge & (price_stretch < 0.05)
@@ -95,7 +95,7 @@ raw_signals[bull_expansion] = 1
 raw_signals[bear_expansion] = -1
 
 # Simulator function for fast evaluation
-def run_simulation(signals_arr, size_mult_arr, base_risk=3.5):
+def run_simulation(signals_arr, size_mult_arr, base_risk=3.5, start_idx=1):
     capital = 323.0
     initial_cap = capital
     peak_capital = capital
@@ -106,9 +106,9 @@ def run_simulation(signals_arr, size_mult_arr, base_risk=3.5):
     slippage = 0.001
     leverage = 2.5
     prev_sig = 0
-    months_elapsed = max(1.0, (n * 4) / (24.0 * 30.4))
+    months_elapsed = max(1.0, ((n - start_idx) * 4) / (24.0 * 30.4))  # OOS window
 
-    for i in range(1, n):
+    for i in range(start_idx, n):  # out-of-sample ONLY (models trained on [:split_idx])
         c_close = close[i]
         c_high = high[i]
         c_low = low[i]
@@ -316,7 +316,7 @@ for f_bars, thresh in [(6, 1.0), (12, 1.5), (18, 2.0)]:
                     elif s == -1:
                         size_mult[idx] = 1.50 if p <= 0.46 else (0.30 if p > 0.54 else 0.9)
 
-            sim_res = run_simulation(sig_copy, size_mult, base_risk=3.5)
+            sim_res = run_simulation(sig_copy, size_mult, base_risk=3.5, start_idx=split_idx)
             experiments.append({
                 "model": model_name,
                 "label_config": f"{f_bars}b_{thresh}%",

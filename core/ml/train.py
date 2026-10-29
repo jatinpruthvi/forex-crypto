@@ -6,7 +6,18 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import logging
 from typing import Dict, Any, Tuple
+
+
+logger = logging.getLogger(__name__)
+
+# Model artifacts live at the repo root regardless of launch CWD.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def _resolve_model_path(path: str) -> str:
+    return path if os.path.isabs(path) else os.path.join(_REPO_ROOT, path)
 
 
 def train_xgboost_model(
@@ -45,6 +56,7 @@ def train_xgboost_model(
             eval_metric="logloss",
         )
         model.fit(X_tr, y_tr)
+        model_output_path = _resolve_model_path(model_output_path)
         os.makedirs(os.path.dirname(model_output_path) or '.', exist_ok=True)
         joblib.dump(model, model_output_path)
         return {
@@ -94,7 +106,7 @@ def train_xgboost_model(
         study.optimize(objective, n_trials=n_trials, timeout=180)
         best_params.update(study.best_params)
     except Exception:
-        pass
+        logger.warning("Optuna HPO failed; training with default params", exc_info=True)
 
     final_model = xgb.XGBClassifier(
         **best_params,
@@ -111,6 +123,7 @@ def train_xgboost_model(
     roc_auc = float(roc_auc_score(y_te, preds_proba))
     f1 = float(f1_score(y_te, preds_binary, zero_division=0))
 
+    model_output_path = _resolve_model_path(model_output_path)
     os.makedirs(os.path.dirname(model_output_path) or '.', exist_ok=True)
     joblib.dump(final_model, model_output_path)
 

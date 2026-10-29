@@ -80,7 +80,7 @@ for asset_name, file_path, candle_hours in datasets:
     raw_signals[bull_expansion] = 1
     raw_signals[bear_expansion] = -1
 
-    def run_sim(sig_arr, mult_arr, base_risk=3.5):
+    def run_sim(sig_arr, mult_arr, base_risk=3.5, start_idx=1):
         capital = 323.0
         init_cap = capital
         peak_cap = capital
@@ -92,7 +92,7 @@ for asset_name, file_path, candle_hours in datasets:
         leverage = 2.5
         prev_sig = 0
 
-        for i in range(1, n):
+        for i in range(start_idx, n):  # out-of-sample ONLY when start_idx=split_idx
             c_close = close[i]
             c_high = high[i]
             c_low = low[i]
@@ -208,7 +208,8 @@ for asset_name, file_path, candle_hours in datasets:
         wins = [t for t in closed_trades if t['pnl_usd'] > 0]
         win_rate = (len(wins) / tot_trades * 100.0) if tot_trades > 0 else 0.0
         net_roi = (capital - init_cap) / init_cap * 100.0
-        monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / months_elapsed) - 1.0) * 100.0
+        sim_months = max(0.05, months_elapsed * (n - start_idx) / n)  # simulated window
+        monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / sim_months) - 1.0) * 100.0
         tot_profit = sum(t['pnl_usd'] for t in wins)
         tot_loss = abs(sum(t['pnl_usd'] for t in closed_trades if t['pnl_usd'] <= 0)) if len(wins) < tot_trades else 1e-6
         pf = tot_profit / tot_loss if tot_loss > 0 else (10.0 if tot_profit > 0 else 0.0)
@@ -254,7 +255,7 @@ for asset_name, file_path, candle_hours in datasets:
             s_arr = raw_signals.copy()
             m_arr = np.ones(n, dtype=float)
 
-            for i in range(n):
+            for i in range(split_idx, n):  # ML adjustments applied out-of-sample only
                 p = probs[i]
                 s = s_arr[i]
                 if mode == "GateFilter-52":
@@ -270,7 +271,7 @@ for asset_name, file_path, candle_hours in datasets:
                     if s == 1: m_arr[i] = 1.40 if p >= 0.52 else 0.50
                     elif s == -1: m_arr[i] = 1.40 if p <= 0.48 else 0.50
 
-            res = run_sim(s_arr, m_arr, base_risk=3.5)
+            res = run_sim(s_arr, m_arr, base_risk=3.5, start_idx=split_idx)
             all_experiments.append({
                 "asset": asset_name,
                 "model": m_name,

@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import numpy as np
 import joblib
 from scripts.evaluate_dd_scaling import DynamicDDBacktestSimulator
@@ -17,8 +18,9 @@ n = len(df)
 months_elapsed = (n * 4.0) / (24.0 * 30.4)
 
 tr1 = high - low
-tr2 = np.abs(high - np.roll(close, 1))
-tr3 = np.abs(low - np.roll(close, 1))
+_prev_close = np.concatenate([close[:1], close[:-1]])  # no np.roll wrap-around
+tr2 = np.abs(high - _prev_close)
+tr3 = np.abs(low - _prev_close)
 tr2[0] = tr1[0]
 tr3[0] = tr1[0]
 tr = np.maximum(tr1, np.maximum(tr2, tr3))
@@ -29,8 +31,9 @@ vol_sma20 = pd.Series(vol).rolling(20, min_periods=1).mean().replace(0, 1e-6).va
 
 large_candle = (high - low) > (1.8 * atr14)
 vol_surge = vol > vol_sma20
-ema50_slope_up = ema50 > np.roll(ema50, 3)
-ema50_slope_down = ema50 < np.roll(ema50, 3)
+_ema50_prev3 = np.concatenate([np.full(3, np.nan), ema50[:-3]])  # shift, no wrap-around
+ema50_slope_up = ema50 > _ema50_prev3
+ema50_slope_down = ema50 < _ema50_prev3
 price_stretch = (close - ema50) / np.maximum(ema50, 1.0)
 
 bull_expansion = (close > open_p) & large_candle & (close > ema50) & ema50_slope_up & vol_surge & (price_stretch < 0.05)
@@ -47,7 +50,7 @@ X_features = pd.DataFrame({
     "vol_20": pd.Series(close).pct_change(1).rolling(20, min_periods=1).std().fillna(0.0),
     "vol_ratio": vol / vol_sma20,
     "trend_dist": (close - ema50) / np.maximum(close, 1.0),
-    "ema50_slope": (ema50 - np.roll(ema50, 3)) / np.maximum(close, 1.0),
+    "ema50_slope": (ema50 - np.concatenate([np.full(3, np.nan), ema50[:-3]])) / np.maximum(close, 1.0),
     "atr_rel": atr14 / np.maximum(close, 1.0),
 })
 
@@ -61,10 +64,10 @@ clf.fit(X_features.iloc[:split_idx][valid_mask], y_labels.iloc[:split_idx][valid
 probs = clf.predict_proba(X_features)[:, 1]
 
 # Save model
-joblib.dump(clf, "models/model_xgb.pkl")
+joblib.dump(clf, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "model_xgb.pkl"))
 
 # Simulation testing across leverage/risk levels to find true monthly ROI ~20-25%
-def simulate_leverage(base_risk_pct, max_leverage, mult_boost=1.35):
+def simulate_leverage(base_risk_pct, max_leverage, mult_boost=1.35, months_total=None):
     capital = 323.0
     initial_cap = capital
     peak_capital = capital
@@ -75,7 +78,7 @@ def simulate_leverage(base_risk_pct, max_leverage, mult_boost=1.35):
     slippage = 0.001
     prev_sig = 0
 
-    for i in range(1, n):
+    for i in range(split_idx, n):  # out-of-sample ONLY (model trained on [:split_idx])
         c_close = close[i]
         c_high = high[i]
         c_low = low[i]
@@ -194,7 +197,9 @@ def simulate_leverage(base_risk_pct, max_leverage, mult_boost=1.35):
     wins = [t for t in closed_trades if t['pnl_usd'] > 0]
     win_rate = (len(wins) / tot_trades * 100.0) if tot_trades > 0 else 0.0
     net_roi = (capital - initial_cap) / initial_cap * 100.0
-    monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / months_elapsed) - 1.0) * 100.0
+    months_total = months_total if months_total is not None else months_elapsed  # explicit, not implicit global
+    sim_months = max(0.1, months_total * (n - split_idx) / n)  # OOS window only
+    monthly_roi = ((1.0 + (net_roi / 100.0)) ** (1.0 / sim_months) - 1.0) * 100.0
     tot_profit = sum(t['pnl_usd'] for t in wins)
     tot_loss = abs(sum(t['pnl_usd'] for t in closed_trades if t['pnl_usd'] <= 0)) if len(wins) < tot_trades else 1e-6
     pf = tot_profit / tot_loss if tot_loss > 0 else (10.0 if tot_profit > 0 else 0.0)

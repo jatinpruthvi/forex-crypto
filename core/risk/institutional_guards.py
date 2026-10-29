@@ -60,6 +60,11 @@ class ValueAtRiskGuard:
         if equity <= 0 or not position_notionals:
             return {"var_usd": 0.0, "var_pct": 0.0, "cvar_pct": 0.0, "var_breached": False}
 
+        if len(position_notionals) != len(asset_volatilities):
+            raise ValueError(
+                f"position_notionals ({len(position_notionals)}) and asset_volatilities "
+                f"({len(asset_volatilities)}) must have the same length"
+            )
         z_score = 2.326 if confidence_level == 0.99 else 1.645  # 99% or 95%
         
         # Portfolio standard deviation approximation

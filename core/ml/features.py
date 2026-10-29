@@ -161,5 +161,5 @@ class FeatureEngineer:
         labels[forward_returns >= threshold_pct] = 1
         labels[forward_returns <= -threshold_pct] = 0
         labels[(forward_returns < threshold_pct) & (forward_returns > -threshold_pct)] = -1
-        labels.fillna(-1, inplace=True)
+        labels = labels.fillna(-1)
         return labels

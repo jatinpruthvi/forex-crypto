@@ -114,65 +114,69 @@ class BacktestSimulator:
 
                 # LONG Position Execution
                 if direction == 1:
+                    sl_bar_start = t["sl"]
+                    # Conservative same-bar resolution against the bar-START stop:
+                    # if the stop traded this bar, it fills before any TP/partial.
+                    if current_low <= sl_bar_start:
+                        exit_trade = True
+                        exit_price = sl_bar_start * (1.0 - self.slippage)
+                        exit_reason = "SL"
+                    else:
+                        # Partial TP at 2.0x ATR with Breakeven Profit Buffer (+0.25x ATR locked)
+                        if partial_take_profit and not partial_taken and current_high >= entry_p + (current_atr * 2.0):
+                            t["partial_taken"] = True
+                            partial_gain = ((entry_p + current_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
+                            partial_fee = (size_usd * 0.5) * self.taker_fee
+                            capital += (partial_gain - partial_fee)
+                            t["size_usd"] *= 0.5
+                            t["sl"] = max(sl_bar_start, entry_p + (current_atr * 0.25))  # breakeven + buffer
+
+                        if current_high >= tp:
+                            exit_trade = True
+                            exit_price = tp * (1.0 - self.slippage)
+                            exit_reason = "TP"
+
+                    # Trailing ratchet: updated from this bar's high but only
+                    # effective for FUTURE bars (no same-bar ratchet-then-trigger).
                     if current_high > peak_p:
                         t["peak_p"] = current_high
                         peak_p = current_high
-
-                    # Trailing ratchet
-                    if effective_trail_mult:
+                    if effective_trail_mult and not exit_trade:
                         trail_candidate = peak_p - (current_atr * effective_trail_mult)
-                        if trail_candidate > sl:
+                        if trail_candidate > t["sl"]:
                             t["sl"] = trail_candidate
-                            sl = trail_candidate
-
-                    # Partial TP at 2.0x ATR with Breakeven Profit Buffer (+0.25x ATR locked)
-                    if partial_take_profit and not partial_taken and current_high >= entry_p + (current_atr * 2.0):
-                        t["partial_taken"] = True
-                        partial_gain = ((entry_p + current_atr * 2.0) - entry_p) / entry_p * (size_usd * 0.5)
-                        partial_fee = (size_usd * 0.5) * self.taker_fee
-                        capital += (partial_gain - partial_fee)
-                        t["size_usd"] *= 0.5
-                        t["sl"] = max(sl, entry_p + (current_atr * 0.25))  # Lock in breakeven + buffer profit
-
-                    # Check Take Profit then Stop Loss
-                    if current_high >= tp:
-                        exit_trade = True
-                        exit_price = tp * (1.0 - self.slippage)
-                        exit_reason = "TP"
-                    elif current_low <= sl:
-                        exit_trade = True
-                        exit_price = sl * (1.0 - self.slippage)
-                        exit_reason = "SL"
 
                 # SHORT Position Execution
                 elif direction == -1:
+                    sl_bar_start = t["sl"]
+                    # Conservative same-bar resolution against the bar-START stop.
+                    if current_high >= sl_bar_start:
+                        exit_trade = True
+                        exit_price = sl_bar_start * (1.0 + self.slippage)
+                        exit_reason = "SL"
+                    else:
+                        # Partial TP at 2.0x ATR with Breakeven Profit Buffer (-0.25x ATR locked)
+                        if partial_take_profit and not partial_taken and current_low <= entry_p - (current_atr * 2.0):
+                            t["partial_taken"] = True
+                            partial_gain = (entry_p - (entry_p - current_atr * 2.0)) / entry_p * (size_usd * 0.5)
+                            partial_fee = (size_usd * 0.5) * self.taker_fee
+                            capital += (partial_gain - partial_fee)
+                            t["size_usd"] *= 0.5
+                            t["sl"] = min(sl_bar_start, entry_p - (current_atr * 0.25))
+
+                        if current_low <= tp:
+                            exit_trade = True
+                            exit_price = tp * (1.0 + self.slippage)
+                            exit_reason = "TP"
+
+                    # Trailing ratchet for future bars only.
                     if current_low < peak_p:
                         t["peak_p"] = current_low
                         peak_p = current_low
-
-                    if effective_trail_mult:
+                    if effective_trail_mult and not exit_trade:
                         trail_candidate = peak_p + (current_atr * effective_trail_mult)
-                        if trail_candidate < sl:
+                        if trail_candidate < t["sl"]:
                             t["sl"] = trail_candidate
-                            sl = trail_candidate
-
-                    # Partial TP at 2.0x ATR with Breakeven Profit Buffer (-0.25x ATR locked)
-                    if partial_take_profit and not partial_taken and current_low <= entry_p - (current_atr * 2.0):
-                        t["partial_taken"] = True
-                        partial_gain = (entry_p - (entry_p - current_atr * 2.0)) / entry_p * (size_usd * 0.5)
-                        partial_fee = (size_usd * 0.5) * self.taker_fee
-                        capital += (partial_gain - partial_fee)
-                        t["size_usd"] *= 0.5
-                        t["sl"] = min(sl, entry_p - (current_atr * 0.25))
-
-                    if current_low <= tp:
-                        exit_trade = True
-                        exit_price = tp * (1.0 + self.slippage)
-                        exit_reason = "TP"
-                    elif current_high >= sl:
-                        exit_trade = True
-                        exit_price = sl * (1.0 + self.slippage)
-                        exit_reason = "SL"
 
                 if exit_trade:
                     pnl_pct = (exit_price - entry_p) / entry_p if direction == 1 else (entry_p - exit_price) / entry_p

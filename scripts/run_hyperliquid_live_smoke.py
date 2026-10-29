@@ -22,7 +22,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.execution.live_adapter import ExchangeCredentialManager, SizingViabilityGate
+from core.execution.live_adapter import SizingViabilityGate
 
 UNIVERSE = [
     ("BTC/USDT", 110000.0, 2420.0),

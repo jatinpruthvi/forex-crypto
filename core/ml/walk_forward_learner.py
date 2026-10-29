@@ -102,8 +102,10 @@ class WalkForwardLearner:
 
         # Safety Fallback Guard: Only deploy if model maintains positive edge
         if acc >= self.min_acceptable_accuracy and auc >= 0.50:
-            os.makedirs(os.path.dirname(self.model_path) or '.', exist_ok=True)
-            joblib.dump(candidate_model, self.model_path)
+            _mp = self.model_path if os.path.isabs(self.model_path) else os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), self.model_path)
+            os.makedirs(os.path.dirname(_mp) or '.', exist_ok=True)
+            joblib.dump(candidate_model, _mp)
             logger.info(f"WalkForwardLearner: Deployed new model (Acc: {acc:.2f}, AUC: {auc:.2f})")
             return {
                 "status": "success",
