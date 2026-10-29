@@ -1,0 +1,2507 @@
+{
+  "Q_NOFVG": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 609.7328271934647,
+      "net_profit": -390.2671728065353,
+      "net_roi_total": -39.026717280653536,
+      "monthly_roi": -1.4960514718860174,
+      "max_drawdown": 62.779170206419884,
+      "total_trades": 146,
+      "win_rate": 20.54794520547945,
+      "profit_factor": 0.7891702377655392,
+      "coin_breakdown": {
+        "XMR/USDT": {
+          "trades": 13,
+          "profit": -141.2091457251127,
+          "wins": 4
+        },
+        "NEO/USDT": {
+          "trades": 7,
+          "profit": -135.99868564867162,
+          "wins": 0
+        },
+        "ATOM/USDT": {
+          "trades": 15,
+          "profit": -186.15168490975498,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 6,
+          "profit": -50.551830399353705,
+          "wins": 1
+        },
+        "BNB/USDT": {
+          "trades": 9,
+          "profit": -62.759538007453344,
+          "wins": 3
+        },
+        "DOGE/USDT": {
+          "trades": 5,
+          "profit": -6.54980995071768,
+          "wins": 1
+        },
+        "ETC/USDT": {
+          "trades": 6,
+          "profit": 0.42113318263444377,
+          "wins": 2
+        },
+        "EOS/USDT": {
+          "trades": 5,
+          "profit": -35.89210246774562,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 9,
+          "profit": -70.62394560652294,
+          "wins": 2
+        },
+        "LTC/USDT": {
+          "trades": 3,
+          "profit": -19.102239677850434,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 10,
+          "profit": 201.8992003665002,
+          "wins": 4
+        },
+        "BTC/USDT": {
+          "trades": 9,
+          "profit": -5.130956821021041,
+          "wins": 1
+        },
+        "CHZ/USDT": {
+          "trades": 6,
+          "profit": 12.331518035448763,
+          "wins": 1
+        },
+        "XTZ/USDT": {
+          "trades": 7,
+          "profit": -115.49012057377652,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 5,
+          "profit": -83.43661325666685,
+          "wins": 0
+        },
+        "MATIC/USDT": {
+          "trades": 10,
+          "profit": 520.8539127320524,
+          "wins": 4
+        },
+        "VET/USDT": {
+          "trades": 5,
+          "profit": -35.34571687576973,
+          "wins": 1
+        },
+        "IOTA/USDT": {
+          "trades": 5,
+          "profit": -80.37576351372748,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 4,
+          "profit": -50.85433379651145,
+          "wins": 1
+        },
+        "XRP/USDT": {
+          "trades": 4,
+          "profit": -27.103121815084393,
+          "wins": 1
+        },
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": -17.498859606586688,
+          "wins": 1
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1020.0726692360904,
+      "net_profit": 20.072669236090405,
+      "net_roi_total": 2.0072669236090404,
+      "monthly_roi": 0.1166211077711754,
+      "max_drawdown": 39.60503626753143,
+      "total_trades": 78,
+      "win_rate": 21.794871794871796,
+      "profit_factor": 1.00284601270091,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 5,
+          "profit": -113.59985651607313,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 4,
+          "profit": 13.136242487286694,
+          "wins": 2
+        },
+        "XMR/USDT": {
+          "trades": 7,
+          "profit": -84.92386915598972,
+          "wins": 2
+        },
+        "BNB/USDT": {
+          "trades": 4,
+          "profit": -33.384804869390244,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 1,
+          "profit": 3.7995460832072148,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 2,
+          "profit": -51.008270989855035,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 6,
+          "profit": -68.23141680652326,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 1,
+          "profit": -13.266202221980315,
+          "wins": 0
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 253.10582589950585,
+          "wins": 3
+        },
+        "BTC/USDT": {
+          "trades": 6,
+          "profit": 21.72272442926897,
+          "wins": 1
+        },
+        "CHZ/USDT": {
+          "trades": 3,
+          "profit": 51.69650955285424,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -29.980515630279726,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 4,
+          "profit": -81.93263856685716,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -74.12134933991591,
+          "wins": 0
+        },
+        "ATOM/USDT": {
+          "trades": 8,
+          "profit": -88.08095985656554,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 6,
+          "profit": 439.5813277903652,
+          "wins": 2
+        },
+        "VET/USDT": {
+          "trades": 4,
+          "profit": -23.72844787399744,
+          "wins": 1
+        },
+        "IOTA/USDT": {
+          "trades": 3,
+          "profit": -59.42752321897666,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 3,
+          "profit": -57.94065750035443,
+          "wins": 0
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 2
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 659.9285063481275,
+      "net_profit": -340.0714936518725,
+      "net_roi_total": -34.00714936518725,
+      "monthly_roi": -2.778172912597343,
+      "max_drawdown": 39.52390943541406,
+      "total_trades": 58,
+      "win_rate": 18.96551724137931,
+      "profit_factor": 0.4519674166175896,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": -10.448329134162247,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 6,
+          "profit": -93.23157562596091,
+          "wins": 0
+        },
+        "XMR/USDT": {
+          "trades": 5,
+          "profit": -12.520910091275175,
+          "wins": 2
+        },
+        "ETC/USDT": {
+          "trades": 2,
+          "profit": 1.6128484107733634,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 3,
+          "profit": 5.639970130907908,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 4,
+          "profit": -36.40708281772703,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -41.410063559329565,
+          "wins": 0
+        },
+        "BNB/USDT": {
+          "trades": 4,
+          "profit": -2.3069220401562536,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": -63.03044703807117,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 4,
+          "profit": 101.00662773581078,
+          "wins": 2
+        },
+        "CHZ/USDT": {
+          "trades": 3,
+          "profit": -41.081220766832615,
+          "wins": 0
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": -28.397047103731126,
+          "wins": 0
+        },
+        "XRP/USDT": {
+          "trades": 2,
+          "profit": -24.383770312865337,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 3,
+          "profit": -4.691527473194999,
+          "wins": 1
+        },
+        "VET/USDT": {
+          "trades": 1,
+          "profit": -13.302605096623612,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 2,
+          "profit": -24.498441677670662,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 1,
+          "profit": -12.359196666935542,
+          "wins": 0
+        },
+        "LTC/USDT": {
+          "trades": 2,
+          "profit": -6.724031231225819,
+          "wins": 1
+        },
+        "XTZ/USDT": {
+          "trades": 2,
+          "profit": -22.658184420018898,
+          "wins": 0
+        },
+        "NEO/USDT": {
+          "trades": 1,
+          "profit": -11.158980366231948,
+          "wins": 0
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1000.088319646074,
+      "net_profit": 0.08831964607395548,
+      "net_roi_total": 0.008831964607395548,
+      "monthly_roi": 0.001619356799786864,
+      "max_drawdown": 51.37378391191139,
+      "total_trades": 110,
+      "win_rate": 20.909090909090907,
+      "profit_factor": 1.0076671603135194,
+      "coin_breakdown": {
+        "LINK/USDT": {
+          "trades": 17,
+          "profit": -295.98166037049623,
+          "wins": 3
+        },
+        "ADA/USDT": {
+          "trades": 12,
+          "profit": 297.19727792575753,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 14,
+          "profit": 145.39999996900232,
+          "wins": 3
+        },
+        "ETH/USDT": {
+          "trades": 17,
+          "profit": -65.13553723903205,
+          "wins": 3
+        },
+        "XRP/USDT": {
+          "trades": 20,
+          "profit": -108.02161530924295,
+          "wins": 4
+        },
+        "LTC/USDT": {
+          "trades": 12,
+          "profit": 44.00219380850626,
+          "wins": 4
+        },
+        "DOGE/USDT": {
+          "trades": 9,
+          "profit": -18.541867175358092,
+          "wins": 2
+        },
+        "BNB/USDT": {
+          "trades": 9,
+          "profit": 13.066611329078242,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  },
+  "Q_TIGHT_TP": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1453.266371258603,
+      "net_profit": 453.26637125860293,
+      "net_roi_total": 45.326637125860294,
+      "monthly_roi": 1.1454449127432875,
+      "max_drawdown": 36.44056331037806,
+      "total_trades": 179,
+      "win_rate": 27.37430167597765,
+      "profit_factor": 1.218470444793709,
+      "coin_breakdown": {
+        "XMR/USDT": {
+          "trades": 16,
+          "profit": 114.61654658987301,
+          "wins": 5
+        },
+        "NEO/USDT": {
+          "trades": 10,
+          "profit": 217.82993997729594,
+          "wins": 2
+        },
+        "ATOM/USDT": {
+          "trades": 16,
+          "profit": -168.2727683998718,
+          "wins": 1
+        },
+        "ALGO/USDT": {
+          "trades": 6,
+          "profit": -71.1992041952501,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 4,
+          "profit": -42.46142842862531,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 4,
+          "profit": 391.41283454195724,
+          "wins": 3
+        },
+        "ETC/USDT": {
+          "trades": 7,
+          "profit": -16.08368752252433,
+          "wins": 2
+        },
+        "BNB/USDT": {
+          "trades": 8,
+          "profit": 7.133143651305343,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 15,
+          "profit": -46.34149400407066,
+          "wins": 3
+        },
+        "VET/USDT": {
+          "trades": 7,
+          "profit": -116.21392166021718,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 8,
+          "profit": 85.44988434036574,
+          "wins": 5
+        },
+        "CHZ/USDT": {
+          "trades": 9,
+          "profit": 163.96462381713803,
+          "wins": 3
+        },
+        "LINK/USDT": {
+          "trades": 10,
+          "profit": -78.81694574956883,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 6,
+          "profit": -93.78398827254003,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 7,
+          "profit": 2.787548535732256,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 12,
+          "profit": 28.22323558736776,
+          "wins": 5
+        },
+        "XRP/USDT": {
+          "trades": 5,
+          "profit": -54.0238722559115,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 8,
+          "profit": -72.22116006695771,
+          "wins": 3
+        },
+        "EOS/USDT": {
+          "trades": 6,
+          "profit": -63.31661405243381,
+          "wins": 1
+        },
+        "TRX/USDT": {
+          "trades": 4,
+          "profit": -6.366032733780349,
+          "wins": 2
+        },
+        "ETH/USDT": {
+          "trades": 11,
+          "profit": 263.9408916761046,
+          "wins": 7
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 870.7901815609125,
+      "net_profit": -129.20981843908748,
+      "net_roi_total": -12.920981843908748,
+      "monthly_roi": -0.8081152618767518,
+      "max_drawdown": 29.823994943232083,
+      "total_trades": 103,
+      "win_rate": 23.300970873786408,
+      "profit_factor": 0.8932802394092388,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 7,
+          "profit": 185.9048103202638,
+          "wins": 1
+        },
+        "XTZ/USDT": {
+          "trades": 6,
+          "profit": -89.88663478787736,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 7,
+          "profit": -15.686034538403655,
+          "wins": 2
+        },
+        "XMR/USDT": {
+          "trades": 7,
+          "profit": -27.271205610810455,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 5,
+          "profit": 53.305422061421766,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 12,
+          "profit": -21.681826454058175,
+          "wins": 2
+        },
+        "VET/USDT": {
+          "trades": 5,
+          "profit": -76.8094744632478,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 4,
+          "profit": 11.916953629010681,
+          "wins": 2
+        },
+        "CHZ/USDT": {
+          "trades": 5,
+          "profit": -33.63219024096879,
+          "wins": 1
+        },
+        "LINK/USDT": {
+          "trades": 5,
+          "profit": -36.831981658707356,
+          "wins": 1
+        },
+        "IOTA/USDT": {
+          "trades": 4,
+          "profit": -57.40427640627742,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 1,
+          "profit": -13.097142698212698,
+          "wins": 0
+        },
+        "MATIC/USDT": {
+          "trades": 7,
+          "profit": -3.4629621904988035,
+          "wins": 2
+        },
+        "XRP/USDT": {
+          "trades": 1,
+          "profit": -13.008912915492548,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 6,
+          "profit": -81.96996621654036,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 8,
+          "profit": -51.52546193067025,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 1,
+          "profit": -14.036686885073701,
+          "wins": 0
+        },
+        "XLM/USDT": {
+          "trades": 1,
+          "profit": -13.14121183768642,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 3,
+          "profit": -29.2536602298283,
+          "wins": 0
+        },
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": 7.117970338904712,
+          "wins": 2
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 189.23231618884537,
+          "wins": 3
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 2
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1644.2033431505006,
+      "net_profit": 644.2033431505006,
+      "net_roi_total": 64.42033431505006,
+      "monthly_roi": 3.4283327954622855,
+      "max_drawdown": 25.041389711919003,
+      "total_trades": 68,
+      "win_rate": 35.294117647058826,
+      "profit_factor": 1.7049443547678151,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 2,
+          "profit": -2.1137007847032123,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 5,
+          "profit": -85.39595596081345,
+          "wins": 0
+        },
+        "XMR/USDT": {
+          "trades": 8,
+          "profit": 194.96393277314323,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 3,
+          "profit": -68.3536034881656,
+          "wins": 0
+        },
+        "CHZ/USDT": {
+          "trades": 4,
+          "profit": 272.59251756230117,
+          "wins": 2
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 62.03549547296795,
+          "wins": 3
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -67.35498142876128,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 5,
+          "profit": -70.39230802915326,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 2,
+          "profit": 14.733813786462857,
+          "wins": 2
+        },
+        "XRP/USDT": {
+          "trades": 4,
+          "profit": -44.63220417484781,
+          "wins": 0
+        },
+        "LTC/USDT": {
+          "trades": 4,
+          "profit": 88.83023105695496,
+          "wins": 3
+        },
+        "NEO/USDT": {
+          "trades": 2,
+          "profit": -57.521774130113556,
+          "wins": 0
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": -24.931302479432233,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 5,
+          "profit": 42.85223458125031,
+          "wins": 3
+        },
+        "XLM/USDT": {
+          "trades": 2,
+          "profit": -30.47763562752754,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 2,
+          "profit": 122.44622540237474,
+          "wins": 1
+        },
+        "VET/USDT": {
+          "trades": 2,
+          "profit": -39.90363226569182,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": 376.39737060626686,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 2,
+          "profit": -55.292506592809254,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 2,
+          "profit": 5.512407815359083,
+          "wins": 1
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 853.9282140698817,
+      "net_profit": -146.07178593011827,
+      "net_roi_total": -14.607178593011827,
+      "monthly_roi": -2.8538645869156998,
+      "max_drawdown": 47.6655624245246,
+      "total_trades": 140,
+      "win_rate": 22.142857142857142,
+      "profit_factor": 0.901195435640795,
+      "coin_breakdown": {
+        "LINK/USDT": {
+          "trades": 21,
+          "profit": -93.29500171226182,
+          "wins": 4
+        },
+        "ADA/USDT": {
+          "trades": 16,
+          "profit": -154.42945793655682,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 16,
+          "profit": 276.81748352951575,
+          "wins": 7
+        },
+        "ETH/USDT": {
+          "trades": 15,
+          "profit": 34.861519742485996,
+          "wins": 4
+        },
+        "XRP/USDT": {
+          "trades": 22,
+          "profit": -200.15382261434814,
+          "wins": 3
+        },
+        "LTC/USDT": {
+          "trades": 14,
+          "profit": -14.66755296667702,
+          "wins": 3
+        },
+        "DOGE/USDT": {
+          "trades": 20,
+          "profit": 79.96193572842597,
+          "wins": 6
+        },
+        "BNB/USDT": {
+          "trades": 16,
+          "profit": -64.17994596986196,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  },
+  "Q_MACRO_SIDE": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 690.0130848757609,
+      "net_profit": -309.9869151242391,
+      "net_roi_total": -30.99869151242391,
+      "monthly_roi": -1.124131743361001,
+      "max_drawdown": 51.9881514727622,
+      "total_trades": 138,
+      "win_rate": 20.28985507246377,
+      "profit_factor": 0.7863381317980439,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 7,
+          "profit": -112.51849020758833,
+          "wins": 0
+        },
+        "BNB/USDT": {
+          "trades": 9,
+          "profit": -111.02844046577941,
+          "wins": 1
+        },
+        "ETC/USDT": {
+          "trades": 5,
+          "profit": 15.668968529731,
+          "wins": 2
+        },
+        "XMR/USDT": {
+          "trades": 13,
+          "profit": -1.587795428309093,
+          "wins": 3
+        },
+        "BTC/USDT": {
+          "trades": 10,
+          "profit": 32.397145981594925,
+          "wins": 2
+        },
+        "VET/USDT": {
+          "trades": 3,
+          "profit": -33.27549444229058,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 5,
+          "profit": -60.961955302844665,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 5,
+          "profit": 9.760923348856878,
+          "wins": 3
+        },
+        "LTC/USDT": {
+          "trades": 5,
+          "profit": 120.81765560907573,
+          "wins": 3
+        },
+        "ETH/USDT": {
+          "trades": 8,
+          "profit": 65.72236716196198,
+          "wins": 2
+        },
+        "DOGE/USDT": {
+          "trades": 4,
+          "profit": -26.04811213158233,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 13,
+          "profit": 40.509234199229624,
+          "wins": 4
+        },
+        "LINK/USDT": {
+          "trades": 7,
+          "profit": 17.574656940755517,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 5,
+          "profit": -78.27715680331242,
+          "wins": 0
+        },
+        "ATOM/USDT": {
+          "trades": 10,
+          "profit": -93.5039364877418,
+          "wins": 0
+        },
+        "CHZ/USDT": {
+          "trades": 5,
+          "profit": 77.3478026468252,
+          "wins": 2
+        },
+        "EOS/USDT": {
+          "trades": 7,
+          "profit": -62.40689663124611,
+          "wins": 1
+        },
+        "XTZ/USDT": {
+          "trades": 9,
+          "profit": -45.840499011994325,
+          "wins": 1
+        },
+        "TRX/USDT": {
+          "trades": 4,
+          "profit": -53.20573338284165,
+          "wins": 0
+        },
+        "XRP/USDT": {
+          "trades": 3,
+          "profit": -0.6304207086720912,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 1,
+          "profit": -9.985324368379498,
+          "wins": 0
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 676.5348452000317,
+      "net_profit": -323.46515479996833,
+      "net_roi_total": -32.34651547999683,
+      "monthly_roi": -2.265673751911612,
+      "max_drawdown": 43.15527176914665,
+      "total_trades": 78,
+      "win_rate": 16.666666666666664,
+      "profit_factor": 0.6769018867837657,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 4,
+          "profit": -90.42369783970545,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 6,
+          "profit": -77.11464767392471,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 4,
+          "profit": 5.697007257762829,
+          "wins": 2
+        },
+        "XMR/USDT": {
+          "trades": 7,
+          "profit": -67.49768297141384,
+          "wins": 1
+        },
+        "BNB/USDT": {
+          "trades": 6,
+          "profit": -59.01349668178289,
+          "wins": 1
+        },
+        "BTC/USDT": {
+          "trades": 7,
+          "profit": 56.90374520027017,
+          "wins": 2
+        },
+        "VET/USDT": {
+          "trades": 2,
+          "profit": -23.00564894570612,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 3,
+          "profit": -42.06535994887306,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 3,
+          "profit": 6.105808470506123,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 2,
+          "profit": 88.80404114563237,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 99.16182998607624,
+          "wins": 2
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -26.87752332411015,
+          "wins": 0
+        },
+        "MATIC/USDT": {
+          "trades": 10,
+          "profit": 51.04520166741702,
+          "wins": 3
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -60.03499305279216,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 4,
+          "profit": -72.91903987937371,
+          "wins": 0
+        },
+        "ATOM/USDT": {
+          "trades": 4,
+          "profit": -37.82957948679495,
+          "wins": 0
+        },
+        "CHZ/USDT": {
+          "trades": 2,
+          "profit": -27.26111643383375,
+          "wins": 0
+        },
+        "EOS/USDT": {
+          "trades": 1,
+          "profit": -15.396913727241245,
+          "wins": 0
+        },
+        "TRX/USDT": {
+          "trades": 2,
+          "profit": -34.79129424472327,
+          "wins": 0
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 2
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1160.0015973115355,
+      "net_profit": 160.00159731153553,
+      "net_roi_total": 16.000159731153555,
+      "monthly_roi": 1.011220230661647,
+      "max_drawdown": 25.5167028173789,
+      "total_trades": 58,
+      "win_rate": 32.758620689655174,
+      "profit_factor": 1.2414971409401587,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": -12.906790604447796,
+          "wins": 1
+        },
+        "BNB/USDT": {
+          "trades": 2,
+          "profit": -48.700191487012056,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 1,
+          "profit": 9.078963336538344,
+          "wins": 1
+        },
+        "XRP/USDT": {
+          "trades": 3,
+          "profit": 12.618012547460243,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": -17.998861588819217,
+          "wins": 1
+        },
+        "XMR/USDT": {
+          "trades": 5,
+          "profit": 142.28795228786538,
+          "wins": 2
+        },
+        "EOS/USDT": {
+          "trades": 6,
+          "profit": -88.88810496858923,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 3,
+          "profit": -13.017197161437812,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 4,
+          "profit": -55.30030127547796,
+          "wins": 0
+        },
+        "NEO/USDT": {
+          "trades": 4,
+          "profit": -66.49547683440176,
+          "wins": 0
+        },
+        "LTC/USDT": {
+          "trades": 3,
+          "profit": 70.09225941022206,
+          "wins": 2
+        },
+        "ETH/USDT": {
+          "trades": 4,
+          "profit": 116.41443113684844,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 1,
+          "profit": -16.255733781323972,
+          "wins": 0
+        },
+        "VET/USDT": {
+          "trades": 1,
+          "profit": -16.237841013777523,
+          "wins": 0
+        },
+        "MATIC/USDT": {
+          "trades": 3,
+          "profit": -4.412414315462934,
+          "wins": 2
+        },
+        "CHZ/USDT": {
+          "trades": 3,
+          "profit": 170.86946978119747,
+          "wins": 2
+        },
+        "LINK/USDT": {
+          "trades": 2,
+          "profit": -30.202569369751743,
+          "wins": 0
+        },
+        "ADA/USDT": {
+          "trades": 1,
+          "profit": -7.197967413640755,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 2,
+          "profit": 5.822708433763801,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 1,
+          "profit": -14.804027005986224,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 3,
+          "profit": 24.123298162157624,
+          "wins": 1
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1049.9367376366745,
+      "net_profit": 49.93673763667448,
+      "net_roi_total": 4.993673763667448,
+      "monthly_roi": 0.8975077057058023,
+      "max_drawdown": 49.002254355014266,
+      "total_trades": 98,
+      "win_rate": 20.408163265306122,
+      "profit_factor": 1.0379297347900804,
+      "coin_breakdown": {
+        "ETH/USDT": {
+          "trades": 12,
+          "profit": -76.62995808101886,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 9,
+          "profit": 107.43298042247648,
+          "wins": 3
+        },
+        "XRP/USDT": {
+          "trades": 14,
+          "profit": -118.51652414338423,
+          "wins": 2
+        },
+        "ADA/USDT": {
+          "trades": 13,
+          "profit": -215.80473886306387,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 8,
+          "profit": 58.81628865911546,
+          "wins": 2
+        },
+        "DOGE/USDT": {
+          "trades": 12,
+          "profit": 299.0323753844476,
+          "wins": 4
+        },
+        "LINK/USDT": {
+          "trades": 15,
+          "profit": -61.86546562546498,
+          "wins": 4
+        },
+        "BNB/USDT": {
+          "trades": 15,
+          "profit": 69.2249855468532,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  },
+  "Q_NOFVG_TIGHT": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1100.8921330009637,
+      "net_profit": 100.89213300096367,
+      "net_roi_total": 10.089213300096366,
+      "monthly_roi": 0.29329004879294907,
+      "max_drawdown": 50.86735500265955,
+      "total_trades": 182,
+      "win_rate": 27.472527472527474,
+      "profit_factor": 1.0359036019784178,
+      "coin_breakdown": {
+        "XMR/USDT": {
+          "trades": 15,
+          "profit": -89.55480688028659,
+          "wins": 5
+        },
+        "NEO/USDT": {
+          "trades": 8,
+          "profit": -131.48674698125717,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 16,
+          "profit": -200.9468748262157,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 8,
+          "profit": -76.15207387931206,
+          "wins": 1
+        },
+        "BNB/USDT": {
+          "trades": 11,
+          "profit": 74.65334827268823,
+          "wins": 4
+        },
+        "DOGE/USDT": {
+          "trades": 7,
+          "profit": 403.55282174435575,
+          "wins": 3
+        },
+        "ETC/USDT": {
+          "trades": 8,
+          "profit": 19.059227726074546,
+          "wins": 3
+        },
+        "BTC/USDT": {
+          "trades": 13,
+          "profit": -77.92933585216223,
+          "wins": 3
+        },
+        "CHZ/USDT": {
+          "trades": 10,
+          "profit": -1.4500436955402662,
+          "wins": 3
+        },
+        "LTC/USDT": {
+          "trades": 5,
+          "profit": 1.8551813100017718,
+          "wins": 2
+        },
+        "XTZ/USDT": {
+          "trades": 7,
+          "profit": -132.49068352488942,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 7,
+          "profit": -65.54507552088435,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 10,
+          "profit": 347.21444127631145,
+          "wins": 4
+        },
+        "ADA/USDT": {
+          "trades": 10,
+          "profit": -115.22796671916309,
+          "wins": 2
+        },
+        "MATIC/USDT": {
+          "trades": 12,
+          "profit": 569.1537698684983,
+          "wins": 6
+        },
+        "VET/USDT": {
+          "trades": 6,
+          "profit": -146.763929095994,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 4,
+          "profit": -64.49411963763069,
+          "wins": 1
+        },
+        "IOTA/USDT": {
+          "trades": 7,
+          "profit": -158.2111716033946,
+          "wins": 0
+        },
+        "TRX/USDT": {
+          "trades": 7,
+          "profit": -38.064993799376964,
+          "wins": 3
+        },
+        "ALGO/USDT": {
+          "trades": 7,
+          "profit": 13.800250276111388,
+          "wins": 4
+        },
+        "XRP/USDT": {
+          "trades": 4,
+          "profit": -34.90345189042364,
+          "wins": 1
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1185.3221158894107,
+      "net_profit": 185.32211588941072,
+      "net_roi_total": 18.532211588941074,
+      "monthly_roi": 1.0020621767145688,
+      "max_drawdown": 38.56650327061126,
+      "total_trades": 100,
+      "win_rate": 27.0,
+      "profit_factor": 1.1077155364652158,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 5,
+          "profit": -125.2045946843593,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 6,
+          "profit": 38.61337134172566,
+          "wins": 3
+        },
+        "XMR/USDT": {
+          "trades": 8,
+          "profit": -81.57466655422863,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 6,
+          "profit": 72.29438519549221,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 2,
+          "profit": -22.491842496825054,
+          "wins": 0
+        },
+        "BTC/USDT": {
+          "trades": 10,
+          "profit": -16.564727947891292,
+          "wins": 2
+        },
+        "CHZ/USDT": {
+          "trades": 6,
+          "profit": 54.57313825561396,
+          "wins": 3
+        },
+        "LTC/USDT": {
+          "trades": 2,
+          "profit": 19.423274204208557,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -32.14783896957709,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 5,
+          "profit": -100.00717453277603,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -48.79664588544596,
+          "wins": 0
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 385.3914540315293,
+          "wins": 3
+        },
+        "ADA/USDT": {
+          "trades": 7,
+          "profit": -103.53621069071094,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 9,
+          "profit": -57.70988004952692,
+          "wins": 2
+        },
+        "MATIC/USDT": {
+          "trades": 7,
+          "profit": 495.7572334612231,
+          "wins": 3
+        },
+        "VET/USDT": {
+          "trades": 4,
+          "profit": -99.0929923698711,
+          "wins": 1
+        },
+        "EOS/USDT": {
+          "trades": 1,
+          "profit": -53.41146314344552,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 5,
+          "profit": -116.97303891759918,
+          "wins": 0
+        },
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": 8.627054094850124,
+          "wins": 2
+        },
+        "ALGO/USDT": {
+          "trades": 3,
+          "profit": -39.92999153607498,
+          "wins": 1
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 1
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 926.4164905151671,
+      "net_profit": -73.58350948483292,
+      "net_roi_total": -7.358350948483292,
+      "monthly_roi": -0.5167847430854966,
+      "max_drawdown": 27.314145538244333,
+      "total_trades": 72,
+      "win_rate": 30.555555555555557,
+      "profit_factor": 0.898400103742971,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 4,
+          "profit": -32.71425487177639,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 6,
+          "profit": -122.71099776656014,
+          "wins": 0
+        },
+        "XMR/USDT": {
+          "trades": 6,
+          "profit": 35.3317363819877,
+          "wins": 3
+        },
+        "ETC/USDT": {
+          "trades": 2,
+          "profit": 8.302804243524706,
+          "wins": 2
+        },
+        "EOS/USDT": {
+          "trades": 3,
+          "profit": -2.878525921927068,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 5,
+          "profit": -8.182474511674586,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 4,
+          "profit": 267.38923771565004,
+          "wins": 2
+        },
+        "BNB/USDT": {
+          "trades": 4,
+          "profit": -2.093637258789764,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": -64.5120882152783,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 5,
+          "profit": 49.40578178856118,
+          "wins": 3
+        },
+        "CHZ/USDT": {
+          "trades": 4,
+          "profit": -64.13173464855406,
+          "wins": 0
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": -30.96012377942853,
+          "wins": 1
+        },
+        "XRP/USDT": {
+          "trades": 4,
+          "profit": -29.105462344425938,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 3,
+          "profit": -5.606365038793564,
+          "wins": 1
+        },
+        "ALGO/USDT": {
+          "trades": 3,
+          "profit": 64.36317460005337,
+          "wins": 2
+        },
+        "LINK/USDT": {
+          "trades": 2,
+          "profit": -0.7305849880429562,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 3,
+          "profit": -7.92872988676676,
+          "wins": 1
+        },
+        "VET/USDT": {
+          "trades": 2,
+          "profit": -54.43946543751197,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 2,
+          "profit": -47.40621017568597,
+          "wins": 0
+        },
+        "NEO/USDT": {
+          "trades": 1,
+          "profit": -15.879401714595753,
+          "wins": 0
+        },
+        "XTZ/USDT": {
+          "trades": 1,
+          "profit": -15.521751531225311,
+          "wins": 0
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 906.8846393636381,
+      "net_profit": -93.11536063636186,
+      "net_roi_total": -9.311536063636186,
+      "monthly_roi": -1.77618238340429,
+      "max_drawdown": 51.60239665036227,
+      "total_trades": 115,
+      "win_rate": 18.26086956521739,
+      "profit_factor": 0.9448521832545093,
+      "coin_breakdown": {
+        "LINK/USDT": {
+          "trades": 19,
+          "profit": -295.2334808024187,
+          "wins": 2
+        },
+        "ADA/USDT": {
+          "trades": 12,
+          "profit": 191.14183339842467,
+          "wins": 2
+        },
+        "BTC/USDT": {
+          "trades": 14,
+          "profit": 178.84751343660048,
+          "wins": 3
+        },
+        "ETH/USDT": {
+          "trades": 18,
+          "profit": -61.0670316258192,
+          "wins": 2
+        },
+        "XRP/USDT": {
+          "trades": 20,
+          "profit": -112.95850742146467,
+          "wins": 3
+        },
+        "LTC/USDT": {
+          "trades": 13,
+          "profit": 34.30503476266618,
+          "wins": 5
+        },
+        "DOGE/USDT": {
+          "trades": 11,
+          "profit": -57.831761203185124,
+          "wins": 2
+        },
+        "BNB/USDT": {
+          "trades": 8,
+          "profit": 40.31292272871107,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  },
+  "Q_TS12": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1114.5314200892326,
+      "net_profit": 114.5314200892326,
+      "net_roi_total": 11.45314200892326,
+      "monthly_roi": 0.33092290842160477,
+      "max_drawdown": 42.244221125769535,
+      "total_trades": 195,
+      "win_rate": 24.615384615384617,
+      "profit_factor": 1.044526678070887,
+      "coin_breakdown": {
+        "XMR/USDT": {
+          "trades": 19,
+          "profit": 79.72786878504402,
+          "wins": 6
+        },
+        "NEO/USDT": {
+          "trades": 12,
+          "profit": 140.35853214960784,
+          "wins": 4
+        },
+        "ATOM/USDT": {
+          "trades": 16,
+          "profit": -216.64279243514008,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 8,
+          "profit": -155.3123398767362,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 6,
+          "profit": -73.44299753718734,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 6,
+          "profit": 282.7378899859376,
+          "wins": 3
+        },
+        "ETC/USDT": {
+          "trades": 6,
+          "profit": 258.97674907125383,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 8,
+          "profit": -79.20304997164716,
+          "wins": 1
+        },
+        "BTC/USDT": {
+          "trades": 16,
+          "profit": 20.89070495195024,
+          "wins": 3
+        },
+        "VET/USDT": {
+          "trades": 6,
+          "profit": -51.57061395219587,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 8,
+          "profit": 65.93410754376065,
+          "wins": 3
+        },
+        "CHZ/USDT": {
+          "trades": 9,
+          "profit": -2.122947038241712,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 7,
+          "profit": -105.37910840962125,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 8,
+          "profit": -47.62105163007658,
+          "wins": 2
+        },
+        "XTZ/USDT": {
+          "trades": 9,
+          "profit": -8.372171521861176,
+          "wins": 2
+        },
+        "MATIC/USDT": {
+          "trades": 12,
+          "profit": 0.8459942596252894,
+          "wins": 4
+        },
+        "XRP/USDT": {
+          "trades": 7,
+          "profit": -59.43298603267831,
+          "wins": 2
+        },
+        "ADA/USDT": {
+          "trades": 7,
+          "profit": -20.68131802495398,
+          "wins": 2
+        },
+        "EOS/USDT": {
+          "trades": 8,
+          "profit": -115.59508761214127,
+          "wins": 1
+        },
+        "ETH/USDT": {
+          "trades": 12,
+          "profit": 245.44900305902337,
+          "wins": 7
+        },
+        "TRX/USDT": {
+          "trades": 5,
+          "profit": -61.60999160521767,
+          "wins": 1
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 997.9530360943961,
+      "net_profit": -2.0469639056038886,
+      "net_roi_total": -0.20469639056038885,
+      "monthly_roi": -0.012016295042238667,
+      "max_drawdown": 31.55542765376999,
+      "total_trades": 109,
+      "win_rate": 21.100917431192663,
+      "profit_factor": 0.9872016754883112,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 8,
+          "profit": 200.67897768814237,
+          "wins": 3
+        },
+        "XTZ/USDT": {
+          "trades": 7,
+          "profit": -93.7246102693163,
+          "wins": 1
+        },
+        "ETC/USDT": {
+          "trades": 5,
+          "profit": 233.14796890945772,
+          "wins": 2
+        },
+        "XMR/USDT": {
+          "trades": 9,
+          "profit": -46.984290470307,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 6,
+          "profit": -64.9116817439587,
+          "wins": 1
+        },
+        "BTC/USDT": {
+          "trades": 13,
+          "profit": 7.715377401579735,
+          "wins": 2
+        },
+        "VET/USDT": {
+          "trades": 4,
+          "profit": -38.554451275119874,
+          "wins": 0
+        },
+        "XLM/USDT": {
+          "trades": 3,
+          "profit": -26.538628169538573,
+          "wins": 0
+        },
+        "LTC/USDT": {
+          "trades": 3,
+          "profit": 71.49328633040996,
+          "wins": 1
+        },
+        "CHZ/USDT": {
+          "trades": 4,
+          "profit": -47.93780048576574,
+          "wins": 0
+        },
+        "IOTA/USDT": {
+          "trades": 5,
+          "profit": -74.0063295720527,
+          "wins": 0
+        },
+        "LINK/USDT": {
+          "trades": 3,
+          "profit": 1.5727570280503667,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -26.55681933827943,
+          "wins": 0
+        },
+        "MATIC/USDT": {
+          "trades": 8,
+          "profit": 5.019535441461226,
+          "wins": 3
+        },
+        "XRP/USDT": {
+          "trades": 2,
+          "profit": -11.801700549520708,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 5,
+          "profit": -63.794242638689205,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 8,
+          "profit": -110.85487584690027,
+          "wins": 0
+        },
+        "EOS/USDT": {
+          "trades": 3,
+          "profit": -66.95932277944456,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 4,
+          "profit": -82.79778686199731,
+          "wins": 0
+        },
+        "ETH/USDT": {
+          "trades": 5,
+          "profit": 233.63591648798956,
+          "wins": 3
+        },
+        "TRX/USDT": {
+          "trades": 2,
+          "profit": -14.518427662747131,
+          "wins": 1
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 2
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1296.3196670356879,
+      "net_profit": 296.31966703568787,
+      "net_roi_total": 29.631966703568786,
+      "monthly_roi": 1.7749039572923841,
+      "max_drawdown": 25.31225509437639,
+      "total_trades": 75,
+      "win_rate": 30.666666666666664,
+      "profit_factor": 1.2708458004986574,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 4,
+          "profit": -57.517316567633245,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 6,
+          "profit": -100.14271249249086,
+          "wins": 0
+        },
+        "XMR/USDT": {
+          "trades": 9,
+          "profit": 218.54037092906415,
+          "wins": 3
+        },
+        "BNB/USDT": {
+          "trades": 2,
+          "profit": -49.29783458559979,
+          "wins": 0
+        },
+        "CHZ/USDT": {
+          "trades": 5,
+          "profit": 100.16192922193133,
+          "wins": 2
+        },
+        "ETH/USDT": {
+          "trades": 6,
+          "profit": 8.15917716024557,
+          "wins": 3
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -60.3942474258114,
+          "wins": 0
+        },
+        "EOS/USDT": {
+          "trades": 5,
+          "profit": -71.53332112839051,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 2,
+          "profit": 91.19319834162923,
+          "wins": 1
+        },
+        "XRP/USDT": {
+          "trades": 5,
+          "profit": -53.175945809342124,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 5,
+          "profit": 12.84497428880817,
+          "wins": 3
+        },
+        "NEO/USDT": {
+          "trades": 3,
+          "profit": -29.21254358925895,
+          "wins": 1
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": 17.841620346217084,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 4,
+          "profit": -5.835727701438936,
+          "wins": 1
+        },
+        "XLM/USDT": {
+          "trades": 2,
+          "profit": -41.764398329726355,
+          "wins": 0
+        },
+        "VET/USDT": {
+          "trades": 2,
+          "profit": -16.127147829650507,
+          "wins": 1
+        },
+        "XTZ/USDT": {
+          "trades": 2,
+          "profit": 89.4770685660111,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": 316.33978809635323,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 2,
+          "profit": -56.29141785385485,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 2,
+          "profit": -38.54075756329425,
+          "wins": 1
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 999.0809685679686,
+      "net_profit": -0.9190314320313746,
+      "net_roi_total": -0.09190314320313746,
+      "monthly_roi": -0.01685754349580737,
+      "max_drawdown": 45.452525137995586,
+      "total_trades": 151,
+      "win_rate": 25.82781456953642,
+      "profit_factor": 1.0084437316837778,
+      "coin_breakdown": {
+        "LINK/USDT": {
+          "trades": 22,
+          "profit": -93.55912223107154,
+          "wins": 5
+        },
+        "ADA/USDT": {
+          "trades": 17,
+          "profit": 268.88865256056346,
+          "wins": 5
+        },
+        "BTC/USDT": {
+          "trades": 16,
+          "profit": 393.6680968726785,
+          "wins": 8
+        },
+        "ETH/USDT": {
+          "trades": 18,
+          "profit": -197.51212934501947,
+          "wins": 3
+        },
+        "XRP/USDT": {
+          "trades": 29,
+          "profit": -143.6126823792202,
+          "wins": 8
+        },
+        "LTC/USDT": {
+          "trades": 15,
+          "profit": -54.312943972098594,
+          "wins": 4
+        },
+        "DOGE/USDT": {
+          "trades": 19,
+          "profit": -4.697844401384495,
+          "wins": 4
+        },
+        "BNB/USDT": {
+          "trades": 15,
+          "profit": -154.95805847666466,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  },
+  "Q_TS8": {
+    "full": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 2264.0623910965983,
+      "net_profit": 1264.0623910965983,
+      "net_roi_total": 126.40623910965982,
+      "monthly_roi": 2.5209750794151553,
+      "max_drawdown": 47.202401266648906,
+      "total_trades": 229,
+      "win_rate": 31.4410480349345,
+      "profit_factor": 1.302654082265419,
+      "coin_breakdown": {
+        "XMR/USDT": {
+          "trades": 21,
+          "profit": -30.708499304101444,
+          "wins": 8
+        },
+        "NEO/USDT": {
+          "trades": 13,
+          "profit": 397.5729356355782,
+          "wins": 4
+        },
+        "ATOM/USDT": {
+          "trades": 16,
+          "profit": -343.29234436768354,
+          "wins": 0
+        },
+        "ALGO/USDT": {
+          "trades": 13,
+          "profit": 351.0843929342156,
+          "wins": 5
+        },
+        "BNB/USDT": {
+          "trades": 12,
+          "profit": 48.363679961386204,
+          "wins": 4
+        },
+        "TRX/USDT": {
+          "trades": 7,
+          "profit": -93.87324434220105,
+          "wins": 3
+        },
+        "XLM/USDT": {
+          "trades": 5,
+          "profit": -93.12357199096085,
+          "wins": 0
+        },
+        "ETC/USDT": {
+          "trades": 7,
+          "profit": 76.47773681152407,
+          "wins": 4
+        },
+        "BTC/USDT": {
+          "trades": 15,
+          "profit": -45.86745524251298,
+          "wins": 4
+        },
+        "ADA/USDT": {
+          "trades": 10,
+          "profit": -131.88328712203642,
+          "wins": 3
+        },
+        "VET/USDT": {
+          "trades": 8,
+          "profit": 33.26666202517639,
+          "wins": 2
+        },
+        "LTC/USDT": {
+          "trades": 11,
+          "profit": 4.935458095997085,
+          "wins": 4
+        },
+        "CHZ/USDT": {
+          "trades": 12,
+          "profit": 390.9343967728305,
+          "wins": 4
+        },
+        "LINK/USDT": {
+          "trades": 8,
+          "profit": -112.04479629065138,
+          "wins": 2
+        },
+        "XRP/USDT": {
+          "trades": 9,
+          "profit": 110.35299895925696,
+          "wins": 3
+        },
+        "IOTA/USDT": {
+          "trades": 8,
+          "profit": -198.03358473075264,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 6,
+          "profit": 397.23448280601076,
+          "wins": 2
+        },
+        "XTZ/USDT": {
+          "trades": 12,
+          "profit": 8.93859068068889,
+          "wins": 4
+        },
+        "ETH/USDT": {
+          "trades": 16,
+          "profit": 677.260108598418,
+          "wins": 10
+        },
+        "MATIC/USDT": {
+          "trades": 13,
+          "profit": -85.21093532884828,
+          "wins": 4
+        },
+        "EOS/USDT": {
+          "trades": 7,
+          "profit": -125.16566425882336,
+          "wins": 2
+        }
+      },
+      "duration_months": 32.82135523613963,
+      "open_positions_at_end": 2
+    },
+    "early": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 2110.1644221400734,
+      "net_profit": 1110.1644221400734,
+      "net_roi_total": 111.01644221400736,
+      "monthly_roi": 4.476831883438814,
+      "max_drawdown": 34.27916522114827,
+      "total_trades": 126,
+      "win_rate": 32.53968253968254,
+      "profit_factor": 1.415010276531179,
+      "coin_breakdown": {
+        "NEO/USDT": {
+          "trades": 8,
+          "profit": 587.6101614228206,
+          "wins": 4
+        },
+        "XTZ/USDT": {
+          "trades": 10,
+          "profit": -180.2334093297835,
+          "wins": 2
+        },
+        "ETC/USDT": {
+          "trades": 6,
+          "profit": 67.53698485494043,
+          "wins": 3
+        },
+        "XMR/USDT": {
+          "trades": 10,
+          "profit": -226.39658452986356,
+          "wins": 4
+        },
+        "BNB/USDT": {
+          "trades": 6,
+          "profit": 113.25923643780364,
+          "wins": 3
+        },
+        "BTC/USDT": {
+          "trades": 12,
+          "profit": -32.32411672155268,
+          "wins": 3
+        },
+        "ADA/USDT": {
+          "trades": 8,
+          "profit": -78.98641549110711,
+          "wins": 3
+        },
+        "VET/USDT": {
+          "trades": 4,
+          "profit": 84.2645375753857,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 4,
+          "profit": 10.174676226769478,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 3,
+          "profit": -60.23796090943675,
+          "wins": 0
+        },
+        "CHZ/USDT": {
+          "trades": 7,
+          "profit": 16.113501032061272,
+          "wins": 1
+        },
+        "ALGO/USDT": {
+          "trades": 6,
+          "profit": 582.6207874269024,
+          "wins": 3
+        },
+        "LINK/USDT": {
+          "trades": 4,
+          "profit": -50.797129381432995,
+          "wins": 1
+        },
+        "XRP/USDT": {
+          "trades": 3,
+          "profit": 260.30406827852704,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 5,
+          "profit": -130.48182906448497,
+          "wins": 0
+        },
+        "DOGE/USDT": {
+          "trades": 2,
+          "profit": -83.41559268854428,
+          "wins": 0
+        },
+        "ETH/USDT": {
+          "trades": 7,
+          "profit": 630.4550338273966,
+          "wins": 5
+        },
+        "MATIC/USDT": {
+          "trades": 8,
+          "profit": -128.42837041330952,
+          "wins": 2
+        },
+        "ATOM/USDT": {
+          "trades": 8,
+          "profit": -193.44914662502643,
+          "wins": 0
+        },
+        "EOS/USDT": {
+          "trades": 2,
+          "profit": -29.65636921668366,
+          "wins": 1
+        },
+        "TRX/USDT": {
+          "trades": 3,
+          "profit": -77.97639048371113,
+          "wins": 1
+        }
+      },
+      "duration_months": 17.05133470225873,
+      "open_positions_at_end": 2
+    },
+    "oos": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 1315.9378982552046,
+      "net_profit": 315.9378982552046,
+      "net_roi_total": 31.593789825520457,
+      "monthly_roi": 1.8785866999240897,
+      "max_drawdown": 28.794963302723193,
+      "total_trades": 87,
+      "win_rate": 29.88505747126437,
+      "profit_factor": 1.3086577612746362,
+      "coin_breakdown": {
+        "TRX/USDT": {
+          "trades": 2,
+          "profit": 1.9308522844398297,
+          "wins": 1
+        },
+        "ATOM/USDT": {
+          "trades": 6,
+          "profit": -89.73188658134747,
+          "wins": 0
+        },
+        "XMR/USDT": {
+          "trades": 10,
+          "profit": 132.09222898160596,
+          "wins": 4
+        },
+        "BNB/USDT": {
+          "trades": 4,
+          "profit": -39.88637150072492,
+          "wins": 1
+        },
+        "CHZ/USDT": {
+          "trades": 5,
+          "profit": 277.9077637467277,
+          "wins": 3
+        },
+        "ETH/USDT": {
+          "trades": 8,
+          "profit": 51.17482601448334,
+          "wins": 4
+        },
+        "LINK/USDT": {
+          "trades": 3,
+          "profit": -51.82216136240661,
+          "wins": 0
+        },
+        "EOS/USDT": {
+          "trades": 5,
+          "profit": -70.1687173825087,
+          "wins": 1
+        },
+        "ADA/USDT": {
+          "trades": 2,
+          "profit": -34.479530773317116,
+          "wins": 0
+        },
+        "XRP/USDT": {
+          "trades": 5,
+          "profit": -52.896804569800885,
+          "wins": 1
+        },
+        "LTC/USDT": {
+          "trades": 7,
+          "profit": 31.075351229142743,
+          "wins": 2
+        },
+        "NEO/USDT": {
+          "trades": 3,
+          "profit": -42.400489839457144,
+          "wins": 0
+        },
+        "BTC/USDT": {
+          "trades": 3,
+          "profit": -8.610217100319396,
+          "wins": 1
+        },
+        "MATIC/USDT": {
+          "trades": 5,
+          "profit": 17.52743175999727,
+          "wins": 2
+        },
+        "XLM/USDT": {
+          "trades": 1,
+          "profit": -15.370357654676143,
+          "wins": 0
+        },
+        "VET/USDT": {
+          "trades": 4,
+          "profit": -10.92572747285039,
+          "wins": 1
+        },
+        "ALGO/USDT": {
+          "trades": 6,
+          "profit": -99.51659651769432,
+          "wins": 2
+        },
+        "XTZ/USDT": {
+          "trades": 2,
+          "profit": 85.54730155996802,
+          "wins": 1
+        },
+        "DOGE/USDT": {
+          "trades": 3,
+          "profit": 278.2833536360418,
+          "wins": 2
+        },
+        "IOTA/USDT": {
+          "trades": 3,
+          "profit": -62.10641383708782,
+          "wins": 0
+        }
+      },
+      "duration_months": 14.751540041067761,
+      "open_positions_at_end": 2
+    },
+    "bench": {
+      "max_slots": 2,
+      "risk_pct": 1.5,
+      "leverage": 2.0,
+      "final_equity": 966.6800454500686,
+      "net_profit": -33.31995454993137,
+      "net_roi_total": -3.331995454993137,
+      "monthly_roi": -0.6194333253972895,
+      "max_drawdown": 42.274958801511545,
+      "total_trades": 164,
+      "win_rate": 27.439024390243905,
+      "profit_factor": 0.9885842465617493,
+      "coin_breakdown": {
+        "LINK/USDT": {
+          "trades": 24,
+          "profit": -71.35740870022177,
+          "wins": 6
+        },
+        "ADA/USDT": {
+          "trades": 22,
+          "profit": 220.42778059078478,
+          "wins": 7
+        },
+        "BTC/USDT": {
+          "trades": 16,
+          "profit": 414.83629769932105,
+          "wins": 9
+        },
+        "ETH/USDT": {
+          "trades": 17,
+          "profit": -176.82716921180517,
+          "wins": 2
+        },
+        "XRP/USDT": {
+          "trades": 29,
+          "profit": -280.3486834611164,
+          "wins": 8
+        },
+        "LTC/USDT": {
+          "trades": 18,
+          "profit": 42.89415209398955,
+          "wins": 7
+        },
+        "DOGE/USDT": {
+          "trades": 20,
+          "profit": -0.5068115537900599,
+          "wins": 4
+        },
+        "BNB/USDT": {
+          "trades": 18,
+          "profit": -166.7466243252034,
+          "wins": 2
+        }
+      },
+      "duration_months": 5.453798767967146,
+      "open_positions_at_end": 0
+    }
+  }
+}

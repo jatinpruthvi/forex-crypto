@@ -1183,6 +1183,60 @@
       },
       "conclusion": "HONEST VERDICT: with correct pyramid accounting the strategy has NO positive edge at the audited fill model. All prior ROI claims (EXP-013..019, incl. +25%/mo and +46%/mo OOS) were artifacts of the phantom pyramid-entry bug. Strategy redesign required before any ROI target is meaningful.",
       "notes": "Full suite 170/170 after fixes. Regression tests pin add re-basis + net-trade PnL."
+    },
+    {
+      "experiment_id": "EXP-021-REDESIGN-R1",
+      "strategy_name": "Strategy Redesign Round 1: entry-quality + exit restructure research (crypto)",
+      "asset": "21-coin crypto 1d panel (2020-07..2023-04) + 8-pair bench 4h (2022-10..2023-04)",
+      "timeframe": "1D / 4H",
+      "duration_desc": "32.8 months 1d panel (early 17.1 / late-OOS 14.8) + 5.5 months bench 4h",
+      "methodology": "All runs through execute_shared_pool_sim audited fill model (bar-start stops, SL-first, net-trade PnL, taker stops/adds). Entry variants plugged via entry_fn. Chronological splits; indicators past-only. Pre-registered gates; NO parameter fitting per window.",
+      "params": {
+        "baseline_reproduced": "EXP-020 bench: 138t WR 18.8% PF 0.58 -13.59%/mo DD 62.96% (exact)",
+        "diagnosis": "TP1-reached trades profitable (+448 bench / +1325 1d); ALL no-TP1 trades lose (WR 0.0%). Leak = entry quality failing to reach +1.8x ATR TP1.",
+        "variants_tested": 14,
+        "risk_ladder": [
+          1.5,
+          1.25,
+          1.0,
+          0.75,
+          0.5
+        ],
+        "new_engine_features": [
+          "entry_fn hook",
+          "time_stop_bars research exit",
+          "trade-log enrichment"
+        ]
+      },
+      "results": {
+        "round1_qualifiers": "NONE (rule gated on forex-late too; family is dead on forex H4: PF 0.25-0.69, all windows)",
+        "round2_signal_leads": {
+          "Q_TIGHT_TP": "1d-OOS +3.43%/mo PF 1.70 DD 25.0 | early -0.81 | bench -2.85",
+          "Q_TS8": "1d full +2.52%/mo PF 1.30 | early +4.48 | OOS +1.88 PF 1.31 | bench -0.62",
+          "Q_TS12": "1d-OOS +1.77%/mo PF 1.27 | early -0.01 | bench -0.02",
+          "Q_MACRO_SIDE": "0/3 folds - DEAD"
+        },
+        "risk_ladder_r0.5_gate_pass": {
+          "Q_TIGHT_TP": "OOS +1.17%/mo PF 1.51 DD 11.6 PASS | full +0.80%/mo PF 1.35 DD 16.3 (full DD marginally >15%)",
+          "Q_TS8": "OOS +0.62%/mo PF 1.22 DD 13.0 PASS | full +1.23%/mo PF 1.43 DD 17.8",
+          "Q_TS12": "OOS +0.68%/mo PF 1.23 DD 11.9 PASS | full +0.57%/mo PF 1.21 DD 16.9"
+        },
+        "fold_stability_r1.0": "Q_TIGHT_TP 2/3, Q_TS8 2/3, Q_TS12 2/3 (all fail fold 2: 2021 blow-off/crash window)",
+        "forex_h4_control": "ALL variants catastrophic (PF 0.22-0.69, -100%); this signal family is crypto-only viable"
+      },
+      "honesty_caveats": [
+        "1d panel used for variant selection across 3 rounds -> results are SELECTION-ADJUSTED; forward paper validation on fresh data is REQUIRED before any ROI claim.",
+        "Fold 2 (2021 blow-off + May crash) defeats every variant - regime robustness unsolved.",
+        "Full-period DD at the passing risk level is 16-18%, marginally above the 15% crypto constraint.",
+        "Best honest OOS at DD-compliant risk: ~0.6-1.2%/mo, NOT the 25%/mo target."
+      ],
+      "next_steps": [
+        "Volatility-targeted sizing to fix fold-2 / DD margin",
+        "Regime gate (skip blow-off/chop phases)",
+        "Forward paper validation of Q_TIGHT_TP r=0.5 on fresh data"
+      ],
+      "tag": "REDESIGN_RESEARCH",
+      "status": "SELECTION_ADJUSTED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {

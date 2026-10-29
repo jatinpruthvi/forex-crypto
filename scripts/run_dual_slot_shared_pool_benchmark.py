@@ -37,14 +37,21 @@ STOP_SLIPPAGE = 0.0005
 def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                             gate_fn=None, max_slots=2, risk_pct=1.5, lev=2.0,
                             dd_throttle_threshold=0.08,
-                            stop_slippage=None, taker_fee_pct=None):
+                            stop_slippage=None, taker_fee_pct=None,
+                            entry_fn=None, time_stop_bars=None):
     """Corrected dual-slot shared-pool simulation (audited fill model).
 
     Bar-start stop snapshot, stop fills FIRST on ambiguous bars with taker fee
     + stop_slippage; no TP/pyramid bookkeeping on stopping bars; net-trade win
     counting. `gate_fn` (optional) applies venue lot viability; without it the
     raw risk-budget size (equity * risk% * dd_factor * leverage / stop_dist) is
-    used.
+    used. `entry_fn` (optional) replaces the built-in candidate logic; it is
+    called as entry_fn(row, sym, engine) and must return a list of candidate
+    dicts with keys: side (+1/-1), conviction (float), entry, sl, tp1 and
+    optionally regime (str tag recorded in the trade log). `time_stop_bars`
+    (optional int): positions that have not reached TP1 within this many bars
+    are closed at bar close (taker fee) - a research exit for trades that would
+    otherwise ride to the full stop.
     """
     def _gated_units(sym, eq, price, atr, risk, leverage, dd_mult, stop_atr_mult=1.5):
         if gate_fn is not None:
@@ -105,7 +112,10 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         "pnl": trade_net,
                         "tp1_hit": tp1_hit,
                         "tier": tier,
-                        "time": current_bar_time
+                        "time": current_bar_time,
+                        "entry_time": pos.get("entry_time"),
+                        "bars_held": i - pos.get("entry_i", i),
+                        "regime": pos.get("regime", "DEFAULT")
                     })
                     closed_this_bar.append(sym)
                     continue
@@ -162,6 +172,31 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         pos["sl"] = ch_sl
                         sl = ch_sl
 
+                # Research time-stop: close at bar close (taker) if TP1 was never
+                # reached within time_stop_bars (audited no-TP1 trades never win).
+                if time_stop_bars is not None and not tp1_hit and (i - pos.get("entry_i", i)) >= time_stop_bars:
+                    exit_price = c
+                    fee = exit_price * units * (_taker / 100.0)
+                    pnl = units * (exit_price - avg) - fee
+                    cash += pnl
+                    trade_net = pnl + pos.get("realized", 0.0)
+                    trade_log.append({
+                        "sym": sym,
+                        "side": "LONG",
+                        "entry": entry,
+                        "exit": exit_price,
+                        "pnl": trade_net,
+                        "tp1_hit": tp1_hit,
+                        "tier": tier,
+                        "time": current_bar_time,
+                        "entry_time": pos.get("entry_time"),
+                        "bars_held": i - pos.get("entry_i", i),
+                        "regime": pos.get("regime", "DEFAULT"),
+                        "exit_reason": "time_stop"
+                    })
+                    closed_this_bar.append(sym)
+                    continue
+
             elif side == -1:
                 sl_bar_start = sl
                 # Conservative same-bar resolution against the bar-START stop.
@@ -179,7 +214,10 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         "pnl": trade_net,
                         "tp1_hit": tp1_hit,
                         "tier": tier,
-                        "time": current_bar_time
+                        "time": current_bar_time,
+                        "entry_time": pos.get("entry_time"),
+                        "bars_held": i - pos.get("entry_i", i),
+                        "regime": pos.get("regime", "DEFAULT")
                     })
                     closed_this_bar.append(sym)
                     continue
@@ -232,6 +270,29 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                         pos["sl"] = ch_sl
                         sl = ch_sl
 
+                if time_stop_bars is not None and not tp1_hit and (i - pos.get("entry_i", i)) >= time_stop_bars:
+                    exit_price = c
+                    fee = exit_price * units * (_taker / 100.0)
+                    pnl = units * (avg - exit_price) - fee
+                    cash += pnl
+                    trade_net = pnl + pos.get("realized", 0.0)
+                    trade_log.append({
+                        "sym": sym,
+                        "side": "SHORT",
+                        "entry": entry,
+                        "exit": exit_price,
+                        "pnl": trade_net,
+                        "tp1_hit": tp1_hit,
+                        "tier": tier,
+                        "time": current_bar_time,
+                        "entry_time": pos.get("entry_time"),
+                        "bars_held": i - pos.get("entry_i", i),
+                        "regime": pos.get("regime", "DEFAULT"),
+                        "exit_reason": "time_stop"
+                    })
+                    closed_this_bar.append(sym)
+                    continue
+
         for sym in closed_this_bar:
             del positions[sym]
 
@@ -264,6 +325,11 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 if sym in positions:
                     continue
                 row = df.iloc[i]
+                if entry_fn is not None:
+                    for cand in entry_fn(row=row, sym=sym, engine=engine):
+                        cand.setdefault("sym", sym)
+                        candidates.append(cand)
+                    continue
                 c, h, l, o = row["close"], row["high"], row["low"], row["open"]
                 atr = row["atr"]
                 adx = row["adx"]
@@ -323,7 +389,8 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                 entry = cand["entry"]
                 sl = cand["sl"]
                 tp1 = cand["tp1"]
-                
+                atr = aligned_dfs[sym].iloc[i]["atr"]  # per-candidate (entry_fn hook path)
+
                 # Risk amount is calculated on current TOTAL equity in the shared pool
                 stop_dist = abs(entry - sl)
                 stop_atr_mult = (stop_dist / atr) if atr > 0 else 1.5
@@ -341,7 +408,10 @@ def execute_shared_pool_sim(timestamps, aligned_dfs, engine, duration_months,
                     "tp1": tp1,
                     "tp1_hit": False,
                     "pyramid_tier": 0,
-                    "units": units
+                    "units": units,
+                    "entry_time": current_bar_time,
+                    "entry_i": i,
+                    "regime": cand.get("regime", "DEFAULT")
                 }
 
     # Calculate final metrics
