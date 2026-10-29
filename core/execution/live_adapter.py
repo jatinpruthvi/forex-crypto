@@ -26,6 +26,10 @@ class ExchangeCredentialManager:
         "binance": ["BINANCE_API_KEY", "BINANCE_API_SECRET"],
         "bybit": ["BYBIT_API_KEY", "BYBIT_API_SECRET"],
         "mexc": ["MEXC_API_KEY", "MEXC_API_SECRET"],
+        # Hyperliquid is wallet-authenticated: API_KEY = wallet address (0x...),
+        # API_SECRET = the signing private key. Use a dedicated API wallet, never
+        # your main wallet key. See docs/LIVE_CRYPTO_DEMO_SETUP.md.
+        "hyperliquid": ["HYPERLIQUID_API_KEY", "HYPERLIQUID_API_SECRET"],
     }
 
     @classmethod
@@ -47,6 +51,24 @@ class ExchangeCredentialManager:
             "apiKey": api_key,
             "secret": api_secret,
         }
+
+    @classmethod
+    def build_ccxt_config(cls, exchange_id: str, live_mode: bool = False) -> Dict[str, Any]:
+        """
+        Build an exchange-ready CCXT client config from env credentials.
+        Hyperliquid uses wallet-based auth (walletAddress + privateKey) while
+        CEXes use conventional (apiKey + secret) pairs.
+        """
+        creds = cls.get_credentials(exchange_id, live_mode=live_mode)
+        exchange_id = exchange_id.lower()
+        config: Dict[str, Any] = {"enableRateLimit": True}
+        if exchange_id == "hyperliquid":
+            config["walletAddress"] = creds["apiKey"]
+            config["privateKey"] = creds["secret"]
+        else:
+            config["apiKey"] = creds["apiKey"]
+            config["secret"] = creds["secret"]
+        return config
 
 
 class OrderExecutionSanitizer:

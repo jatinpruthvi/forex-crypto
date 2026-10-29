@@ -269,4 +269,46 @@ Code: `core/execution/live_adapter.py::SizingViabilityGate`, `services/demo_runn
 
 ---
 
+### 🧪 $25 Hyperliquid Live-Test Quickstart (Implemented ✅)
+
+Everything needed to run the champion strategy live on Hyperliquid from **$25** is in the repo:
+
+| Component | Location | Status |
+|---|---|---|
+| Wallet-auth credentials (fail-fast) | `core/execution/live_adapter.py::ExchangeCredentialManager` (`HYPERLIQUID_API_KEY`=0x wallet, `HYPERLIQUID_API_SECRET`=signing key) | ✅ |
+| CCXT config builder | `ExchangeCredentialManager.build_ccxt_config("hyperliquid")` → `walletAddress` + `privateKey` | ✅ |
+| Market data source (tickers, funding, H4 candles) | `services/data_collector/sources/hyperliquid.py::HyperliquidSource` | ✅ |
+| Live order executor (post-only entries, reduce-only trigger stops, closes) | `core/execution/hyperliquid_executor.py::HyperliquidLiveExecutor` | ✅ |
+| MICRO_ACCOUNT_MODE gate ($25 → 8/8 pairs) | `LOT_VENUE=hyperliquid` (SizingViabilityGate) | ✅ |
+| Readiness smoke check (never places orders) | `scripts/run_hyperliquid_live_smoke.py` | ✅ |
+| Offline test suite | `tests/test_hyperliquid_integration.py` (13 tests) | ✅ |
+
+**Step-by-step:**
+
+```bash
+# 1. Wallet setup (one-time): create a DEDICATED API wallet on app.hyperliquid.xyz
+#    (API-wallet section) and fund your main account with $25 USDC via Arbitrum.
+export HYPERLIQUID_API_KEY="0xYourApiWalletAddress"
+export HYPERLIQUID_API_SECRET="your_api_wallet_private_key"
+
+# 2. Read-only readiness check — validates credentials, market data, and the
+#    $25 sizing gate. NEVER places an order:
+python scripts/run_hyperliquid_live_smoke.py --equity 25
+
+# 3. Rehearse the full signal->order pipeline with simulated fills (no keys needed):
+python scripts/run_hyperliquid_live_smoke.py --offline
+
+# 4. Testnet rehearsal with real order routing (Hyperliquid testnet):
+#    HyperliquidLiveExecutor(dry_run=False, testnet=True)
+
+# 5. LIVE — go through the executor with MICRO_ACCOUNT_MODE discipline:
+#    HyperliquidLiveExecutor(dry_run=False)   # then plan_entry() -> submit_entry() -> place_stop()
+```
+
+**Verified at $25 (Oct 2026 prices):** all 8 pairs pass the gate — BTC 0.00020 ($22 notional, 3.2% err), DOGE 64 ($14, 1.8%), ETH/BNB/XRP/ADA/LTC/LINK all tradeable, every order above the $10 min-notional, worst sizing distortion 3.2% (< 5% limit).
+
+**Safety rails:** `dry_run=True` is the default everywhere; the smoke script is strictly read-only; live mode fail-fasts without both wallet credentials; entries are post-only (maker fees) and stops are reduce-only trigger orders.
+
+---
+
 *Generated and verified for repository `forex-crypto`.*
