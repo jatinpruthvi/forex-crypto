@@ -760,3 +760,40 @@ The strategies lagged the 2023-24 bull (BTC +121% in 2024 vs +2.6-4.2%/mo) AND b
   fresh regime-adapted hunt with 2023-2026 as design window (heavy overfitting discipline
   needed; only 3.3y of new regimes), (c) extend the search for engines that survived
   2025-26 (short books, cash-timing, per the "FVG_SHORT won OFF_BHI" hint).
+
+## 12.10 EXP-040 — Combination hunt on the 5-year panel: what works in ALL periods? (2026-10-30)
+
+Directive: "one strategy cannot work for all the period... test on 5 years data and check
+which combination will work." 50 static combos (no fitting) + 24 state-driven LOYO combos,
+ranked by WORST-YEAR monthly. Full tables in `exp040_combos`.
+
+### The rule's verdict: nothing is positive every single year (2025 is the killer)
+Pre-registered bar (min-year >= -0.5, DD <= 35, full >= 1.5): **no row clears all three**.
+But a clear pattern: **FVG_SHORT is the all-period stabilizer** (positive in the 22/24/26
+bear years) and **VOL_GROT the most robust single engine** (min-year -0.3).
+
+### Most all-period-robust combinations (static, fully honest):
+| combination | full %/mo | maxDD | worst yr | yearly 21/22/23/24/25/26 |
+|---|---|---|---|---|
+| **VOL_GROT + FVG_SHORT** | +0.96 | **21.6** | **-0.3** | +1.3/+0.7/+2.5/+0.8/-0.3/+0.7 |
+| **ABS_GROT + FVG_SHORT** | **+1.74** | 23.6 | -0.6 | +5.8/+0.7/+2.1/+2.2/-0.6/+0.0 |
+| **eq5 survivors+SHORT** | +1.60 | 26.4 | -0.7 | +4.7/-0.1/+3.7/+2.0/-0.7/-0.2 |
+| eq4 survivors(+DIP) | +1.82 | 34.7 | -0.9 | +5.9/-0.5/+4.6/+2.1/-0.9/-0.6 |
+| pair_ABS_GROT+VOL_GROT | +2.24 | 40.0 | -0.9 | +7.9/-0.0/+4.8/+1.9/-0.7/-0.9 |
+| (for contrast) FVG_LONG | +2.07 | 82.0 | -9.5 | +16.1/-4.3/+7.7/+2.4/-9.5/-0.2 |
+| (for contrast) TSMOM | -7.23 | 99.7 | -20.6 | poison in every combo |
+| (for contrast) BTC_hold | +1.00 | 76.7 | -8.4 | +3.2/-8.4/+8.5/+6.5/-0.5/-4.8 |
+
+### State-driven combos (LOYO): mostly FAIL
+P3/VOL50/TREND3/DISP60/H4 families pick the landmine engines in held-out years (LOYO
+-0.3..-2.0%/mo, min-year -6..-10). Only ATHDD10 (drawdown-depth states) is decent
+(LOYO +1.6..+1.9, min-year -1.4..-2.6) but the selection-adjusted search-null FAILS
+(1/4 shuffled draws beat it) -> NOT certified.
+
+### Binding recommendation
+- All-period robustness = **rotation-with-vol-gate + short-book hedge**: ABS_GROT+VOL_GROT
+  as the growth leg (+2.2/mo, min-yr -0.9) and FVG_SHORT as the bear-year stabilizer.
+  Practical blend: eq5_survivors+SHORT (+1.60/mo, DD 26.4, worst year -0.7).
+- Do NOT use TSMOM or FVG_LONG in any combination (2021-only heroes).
+- State-switching combos add nothing certifiable on this data - static blends win on honesty.
+- These numbers are the realistic 5y-world expectations: ~+1-2%/mo with worst years ~-0.5.
