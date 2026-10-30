@@ -1520,6 +1520,12 @@
       "date": "2026-10-30",
       "focus": "timeframe matrix (90 nodes: 5m/15m/1h/4h/1d x 9 signals x BTC/ETH, 5.7y, costs) + combination helpers vs certified book: TF answer = 4h/1d Donchian/trend WORK cost-insensitive (don55_4h_ETH +2.68/mo), 1h borderline, 5m/15m dead at any cost; COMBO answer = +25% funding carry (fund_ls7_K5) placebo-PASS (SR 1.18->1.52 full window); base+fund25 x2 = +4.59/mo DD33.7 minYr-1.00 = new frontier champion; don55_4h 10% raises minYr to +0.20; mom1h/hod/rev5m hurt",
       "outcome": "EXP-044-FUND-COMBO-WINS"
+    },
+    {
+      "id": "EXP-045-ROI-TYPES",
+      "date": "2026-10-30",
+      "focus": "best-of-best ROI hunt across 20 NEW strategy types (67 nodes): factor zoo + pairs stat-arb + timing; only 5/67 pass risk gates; sqzbrk_EQ standalone placebo PASS but blend placebo FAIL inside full R2 -> new types do NOT beat book R2 (+4.59/mo x2 DD33.7 remains champion); RESTORE POINT c09de97 saved",
+      "outcome": "EXP-045-R2-REMAINS-CHAMPION"
     }
   ],
   "savepoints": {

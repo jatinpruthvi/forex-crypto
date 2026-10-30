@@ -879,3 +879,17 @@ Winners: Donchian breakout + slow MA/momentum at 4h/1d. Reversal/RSI die everywh
 **75%×(ABS_GROT+FVG_SHORT) + 25% cs_mom14_K5_vg, with 25% sleeve = fund_ls7_K5**
 At ×2: **+4.59%/mo, DD 33.7, worst-year -1.00** (2021 +13.5 / 2022 +0.1 / 2023 -1.0 /
 2024 +6.8 / 2025 +2.0 / 2026 -0.8). Beats EXP-042 blend x2 (+3.47/DD35.8).
+
+## 12.15 EXP-045 — Best-of-best ROI across 20 NEW strategy types (2026-10-30)
+
+67 nodes: factor zoo (skew fade, beta ranking, Calmar, win-rate, volume-share rotation,
+residual momentum, lottery max-ret, Amihud illiquidity, consensus momentum, 12-1 skip,
+mom-per-vol) + timing (turn-of-month, post-crash, retest, inside-bar, VWAP-dev, BTC/ETH
+rotation, calm-regime, range-expansion, squeeze-breakout) + pairs stat-arb (ETH/BTC,
+LTC/BTC, XRP/BTC ratio z-reversion). Ranked by %/mo with DD<=40, minYr>=-1.5.
+**Only 5/67 pass the gates; the factor zoo and pairs are dead on arrival** (DD or minYr).
+One new certified signal: sqzbrk_EQ squeeze breakout (+0.85%/mo, standalone placebo PASS
+0.85 vs null 0.31). BUT inside the full R2 book it dilutes and the blend placebo FAILS
+(1.21 vs null p90 1.48). **Best-of-best ROI remains Book R2: +2.43%/mo SR 1.51 unlevered;
+x2 = +4.59%/mo, DD 33.7, worst-year -1.00.** New types add nothing certifiable on top.
+RESTORE POINT: docs/RESTORE_POINT.md (commit c09de97) — full recovery procedure.
