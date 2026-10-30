@@ -717,3 +717,46 @@ trade journal (every fill: state cell, strategy, realized pnl after fees/slippag
 monthly in-cell stats report -> **guarded quarterly refresh** (re-learn on all history;
 adopt ONLY if trailing-252d realized monthly beats current by >= 0.5%/mo) -> never
 re-learn mid-period. This is the validated learn_assign_local math fed by real fills.
+
+## 12.9 EXP-039 — Top-5 on the LAST 5 YEARS: the out-of-sample reckoning (2026-10-30)
+
+New data: `olaxbt/ai-market-maker` daily OHLCV, 15-coin majors panel (BTC ETH BNB XRP ADA
+DOGE LTC LINK ATOM SOL DOT UNI AVAX FIL NEAR), **2021-01 -> 2026-07**. Cross-validated vs
+the original panel on the overlap (ret corr 0.9996-0.99997). Split 2023-04-15 = design
+horizon; **2023-04 -> 2026-07 is TRUE out-of-sample** (3.3 years never seen before).
+
+### The verdict: the top-5 do NOT hold up out-of-sample
+| mode | overlap 21-23 | **OOS 23-26** | OOS DD | 2024 | 2025 | 2026YTD |
+|---|---|---|---|---|---|---|
+| frozen (deployed Apr-2023) | +6.9..+9.0 | **-0.4..+0.3%/mo** | 50-80% | +2..4 | -4..-7 | -1..-2 |
+| brain63 (EXP-038 loop) | +6.9..+9.0 | **+0.9..+1.6%/mo** | 36-57% | +2..4 | -2..-3 | -0.5..-1.4 |
+| oracle (full-learn ceiling) | +1.9..+3.1 | +1.3..+2.6%/mo | 22-39% | +2..4 | -0.3..-0.9 | -0.3..-1.4 |
+
+Market context: BTC 2022 -64% / 2023 +156% / 2024 +121% / 2025 -6% / 2026YTD -28%.
+The strategies lagged the 2023-24 bull (BTC +121% in 2024 vs +2.6-4.2%/mo) AND bled in the
+2025-26 bear. Deepest OOS episodes (2025-04 / 2026-02 troughs) never recovered by panel end.
+
+### Adversarial decomposition (what can be wrong -> tested)
+1. **Bug? No** - overlap reproduction on the new panel (+8.99) matches the old panel
+   (+8.75) on the same window; data sanity clean (high>low 1.000, no stale days).
+2. **Universe effect? Secondary** - same window 2021-23: 15-coin +6.5..+8.9 vs 21-coin
+   +8.5..+10.1 -> majors-only costs ~1-2%/mo (FVG loses its small-cap retest edge) but
+   does not explain the collapse.
+3. **Period effect? DOMINANT.** Engine autopsy OOS: **TSMOM -4.49%/mo (DD 94.7, -78% in
+   2025)** - a 2021-miracle engine (OLD panel plain TSMOM: +185% in 2021 then bleed, DD
+   97.9 ALWAYS) that in-cell argmax kept selecting off 2021 stats - LANDMINE; FVG_LS/LONG
+   +0.01%/mo (active gross ~0.71 but edgeless); only ABS_GROT +0.96, GROT +1.55, DIP_V2
+   +0.48 (DD 16.8) survived. **BTC buy-hold +1.86%/mo beat every engine and nearly every
+   composite.** Mapping drift: by 2026-learn, the learner itself chooses CASH in bear cells.
+
+### Binding implications
+- The published +16-22%/mo rates are **2020-21 block phenomena** on the gappy 21-coin
+  universe - real for that period, not a forward expectation. This is exactly the
+  "not a bull-run hold" failure mode the user warned about, now quantified.
+- Brain > frozen is REINFORCED (0% -> +1-1.6%/mo OOS, lower DD) - but nothing in the menu
+  has real edge post-2023 on majors.
+- Do NOT deploy capital expecting backtest rates. Options: (a) revise expectations to
+  +1-2%/mo and paper-trade defensively (GROT/DIP_V2-style + cash), (b) run EXP-040: a
+  fresh regime-adapted hunt with 2023-2026 as design window (heavy overfitting discipline
+  needed; only 3.3y of new regimes), (c) extend the search for engines that survived
+  2025-26 (short books, cash-timing, per the "FVG_SHORT won OFF_BHI" hint).

@@ -18300,5 +18300,649 @@
     },
     "honest_read": "1) YES, the trade-history brain improves ROI causally: scheduled expanding re-learn every 63d roughly doubles-to-triples post-warmup monthly vs freezing at deploy (Champion +1.19->+2.40, ENS +3.81->+8.17, Blend3 +3.83->+6.23) at same DD, and raises in-market 64%->~70% (non-idle). 2) Fast refresh (21d) whipsaws (ENS DD 48%). 3) The margin guard (0.5%/mo) is neutral here (accepts most refreshes) - keep as safety rail. 4) SURPRISE: the bandit performance-chaser (pre-registered expected FAIL) won on Blend3 post-warm (+7.38 vs +6.23) on this ONE 19-month causal window - contrary to expectation; per EXP-034 discipline this is NOT certifiable (single path, no selection-adjusted null) -> track as shadow sleeve in paper trading only. 5) The V0a vs V0b gap (published frozen +9.52 vs causal warmup +3.83 on Blend3 post-warm) quantifies the in-sample mapping advantage of panel-end learning - live deployment should run the quarterly refresh brain, not a one-shot frozen mapping.",
     "recommended_live_loop": "trade journal (every fill: state cell, strategy, realized pnl after fees/slippage) -> monthly in-cell stats report -> quarterly refresh: re-learn mapping on all history, adopt ONLY if trailing-252d realized monthly beats current by >=0.5%/mo -> never re-learn mid-period (no runtime re-selection)."
+  },
+  "exp039_5y": {
+    "date": "2026-10-30",
+    "question": "top-5 on last 5 years (2021-01 -> 2026-07), true OOS 2023-04 -> 2026-07",
+    "source": "olaxbt/ai-market-maker data/ohlcv (Binance-style daily OHLCV)",
+    "cross_validation": "9 shared coins vs original panel 2021-01..2023-04: median level diff ~0.05%, ret corr 0.9996-0.99997",
+    "coins": [
+      "BTC",
+      "ETH",
+      "BNB",
+      "XRP",
+      "ADA",
+      "DOGE",
+      "LTC",
+      "LINK",
+      "ATOM",
+      "SOL",
+      "DOT",
+      "UNI",
+      "AVAX",
+      "FIL",
+      "NEAR"
+    ],
+    "split": "2023-04-15",
+    "results": {
+      "Blend3_75": {
+        "M1_frozen": {
+          "overlap_mo": 6.85,
+          "oos_mo": 0.1,
+          "oos_dd": 61.2,
+          "oos_calmar": 0.02,
+          "oos_worst_m": -20.2,
+          "yearly": {
+            "2021": 13.38,
+            "2022": 0.52,
+            "2023": 6.07,
+            "2024": 2.6,
+            "2025": -5.32,
+            "2026": -0.55
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-06-30",
+            "recovery": null,
+            "depth_pct": -61.2,
+            "months_to_trough": 18.7,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 6.85,
+          "oos_mo": 0.93,
+          "oos_dd": 46.0,
+          "oos_calmar": 0.26,
+          "oos_worst_m": -17.8,
+          "yearly": {
+            "2021": 13.38,
+            "2022": 0.52,
+            "2023": 5.88,
+            "2024": 3.04,
+            "2025": -2.61,
+            "2026": -1.12
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -46.0,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 1.86,
+          "oos_mo": 1.32,
+          "oos_dd": 30.2,
+          "oos_calmar": 0.57,
+          "oos_worst_m": -16.1,
+          "yearly": {
+            "2021": 3.72,
+            "2022": -0.04,
+            "2023": 3.64,
+            "2024": 2.93,
+            "2025": -0.62,
+            "2026": -0.9
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-06-21",
+            "recovery": null,
+            "depth_pct": -30.2,
+            "months_to_trough": 6.4,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        }
+      },
+      "ENS_CxH4": {
+        "M1_frozen": {
+          "overlap_mo": 8.6,
+          "oos_mo": -0.1,
+          "oos_dd": 74.4,
+          "oos_calmar": -0.02,
+          "oos_worst_m": -27.2,
+          "yearly": {
+            "2021": 16.76,
+            "2022": 0.58,
+            "2023": 8.89,
+            "2024": 2.76,
+            "2025": -7.41,
+            "2026": -0.9
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-02-23",
+            "recovery": null,
+            "depth_pct": -74.4,
+            "months_to_trough": 14.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 8.6,
+          "oos_mo": 1.3,
+          "oos_dd": 56.6,
+          "oos_calmar": 0.3,
+          "oos_worst_m": -22.7,
+          "yearly": {
+            "2021": 16.76,
+            "2022": 0.58,
+            "2023": 8.51,
+            "2024": 3.66,
+            "2025": -3.28,
+            "2026": -1.39
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -56.6,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 1.93,
+          "oos_mo": 1.9,
+          "oos_dd": 38.8,
+          "oos_calmar": 0.65,
+          "oos_worst_m": -19.6,
+          "yearly": {
+            "2021": 3.62,
+            "2022": -0.05,
+            "2023": 5.07,
+            "2024": 4.15,
+            "2025": -0.72,
+            "2026": -1.39
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-07-31",
+            "recovery": null,
+            "depth_pct": -38.8,
+            "months_to_trough": 19.7,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        }
+      },
+      "Champion_P3": {
+        "M1_frozen": {
+          "overlap_mo": 8.99,
+          "oos_mo": -0.41,
+          "oos_dd": 73.5,
+          "oos_calmar": -0.06,
+          "oos_worst_m": -24.5,
+          "yearly": {
+            "2021": 18.67,
+            "2022": 0.01,
+            "2023": 5.76,
+            "2024": 3.59,
+            "2025": -7.33,
+            "2026": -0.76
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-06-30",
+            "recovery": null,
+            "depth_pct": -73.5,
+            "months_to_trough": 18.7,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 8.99,
+          "oos_mo": 0.34,
+          "oos_dd": 61.0,
+          "oos_calmar": 0.07,
+          "oos_worst_m": -24.5,
+          "yearly": {
+            "2021": 18.67,
+            "2022": 0.01,
+            "2023": 5.76,
+            "2024": 3.59,
+            "2025": -4.46,
+            "2026": -1.74
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-06-05",
+            "recovery": null,
+            "depth_pct": -61.0,
+            "months_to_trough": 17.9,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 3.14,
+          "oos_mo": 0.82,
+          "oos_dd": 48.4,
+          "oos_calmar": 0.21,
+          "oos_worst_m": -24.5,
+          "yearly": {
+            "2021": 6.82,
+            "2022": -0.05,
+            "2023": 3.75,
+            "2024": 2.31,
+            "2025": -1.56,
+            "2026": -0.85
+          },
+          "oos_deepest": {
+            "peak": "2024-03-30",
+            "start": "2024-03-31",
+            "trough": "2024-11-03",
+            "recovery": "2024-12-05",
+            "depth_pct": -48.4,
+            "months_to_trough": 7.2,
+            "months_trough_to_recovery": 1.1,
+            "months_underwater": 8.2,
+            "recovered": true
+          }
+        }
+      },
+      "ENS_CxP3": {
+        "M1_frozen": {
+          "overlap_mo": 8.64,
+          "oos_mo": -0.14,
+          "oos_dd": 75.3,
+          "oos_calmar": -0.02,
+          "oos_worst_m": -27.2,
+          "yearly": {
+            "2021": 17.58,
+            "2022": 0.02,
+            "2023": 8.27,
+            "2024": 3.1,
+            "2025": -7.53,
+            "2026": -0.46
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-02-23",
+            "recovery": null,
+            "depth_pct": -75.3,
+            "months_to_trough": 14.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 8.64,
+          "oos_mo": 1.09,
+          "oos_dd": 56.0,
+          "oos_calmar": 0.25,
+          "oos_worst_m": -22.7,
+          "yearly": {
+            "2021": 17.58,
+            "2022": 0.02,
+            "2023": 7.89,
+            "2024": 3.42,
+            "2025": -3.52,
+            "2026": -0.78
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -56.0,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 2.65,
+          "oos_mo": 1.79,
+          "oos_dd": 37.5,
+          "oos_calmar": 0.63,
+          "oos_worst_m": -19.6,
+          "yearly": {
+            "2021": 5.28,
+            "2022": -0.02,
+            "2023": 5.66,
+            "2024": 2.92,
+            "2025": -0.91,
+            "2026": -0.34
+          },
+          "oos_deepest": {
+            "peak": "2024-03-30",
+            "start": "2024-03-31",
+            "trough": "2024-11-03",
+            "recovery": "2024-11-29",
+            "depth_pct": -37.5,
+            "months_to_trough": 7.2,
+            "months_trough_to_recovery": 0.9,
+            "months_underwater": 8.0,
+            "recovered": true
+          }
+        }
+      },
+      "CORR30_s0": {
+        "M1_frozen": {
+          "overlap_mo": 7.52,
+          "oos_mo": -0.12,
+          "oos_dd": 80.1,
+          "oos_calmar": -0.02,
+          "oos_worst_m": -30.0,
+          "yearly": {
+            "2021": 15.16,
+            "2022": -0.46,
+            "2023": 10.56,
+            "2024": 2.43,
+            "2025": -8.05,
+            "2026": -0.39
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-02-23",
+            "recovery": null,
+            "depth_pct": -80.1,
+            "months_to_trough": 14.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 7.52,
+          "oos_mo": 1.62,
+          "oos_dd": 55.1,
+          "oos_calmar": 0.39,
+          "oos_worst_m": -22.7,
+          "yearly": {
+            "2021": 15.16,
+            "2022": -0.46,
+            "2023": 9.78,
+            "2024": 3.08,
+            "2025": -2.92,
+            "2026": 0.17
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -55.1,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 1.91,
+          "oos_mo": 2.56,
+          "oos_dd": 37.1,
+          "oos_calmar": 0.96,
+          "oos_worst_m": -21.0,
+          "yearly": {
+            "2021": 3.35,
+            "2022": 0.0,
+            "2023": 7.36,
+            "2024": 3.35,
+            "2025": -0.73,
+            "2026": 0.17
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-08-02",
+            "recovery": null,
+            "depth_pct": -37.1,
+            "months_to_trough": 7.8,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        }
+      },
+      "ENS_CxH4_55": {
+        "M1_frozen": {
+          "overlap_mo": 5.09,
+          "oos_mo": 0.26,
+          "oos_dd": 50.1,
+          "oos_calmar": 0.06,
+          "oos_worst_m": -15.6,
+          "yearly": {
+            "2021": 9.59,
+            "2022": 0.62,
+            "2023": 5.11,
+            "2024": 1.93,
+            "2025": -3.8,
+            "2026": -0.41
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-02-23",
+            "recovery": null,
+            "depth_pct": -50.1,
+            "months_to_trough": 14.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 5.09,
+          "oos_mo": 0.93,
+          "oos_dd": 35.7,
+          "oos_calmar": 0.33,
+          "oos_worst_m": -13.1,
+          "yearly": {
+            "2021": 9.59,
+            "2022": 0.62,
+            "2023": 4.9,
+            "2024": 2.38,
+            "2025": -1.68,
+            "2026": -0.75
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -35.7,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 1.16,
+          "oos_mo": 1.22,
+          "oos_dd": 22.3,
+          "oos_calmar": 0.7,
+          "oos_worst_m": -11.0,
+          "yearly": {
+            "2021": 2.19,
+            "2022": -0.03,
+            "2023": 2.96,
+            "2024": 2.61,
+            "2025": -0.32,
+            "2026": -0.75
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-07-31",
+            "recovery": null,
+            "depth_pct": -22.3,
+            "months_to_trough": 19.7,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        }
+      },
+      "Meta_ENS_55": {
+        "M1_frozen": {
+          "overlap_mo": 5.09,
+          "oos_mo": 0.23,
+          "oos_dd": 50.1,
+          "oos_calmar": 0.05,
+          "oos_worst_m": -15.6,
+          "yearly": {
+            "2021": 9.97,
+            "2022": 0.3,
+            "2023": 4.87,
+            "2024": 1.93,
+            "2025": -3.8,
+            "2026": -0.18
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2026-02-23",
+            "recovery": null,
+            "depth_pct": -50.1,
+            "months_to_trough": 14.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M2_brain63": {
+          "overlap_mo": 5.09,
+          "oos_mo": 0.9,
+          "oos_dd": 35.7,
+          "oos_calmar": 0.32,
+          "oos_worst_m": -13.1,
+          "yearly": {
+            "2021": 9.97,
+            "2022": 0.3,
+            "2023": 4.66,
+            "2024": 2.39,
+            "2025": -1.68,
+            "2026": -0.54
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-04-14",
+            "recovery": null,
+            "depth_pct": -35.7,
+            "months_to_trough": 4.2,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        },
+        "M3_full": {
+          "overlap_mo": 1.36,
+          "oos_mo": 1.34,
+          "oos_dd": 21.8,
+          "oos_calmar": 0.8,
+          "oos_worst_m": -11.1,
+          "yearly": {
+            "2021": 2.63,
+            "2022": -0.03,
+            "2023": 3.16,
+            "2024": 2.62,
+            "2025": -0.32,
+            "2026": -0.3
+          },
+          "oos_deepest": {
+            "peak": "2024-12-07",
+            "start": "2024-12-08",
+            "trough": "2025-06-21",
+            "recovery": null,
+            "depth_pct": -21.8,
+            "months_to_trough": 6.4,
+            "months_trough_to_recovery": null,
+            "months_underwater": 19.7,
+            "recovered": false
+          }
+        }
+      }
+    },
+    "market_context": {
+      "BTC yearly %": {
+        "2022": -64,
+        "2023": 156,
+        "2024": 121,
+        "2025": -6,
+        "2026YTD": -28
+      },
+      "ETH yearly %": {
+        "2022": -67,
+        "2023": 91,
+        "2024": 46,
+        "2025": -11,
+        "2026YTD": -37
+      }
+    },
+    "diagnostics": {
+      "universe_effect_same_window_2021_23": {
+        "new15": {
+          "Champion": 7.99,
+          "CORR30_s0": 6.49,
+          "ENS_CxH4": 8.93,
+          "Blend3_75": 7.42
+        },
+        "old21": {
+          "Champion": 8.75,
+          "CORR30_s0": 8.5,
+          "ENS_CxH4": 10.05,
+          "Blend3_75": 8.85
+        },
+        "verdict": "universe costs ~1-2%/mo (FVG small-cap retest edge); NOT the cause of OOS collapse"
+      },
+      "engine_autopsy_oos_2023_26": {
+        "FVG_LS": "+0.01%/mo (active, gross ~0.71, but zero edge)",
+        "FVG_LONG": "+0.01%/mo",
+        "TSMOM": "-4.49%/mo DD 94.7 (2025: -78%!) - 2021-miracle engine, LANDMINE",
+        "TSMOM_was_always_fragile": "OLD panel plain TSMOM +0.32%/mo DD 97.9 (+185% in 2021 then bleed); in-cell argmax kept selecting it off 2021 stats",
+        "ABS_GROT": "+0.96%/mo",
+        "GROT": "+1.55%/mo",
+        "DIP_V2": "+0.48%/mo DD 16.8",
+        "BTC_hold": "+1.86%/mo DD 53 - beats all engines OOS"
+      },
+      "mapping_drift": {
+        "Champion": "<=2023 {A,B: ABS_GROT} -> <=2026 {A: COMBO_A_G, B: CASH}",
+        "CORR30_s0": "<=2023 {A: ABS_GROT, B: GROT} -> <=2026 {A: CASH, B: GROT}"
+      },
+      "data_sanity": "high>low = 1.000 all coins; zero-return days ~0; overlap ret corr 0.9996-0.99997 vs old panel"
+    },
+    "verdict": {
+      "headline": "TOP-5 DO NOT HOLD UP OUT-OF-SAMPLE on 2023-04->2026-07 (majors)",
+      "frozen_spec_oos": "0%/mo, DD 50-80 (dead)",
+      "brain63_oos": "+0.9..+1.6%/mo, DD 36-57 (survival, not edge)",
+      "oracle_full_learn_oos": "+1.3..+2.6%/mo - the MENU itself has little edge post-2023",
+      "yearly": "2024 +2.6-4.2 (lagged BTC +121%), 2025 -2.6..-7.3, 2026YTD -0.3..-1.7",
+      "decomposition": "period effect dominant (TSMOM landmine + FVG edgeless + weak rotation), universe effect secondary (-1..-2/mo), frozen mapping catastrophic",
+      "what_survived": "defensive rotation + cash style: GROT/ABS_GROT +1-1.5/mo, DIP_V2 +0.5 DD 16.8; brain > frozen (EXP-038 conclusion reinforced)",
+      "implication": "published +16-22%/mo rates were 2020-21 block phenomena on the gappy 21-coin universe; do NOT deploy expecting them; paper-trading gate with revised expectations (+1-2%/mo) or a new 5y-regime hunt (EXP-040) before any capital"
+    }
   }
 }

@@ -1478,6 +1478,12 @@
       "date": "2026-10-30",
       "focus": "trade-history brain: causal expanding re-learn vs frozen spec. 63d refresh doubles-triples causal post-warm monthly (Champion 1.19->2.40, ENS 3.81->8.17, Blend3 3.83->6.23) at same DD, in-market 64%->70%; 21d refresh whipsaws (ENS DD 48); bandit chaser unexpectedly won Blend3 post-warm (+7.38, one 19-month path, not certifiable -> shadow sleeve). Recommended live loop: journal -> monthly report -> guarded quarterly refresh",
       "outcome": "EXP-038-BRAIN-WORKS"
+    },
+    {
+      "id": "EXP-039-FIVE-YEAR-VERDICT",
+      "date": "2026-10-30",
+      "focus": "top-5 on last 5 years (2021-2026, olaxbt 15-coin majors, cross-validated): TRUE OOS 2023-04->2026-07 = FAIL. frozen spec 0%/mo DD 50-80; brain63 +0.9-1.6 DD 36-57; even oracle mapping only +1.3-2.6. TSMOM = 2021-miracle landmine (-78% in 2025, always DD ~98 plain); FVG edgeless on majors; GROT/ABS_GROT/DIP_V2 the only survivors; BTC buy-hold +1.86 beat everything. Universe costs 1-2/mo, period effect dominates. Published +16-22/mo = 2020-21 block phenomena.",
+      "outcome": "EXP-039-OOS-FAIL"
     }
   ],
   "savepoints": {
