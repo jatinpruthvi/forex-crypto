@@ -648,3 +648,38 @@ Conclusion: the nuclear winner family recovers lost depth ~100% within sample an
 champion on every recovery metric except worst-case single-episode speed (champion 3.1m vs
 ENS_100 7.5m). Blend3_75 keeps the fast recoveries (max 4.5m) while lifting depth-recovery
 from 94.3% to 99.7% — recovery evidence favors Blend3@75% for deployment.
+
+## 12.7 EXP-037 — Meta-selector over the top-5 (non-idle switching) (2026-10-30)
+
+Directive: "one strategy cannot work for all the period... apply [the] based strategy from
+top five [by] some parameter... higher growth and capital will not be idle." A causal
+META-STATE picks which of the top-5 policies is in command; capital never leaves the market.
+
+Pre-registered search: 7 meta-state families (P3, CORR30, VOL50, STRESS80, DISP60, TREND3,
+ATHDD10) x sm{0,5,10} x mode{single,top2} = 42 configs; per-cell argmax among the 5 actions
+(train-only, dd/Mo<=10, non-idle fallback); verdict gates G1-G5 fixed before running.
+
+### Winner: CORR30_s5_single = "Meta-ENS"
+Mapping: **A(high-corr) -> ENS_CxH4, B(low-corr) -> ENS_CxP3**, 5-day persistence on the
+corr state. Direct repro: **0.5*CORR30_s0 + 0.5*(H4 | corr-high / P3 | corr-low)** — full
+**+22.32%/mo**, DD 51.0, Calmar 20.06, in-market **96.7%** (user's non-idle goal met).
+Strict LOFO **+28.64/+12.17/+12.98** — block2 +12.17 is the best weak-block OOS ever seen
+(ENS_CxH4 +8.80; champion +4.33).
+
+### Gates: all pass literally — but thin
+G1 min +12.17 >= +7.82 PASS; G2 config placebo p97 (1/30) PASS; G3 selection-adjusted:
+real +12.17 vs extended search-null (n=24) mean +10.26, p90 +11.83, p95 +11.92, max +12.50
+-> PASS at the pre-registered p90 bar, but the real sits at p96 with 1/24 shuffled draws
+ABOVE it; G4 in-market 96.7% PASS.
+
+### Honest read (binding)
+1. The corr-state split of the H4/P3 half is real signal in the OOS view (block2), and the
+   interpretable rule (high-corr -> breadth-hysteresis half, low-corr -> trend half) is the
+   kind of structure that survives; Meta-ENS is promoted to the preferred ENS variant.
+2. But the deployable curve ~ ENS_CxH4 (frozen blocks +39.25/+9.82/+15.88 identical to
+   +39.21/+9.82/+15.88), so at the 35% DD gate the risk-capped crown is UNCHANGED:
+   winner@50% +14.86/DD 31.7, ~@55% +16.1/DD ~34 vs **Blend3@75% +18.64/DD 34.5**.
+3. Paper-trading gate runs three sleeves: champion P3+smooth10, Blend3@75%, Meta-ENS@55%.
+4. Untested route to beating Blend3 risk-capped: DD-aware meta objective (defensive picks
+   in crash states) - the argmax-in-cell rule always selects high-octane actions because
+   they carry the highest in-cell monthly. Candidate EXP-038 if wanted.

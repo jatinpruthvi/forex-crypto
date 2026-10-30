@@ -1466,6 +1466,12 @@
       "date": "2026-10-30",
       "focus": "recovery-rate analysis of deployment menu: drawdown episodes, recovery %, months-to-recover, time underwater, recovery factor on deployable + LOFO-spliced curves",
       "outcome": "EXP-036-RECOVERY"
+    },
+    {
+      "id": "EXP-037-META-SELECTOR",
+      "date": "2026-10-30",
+      "focus": "meta-selector over top-5 by causal state (42 configs, non-idle): winner CORR30_s5 = Meta-ENS (A corr-high->ENS_CxH4, B corr-low->ENS_CxP3) LOFO +28.64/+12.17/+12.98 (best weak-block OOS), in-market 96.7%; gates pass but G3 thin (real p96 of 24-draw search-null, 1/24 above); deployable curve ~ ENS_CxH4 -> risk-capped crown stays Blend3@75% (+18.64/34.5). Paper-trade 3 sleeves: champion, Blend3@75%, Meta-ENS@55%",
+      "outcome": "EXP-037-META-PASSED-THIN"
     }
   ],
   "savepoints": {
