@@ -824,3 +824,22 @@ Verified frontier: **DD≤35 → +2.45%/mo (x1.5); DD≤50 → +3.05-3.07 (x2 / 
 DD≤75 → +4.28 (x4)**. 6%/mo on verified majors data at survivable DD = NOT reachable.
 Only historical path: small caps in a 2021-type mania regime (gate saved 2022 on old-21
 (+0.5) so 2025-26 might also be gated out — but unverifiable without 5y small-cap data).
+
+## 12.12 EXP-042 — Nuclear edge hunt: 218 nodes for higher Sharpe (2026-10-30)
+
+Real data: funding 8h 2021-26 (olaxbt), intraday 15m/1h 2019-25 (quantinaut), defillama
+liquidity. Costs: daily 10bp/side, intraday 12bp/side, real funding accrual. 218 nodes.
+| family | champion | verdict |
+|---|---|---|
+| OPTIONS premium | — | **UNTESTABLE** (no reachable IV/options history; only scrapers) |
+| INTRADAY (72 nodes) | best -0.89 SR | **ALL NEGATIVE after taker costs — execution edge dead at retail** |
+| FUNDING carry (18) | fund_ls7_K5 SR 0.87 +2.97/mo | REAL (placebo p90 0.31) but DD 66 standalone |
+| CS momentum (34) | cs_mom14_K5_vg SR 0.80 +1.89/mo | own placebo PASS (0.66) but 216-node search-null FAIL (0.83-1.28) |
+| TA timing (82) | ta_don55_lf_ETH SR 0.58 | marginal |
+| MACRO (10) | mac_stab_onoff_EQ SR 0.50 | marginal |
+
+### THE CERTIFIED WIN — the blend
+25% cs_mom14_K5_vg + 75% ABS_GROT+FVG_SHORT: **SR 1.01→1.17, +1.90%/mo, DD 23.6→19.0,
+worst-year −0.55→−0.22**; blend placebo PASS (93rd pct of 30 shuffled blends).
+Levered frontier: x1.5 → +2.74/mo DD 27.6; **x2 → +3.47/mo DD 35.8, minYr −0.50** (new
+frontier best, beats ABS_SHORT_x2 +3.05/DD43.7). eq5+25-50% same pattern (minYr → +0.07).

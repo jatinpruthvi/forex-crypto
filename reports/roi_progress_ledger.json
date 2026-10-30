@@ -1502,6 +1502,12 @@
       "date": "2026-10-30",
       "focus": "how to reach 6%/mo from 1.74% on 5.5y with commission+spread: 6 levers tested - leverage ceiling +4.33 (variance drag, DD~80), vol-target +2.32@DD57, ungating HURTS, faster/K3 neutral, brain HURTS (EXP-038 gains don't transfer), small-cap universe +6.6-7.1 on 2020-23 but = 2021 mania (ex-2021 +1.11), unverifiable 2024-26",
       "outcome": "EXP-041-6PCT-CEILING"
+    },
+    {
+      "id": "EXP-042-NUCLEAR-EDGES",
+      "date": "2026-10-30",
+      "focus": "nuclear edge hunt 218 nodes>200 (CS/TA/ID/FUND/MACRO), real funding+intraday data, commission+spread: options UNTESTABLE (no data); intraday ALL NEGATIVE after 12bp; funding carry fund_ls7_K5 SR0.87 passes placebo (DD66 standalone); cs_mom14_K5_vg SR0.80 fails 216-node look-elsewhere BUT 25% blend into ABS_SHORT placebo-certified SR1.01->1.17 DD23.6->19.0 minYr-0.55->-0.22; blend x2 -> +3.47/mo DD35.8",
+      "outcome": "EXP-042-BLEND-CERTIFIED"
     }
   ],
   "savepoints": {
