@@ -413,3 +413,48 @@ Final champion: **BTC MA100 +-2% hysteresis -> {ABS_GROT | FVG_LS}, 10-day persi
 switching**. The 4-cell dispersion mapping is promising (record worst-fold +5.61) but its
 assignment cannot yet be learned reliably from 2 blocks - needs more history. Menu robustness:
 5 untested strategies win no cell. Transition blend unnecessary.
+
+
+### 12.2 EXP-031 — Second-Depth Re-Check ("check again, think what can go wrong") (2026-10-28)
+
+**A) Model & reproducibility — 5/5 PASS, zero bugs.** A1 `portfolio_sim` fee/return formula
+verified by exact hand arithmetic (switch-bar turnover fees confirmed charged, 10bp/unit).
+A2 the persistence state machine certified against `composite_builder`'s inline loop on 6
+adversarial switch patterns (rapid toggles, exact-sm runs, warmup start). A3 champion headline
+reproduced bit-for-bit (+16.02%/mo, DD 25.1, Cal 19.74, folds +34.99/+4.86/+6.77). A4 strict
+LOFO reproduced ([+31.79/+4.33/+1.88] == docs) and the fast precomputed-weight path proven
+identical to the real path. A5 switch-cost truth: smoothed state flips only **8 times** in 1000
+bars (median dwell 99 bars); switch fees total 0.70% of equity - real but negligible.
+
+**B) Honesty tests - the one real finding of this round.**
+B2 **placebo null (50 block-shuffled state draws**, identical protocol): null avg-of-holdouts
+mean +4.33, p90 +6.95, max +10.24; champion +12.67 at the **100th percentile (0/50 beat it)**.
+The P3-market alignment is real signal, not a search artifact.
+B1 **nested LOFO** (def x sm x mapping chosen on 2 training blocks only): training chose **N2
+in all 3 folds** (the 4-cell def overfits training windows) and held-out fell to +2.63%/mo avg
+with one negative block (-0.77). Conclusion: the meta-procedure "pick the regime def by
+training performance" is UNRELIABLE and must never be re-run at deployment time.
+B1b (P3 family fixed a priori, only sm + mapping nested): **+30.1/+2.7/+2.0 all positive**
+(avg +11.6). B1c (fully frozen champion, nothing fitted anywhere): **+35.0/+4.3/+6.9 all
+positive** (avg +15.4).
+
+| variant (held-block monthlies) | B1 | B2 | B3 | avg | all + |
+|---|---|---|---|---|---|
+| frozen champion (deploy THIS) | +35.0 | +4.3 | +6.9 | +15.4 | yes |
+| P3 fixed, sm+mapping nested | +30.1 | +2.7 | +2.0 | +11.6 | yes |
+| def+sm+mapping nested (procedure) | -0.8 | +3.3 | +5.4 | +2.6 | NO |
+| (learned-mapping LOFO, EXP-030) | +31.8 | +4.3 | +1.9 | +12.7 | yes |
+
+**C) Robustness battery — champion survives all.** Fee x1.5 (15bp): +15.5%/mo, Cal 17.3,
+dyn_ok. Drop best month (2021-01, +188.7%): +12.3%/mo. Concentration: top-3 coins = 52.7% of
+gross pnl (DOGE 24.1%) - diversified enough, not single-coin. Monthly tail: 36% negative
+months, median +5.4%, worst -21.3%. Worst DD (-25.1%) = the Sep-2021 crash (2021-09-05..20)
+where BOTH engines lost (ABS_GROT -24.3%, FVG_LS -18.1% in-window) - menu-wide market risk,
+matches the known 25% cap. Churn tiny (8 switches, mean dwell 111 bars).
+
+**Corrected claim (supersedes 12.1 wording):** the deployable policy is the FROZEN P3+smooth10
+specification (BTC MA100 +-2% hysteresis -> ABS_GROT / FVG_LS, 10-day persistence). The policy's
+edge is real (placebo p100, robust to costs/months/concentration); what is NOT validated is the
+process of re-selecting the regime definition from data at runtime - N2 is flagged
+training-only-favorite and must not be auto-selected. All numbers in
+reports/strategy_leaderboard.json `exp031_recheck`.

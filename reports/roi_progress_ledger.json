@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-29 12:11:05 UTC",
+  "last_updated": "2026-10-28",
   "champion_savepoint": "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
   "experiments": [
     {
@@ -1406,6 +1406,18 @@
       "honest_summary": "Audit found one real (conservative-direction) bug - fixed and re-verified; champion's conclusions hold under the strictest test (disjoint blocks, assignment learned on 2, applied to 3rd: all positive). Final champion = P3+smooth10: BTC MA100+-2% hysteresis -> {ABS_GROT | FVG_LS} with 10-day switch persistence: +16.0%/mo, DD 25.1%, Calmar 19.7, bull share 0.75. Forward paper validation still required.",
       "tag": "AUDIT",
       "status": "AUDIT_COMPLETE_CHAMPION_UPGRADED"
+    },
+    {
+      "experiment_id": "EXP-031-RECHECK",
+      "strategy_name": "Second-depth re-check of regime champion (model verification, nested LOFO, placebo null, robustness)",
+      "asset": "21-coin crypto 1d panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "5 model/reproducibility checks + 3 nested-LOFO variants + 50-draw placebo null + 6 robustness probes",
+      "methodology": "A: portfolio_sim fee/return formula hand-check; persist() smoothing certified vs composite_builder inline loop (6 adversarial switch patterns); champion headline bit-for-bit reproduction; strict disjoint-block LOFO reproduction via real AND fast paths (1e-9 match); switch-cost truth (flip count, fees at flips). B: NESTED LOFO (def x sm x mapping chosen on 2 training blocks only -> held block); B1b P3-fixed nested sm+mapping; B1c fully frozen champion; PLACEBO: 50 block-shuffled state draws through the identical protocol. C: fee x1.5, drop-best-month, per-coin concentration, monthly tail, worst-DD window autopsy, switch/dwell stats.",
+      "results": "A 5/5 PASS, zero bugs (champion +16.02/25.1/19.74 and LOFO +31.79/+4.33/+1.88 reproduce exactly; 8 switches, switch fees 0.70% of equity). B2 placebo: null mean +4.33 p90 +6.95 max +10.24; champion +12.67 = percentile 100 (0/50 beat). B1 nested full-procedure: training picked N2 3/3 (overfit) -> held -0.77/+3.26/+5.39 avg +2.63 NOT all-positive. B1b P3-fixed nested: +30.14/+2.70/+2.04 all positive (avg 11.63). B1c frozen champion: +34.99/+4.33/+6.85 all positive (avg 15.39). C: fee15bp +15.5%/mo Cal 17.3 dyn_ok; drop best month (2021-01 +188.7%) -> +12.3%/mo; top3 coins 52.7% of gross (DOGE 24.1%); 36% negative months, worst -21.3%; worst DD -25.1% = Sep-2021 crash, both engines negative in-window.",
+      "honest_summary": "Champion P3+smooth10 edge is REAL (placebo p100, robust to costs, months, concentration) and its numbers are bug-free and exactly reproducible. NEW CAVEAT: the meta-procedure of re-selecting the regime definition by training performance is unreliable (picked N2 every fold, held-out +2.63 avg w/ one negative block) - deploy the FROZEN P3+smooth10 spec, never re-run def selection at runtime. N2 flagged training-only-favorite. Same 21-coin 2020-2023 panel; forward paper validation still required.",
+      "tag": "regime-policy-deep-recheck",
+      "status": "COMPLETED"
     }
   ],
   "savepoints": {
