@@ -18028,5 +18028,277 @@
         "crown": "Blend3@75%"
       }
     }
+  },
+  "exp038_brain": {
+    "date": "2026-10-30",
+    "question": "does adaptive re-learning from trade history improve ROI vs frozen spec?",
+    "variants": [
+      "V0a_static_full",
+      "V0b_static_warmup",
+      "V1_refresh_21",
+      "V2_refresh_63",
+      "V3_guard_63",
+      "V4_bandit_21"
+    ],
+    "results": {
+      "Champion_P3": {
+        "V0a_static_full": {
+          "post_warm_monthly": 5.58,
+          "post_warm_dd": 25.1,
+          "post_warm_worst_m": -21.3,
+          "full_monthly": 16.02,
+          "full_dd": 25.1,
+          "blocks": [
+            4.33,
+            6.85
+          ],
+          "in_market": 94.0
+        },
+        "V0b_static_warmup": {
+          "post_warm_monthly": 1.19,
+          "post_warm_dd": 25.1,
+          "post_warm_worst_m": -10.9,
+          "full_monthly": 12.89,
+          "full_dd": 25.1,
+          "blocks": [
+            0.15,
+            2.32
+          ],
+          "in_market": 41.2
+        },
+        "V1_refresh_21": {
+          "post_warm_monthly": 2.54,
+          "post_warm_dd": 29.0,
+          "post_warm_worst_m": -11.3,
+          "full_monthly": 13.82,
+          "full_dd": 29.0,
+          "blocks": [
+            -0.02,
+            5.36
+          ],
+          "in_market": 62.0
+        },
+        "V2_refresh_63": {
+          "post_warm_monthly": 2.4,
+          "post_warm_dd": 25.2,
+          "post_warm_worst_m": -11.3,
+          "full_monthly": 13.72,
+          "full_dd": 25.2,
+          "blocks": [
+            0.53,
+            4.45
+          ],
+          "in_market": 59.3
+        },
+        "V3_guard_63": {
+          "post_warm_monthly": 2.46,
+          "post_warm_dd": 25.1,
+          "post_warm_worst_m": -10.9,
+          "full_monthly": 13.76,
+          "full_dd": 25.1,
+          "blocks": [
+            0.64,
+            4.45
+          ],
+          "in_market": 59.1
+        }
+      },
+      "ENS_CxH4": {
+        "V0a_static_full": {
+          "post_warm_monthly": 12.75,
+          "post_warm_dd": 37.9,
+          "post_warm_worst_m": -17.7,
+          "full_monthly": 22.31,
+          "full_dd": 51.0,
+          "blocks": [
+            9.82,
+            15.88
+          ],
+          "in_market": 96.7
+        },
+        "V0b_static_warmup": {
+          "post_warm_monthly": 3.81,
+          "post_warm_dd": 38.6,
+          "post_warm_worst_m": -22.1,
+          "full_monthly": 16.9,
+          "full_dd": 50.7,
+          "blocks": [
+            1.75,
+            6.07
+          ],
+          "in_market": 64.3
+        },
+        "V1_refresh_21": {
+          "post_warm_monthly": 6.18,
+          "post_warm_dd": 48.0,
+          "post_warm_worst_m": -20.2,
+          "full_monthly": 18.54,
+          "full_dd": 62.9,
+          "blocks": [
+            -0.56,
+            13.81
+          ],
+          "in_market": 71.3
+        },
+        "V2_refresh_63": {
+          "post_warm_monthly": 8.17,
+          "post_warm_dd": 38.6,
+          "post_warm_worst_m": -22.1,
+          "full_monthly": 19.91,
+          "full_dd": 50.7,
+          "blocks": [
+            2.31,
+            14.72
+          ],
+          "in_market": 69.5
+        },
+        "V3_guard_63": {
+          "post_warm_monthly": 8.13,
+          "post_warm_dd": 38.6,
+          "post_warm_worst_m": -22.1,
+          "full_monthly": 19.89,
+          "full_dd": 50.7,
+          "blocks": [
+            2.25,
+            14.72
+          ],
+          "in_market": 71.1
+        }
+      },
+      "Blend3_75": {
+        "V0a_static_full": {
+          "post_warm_monthly": 9.52,
+          "post_warm_dd": 34.5,
+          "post_warm_worst_m": -15.6,
+          "full_monthly": 18.64,
+          "full_dd": 34.5,
+          "blocks": [
+            6.66,
+            12.6
+          ],
+          "in_market": 96.7
+        },
+        "V0b_static_warmup": {
+          "post_warm_monthly": 3.83,
+          "post_warm_dd": 36.2,
+          "post_warm_worst_m": -17.9,
+          "full_monthly": 15.0,
+          "full_dd": 41.0,
+          "blocks": [
+            1.38,
+            6.51
+          ],
+          "in_market": 64.3
+        },
+        "V1_refresh_21": {
+          "post_warm_monthly": 5.33,
+          "post_warm_dd": 36.7,
+          "post_warm_worst_m": -16.3,
+          "full_monthly": 16.03,
+          "full_dd": 47.8,
+          "blocks": [
+            0.28,
+            10.98
+          ],
+          "in_market": 71.3
+        },
+        "V2_refresh_63": {
+          "post_warm_monthly": 6.23,
+          "post_warm_dd": 36.2,
+          "post_warm_worst_m": -17.9,
+          "full_monthly": 16.65,
+          "full_dd": 41.0,
+          "blocks": [
+            1.76,
+            11.19
+          ],
+          "in_market": 69.5
+        },
+        "V3_guard_63": {
+          "post_warm_monthly": 6.23,
+          "post_warm_dd": 36.2,
+          "post_warm_worst_m": -17.9,
+          "full_monthly": 16.65,
+          "full_dd": 41.0,
+          "blocks": [
+            1.75,
+            11.19
+          ],
+          "in_market": 71.1
+        },
+        "V4_bandit_21": {
+          "post_warm_monthly": 7.38,
+          "post_warm_dd": 35.8,
+          "post_warm_worst_m": -16.4,
+          "full_monthly": 19.62,
+          "full_dd": 52.0,
+          "blocks": [
+            1.8,
+            13.69
+          ],
+          "in_market": 71.7
+        }
+      }
+    },
+    "verdict": {
+      "Champion_P3": {
+        "V1_refresh_21": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V2_refresh_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V3_guard_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        }
+      },
+      "ENS_CxH4": {
+        "V1_refresh_21": {
+          "beats_v0b": true,
+          "dd_ok": false,
+          "improves": false
+        },
+        "V2_refresh_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V3_guard_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        }
+      },
+      "Blend3_75": {
+        "V1_refresh_21": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V2_refresh_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V3_guard_63": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        },
+        "V4_bandit_21": {
+          "beats_v0b": true,
+          "dd_ok": true,
+          "improves": true
+        }
+      }
+    },
+    "honest_read": "1) YES, the trade-history brain improves ROI causally: scheduled expanding re-learn every 63d roughly doubles-to-triples post-warmup monthly vs freezing at deploy (Champion +1.19->+2.40, ENS +3.81->+8.17, Blend3 +3.83->+6.23) at same DD, and raises in-market 64%->~70% (non-idle). 2) Fast refresh (21d) whipsaws (ENS DD 48%). 3) The margin guard (0.5%/mo) is neutral here (accepts most refreshes) - keep as safety rail. 4) SURPRISE: the bandit performance-chaser (pre-registered expected FAIL) won on Blend3 post-warm (+7.38 vs +6.23) on this ONE 19-month causal window - contrary to expectation; per EXP-034 discipline this is NOT certifiable (single path, no selection-adjusted null) -> track as shadow sleeve in paper trading only. 5) The V0a vs V0b gap (published frozen +9.52 vs causal warmup +3.83 on Blend3 post-warm) quantifies the in-sample mapping advantage of panel-end learning - live deployment should run the quarterly refresh brain, not a one-shot frozen mapping.",
+    "recommended_live_loop": "trade journal (every fill: state cell, strategy, realized pnl after fees/slippage) -> monthly in-cell stats report -> quarterly refresh: re-learn mapping on all history, adopt ONLY if trailing-252d realized monthly beats current by >=0.5%/mo -> never re-learn mid-period (no runtime re-selection)."
   }
 }

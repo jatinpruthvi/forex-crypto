@@ -1472,6 +1472,12 @@
       "date": "2026-10-30",
       "focus": "meta-selector over top-5 by causal state (42 configs, non-idle): winner CORR30_s5 = Meta-ENS (A corr-high->ENS_CxH4, B corr-low->ENS_CxP3) LOFO +28.64/+12.17/+12.98 (best weak-block OOS), in-market 96.7%; gates pass but G3 thin (real p96 of 24-draw search-null, 1/24 above); deployable curve ~ ENS_CxH4 -> risk-capped crown stays Blend3@75% (+18.64/34.5). Paper-trade 3 sleeves: champion, Blend3@75%, Meta-ENS@55%",
       "outcome": "EXP-037-META-PASSED-THIN"
+    },
+    {
+      "id": "EXP-038-TRADE-BRAIN",
+      "date": "2026-10-30",
+      "focus": "trade-history brain: causal expanding re-learn vs frozen spec. 63d refresh doubles-triples causal post-warm monthly (Champion 1.19->2.40, ENS 3.81->8.17, Blend3 3.83->6.23) at same DD, in-market 64%->70%; 21d refresh whipsaws (ENS DD 48); bandit chaser unexpectedly won Blend3 post-warm (+7.38, one 19-month path, not certifiable -> shadow sleeve). Recommended live loop: journal -> monthly report -> guarded quarterly refresh",
+      "outcome": "EXP-038-BRAIN-WORKS"
     }
   ],
   "savepoints": {

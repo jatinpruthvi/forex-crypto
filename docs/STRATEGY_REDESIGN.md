@@ -683,3 +683,37 @@ ABOVE it; G4 in-market 96.7% PASS.
 4. Untested route to beating Blend3 risk-capped: DD-aware meta objective (defensive picks
    in crash states) - the argmax-in-cell rule always selects high-octane actions because
    they carry the highest in-cell monthly. Candidate EXP-038 if wanted.
+
+## 12.8 EXP-038 — Trade-history brain: does adaptive re-learning improve ROI? (2026-10-30)
+
+Question: "is any harness or python brain will improve the ROI based on trade history?"
+Tested 6 pre-registered causal variants x 3 sleeves; all variants use only past data after
+a common warmup (first 38%); post-warmup window (62% of panel) is the comparison.
+
+| variant | Champion | ENS_CxH4 | Blend3_75 | notes |
+|---|---|---|---|---|
+| V0a static_full (panel-end learn) | +5.58 | +12.75 | +9.52 | published frozen view (in-sample map) |
+| V0b static_warmup (FAIR causal) | **+1.19** | **+3.81** | **+3.83** | freeze-at-deploy baseline |
+| V1 refresh_21 | +2.54 (DD 29) | +6.18 (DD 48!) | +5.33 | fast refresh whipsaws |
+| V2 refresh_63 | +2.40 | **+8.17** | **+6.23** | quarterly re-learn |
+| V3 guard_63 (margin 0.5%/mo) | +2.46 | +8.13 | +6.23 | guard = safety rail, neutral here |
+| V4 bandit_21 (chaser) | - | - | +7.38 | SURPRISE winner on this path; not certifiable |
+
+### Answers
+1. **YES - the brain works**: expanding re-learn every ~63 days doubles-to-triples the
+   causal post-warmup monthly vs freezing at deploy (Champion +1.19->+2.40, ENS
+   +3.81->+8.17, Blend3 +3.83->+6.23) at unchanged DD, and lifts in-market 64%->~70%.
+2. **Slow beats fast**: 21-day re-learning whipsaws (ENS DD 48%); 63-day is the sweet spot.
+3. **Margin guard** (adopt new mapping only if trailing-252d beats current by 0.5%/mo):
+   neutral on this sample - keep as a safety rail, it costs nothing.
+4. **Bandit surprise** (honest): the pre-registered "expected FAIL" performance-chaser won
+   on Blend3 (+7.38 vs +6.23) on ONE 19-month causal window. Not certifiable per EXP-034
+   discipline (single path, no selection-adjusted null) - track as a shadow sleeve only.
+5. The V0a-vs-V0b gap quantifies the in-sample advantage of panel-end mapping learning;
+   live deployment should therefore run the refresh brain, not a one-shot frozen mapping.
+
+### Recommended live harness (the "python brain")
+trade journal (every fill: state cell, strategy, realized pnl after fees/slippage) ->
+monthly in-cell stats report -> **guarded quarterly refresh** (re-learn on all history;
+adopt ONLY if trailing-252d realized monthly beats current by >= 0.5%/mo) -> never
+re-learn mid-period. This is the validated learn_assign_local math fed by real fills.
