@@ -544,3 +544,48 @@ the only defensible alternatives - both validated at the p90 placebo level but n
 pre-registered replacement bar. Recommend running them side-by-side in the 3-month forward
 paper-trading gate rather than switching now. All 35 configs + pair nulls saved in
 reports/strategy_leaderboard.json exp033_expansion.
+
+
+### 12.4 EXP-034 — Second-Depth Best-of-Best Check (2026-10-29)
+
+User: "check again for the same for best of best combination." Closed the four gaps left by
+EXP-033: (A) correctness of the new machinery, (B) the missing selection-adjusted placebo,
+(C) the missing P3xH4/P3xH7 combinations + neighbors, (D) verdict under the full rule.
+
+**A) Machinery 4/4 PASS**: persist_asym == brute-force on 5 adversarial patterns;
+blend_composite == per-bar manual (0.00e+00 diff); learn_assign2 hand-check exact; 3 saved
+EXP-033 scan rows reproduce exactly.
+
+**B) SELECTION-ADJUSTED PLACEBO (the decisive test)**: 20 complete searches (30 state-driven
+configs each) on block-shuffled labels. Search-null best-min-holdout: mean +3.31, p90 +5.06,
+max +5.37. The real search's best (+4.55, H7) sits at the **80th percentile - 4/20 shuffled
+searches found better**. Conclusion: the challengers' worst-block superiority is a selection
+artifact of searching ~30 configs; noise clears +4.55 about one search in five. The only
+statistic that remains exceptional under every null is the incumbent's LOFO average (+12.67
+vs config-null +4.3, p100; no shuffled search produced anything close).
+
+**C) Missing combinations (the real dial) + neighbors**:
+
+| config | full %/mo | strict LOFO | min-hold | config placebo |
+|---|---|---|---|---|
+| ENS_P3_H4_w25 (25% P3 / 75% H4) | +16.09 | +14.9/+4.3/+5.0 | **+4.31** | **p97 (1/30)** |
+| ENS_P3_H4_w50 | +16.08 | +20.6/+4.4/+4.0 | +3.99 | p100 (0/30) |
+| ENS_P3_H7_w25 | +16.21 | +14.2/+5.2/+3.9 | +3.93 | p93 (2/30) |
+| VOTE_P3_H4_H7 | +16.24 | +7.9/+4.9/+4.1 | +4.07 | p87 - fails |
+| (incumbent P3_s10) | +16.02 | +31.8/+4.3/+1.9 | +1.88 | p100 (0/30) |
+
+Weight sensitivity is a smooth risk/return dial (w25->w75 trades worst-block +4.3->+2.6 for
+bull-block +14.9->+26.3). H4 is robust: breadth thresholds 0.55/0.45 and 0.65/0.35 both
+all-positive with similar numbers; sm grid {3,5,10,15} all all-positive (s10 best). H7 is
+FRAGILE: mom lookback 40d fails LOFO (-0.07 block) and its own placebo is p73 -> **H7
+demoted**. H4_s5 placebo p73; ENS_P3_H4_w50 p100.
+
+**D) Verdict under the full pre-registered rule** (min-holdout AND placebo AND nested
+all-positive): **no certified replacement** - the nested gate fails (EXP-033: the search
+procedure itself overfits) and the search-null shows the min-holdout gains are not
+selection-significant. **Deployable champion remains P3+smooth10.** Best new combination =
+**ENS_P3_H4_w25** (25% P3+smooth10 / 75% H4 hysteresis-breadth): config-level placebo p97,
+all-positive LOFO at every weight, threshold/sm-robust. Recommended as the **shadow candidate
+in the 3-month forward paper-trading gate** running side-by-side with the champion - it is a
+legitimate risk/return dial (better worst block, ~half the bull capture), not a validated
+superior policy. Full evidence in reports/strategy_leaderboard.json exp034_recheck.

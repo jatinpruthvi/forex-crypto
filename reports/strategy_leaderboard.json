@@ -13007,5 +13007,479 @@
         ]
       }
     }
+  },
+  "exp034_recheck": {
+    "checks": [
+      {
+        "name": "a1_persist_asym",
+        "status": "PASS",
+        "msg": "persist_asym == brute-force on 5 adversarial patterns"
+      },
+      {
+        "name": "a2_blend_equivalence",
+        "status": "PASS",
+        "msg": "max weight diff = 0.00e+00"
+      },
+      {
+        "name": "a3_learn_assign2_handcheck",
+        "status": "PASS",
+        "msg": "top-2 = ('S1', 'S2') (want ('S1','S2'))"
+      },
+      {
+        "name": "a4_reproduce_rows",
+        "status": "PASS",
+        "msg": "P3_s10:ok; H7_mom_x_hyst_s10:ok; ENS_P3_N2:ok"
+      }
+    ],
+    "scan_level_placebo": {
+      "real_best_min_hold": 4.55,
+      "null_best_mean": 3.31,
+      "null_best_p90": 5.06,
+      "null_best_max": 5.37,
+      "real_percentile_of_search_null": 80.0,
+      "draws_beating_real": 4,
+      "n_draws": 20,
+      "null_best": [
+        3.46,
+        2.42,
+        2.51,
+        3.25,
+        2.4,
+        5.08,
+        3.17,
+        1.66,
+        4.64,
+        2.66,
+        2.91,
+        5.37,
+        3.9,
+        1.4,
+        5.06,
+        2.95,
+        1.69,
+        4.25,
+        3.99,
+        3.5
+      ],
+      "null_names": [
+        "H6_dd_state_s0",
+        "P3_s10",
+        "P6_s10",
+        "H8_alts_x_hyst_s10",
+        "H6_dd_state_s10",
+        "N2_s10",
+        "N2_s10",
+        "H5_slope_x_trend_s0",
+        "H4_hyst_x_breadth_s10",
+        "H8_alts_x_hyst_s0",
+        "H10_vol_quart_s10",
+        "H4_hyst_x_breadth_s0",
+        "H6_dd_state_s0",
+        "H8_alts_x_hyst_s0",
+        "H4_hyst_x_breadth_s0",
+        "N2_s10",
+        "P3_asym_offfast",
+        "P3_asym_offfast",
+        "ENS_P3_N2",
+        "H6_dd_state_s0"
+      ]
+    },
+    "new_combinations": [
+      {
+        "name": "ENS_P3_H4_w25",
+        "full": 16.09,
+        "lofo": [
+          14.87,
+          4.31,
+          4.95
+        ],
+        "frozen": [
+          34.69,
+          4.79,
+          6.85
+        ],
+        "min_hold": 4.31,
+        "min_frozen": 4.79,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H4_w50",
+        "full": 16.08,
+        "lofo": [
+          20.64,
+          4.35,
+          3.99
+        ],
+        "frozen": [
+          34.82,
+          4.64,
+          6.85
+        ],
+        "min_hold": 3.99,
+        "min_frozen": 4.64,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H4_w75",
+        "full": 16.05,
+        "lofo": [
+          26.28,
+          4.36,
+          2.97
+        ],
+        "frozen": [
+          34.92,
+          4.49,
+          6.85
+        ],
+        "min_hold": 2.97,
+        "min_frozen": 4.49,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H7_w25",
+        "full": 16.21,
+        "lofo": [
+          14.2,
+          5.16,
+          3.93
+        ],
+        "frozen": [
+          34.99,
+          4.87,
+          6.85
+        ],
+        "min_hold": 3.93,
+        "min_frozen": 4.87,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H7_w50",
+        "full": 16.15,
+        "lofo": [
+          20.15,
+          5.29,
+          3.28
+        ],
+        "frozen": [
+          34.99,
+          4.69,
+          6.85
+        ],
+        "min_hold": 3.28,
+        "min_frozen": 4.69,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H7_w75",
+        "full": 16.09,
+        "lofo": [
+          26.02,
+          5.18,
+          2.6
+        ],
+        "frozen": [
+          34.99,
+          4.51,
+          6.85
+        ],
+        "min_hold": 2.6,
+        "min_frozen": 4.51,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_N2_w25",
+        "full": 16.02,
+        "lofo": [
+          9.96,
+          3.72,
+          4.69
+        ],
+        "frozen": [
+          36.67,
+          3.7,
+          5.88
+        ],
+        "min_hold": 3.72,
+        "min_frozen": 3.7,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_N2_w50",
+        "full": 16.08,
+        "lofo": [
+          17.53,
+          4.05,
+          3.82
+        ],
+        "frozen": [
+          36.16,
+          3.98,
+          6.24
+        ],
+        "min_hold": 3.82,
+        "min_frozen": 3.98,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_N2_w75",
+        "full": 16.07,
+        "lofo": [
+          24.8,
+          4.26,
+          2.88
+        ],
+        "frozen": [
+          35.6,
+          4.19,
+          6.57
+        ],
+        "min_hold": 2.88,
+        "min_frozen": 4.19,
+        "allpos": true
+      },
+      {
+        "name": "VOTE_P3_H4_H7",
+        "full": 16.24,
+        "lofo": [
+          7.91,
+          4.94,
+          4.07
+        ],
+        "frozen": [
+          34.99,
+          4.94,
+          6.85
+        ],
+        "min_hold": 4.07,
+        "min_frozen": 4.94,
+        "allpos": true
+      },
+      {
+        "name": "H4_s3",
+        "full": 14.66,
+        "lofo": [
+          5.5,
+          2.24,
+          5.64
+        ],
+        "frozen": [
+          32.91,
+          2.72,
+          6.88
+        ],
+        "min_hold": 2.24,
+        "min_frozen": 2.72,
+        "allpos": true
+      },
+      {
+        "name": "H4_s5",
+        "full": 14.29,
+        "lofo": [
+          5.99,
+          4.13,
+          5.71
+        ],
+        "frozen": [
+          31.13,
+          3.07,
+          6.82
+        ],
+        "min_hold": 4.13,
+        "min_frozen": 3.07,
+        "allpos": true
+      },
+      {
+        "name": "H4_s15",
+        "full": 15.42,
+        "lofo": [
+          8.58,
+          3.97,
+          6.41
+        ],
+        "frozen": [
+          33.56,
+          3.93,
+          6.88
+        ],
+        "min_hold": 3.97,
+        "min_frozen": 3.93,
+        "allpos": true
+      },
+      {
+        "name": "H7_s3",
+        "full": 14.44,
+        "lofo": [
+          3.64,
+          3.37,
+          2.65
+        ],
+        "frozen": [
+          32.06,
+          2.56,
+          7.25
+        ],
+        "min_hold": 2.65,
+        "min_frozen": 2.56,
+        "allpos": true
+      },
+      {
+        "name": "H7_s5",
+        "full": 14.66,
+        "lofo": [
+          3.81,
+          2.44,
+          3.29
+        ],
+        "frozen": [
+          32.26,
+          3.04,
+          6.82
+        ],
+        "min_hold": 2.44,
+        "min_frozen": 3.04,
+        "allpos": true
+      },
+      {
+        "name": "H7_s15",
+        "full": 15.09,
+        "lofo": [
+          6.35,
+          7.3,
+          2.49
+        ],
+        "frozen": [
+          32.92,
+          3.59,
+          6.88
+        ],
+        "min_hold": 2.49,
+        "min_frozen": 3.59,
+        "allpos": true
+      },
+      {
+        "name": "H4_th0.55/0.45",
+        "full": 16.07,
+        "lofo": [
+          8.98,
+          3.64,
+          6.85
+        ],
+        "frozen": [
+          34.52,
+          4.94,
+          6.8
+        ],
+        "min_hold": 3.64,
+        "min_frozen": 4.94,
+        "allpos": true
+      },
+      {
+        "name": "H4_th0.65/0.35",
+        "full": 15.75,
+        "lofo": [
+          8.72,
+          2.7,
+          5.81
+        ],
+        "frozen": [
+          34.54,
+          4.94,
+          5.81
+        ],
+        "min_hold": 2.7,
+        "min_frozen": 4.94,
+        "allpos": true
+      },
+      {
+        "name": "H7_mom20d",
+        "full": 16.02,
+        "lofo": [
+          9.16,
+          4.78,
+          1.39
+        ],
+        "frozen": [
+          34.99,
+          4.33,
+          6.85
+        ],
+        "min_hold": 1.39,
+        "min_frozen": 4.33,
+        "allpos": true
+      },
+      {
+        "name": "H7_mom40d",
+        "full": 16.19,
+        "lofo": [
+          -0.07,
+          2.15,
+          2.14
+        ],
+        "frozen": [
+          34.83,
+          4.99,
+          6.82
+        ],
+        "min_hold": -0.07,
+        "min_frozen": 4.99,
+        "allpos": false
+      }
+    ],
+    "combo_placebo": {
+      "ENS_P3_H4_w25": {
+        "champion_avg": 8.04,
+        "null_mean": 3.66,
+        "null_p90": 6.5,
+        "champion_percentile": 96.7,
+        "draws_beating": 1
+      },
+      "VOTE_P3_H4_H7": {
+        "champion_avg": 5.64,
+        "null_mean": 4.15,
+        "null_p90": 5.8,
+        "champion_percentile": 86.7,
+        "draws_beating": 4
+      },
+      "ENS_P3_H4_w50": {
+        "champion_avg": 9.66,
+        "null_mean": 3.91,
+        "null_p90": 6.59,
+        "champion_percentile": 100.0,
+        "draws_beating": 0
+      },
+      "H4_s5": {
+        "champion_avg": 4.34,
+        "null_mean": 3.45,
+        "null_p90": 6.48,
+        "champion_percentile": 73.3,
+        "draws_beating": 8
+      },
+      "ENS_P3_H7_w25": {
+        "champion_avg": 7.76,
+        "null_mean": 4.85,
+        "null_p90": 7.44,
+        "champion_percentile": 93.3,
+        "draws_beating": 2
+      }
+    },
+    "verdict": {
+      "scan_null_pctl_of_real_best": 80.0,
+      "scan_null_draws_beating": 4,
+      "best_new_combo": "ENS_P3_H4_w25",
+      "best_new_combo_min_hold": 4.31,
+      "best_new_combo_min_frozen": 4.79,
+      "replacement_original_rule": "ENS_P3_H4_w25",
+      "final": "ENS_P3_H4_w25",
+      "verdict_reread": {
+        "rule_full_original": "min-LOFO > incumbent AND placebo>=p90 AND nested-LOFO all-positive (EXP-033 pre-registration)",
+        "gate_min_hold": "PASS for ENS_P3_H4_w25 (+4.31 > +1.88)",
+        "gate_placebo": "PASS for ENS_P3_H4_w25 (p97)",
+        "gate_nested": "FAIL (EXP-033 nested LOFO not all-positive; applies to any search-derived policy)",
+        "search_level_null": "real best min-hold +4.55 at p80 of 20 shuffled searches (4/20 beat) - superiority claims NOT selection-significant",
+        "final_honest": "P3_s10 (incumbent stands as deployable champion); ENS_P3_H4_w25 = strongest shadow candidate for the forward paper gate (config placebo p97, all-positive LOFO, threshold/sm-robust H4 family, smooth weight dial) - NOT a certified replacement",
+        "demoted": "H7 family: mom-lookback fragile (40d variant fails LOFO), own placebo p73 - drop from candidacy"
+      }
+    }
   }
 }

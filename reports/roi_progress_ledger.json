@@ -1442,6 +1442,18 @@
       "honest_summary": "Best-of-best confirmed as P3+smooth10 under the pre-registered bar, but H4_hyst_x_breadth_s10 and ENS_P3_N2 show better worst-block robustness at p90+ placebo - recommended as side-by-side candidates in the forward paper-trading gate, not as replacements. Incumbent's unmatched bull capture + strongest placebo (p100) keeps it champion. Nested LOFO re-confirms: never re-run def selection at runtime.",
       "tag": "regime-expansion-hunt",
       "status": "COMPLETED"
+    },
+    {
+      "experiment_id": "EXP-034-BESTOFBEST-RECHECK",
+      "strategy_name": "Second-depth best-of-best check: selection-adjusted placebo + missing combinations",
+      "asset": "21-coin crypto 1d panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "4 machinery tests + 20 full-search placebo draws + 20 new combo/neighbor configs + 5 config placebos",
+      "methodology": "Closed EXP-033's gaps: A) correctness tests for persist_asym / blend_composite / learn_assign2 + saved-row reproduction; B) SELECTION-ADJUSTED PLACEBO - 20 complete 30-config searches on block-shuffled labels, comparing the real best min-LOFO-holdout to the search-null distribution; C) missing combos ENS_P3_H4/H7 at weights 25/50/75, state-vote ensemble, sm grid {3,5,15} for H4/H7, H4 breadth-threshold neighbors, H7 mom-lookback neighbors - each with strict LOFO + frozen blocks + config placebo (30 draws); D) verdict under the full pre-registered rule (min-holdout AND placebo AND nested gates).",
+      "results": "A 4/4 PASS (machinery certified; EXP-033 rows reproduce exactly). B DECISIVE: search-null best-min-holdout mean +3.31 p90 +5.06 max +5.37; real best +4.55 (H7) at p80 - 4/20 shuffled searches beat it -> worst-block superiority is a selection artifact. C best new combo ENS_P3_H4_w25 (25% P3/75% H4): LOFO +14.9/+4.3/+5.0 all-positive, config placebo p97 (1/30), weight dial smooth (w50 p100, w75 LOFO +26.3/+4.4/+2.6); H4 threshold/sm-robust (0.55-0.65, s3-s15 all positive); H7 FRAGILE (mom40 fails LOFO, own placebo p73 -> demoted); VOTE p87 fails; H4_s5 p73. D NO certified replacement: nested gate fails + search-null not significant.",
+      "honest_summary": "Champion P3+smooth10 confirmed as the only policy exceptional under every null (LOFO avg +12.67 vs null +4.3, p100). ENS_P3_H4_w25 is the strongest risk/return variant ever found (config p97, min-hold +4.31) but its superiority over the incumbent is not selection-significant (search-null p80) - deploy as shadow candidate in the forward paper gate, not as replacement. H7 removed from candidacy (lookback-fragile).",
+      "tag": "best-of-best-recheck",
+      "status": "COMPLETED"
     }
   ],
   "savepoints": {
