@@ -234,3 +234,44 @@ Few folds (3) and one market regime sequence (2020-23 bull->chop->bear); all sea
 panel, so selection-adjustment persists despite LOFO. Worst held-out month -20.1%. Forward paper
 validation (3 months) remains required before capital. Realistic forward expectation: bull +15-30%/mo,
 chop +0-2%, bear +0-3%, DD 25-35%.
+
+
+---
+
+## 9. EXP-026 — Dynamic-Strategy Hunt: Anti Bull-Hold, BFS+DFS, 100 Nodes (2026-10-28)
+
+**Trigger**: user — "make sure our strategy is dynamic not like by an hold for the bull run in the past";
+"use nuclear expansion... depth first search and breadth first search... validate at least 100 different
+nodes." Pre-registered **DYNAMIC selection rule** before running: maximize worst-fold monthly subject to
+all folds > -1%/mo, **non-bull avg (chop+bear) > 0**, **bull profit share < 0.8**, DD/Mo <= 10,
+Calmar >= 1.2, maxDD <= 35%. This structurally rejects bull-hold strategies.
+
+**Search** (100 validated nodes, real panel, saved to `reports/strategy_leaderboard.json`):
+BFS L1 breadth x31 (LS momentum, regime switches, bear shorts, MR, vol dynamics, adaptive params,
+11 reference configs) -> BFS L2 expansions -> DFS parameter descent x56 -> neighbor plateau x7 -> LOFO x3.
+
+### The user's concern is CONFIRMED by the data
+
+| config | %/mo | folds | bull share | verdict |
+|---|---|---|---|---|
+| old champion L5/C1 | +13.54 | +34.1/+1.7/+2.5 | **0.89** | FAILS dynamic rule = largely bull-hold |
+| ABS90_GROT g150 | +11.68 | +31.8/-0.3/+2.0 | 0.95 | fails |
+| **dynamic champion L2/03-T1** | **+3.95** | **+7.74/+0.97/+2.09** | **0.72** | **PASSES: chop and bear genuinely pay** |
+
+**Dynamic champion = VOL_GROT 30% + hyst-gate**: weekly top-5 90d-momentum inverse-vol rotation gated
+by BTC regime, **risk scaled to 30% annualized vol** (this is the dynamic part - exposure adapts to
+market volatility), gate with **MA100 +-2% hysteresis** (no whipsaw). Full: +3.95%/mo, DD 19.5%,
+Calmar 3.04, non-bull avg +1.53%/mo. **LOFO held-out: +7.74 / +0.41 / +2.09 %/mo (bull/chop/bear),
+all positive, DD 10-20%**. Neighbor plateau: 5/7 DYN-OK (any vol target 20-40%, hysteresis optional).
+
+**Negative knowledge (100 nodes of it, saved)**: every short-selling, mean-reversion, LS, and
+regime-switching mechanic FAILED to pay in chop/bear on this panel (LS_MOM folds -2.2/-2.3, SWITCH3
+bear -2.1, DUAL_TREND bear -2.2, BOLL_MR -3.2, VOL_BRK_LS -2.9...). The only genuine dynamic edge
+source on this panel = **vol-targeting + regime gating of the momentum rotation**. Shorts of altcoins
+in the 2022 bear still lost (bear-market rallies ripped them).
+
+### The honest trade-off
+Dynamic champion: +3.95%/mo, DD 19.5%, regime-balanced (bull share 0.72).
+Bull-hold champion: +13.5%/mo, DD 29.2%, bull share 0.89.
+Same mechanics core (momentum rotation); the difference is risk adaptation. Forward paper validation
+required for both before capital. Worst dynamic month: -9.9%.

@@ -1314,6 +1314,25 @@
       "honest_summary": "LOFO held-out validates positive in all 3 regimes for the first time, but folds are few (3) and the same 2020-23 panel underlies all searches - forward paper validation still required. Worst held-out month -20.1% (fold2 sleeve). Realistic forward expectation: bull +15-30%/mo, chop +0-2%/mo, bear +0-3%/mo with DD 25-35%.",
       "tag": "STRATEGY_HUNT",
       "status": "TREE_COMPLETE_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-026-DYNAMIC-HUNT-BFS-DFS",
+      "strategy_name": "Dynamic-strategy hunt (anti bull-hold) via BFS+DFS nuclear tree, 100+ nodes",
+      "asset": "21-coin crypto 1d panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "1000 bars full panel, 3 chronological folds + LOFO + neighbor plateau",
+      "methodology": "Pre-registered DYNAMIC rule: max worst-fold monthly s.t. all folds>-1%, non-bull avg (chops/bear)>0, bull profit share<0.8, DD/Mo<=10, Calmar>=1.2, maxDD<=35% - structurally rejects bull-hold strategies. BFS L1 breadth (31 nodes: LS momentum, regime switches, shorts, MR, vol dynamics, adaptive params, 11 reference configs), BFS L2 expansions x3 adaptations, DFS waves (parameter descent x56 nodes), neighbor plateau x7, LOFO x3. All nodes in reports/strategy_leaderboard.json. Script: scripts/strategy_hunt4.py",
+      "results": {
+        "user_concern_confirmed": "Old champion L5/C1 bull_share = 0.89 (89% of profit from the bull fold) - FAILS dynamic rule. The user was right: it is largely a bull-hold. Same for ABS90_GROT (0.95), GATED_ROT g100 (0.89), BLEND (0.99).",
+        "dynamic_champion": "L2/03-T1 = VOL_GROT 30% + hyst-gate (BTC MA100 +-2% hysteresis): +3.95%/mo, DD 19.5%, Calmar 3.04, folds +7.74/+0.97/+2.09, bull share 0.72, non-bull avg +1.53%/mo - chop and bear genuinely pay",
+        "lofo_heldout": "+7.74 (bull, DD 19.5%) / +0.41 (chop, DD 18.9%) / +2.09 (bear, DD 10.4%) %/mo - all positive",
+        "neighbor_plateau": "5/7 neighbors DYN-OK (vt20-vt40, hyst, lb80, K6), g180 weak - plateau not a spike",
+        "negative_knowledge": "ALL short-selling, MR, LS, and regime-switch mechanics failed to pay in chop/bear on this panel (folds 2-3 negative): LS_MOM, SWITCH3, DUAL_TREND, PAIRS_MR (crashed), BOLL_MR, VOL_BRK_LS etc. The only dynamic edge source = vol-targeting + regime gating of the rotation family.",
+        "tradeoff": "Dynamic != highest return: bull-hold champion +13.5%/mo but 89% bull-concentrated; dynamic champion +3.95%/mo regime-balanced with lower DD (19.5%)."
+      },
+      "honest_summary": "Panel restored from StephanAkkerman/crypto-forecasting-benchmark (1000 bars cap, 2020-07-20..2023-04-15) - identical regime sequence as prior rounds. Selection-adjusted with LOFO mitigation; 3 fold blocks only. Dynamic strategy worst month -9.9% (bull fold). Forward paper validation required before capital.",
+      "tag": "STRATEGY_HUNT_DYNAMIC",
+      "status": "DYNAMIC_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {
