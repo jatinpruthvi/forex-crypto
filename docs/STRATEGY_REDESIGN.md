@@ -857,3 +857,25 @@ base (taker+spread), ladder 0.1→20bp/side. **Verdict: scalping does NOT help.*
   post-only maker cost; not enough to deploy.
 - Blend test: any scalp stream into the certified book destroys it (5% weight → SR −14).
 - Alpha-decay pattern implies even maker-viable scalps would decay further.
+
+## 12.14 EXP-044 — Which timeframe helps? Which combinations help? (2026-10-30)
+
+### Timeframe matrix (90 nodes, 5.7y, 10bp/side + maker/taker ladder):
+| TF | best node | net @10bp | @3bp maker | verdict |
+|---|---|---|---|---|
+| 5m | don55_5m_ETH | -20.4%/mo | -10.9 | DEAD at any cost |
+| 15m | don55_15m_ETH | -6.5 | -3.0 | DEAD |
+| 1h | don55_1h_ETH | +0.38 | +1.25 | borderline |
+| **4h** | **don55_4h_ETH** | **+2.68** | +2.88 | **WORKS, cost-insensitive** |
+| **1d** | sma20_50_1d_ETH | +2.23 | +2.32 | **WORKS, cost-insensitive** |
+Winners: Donchian breakout + slow MA/momentum at 4h/1d. Reversal/RSI die everywhere net.
+
+### Combination helpers vs certified book (placebo-tested):
+- **+25% funding carry (fund_ls7_K5): THE helper** — SR 1.18→1.52 (full window),
+  DD 18.9→18.2, placebo PASS (real 1.66 vs null p90 1.62 on overlap window).
+- +10% don55_4h: worst-year improves to +0.20 (SR marginal).
+- HURTERS: 1h momentum, hour seasonality, 5m reversal (even at maker).
+### NEW DEPLOYABLE BOOK (frontier champion):
+**75%×(ABS_GROT+FVG_SHORT) + 25% cs_mom14_K5_vg, with 25% sleeve = fund_ls7_K5**
+At ×2: **+4.59%/mo, DD 33.7, worst-year -1.00** (2021 +13.5 / 2022 +0.1 / 2023 -1.0 /
+2024 +6.8 / 2025 +2.0 / 2026 -0.8). Beats EXP-042 blend x2 (+3.47/DD35.8).

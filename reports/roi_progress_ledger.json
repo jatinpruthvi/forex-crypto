@@ -1514,6 +1514,12 @@
       "date": "2026-10-30",
       "focus": "scalping nuclear hunt 280 nodes, BTC 5m 5.73y + ETH 5.51y, commission+fees 12bp base + 7-rung ladder: 0/280 net-positive at taker 12bp AND maker 3bp (14/280 at 0.1bp); 5m reversal gross REAL (SR4.9 placebo PASS) but decayed 56->7.7%/mo and breakeven 0.4bp vs 3-12bp costs; blend into certified book destroys it -> scalping does not help retail execution",
       "outcome": "EXP-043-SCALPING-DEAD-AT-COSTS"
+    },
+    {
+      "id": "EXP-044-TF-AND-COMBOS",
+      "date": "2026-10-30",
+      "focus": "timeframe matrix (90 nodes: 5m/15m/1h/4h/1d x 9 signals x BTC/ETH, 5.7y, costs) + combination helpers vs certified book: TF answer = 4h/1d Donchian/trend WORK cost-insensitive (don55_4h_ETH +2.68/mo), 1h borderline, 5m/15m dead at any cost; COMBO answer = +25% funding carry (fund_ls7_K5) placebo-PASS (SR 1.18->1.52 full window); base+fund25 x2 = +4.59/mo DD33.7 minYr-1.00 = new frontier champion; don55_4h 10% raises minYr to +0.20; mom1h/hod/rev5m hurt",
+      "outcome": "EXP-044-FUND-COMBO-WINS"
     }
   ],
   "savepoints": {
