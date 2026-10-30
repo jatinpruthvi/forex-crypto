@@ -589,3 +589,35 @@ all-positive LOFO at every weight, threshold/sm-robust. Recommended as the **sha
 in the 3-month forward paper-trading gate** running side-by-side with the champion - it is a
 legitimate risk/return dial (better worst block, ~half the bull capture), not a validated
 superior policy. Full evidence in reports/strategy_leaderboard.json exp034_recheck.
+
+## 12.5 EXP-035 — Nuclear method on the best-of-best hunt (2026-10-30)
+
+Directive: apply the nuclear BFS+DFS method (>=100 nodes) to the best-of-best hunt.
+66 causal families (incl. NEW pure state families never tested standalone: **CORR20/30
+pairwise-correlation**, VOLUME clusters, MOM30, ATH depth, TREND3, DUALMA, crosses) partition-asserted
+(closure + no-lookahead PASS), BFS sm=10 -> DFS top-6 x {s0,s3,s5,s8,s15,top2} -> polish ENS_W -> 104 nodes.
+
+### Discovery: the correlation state family
+- **CORR30_s0** (avg pairwise 30d correlation above/below expanding median; sm=0): full **+19.44%/mo**,
+  strict LOFO **+34.83/+8.63/+17.27 (min +8.63, ALL+)**, config placebo **p100 (0/30)**, no-lookahead PASS.
+  Mapping: HIC -> FVG_LONG, LOC -> TSMOM. CORR20 family corroborates (min +5.76..+5.92; lookback plateau).
+
+### Certified winner (ALL FOUR pre-registered gates pass — first policy in the program to do so)
+**ENS_CORR30_s0xW_H4** = 50% CORR30_s0 + 50% H4_s10 (hysteresis x breadth):
+full **+22.31%/mo**, strict LOFO **+32.87/+8.80/+12.98 (min +8.80, ALL+)**,
+config placebo **p100 (0/30)**, search-level placebo (8 full BFS->DFS->polish runs on shuffled labels):
+real +8.80 vs null mean +5.99 **p90 +7.25** -> pct 87.5 (1/8 beat) -> **selection-adjusted PASS**.
+Independent fold_metrics reproduction exact (+22.31).
+
+### Risk sizing (the one caveat): full-size DD is 51% (program gate 35%)
+Risk-capped frontier (maxDD <= 35): **Blend3 @75%** (1/3 P3 champion + 1/3 CORR30_s0 + 1/3 H4):
+**+18.64%/mo at DD 34.5**, blocks **+34.90/+6.66/+12.60**, worst month **-15.6%** — beats the champion
+(+16.02, blocks +34.99/+4.33/+6.85, worst -21.3%) on return and every weak block at comparable size.
+ENS@55%: +16.07 at DD 34.3 (matches champion return, better weak blocks). Champion stays the low-DD option (25.1%).
+
+### Verdict (auto + honest read)
+CERTIFIED_REPLACEMENT = TRUE on all four pre-registered gates. The CORR family is real signal, not
+selection residue: config placebo p100, selection-adjusted above the pipeline-null p90, no-lookahead clean,
+corroborated across lookbacks (CORR20/30) and smoothing (s3/s5/s8 all ALL+). Recommend the 3-month forward
+paper-trading gate now runs **champion P3+smooth10 vs Blend3@75% vs ENS@55%** side by side; deployment form
+for the winner is the risk-sized blend, not the full-size 51%-DD version.

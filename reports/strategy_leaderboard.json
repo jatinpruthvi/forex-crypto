@@ -13481,5 +13481,2357 @@
         "demoted": "H7 family: mom-lookback fragile (40d variant fails LOFO), own placebo p73 - drop from candidacy"
       }
     }
+  },
+  "exp035_nuclear": {
+    "phase": "FINAL",
+    "bfs_nodes": [
+      {
+        "name": "T50",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.63,
+        "lofo": [
+          3.98,
+          -2.48,
+          2.32
+        ],
+        "frozen": [
+          34.68,
+          0.71,
+          4.19
+        ],
+        "min_hold": -2.48,
+        "avg_hold": 1.27,
+        "min_frozen": 0.71,
+        "allpos": false
+      },
+      {
+        "name": "T75",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.85,
+        "lofo": [
+          5.59,
+          -1.58,
+          2.32
+        ],
+        "frozen": [
+          34.48,
+          0.87,
+          4.78
+        ],
+        "min_hold": -1.58,
+        "avg_hold": 2.11,
+        "min_frozen": 0.87,
+        "allpos": false
+      },
+      {
+        "name": "T100",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.95,
+        "lofo": [
+          7.84,
+          1.92,
+          2.32
+        ],
+        "frozen": [
+          34.99,
+          4.27,
+          6.7
+        ],
+        "min_hold": 1.92,
+        "avg_hold": 4.03,
+        "min_frozen": 4.27,
+        "allpos": true
+      },
+      {
+        "name": "T125",
+        "mode": "single",
+        "sm": 10,
+        "full": 16.0,
+        "lofo": [
+          33.8,
+          4.56,
+          6.85
+        ],
+        "frozen": [
+          34.67,
+          4.56,
+          6.85
+        ],
+        "min_hold": 4.56,
+        "avg_hold": 15.07,
+        "min_frozen": 4.56,
+        "allpos": true
+      },
+      {
+        "name": "T150",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.71,
+        "lofo": [
+          8.26,
+          1.77,
+          6.85
+        ],
+        "frozen": [
+          31.53,
+          3.84,
+          6.85
+        ],
+        "min_hold": 1.77,
+        "avg_hold": 5.63,
+        "min_frozen": 3.84,
+        "allpos": true
+      },
+      {
+        "name": "T200",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.72,
+        "lofo": [
+          8.98,
+          -2.66,
+          2.32
+        ],
+        "frozen": [
+          25.61,
+          1.94,
+          8.62
+        ],
+        "min_hold": -2.66,
+        "avg_hold": 2.88,
+        "min_frozen": 1.94,
+        "allpos": false
+      },
+      {
+        "name": "H50b1",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.62,
+        "lofo": [
+          4.12,
+          -2.48,
+          2.32
+        ],
+        "frozen": [
+          34.6,
+          0.82,
+          4.12
+        ],
+        "min_hold": -2.48,
+        "avg_hold": 1.32,
+        "min_frozen": 0.82,
+        "allpos": false
+      },
+      {
+        "name": "H50b2",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.72,
+        "lofo": [
+          7.32,
+          -2.48,
+          2.32
+        ],
+        "frozen": [
+          34.85,
+          0.82,
+          4.19
+        ],
+        "min_hold": -2.48,
+        "avg_hold": 2.39,
+        "min_frozen": 0.82,
+        "allpos": false
+      },
+      {
+        "name": "H50b3",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.95,
+        "lofo": [
+          4.12,
+          -2.48,
+          2.32
+        ],
+        "frozen": [
+          34.85,
+          0.96,
+          4.73
+        ],
+        "min_hold": -2.48,
+        "avg_hold": 1.32,
+        "min_frozen": 0.96,
+        "allpos": false
+      },
+      {
+        "name": "H50b5",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.2,
+        "lofo": [
+          4.03,
+          -2.51,
+          2.32
+        ],
+        "frozen": [
+          34.78,
+          2.35,
+          6.83
+        ],
+        "min_hold": -2.51,
+        "avg_hold": 1.28,
+        "min_frozen": 2.35,
+        "allpos": false
+      },
+      {
+        "name": "H100b1",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.87,
+        "lofo": [
+          31.79,
+          3.89,
+          4.67
+        ],
+        "frozen": [
+          34.99,
+          3.89,
+          6.85
+        ],
+        "min_hold": 3.89,
+        "avg_hold": 13.45,
+        "min_frozen": 3.89,
+        "allpos": true
+      },
+      {
+        "name": "H100b2",
+        "mode": "single",
+        "sm": 10,
+        "full": 16.02,
+        "lofo": [
+          31.79,
+          4.33,
+          1.88
+        ],
+        "frozen": [
+          34.99,
+          4.33,
+          6.85
+        ],
+        "min_hold": 1.88,
+        "avg_hold": 12.67,
+        "min_frozen": 4.33,
+        "allpos": true
+      },
+      {
+        "name": "H100b3",
+        "mode": "single",
+        "sm": 10,
+        "full": 16.02,
+        "lofo": [
+          31.79,
+          1.95,
+          1.88
+        ],
+        "frozen": [
+          34.99,
+          4.33,
+          6.85
+        ],
+        "min_hold": 1.88,
+        "avg_hold": 11.87,
+        "min_frozen": 4.33,
+        "allpos": true
+      },
+      {
+        "name": "H100b5",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.8,
+        "lofo": [
+          18.3,
+          -0.6,
+          1.88
+        ],
+        "frozen": [
+          34.99,
+          3.71,
+          6.85
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 6.53,
+        "min_frozen": 3.71,
+        "allpos": false
+      },
+      {
+        "name": "H150b1",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.67,
+        "lofo": [
+          7.79,
+          2.21,
+          6.81
+        ],
+        "frozen": [
+          31.19,
+          4.07,
+          6.81
+        ],
+        "min_hold": 2.21,
+        "avg_hold": 5.6,
+        "min_frozen": 4.07,
+        "allpos": true
+      },
+      {
+        "name": "H150b2",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.54,
+        "lofo": [
+          8.76,
+          2.21,
+          6.81
+        ],
+        "frozen": [
+          31.52,
+          3.18,
+          7.04
+        ],
+        "min_hold": 2.21,
+        "avg_hold": 5.93,
+        "min_frozen": 3.18,
+        "allpos": true
+      },
+      {
+        "name": "H150b3",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.58,
+        "lofo": [
+          7.79,
+          1.77,
+          6.81
+        ],
+        "frozen": [
+          31.19,
+          3.84,
+          6.81
+        ],
+        "min_hold": 1.77,
+        "avg_hold": 5.46,
+        "min_frozen": 3.84,
+        "allpos": true
+      },
+      {
+        "name": "H150b5",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.58,
+        "lofo": [
+          20.06,
+          1.77,
+          6.81
+        ],
+        "frozen": [
+          31.19,
+          3.84,
+          6.81
+        ],
+        "min_hold": 1.77,
+        "avg_hold": 9.55,
+        "min_frozen": 3.84,
+        "allpos": true
+      },
+      {
+        "name": "H200b1",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.88,
+        "lofo": [
+          8.98,
+          -2.66,
+          2.32
+        ],
+        "frozen": [
+          25.61,
+          2.4,
+          8.62
+        ],
+        "min_hold": -2.66,
+        "avg_hold": 2.88,
+        "min_frozen": 2.4,
+        "allpos": false
+      },
+      {
+        "name": "H200b2",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.66,
+        "lofo": [
+          9.21,
+          -2.38,
+          2.32
+        ],
+        "frozen": [
+          25.18,
+          2.19,
+          8.62
+        ],
+        "min_hold": -2.38,
+        "avg_hold": 3.05,
+        "min_frozen": 2.19,
+        "allpos": false
+      },
+      {
+        "name": "H200b3",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.85,
+        "lofo": [
+          13.08,
+          -2.57,
+          2.32
+        ],
+        "frozen": [
+          25.18,
+          2.66,
+          8.7
+        ],
+        "min_hold": -2.57,
+        "avg_hold": 4.28,
+        "min_frozen": 2.66,
+        "allpos": false
+      },
+      {
+        "name": "H200b5",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.72,
+        "lofo": [
+          13.08,
+          -2.57,
+          2.32
+        ],
+        "frozen": [
+          25.18,
+          2.29,
+          8.7
+        ],
+        "min_hold": -2.57,
+        "avg_hold": 4.28,
+        "min_frozen": 2.29,
+        "allpos": false
+      },
+      {
+        "name": "VOL50",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.82,
+        "lofo": [
+          12.01,
+          0.07,
+          2.77
+        ],
+        "frozen": [
+          34.43,
+          0.07,
+          2.77
+        ],
+        "min_hold": 0.07,
+        "avg_hold": 4.95,
+        "min_frozen": 0.07,
+        "allpos": true
+      },
+      {
+        "name": "VOL60",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.55,
+        "lofo": [
+          11.62,
+          -0.98,
+          2.77
+        ],
+        "frozen": [
+          34.77,
+          -0.98,
+          2.77
+        ],
+        "min_hold": -0.98,
+        "avg_hold": 4.47,
+        "min_frozen": -0.98,
+        "allpos": false
+      },
+      {
+        "name": "VOL70",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.2,
+        "lofo": [
+          11.2,
+          -1.03,
+          2.77
+        ],
+        "frozen": [
+          33.72,
+          -1.03,
+          2.77
+        ],
+        "min_hold": -1.03,
+        "avg_hold": 4.31,
+        "min_frozen": -1.03,
+        "allpos": false
+      },
+      {
+        "name": "VOL80",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.44,
+        "lofo": [
+          12.73,
+          -0.6,
+          2.32
+        ],
+        "frozen": [
+          34.38,
+          -0.6,
+          2.32
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 4.82,
+        "min_frozen": -0.6,
+        "allpos": false
+      },
+      {
+        "name": "STRESS70",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.2,
+        "lofo": [
+          11.2,
+          -1.03,
+          2.77
+        ],
+        "frozen": [
+          33.72,
+          -1.03,
+          2.77
+        ],
+        "min_hold": -1.03,
+        "avg_hold": 4.31,
+        "min_frozen": -1.03,
+        "allpos": false
+      },
+      {
+        "name": "STRESS75",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.2,
+        "lofo": [
+          11.2,
+          -1.03,
+          2.77
+        ],
+        "frozen": [
+          33.72,
+          -1.03,
+          2.77
+        ],
+        "min_hold": -1.03,
+        "avg_hold": 4.31,
+        "min_frozen": -1.03,
+        "allpos": false
+      },
+      {
+        "name": "STRESS80",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.44,
+        "lofo": [
+          12.73,
+          -0.6,
+          2.32
+        ],
+        "frozen": [
+          34.38,
+          -0.6,
+          2.32
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 4.82,
+        "min_frozen": -0.6,
+        "allpos": false
+      },
+      {
+        "name": "STRESS85",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.44,
+        "lofo": [
+          3.88,
+          -0.6,
+          2.32
+        ],
+        "frozen": [
+          34.38,
+          -0.6,
+          2.32
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 1.87,
+        "min_frozen": -0.6,
+        "allpos": false
+      },
+      {
+        "name": "STRESS90",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.44,
+        "lofo": [
+          3.47,
+          -0.6,
+          2.32
+        ],
+        "frozen": [
+          34.38,
+          -0.6,
+          2.32
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 1.73,
+        "min_frozen": -0.6,
+        "allpos": false
+      },
+      {
+        "name": "DISP20",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.62,
+        "lofo": [
+          -3.42,
+          2.6,
+          2.32
+        ],
+        "frozen": [
+          33.65,
+          2.6,
+          5.46
+        ],
+        "min_hold": -3.42,
+        "avg_hold": 0.5,
+        "min_frozen": 2.6,
+        "allpos": false
+      },
+      {
+        "name": "DISP40",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.66,
+        "lofo": [
+          -2.63,
+          5.26,
+          5.05
+        ],
+        "frozen": [
+          34.69,
+          5.26,
+          5.05
+        ],
+        "min_hold": -2.63,
+        "avg_hold": 2.56,
+        "min_frozen": 5.05,
+        "allpos": false
+      },
+      {
+        "name": "DISP60",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.87,
+        "lofo": [
+          -2.61,
+          2.23,
+          5.48
+        ],
+        "frozen": [
+          35.42,
+          2.23,
+          7.95
+        ],
+        "min_hold": -2.61,
+        "avg_hold": 1.7,
+        "min_frozen": 2.23,
+        "allpos": false
+      },
+      {
+        "name": "DISP90",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.87,
+        "lofo": [
+          -3.2,
+          2.23,
+          5.82
+        ],
+        "frozen": [
+          34.52,
+          5.28,
+          5.82
+        ],
+        "min_hold": -3.2,
+        "avg_hold": 1.62,
+        "min_frozen": 5.28,
+        "allpos": false
+      },
+      {
+        "name": "CORR20",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.58,
+        "lofo": [
+          28.95,
+          5.76,
+          7.71
+        ],
+        "frozen": [
+          31.3,
+          5.76,
+          7.71
+        ],
+        "min_hold": 5.76,
+        "avg_hold": 14.14,
+        "min_frozen": 5.76,
+        "allpos": true
+      },
+      {
+        "name": "CORR30",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.0,
+        "lofo": [
+          21.77,
+          5.1,
+          6.92
+        ],
+        "frozen": [
+          21.77,
+          4.38,
+          7.84
+        ],
+        "min_hold": 5.1,
+        "avg_hold": 11.26,
+        "min_frozen": 4.38,
+        "allpos": true
+      },
+      {
+        "name": "CORR60",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.98,
+        "lofo": [
+          0.06,
+          0.59,
+          5.6
+        ],
+        "frozen": [
+          31.32,
+          2.81,
+          5.6
+        ],
+        "min_hold": 0.06,
+        "avg_hold": 2.08,
+        "min_frozen": 2.81,
+        "allpos": true
+      },
+      {
+        "name": "BREADTH5040",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.95,
+        "lofo": [
+          7.55,
+          2.01,
+          3.85
+        ],
+        "frozen": [
+          33.18,
+          4.52,
+          5.19
+        ],
+        "min_hold": 2.01,
+        "avg_hold": 4.47,
+        "min_frozen": 4.52,
+        "allpos": true
+      },
+      {
+        "name": "BREADTH6040",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.62,
+        "lofo": [
+          7.55,
+          1.86,
+          3.61
+        ],
+        "frozen": [
+          34.52,
+          2.81,
+          4.69
+        ],
+        "min_hold": 1.86,
+        "avg_hold": 4.34,
+        "min_frozen": 2.81,
+        "allpos": true
+      },
+      {
+        "name": "BREADTH6035",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.56,
+        "lofo": [
+          6.78,
+          1.31,
+          4.66
+        ],
+        "frozen": [
+          34.52,
+          2.67,
+          4.66
+        ],
+        "min_hold": 1.31,
+        "avg_hold": 4.25,
+        "min_frozen": 2.67,
+        "allpos": true
+      },
+      {
+        "name": "BREADTH7030",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.2,
+        "lofo": [
+          2.2,
+          1.47,
+          4.2
+        ],
+        "frozen": [
+          31.95,
+          4.22,
+          4.43
+        ],
+        "min_hold": 1.47,
+        "avg_hold": 2.62,
+        "min_frozen": 4.22,
+        "allpos": true
+      },
+      {
+        "name": "MOM10",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.32,
+        "lofo": [
+          7.29,
+          -0.6,
+          2.5
+        ],
+        "frozen": [
+          31.71,
+          1.2,
+          2.67
+        ],
+        "min_hold": -0.6,
+        "avg_hold": 3.06,
+        "min_frozen": 1.2,
+        "allpos": false
+      },
+      {
+        "name": "MOM20",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.44,
+        "lofo": [
+          8.97,
+          -2.57,
+          2.32
+        ],
+        "frozen": [
+          34.38,
+          -0.6,
+          2.32
+        ],
+        "min_hold": -2.57,
+        "avg_hold": 2.91,
+        "min_frozen": -0.6,
+        "allpos": false
+      },
+      {
+        "name": "MOM30",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.81,
+        "lofo": [
+          19.68,
+          -2.64,
+          2.32
+        ],
+        "frozen": [
+          34.98,
+          3.5,
+          4.42
+        ],
+        "min_hold": -2.64,
+        "avg_hold": 6.45,
+        "min_frozen": 3.5,
+        "allpos": false
+      },
+      {
+        "name": "MOM40",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.25,
+        "lofo": [
+          19.32,
+          -2.49,
+          2.32
+        ],
+        "frozen": [
+          34.63,
+          0.24,
+          3.43
+        ],
+        "min_hold": -2.49,
+        "avg_hold": 6.38,
+        "min_frozen": 0.24,
+        "allpos": false
+      },
+      {
+        "name": "MOM60",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.16,
+        "lofo": [
+          5.34,
+          -1.05,
+          2.02
+        ],
+        "frozen": [
+          34.39,
+          -1.05,
+          2.02
+        ],
+        "min_hold": -1.05,
+        "avg_hold": 2.1,
+        "min_frozen": -1.05,
+        "allpos": false
+      },
+      {
+        "name": "DUALMA50_150",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.29,
+        "lofo": [
+          7.56,
+          0.15,
+          7.08
+        ],
+        "frozen": [
+          32.23,
+          2.37,
+          9.27
+        ],
+        "min_hold": 0.15,
+        "avg_hold": 4.93,
+        "min_frozen": 2.37,
+        "allpos": true
+      },
+      {
+        "name": "DUALMA50_200",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.69,
+        "lofo": [
+          5.51,
+          -2.74,
+          2.32
+        ],
+        "frozen": [
+          28.47,
+          4.57,
+          8.87
+        ],
+        "min_hold": -2.74,
+        "avg_hold": 1.7,
+        "min_frozen": 4.57,
+        "allpos": false
+      },
+      {
+        "name": "DUALMA100_200",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.7,
+        "lofo": [
+          13.38,
+          2.06,
+          2.32
+        ],
+        "frozen": [
+          29.47,
+          4.31,
+          8.14
+        ],
+        "min_hold": 2.06,
+        "avg_hold": 5.92,
+        "min_frozen": 4.31,
+        "allpos": true
+      },
+      {
+        "name": "TREND3",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.99,
+        "lofo": [
+          8.08,
+          4.59,
+          1.88
+        ],
+        "frozen": [
+          34.63,
+          4.59,
+          6.85
+        ],
+        "min_hold": 1.88,
+        "avg_hold": 4.85,
+        "min_frozen": 4.59,
+        "allpos": true
+      },
+      {
+        "name": "ATHDD10",
+        "mode": "single",
+        "sm": 10,
+        "full": 10.61,
+        "lofo": [
+          6.25,
+          -1.6,
+          2.54
+        ],
+        "frozen": [
+          29.42,
+          -1.6,
+          2.77
+        ],
+        "min_hold": -1.6,
+        "avg_hold": 2.4,
+        "min_frozen": -1.6,
+        "allpos": false
+      },
+      {
+        "name": "ATHDD15",
+        "mode": "single",
+        "sm": 10,
+        "full": 11.75,
+        "lofo": [
+          1.96,
+          0.31,
+          2.77
+        ],
+        "frozen": [
+          30.83,
+          0.31,
+          2.77
+        ],
+        "min_hold": 0.31,
+        "avg_hold": 1.68,
+        "min_frozen": 0.31,
+        "allpos": true
+      },
+      {
+        "name": "X_VOL",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.25,
+        "lofo": [
+          0.95,
+          3.02,
+          -5.52
+        ],
+        "frozen": [
+          33.21,
+          1.45,
+          3.72
+        ],
+        "min_hold": -5.52,
+        "avg_hold": -0.52,
+        "min_frozen": 1.45,
+        "allpos": false
+      },
+      {
+        "name": "X_STRESS",
+        "mode": "single",
+        "sm": 10,
+        "full": 11.85,
+        "lofo": [
+          -0.43,
+          0.95,
+          2.73
+        ],
+        "frozen": [
+          28.88,
+          2.38,
+          2.73
+        ],
+        "min_hold": -0.43,
+        "avg_hold": 1.08,
+        "min_frozen": 2.38,
+        "allpos": false
+      },
+      {
+        "name": "X_DISP",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.92,
+        "lofo": [
+          2.07,
+          3.26,
+          5.48
+        ],
+        "frozen": [
+          37.14,
+          3.35,
+          5.48
+        ],
+        "min_hold": 2.07,
+        "avg_hold": 3.6,
+        "min_frozen": 3.35,
+        "allpos": true
+      },
+      {
+        "name": "X_CORR",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.53,
+        "lofo": [
+          -0.96,
+          5.82,
+          2.64
+        ],
+        "frozen": [
+          24.84,
+          6.19,
+          4.53
+        ],
+        "min_hold": -0.96,
+        "avg_hold": 2.5,
+        "min_frozen": 4.53,
+        "allpos": false
+      },
+      {
+        "name": "X_BREADTH",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.91,
+        "lofo": [
+          3.49,
+          0.81,
+          1.27
+        ],
+        "frozen": [
+          27.76,
+          6.33,
+          5.6
+        ],
+        "min_hold": 0.81,
+        "avg_hold": 1.86,
+        "min_frozen": 5.6,
+        "allpos": true
+      },
+      {
+        "name": "X_MOM",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.1,
+        "lofo": [
+          18.0,
+          4.82,
+          1.75
+        ],
+        "frozen": [
+          34.68,
+          4.27,
+          4.42
+        ],
+        "min_hold": 1.75,
+        "avg_hold": 8.19,
+        "min_frozen": 4.27,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL",
+        "mode": "single",
+        "sm": 10,
+        "full": 14.22,
+        "lofo": [
+          6.22,
+          3.22,
+          2.46
+        ],
+        "frozen": [
+          33.59,
+          1.89,
+          5.61
+        ],
+        "min_hold": 2.46,
+        "avg_hold": 3.97,
+        "min_frozen": 1.89,
+        "allpos": true
+      },
+      {
+        "name": "HX_STRESS",
+        "mode": "single",
+        "sm": 10,
+        "full": 11.92,
+        "lofo": [
+          5.72,
+          -0.13,
+          1.4
+        ],
+        "frozen": [
+          29.4,
+          3.41,
+          1.4
+        ],
+        "min_hold": -0.13,
+        "avg_hold": 2.33,
+        "min_frozen": 1.4,
+        "allpos": false
+      },
+      {
+        "name": "HX_BREADTH",
+        "mode": "single",
+        "sm": 10,
+        "full": 13.57,
+        "lofo": [
+          3.49,
+          -0.25,
+          0.28
+        ],
+        "frozen": [
+          27.76,
+          5.18,
+          5.75
+        ],
+        "min_hold": -0.25,
+        "avg_hold": 1.17,
+        "min_frozen": 5.18,
+        "allpos": false
+      },
+      {
+        "name": "HX_DISP",
+        "mode": "single",
+        "sm": 10,
+        "full": 16.16,
+        "lofo": [
+          2.07,
+          1.77,
+          5.52
+        ],
+        "frozen": [
+          37.26,
+          3.66,
+          5.77
+        ],
+        "min_hold": 1.77,
+        "avg_hold": 3.12,
+        "min_frozen": 3.66,
+        "allpos": true
+      },
+      {
+        "name": "X2_VOL_MOM",
+        "mode": "single",
+        "sm": 10,
+        "full": 12.78,
+        "lofo": [
+          -1.35,
+          0.75,
+          3.72
+        ],
+        "frozen": [
+          29.67,
+          4.31,
+          2.79
+        ],
+        "min_hold": -1.35,
+        "avg_hold": 1.04,
+        "min_frozen": 2.79,
+        "allpos": false
+      },
+      {
+        "name": "X2_BR_DISP",
+        "mode": "single",
+        "sm": 10,
+        "full": 15.87,
+        "lofo": [
+          -2.76,
+          2.23,
+          5.48
+        ],
+        "frozen": [
+          35.42,
+          2.23,
+          7.95
+        ],
+        "min_hold": -2.76,
+        "avg_hold": 1.65,
+        "min_frozen": 2.23,
+        "allpos": false
+      },
+      {
+        "name": "X2_STR_CORR",
+        "mode": "single",
+        "sm": 10,
+        "full": 11.06,
+        "lofo": [
+          -0.49,
+          4.61,
+          3.9
+        ],
+        "frozen": [
+          19.93,
+          6.66,
+          4.79
+        ],
+        "min_hold": -0.49,
+        "avg_hold": 2.67,
+        "min_frozen": 4.79,
+        "allpos": false
+      }
+    ],
+    "dfs_nodes": [
+      {
+        "name": "CORR20_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 17.44,
+        "lofo": [
+          32.68,
+          8.21,
+          5.92
+        ],
+        "frozen": [
+          36.11,
+          8.21,
+          5.92
+        ],
+        "min_hold": 5.92,
+        "avg_hold": 15.6,
+        "min_frozen": 5.92,
+        "allpos": true
+      },
+      {
+        "name": "CORR20_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 14.85,
+        "lofo": [
+          31.34,
+          7.12,
+          0.72
+        ],
+        "frozen": [
+          34.69,
+          7.12,
+          0.72
+        ],
+        "min_hold": 0.72,
+        "avg_hold": 13.06,
+        "min_frozen": 0.72,
+        "allpos": true
+      },
+      {
+        "name": "CORR20_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 15.03,
+        "lofo": [
+          29.5,
+          9.66,
+          0.86
+        ],
+        "frozen": [
+          32.45,
+          9.66,
+          0.86
+        ],
+        "min_hold": 0.86,
+        "avg_hold": 13.34,
+        "min_frozen": 0.86,
+        "allpos": true
+      },
+      {
+        "name": "CORR20_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 13.7,
+        "lofo": [
+          30.24,
+          3.91,
+          2.21
+        ],
+        "frozen": [
+          33.01,
+          3.91,
+          2.21
+        ],
+        "min_hold": 2.21,
+        "avg_hold": 12.12,
+        "min_frozen": 2.21,
+        "allpos": true
+      },
+      {
+        "name": "CORR20_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 10.38,
+        "lofo": [
+          20.26,
+          3.79,
+          6.05
+        ],
+        "frozen": [
+          19.6,
+          3.79,
+          6.05
+        ],
+        "min_hold": 3.79,
+        "avg_hold": 10.03,
+        "min_frozen": 3.79,
+        "allpos": true
+      },
+      {
+        "name": "CORR20_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 17.35,
+        "lofo": [
+          31.74,
+          4.39,
+          7.07
+        ],
+        "frozen": [
+          38.93,
+          4.39,
+          7.07
+        ],
+        "min_hold": 4.39,
+        "avg_hold": 14.4,
+        "min_frozen": 4.39,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 19.44,
+        "lofo": [
+          28.64,
+          8.63,
+          13.45
+        ],
+        "frozen": [
+          28.64,
+          10.1,
+          17.82
+        ],
+        "min_hold": 8.63,
+        "avg_hold": 16.91,
+        "min_frozen": 10.1,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 17.77,
+        "lofo": [
+          30.99,
+          9.1,
+          6.7
+        ],
+        "frozen": [
+          30.99,
+          11.54,
+          8.35
+        ],
+        "min_hold": 6.7,
+        "avg_hold": 15.6,
+        "min_frozen": 8.35,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 17.5,
+        "lofo": [
+          29.24,
+          11.55,
+          7.04
+        ],
+        "frozen": [
+          29.24,
+          13.2,
+          7.63
+        ],
+        "min_hold": 7.04,
+        "avg_hold": 15.94,
+        "min_frozen": 7.63,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 13.3,
+        "lofo": [
+          22.05,
+          7.85,
+          6.78
+        ],
+        "frozen": [
+          22.05,
+          7.8,
+          7.97
+        ],
+        "min_hold": 6.78,
+        "avg_hold": 12.23,
+        "min_frozen": 7.8,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 10.68,
+        "lofo": [
+          20.89,
+          3.39,
+          4.79
+        ],
+        "frozen": [
+          20.89,
+          2.9,
+          6.23
+        ],
+        "min_hold": 3.39,
+        "avg_hold": 9.69,
+        "min_frozen": 2.9,
+        "allpos": true
+      },
+      {
+        "name": "CORR30_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 14.63,
+        "lofo": [
+          22.02,
+          3.15,
+          6.2
+        ],
+        "frozen": [
+          29.96,
+          4.16,
+          7.73
+        ],
+        "min_hold": 3.15,
+        "avg_hold": 10.46,
+        "min_frozen": 4.16,
+        "allpos": true
+      },
+      {
+        "name": "T125_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 14.95,
+        "lofo": [
+          31.01,
+          2.87,
+          7.11
+        ],
+        "frozen": [
+          33.06,
+          2.87,
+          7.11
+        ],
+        "min_hold": 2.87,
+        "avg_hold": 13.66,
+        "min_frozen": 2.87,
+        "allpos": true
+      },
+      {
+        "name": "T125_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 15.3,
+        "lofo": [
+          32.38,
+          3.61,
+          7.89
+        ],
+        "frozen": [
+          32.56,
+          3.61,
+          7.89
+        ],
+        "min_hold": 3.61,
+        "avg_hold": 14.63,
+        "min_frozen": 3.61,
+        "allpos": true
+      },
+      {
+        "name": "T125_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 14.9,
+        "lofo": [
+          32.52,
+          2.89,
+          6.82
+        ],
+        "frozen": [
+          33.15,
+          2.89,
+          6.82
+        ],
+        "min_hold": 2.89,
+        "avg_hold": 14.08,
+        "min_frozen": 2.89,
+        "allpos": true
+      },
+      {
+        "name": "T125_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 16.13,
+        "lofo": [
+          33.55,
+          3.99,
+          6.9
+        ],
+        "frozen": [
+          35.63,
+          3.99,
+          6.9
+        ],
+        "min_hold": 3.99,
+        "avg_hold": 14.81,
+        "min_frozen": 3.99,
+        "allpos": true
+      },
+      {
+        "name": "T125_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 15.13,
+        "lofo": [
+          31.63,
+          3.89,
+          6.88
+        ],
+        "frozen": [
+          32.73,
+          3.89,
+          6.88
+        ],
+        "min_hold": 3.89,
+        "avg_hold": 14.13,
+        "min_frozen": 3.89,
+        "allpos": true
+      },
+      {
+        "name": "T125_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 15.1,
+        "lofo": [
+          21.71,
+          3.12,
+          5.9
+        ],
+        "frozen": [
+          34.55,
+          3.12,
+          5.9
+        ],
+        "min_hold": 3.12,
+        "avg_hold": 10.24,
+        "min_frozen": 3.12,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 14.45,
+        "lofo": [
+          27.81,
+          2.35,
+          5.43
+        ],
+        "frozen": [
+          30.83,
+          2.35,
+          8.42
+        ],
+        "min_hold": 2.35,
+        "avg_hold": 11.86,
+        "min_frozen": 2.35,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 14.65,
+        "lofo": [
+          30.4,
+          3.06,
+          4.85
+        ],
+        "frozen": [
+          32.06,
+          3.06,
+          7.25
+        ],
+        "min_hold": 3.06,
+        "avg_hold": 12.77,
+        "min_frozen": 3.06,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 14.67,
+        "lofo": [
+          30.14,
+          3.07,
+          4.66
+        ],
+        "frozen": [
+          32.26,
+          3.07,
+          6.82
+        ],
+        "min_hold": 3.07,
+        "avg_hold": 12.62,
+        "min_frozen": 3.07,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 15.49,
+        "lofo": [
+          31.45,
+          2.97,
+          4.7
+        ],
+        "frozen": [
+          34.81,
+          2.97,
+          6.9
+        ],
+        "min_hold": 2.97,
+        "avg_hold": 13.04,
+        "min_frozen": 2.97,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 15.35,
+        "lofo": [
+          30.0,
+          4.31,
+          4.69
+        ],
+        "frozen": [
+          32.92,
+          4.31,
+          6.88
+        ],
+        "min_hold": 4.31,
+        "avg_hold": 13.0,
+        "min_frozen": 4.31,
+        "allpos": true
+      },
+      {
+        "name": "H100b1_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 14.91,
+        "lofo": [
+          18.95,
+          2.89,
+          3.63
+        ],
+        "frozen": [
+          34.23,
+          2.89,
+          5.9
+        ],
+        "min_hold": 2.89,
+        "avg_hold": 8.49,
+        "min_frozen": 2.89,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 15.63,
+        "lofo": [
+          4.54,
+          3.6,
+          6.09
+        ],
+        "frozen": [
+          34.54,
+          3.39,
+          7.31
+        ],
+        "min_hold": 3.6,
+        "avg_hold": 4.74,
+        "min_frozen": 3.39,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 14.63,
+        "lofo": [
+          3.28,
+          3.87,
+          3.62
+        ],
+        "frozen": [
+          32.88,
+          3.03,
+          6.53
+        ],
+        "min_hold": 3.28,
+        "avg_hold": 3.59,
+        "min_frozen": 3.03,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 14.53,
+        "lofo": [
+          3.77,
+          4.46,
+          4.02
+        ],
+        "frozen": [
+          32.2,
+          3.54,
+          6.12
+        ],
+        "min_hold": 3.77,
+        "avg_hold": 4.08,
+        "min_frozen": 3.54,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 14.99,
+        "lofo": [
+          7.35,
+          4.26,
+          4.31
+        ],
+        "frozen": [
+          33.68,
+          3.3,
+          6.32
+        ],
+        "min_hold": 4.26,
+        "avg_hold": 5.31,
+        "min_frozen": 3.3,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 13.75,
+        "lofo": [
+          4.3,
+          1.57,
+          2.46
+        ],
+        "frozen": [
+          33.55,
+          0.76,
+          5.44
+        ],
+        "min_hold": 1.57,
+        "avg_hold": 2.78,
+        "min_frozen": 0.76,
+        "allpos": true
+      },
+      {
+        "name": "HX_VOL_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 13.24,
+        "lofo": [
+          4.67,
+          2.38,
+          2.78
+        ],
+        "frozen": [
+          32.22,
+          1.82,
+          4.13
+        ],
+        "min_hold": 2.38,
+        "avg_hold": 3.28,
+        "min_frozen": 1.82,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_s0",
+        "mode": "single",
+        "sm": 0,
+        "full": 14.75,
+        "lofo": [
+          8.14,
+          2.78,
+          6.96
+        ],
+        "frozen": [
+          32.13,
+          3.08,
+          7.19
+        ],
+        "min_hold": 2.78,
+        "avg_hold": 5.96,
+        "min_frozen": 3.08,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_s3",
+        "mode": "single",
+        "sm": 3,
+        "full": 15.5,
+        "lofo": [
+          9.7,
+          3.54,
+          6.83
+        ],
+        "frozen": [
+          33.78,
+          3.79,
+          7.06
+        ],
+        "min_hold": 3.54,
+        "avg_hold": 6.69,
+        "min_frozen": 3.79,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_s5",
+        "mode": "single",
+        "sm": 5,
+        "full": 15.52,
+        "lofo": [
+          9.79,
+          2.59,
+          6.8
+        ],
+        "frozen": [
+          33.86,
+          3.8,
+          7.04
+        ],
+        "min_hold": 2.59,
+        "avg_hold": 6.39,
+        "min_frozen": 3.8,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_s8",
+        "mode": "single",
+        "sm": 8,
+        "full": 15.37,
+        "lofo": [
+          9.94,
+          2.43,
+          6.7
+        ],
+        "frozen": [
+          33.76,
+          3.55,
+          6.93
+        ],
+        "min_hold": 2.43,
+        "avg_hold": 6.36,
+        "min_frozen": 3.55,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_s15",
+        "mode": "single",
+        "sm": 15,
+        "full": 14.2,
+        "lofo": [
+          9.38,
+          0.85,
+          6.82
+        ],
+        "frozen": [
+          31.91,
+          1.92,
+          7.01
+        ],
+        "min_hold": 0.85,
+        "avg_hold": 5.68,
+        "min_frozen": 1.92,
+        "allpos": true
+      },
+      {
+        "name": "H150b2_top2",
+        "mode": "top2",
+        "sm": 10,
+        "full": 13.99,
+        "lofo": [
+          8.16,
+          1.63,
+          5.87
+        ],
+        "frozen": [
+          32.59,
+          1.63,
+          6.1
+        ],
+        "min_hold": 1.63,
+        "avg_hold": 5.22,
+        "min_frozen": 1.63,
+        "allpos": true
+      }
+    ],
+    "polish_nodes": [
+      {
+        "name": "ENS_CORR30_s0xW_P3",
+        "mode": "ens",
+        "sm": 0,
+        "full": 22.19,
+        "lofo": [
+          37.76,
+          8.53,
+          10.24
+        ],
+        "frozen": [
+          39.19,
+          9.49,
+          15.88
+        ],
+        "min_hold": 8.53,
+        "avg_hold": 18.84,
+        "min_frozen": 9.49,
+        "allpos": true
+      },
+      {
+        "name": "ENS_CORR30_s0xW_H4",
+        "mode": "ens",
+        "sm": 0,
+        "full": 22.31,
+        "lofo": [
+          32.87,
+          8.8,
+          12.98
+        ],
+        "frozen": [
+          39.21,
+          9.82,
+          15.88
+        ],
+        "min_hold": 8.8,
+        "avg_hold": 18.22,
+        "min_frozen": 9.82,
+        "allpos": true
+      }
+    ],
+    "total_nodes": 104,
+    "top": [
+      {
+        "name": "ENS_CORR30_s0xW_H4",
+        "min_hold": 8.8,
+        "avg_hold": 18.22,
+        "full": 22.31,
+        "lofo": [
+          32.87,
+          8.8,
+          12.98
+        ]
+      },
+      {
+        "name": "CORR30_s0",
+        "min_hold": 8.63,
+        "avg_hold": 16.91,
+        "full": 19.44,
+        "lofo": [
+          28.64,
+          8.63,
+          13.45
+        ]
+      },
+      {
+        "name": "ENS_CORR30_s0xW_P3",
+        "min_hold": 8.53,
+        "avg_hold": 18.84,
+        "full": 22.19,
+        "lofo": [
+          37.76,
+          8.53,
+          10.24
+        ]
+      },
+      {
+        "name": "CORR30_s5",
+        "min_hold": 7.04,
+        "avg_hold": 15.94,
+        "full": 17.5,
+        "lofo": [
+          29.24,
+          11.55,
+          7.04
+        ]
+      },
+      {
+        "name": "CORR30_s8",
+        "min_hold": 6.78,
+        "avg_hold": 12.23,
+        "full": 13.3,
+        "lofo": [
+          22.05,
+          7.85,
+          6.78
+        ]
+      },
+      {
+        "name": "CORR30_s3",
+        "min_hold": 6.7,
+        "avg_hold": 15.6,
+        "full": 17.77,
+        "lofo": [
+          30.99,
+          9.1,
+          6.7
+        ]
+      },
+      {
+        "name": "CORR20_s0",
+        "min_hold": 5.92,
+        "avg_hold": 15.6,
+        "full": 17.44,
+        "lofo": [
+          32.68,
+          8.21,
+          5.92
+        ]
+      },
+      {
+        "name": "CORR20",
+        "min_hold": 5.76,
+        "avg_hold": 14.14,
+        "full": 15.58,
+        "lofo": [
+          28.95,
+          5.76,
+          7.71
+        ]
+      }
+    ],
+    "config_placebo": {
+      "ENS_CORR30_s0xW_H4": {
+        "champion_avg": 18.22,
+        "null_mean": 3.84,
+        "null_p90": 5.49,
+        "champion_percentile": 100.0,
+        "draws_beating": 0
+      },
+      "CORR30_s0": {
+        "champion_avg": 16.91,
+        "null_mean": 4.09,
+        "null_p90": 5.93,
+        "champion_percentile": 100.0,
+        "draws_beating": 0
+      },
+      "ENS_CORR30_s0xW_P3": {
+        "champion_avg": 18.84,
+        "null_mean": 4.12,
+        "null_p90": 5.85,
+        "champion_percentile": 100.0,
+        "draws_beating": 0
+      }
+    },
+    "search_level_placebo": {
+      "real_best_min_hold": 8.8,
+      "null_mean": 5.99,
+      "null_p90": 7.25,
+      "null_max": 8.9,
+      "real_percentile": 87.5,
+      "draws_beating": 1,
+      "n_draws": 8,
+      "null_best": [
+        8.9,
+        5.72,
+        6.37,
+        6.08,
+        4.8,
+        5.04,
+        6.55,
+        4.43
+      ]
+    },
+    "verdict": {
+      "total_nodes": 104,
+      "winner": "ENS_CORR30_s0xW_H4",
+      "winner_min_hold": 8.8,
+      "winner_avg": 18.22,
+      "winner_full": 22.31,
+      "winner_lofo": [
+        32.87,
+        8.8,
+        12.98
+      ],
+      "incumbent_min_hold": 1.88,
+      "incumbent_avg": 12.67,
+      "gates": {
+        "g1_min_hold": true,
+        "g2_allpos": true,
+        "g3_placebo": true,
+        "g4_selection_adjusted": true
+      },
+      "certified_replacement": true,
+      "search_null": {
+        "real_best_min_hold": 8.8,
+        "null_mean": 5.99,
+        "null_p90": 7.25,
+        "null_max": 8.9,
+        "real_percentile": 87.5,
+        "draws_beating": 1,
+        "n_draws": 8,
+        "null_best": [
+          8.9,
+          5.72,
+          6.37,
+          6.08,
+          4.8,
+          5.04,
+          6.55,
+          4.43
+        ]
+      },
+      "final": "ENS_CORR30_s0xW_H4",
+      "risk_frontier": {
+        "note": "program gate maxDD<=35; scale applied to weights; full-period learn (in-sample map); blocks frozen",
+        "champion_full": {
+          "mo": 16.02,
+          "dd": 25.1,
+          "calmar": 19.74,
+          "blocks": [
+            34.99,
+            4.33,
+            6.85
+          ],
+          "worst_m": -21.3
+        },
+        "ens_full": {
+          "mo": 22.31,
+          "dd": 51.0,
+          "calmar": 20.03,
+          "blocks": [
+            39.21,
+            9.82,
+            15.88
+          ],
+          "worst_m": -17.7
+        },
+        "blend3_full": {
+          "mo": 23.03,
+          "dd": 44.3,
+          "calmar": 24.89,
+          "blocks": [
+            43.19,
+            9.0,
+            15.02
+          ],
+          "worst_m": -17.7
+        },
+        "blend3_75": {
+          "mo": 18.64,
+          "dd": 34.5,
+          "calmar": 19.66,
+          "blocks": [
+            34.9,
+            6.66,
+            12.6
+          ],
+          "worst_m": -15.6
+        },
+        "blend3_70": {
+          "mo": 17.57,
+          "dd": 32.9,
+          "calmar": 18.14,
+          "blocks": [
+            32.69,
+            6.35,
+            11.92
+          ],
+          "worst_m": -14.6
+        },
+        "ens_55": {
+          "mo": 16.07,
+          "dd": 34.3,
+          "calmar": 14.49,
+          "blocks": [
+            28.83,
+            6.15,
+            11.58
+          ],
+          "worst_m": -15.0
+        },
+        "recommendation": "certified return engine = ENS_CORR30_s0xW_H4 (all 4 gates); risk-capped deployable = blend3@70-75% (P3+CORR30_s0+H4) or ENS@55%; champion P3+smooth10 stays the low-DD option"
+      },
+      "learned_mapping": {
+        "CORR30_s0": {
+          "HIC": "FVG_LONG",
+          "LOC": "TSMOM"
+        },
+        "H4_s10": {
+          "ON_BHI": "ABS_GROT",
+          "ON_BMID": "TSMOM",
+          "ON_BLO": "ABS_GROT",
+          "OFF_BHI": "FVG_LS",
+          "OFF_BMID": "CASH",
+          "OFF_BLO": "FVG_LS"
+        },
+        "P3_s10": {
+          "ON": "ABS_GROT",
+          "OFF": "FVG_LS"
+        }
+      }
+    },
+    "runtime_sec": 128.4
   }
 }
