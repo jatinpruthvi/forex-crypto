@@ -20303,5 +20303,33 @@
         "pass": false
       }
     }
+  },
+  "exp040_cost_validation": {
+    "date": "2026-10-30",
+    "question": "are commission + spread validated?",
+    "backtest_mechanics": "FEE=0.0010 charged on |delta weight| per side = 10bp per side of every trade (comment: taker+slippage); a full A->B switch costs 20bp on switched notional",
+    "real_world_HL": {
+      "maker_all_in_per_side_bp": 3,
+      "taker_all_in_per_side_bp": "6-12",
+      "note": "Hyperliquid tier0 taker 4.5bp + spread 1-5bp + negligible slippage at retail size; production uses post-only maker entries"
+    },
+    "turnover_per_month": {
+      "VOL_GROT+FVG_SHORT": 2.32,
+      "ABS_GROT+FVG_SHORT": 2.61,
+      "eq5_survivors+SHORT": 1.8,
+      "eq4_survivors": 1.41
+    },
+    "fee_sensitivity_pct_per_mo_full|worst_year": {
+      "VOL_GROT+FVG_SHORT": "0bp:+1.19/-0.07 5bp:+1.07/-0.20 10bp:+0.96/-0.33 20bp:+0.72/-0.59 30bp:+0.49/-0.85 50bp:+0.02/-1.37",
+      "ABS_GROT+FVG_SHORT": "0bp:+2.01/-0.26 5bp:+1.88/-0.41 10bp:+1.74/-0.55 20bp:+1.48/-0.84 30bp:+1.21/-1.12 50bp:+0.69/-1.69",
+      "eq5_survivors+SHORT": "0bp:+1.79/-0.53 5bp:+1.70/-0.63 10bp:+1.60/-0.74 20bp:+1.42/-0.94 30bp:+1.24/-1.14 50bp:+0.88/-1.55",
+      "eq4_survivors": "0bp:+1.97/-0.77 10bp:+1.82/-0.93 20bp:+1.68/-1.10 30bp:+1.53/-1.27 50bp:+1.25/-1.60"
+    },
+    "funding_NOT_in_backtest": {
+      "band_pct_per_mo": "\u00b10.08 (VOL+SHORT) .. \u00b10.13 (eq4) under \u00b15%/yr stress on all notional",
+      "bull_case_drag_eq5": -0.16,
+      "note": "books are low-gross (0.20-0.32 avg), so perp funding is second-order"
+    },
+    "verdict": "commission+spread ARE in every number (10bp/side, conservative vs HL maker 3bp / taker 6-12bp); combos stay positive even at 30-50bp crash-spread stress; only gap = perp funding, quantified at <=0.2%/mo drag. All-in worst case (15bp + funding): eq5 +1.35%/mo worst-yr ~-0.9."
   }
 }

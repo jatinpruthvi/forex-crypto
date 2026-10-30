@@ -1490,6 +1490,12 @@
       "date": "2026-10-30",
       "focus": "combination hunt on 5y (50 static + 24 state-LOYO combos ranked by worst-year): no combo positive every year; FVG_SHORT = all-period stabilizer, VOL_GROT most robust engine; best combos VOL_GROT+FVG_SHORT (minYr -0.3 DD 21.6), ABS_GROT+FVG_SHORT (+1.74 DD 23.6 minYr -0.6), eq5_survivors+SHORT (+1.60 DD 26.4 minYr -0.7); TSMOM/FVG_LONG poison in combos; state-driven LOYO mostly fail, ATHDD10 only survivor but selection-null FAILS -> static blends win",
       "outcome": "EXP-040-COMBOS-DONE"
+    },
+    {
+      "id": "EXP-040-COST-VALIDATION",
+      "date": "2026-10-30",
+      "focus": "commission+spread validation of combo results: 10bp/side in-backtest vs HL maker 3bp/taker 6-12bp; turnover 1.4-2.6x/mo; fee sensitivity 0-50bp; funding stress (not modeled) <=0.2%/mo",
+      "outcome": "COSTS-VALIDATED"
     }
   ],
   "savepoints": {

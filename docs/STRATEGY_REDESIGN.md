@@ -797,3 +797,13 @@ P3/VOL50/TREND3/DISP60/H4 families pick the landmine engines in held-out years (
 - Do NOT use TSMOM or FVG_LONG in any combination (2021-only heroes).
 - State-switching combos add nothing certifiable on this data - static blends win on honesty.
 - These numbers are the realistic 5y-world expectations: ~+1-2%/mo with worst years ~-0.5.
+
+### Cost validation (commission + spread) — 2026-10-30
+Every backtest number charges 10bp per side of turnover (`|Δw|·0.0010`) = commission +
+spread + slippage combined. Realistic Hyperliquid all-in: maker 3bp, taker 6-12bp/side
+(taker 4.5bp + spread 1-5bp; retail size = no impact). Turnover is low (1.4-2.6x/mo), so
+fee drag is only 0.14-0.26%/mo. Sensitivity: recommended combos stay positive even at
+30-50bp/side crash-spread stress (eq5: +1.24%/mo @30bp, +0.88 @50bp). NOT modeled:
+perp funding — quantified at ±0.08-0.13%/mo band (books are low-gross 0.2-0.32), worst
+bull-case drag -0.16 to -0.22%/mo. All-in worst case (15bp + funding): eq5 +1.35%/mo,
+worst-year ~-0.9. Production enters post-only (maker 3bp) — better than backtest.
