@@ -8777,6 +8777,522 @@
       "name": "FVG_LS age60 hold5 [FX-native]",
       "scope": "forex_4p_daily_2012-11..2022-03",
       "failed": false
+    },
+    {
+      "monthly_roi": 13.77,
+      "ann_roi": 370.1,
+      "max_dd": 40.8,
+      "calmar": 9.07,
+      "dd_monthly": 3.0,
+      "worst_month": -21.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.03,
+        2.03,
+        7.37
+      ],
+      "worst_fold": 2.03,
+      "nonbull_avg": 4.7,
+      "bull_share": 0.767,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M/P1_trend100",
+      "name": "composite P1_trend100 {'UP': 'ABS_GROT', 'DOWN': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP": "ABS_GROT",
+        "DOWN": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 14.14,
+      "ann_roi": 389.2,
+      "max_dd": 37.6,
+      "calmar": 10.35,
+      "dd_monthly": 2.7,
+      "worst_month": -21.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.79,
+        4.18,
+        7.07
+      ],
+      "worst_fold": 4.18,
+      "nonbull_avg": 5.625,
+      "bull_share": 0.726,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M/P2_trend150",
+      "name": "composite P2_trend150 {'UP': 'ABS_GROT', 'DOWN': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP": "ABS_GROT",
+        "DOWN": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 15.16,
+      "ann_roi": 444.0,
+      "max_dd": 34.5,
+      "calmar": 12.86,
+      "dd_monthly": 2.3,
+      "worst_month": -21.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        33.12,
+        3.61,
+        7.69
+      ],
+      "worst_fold": 3.61,
+      "nonbull_avg": 5.65,
+      "bull_share": 0.746,
+      "dyn_ok": true,
+      "round": 10,
+      "node": "M/P3_hyst100",
+      "name": "composite P3_hyst100 {'ON': 'ABS_GROT', 'OFF': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "ON": "ABS_GROT",
+        "OFF": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 14.6,
+      "ann_roi": 413.3,
+      "max_dd": 34.5,
+      "calmar": 11.97,
+      "dd_monthly": 2.4,
+      "worst_month": -17.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.71,
+        3.23,
+        7.12
+      ],
+      "worst_fold": 3.23,
+      "nonbull_avg": 5.175,
+      "bull_share": 0.76,
+      "dyn_ok": true,
+      "round": 10,
+      "node": "M/P4_trend_x_vol",
+      "name": "composite P4_trend_x_vol {'UP_LOVOL': 'GROT', 'UP_HIVOL': 'ABS_GROT', 'DN_LOVOL': 'ABS_GROT', 'DN_HIVOL': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_LOVOL": "GROT",
+        "UP_HIVOL": "ABS_GROT",
+        "DN_LOVOL": "ABS_GROT",
+        "DN_HIVOL": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 14.61,
+      "ann_roi": 413.4,
+      "max_dd": 37.0,
+      "calmar": 11.17,
+      "dd_monthly": 2.5,
+      "worst_month": -21.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.18,
+        3.05,
+        5.63
+      ],
+      "worst_fold": 3.05,
+      "nonbull_avg": 4.34,
+      "bull_share": 0.797,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M/P5_trend_x_breadth",
+      "name": "composite P5_trend_x_breadth {'UP_BHI': 'ABS_GROT', 'UP_BMID': 'TSMOM', 'UP_BLO': 'ABS_GROT', 'DN_BHI': 'FVG_LS', 'DN_BLO': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_BHI": "ABS_GROT",
+        "UP_BMID": "TSMOM",
+        "UP_BLO": "ABS_GROT",
+        "DN_BHI": "FVG_LS",
+        "DN_BLO": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 14.73,
+      "ann_roi": 420.0,
+      "max_dd": 31.9,
+      "calmar": 13.15,
+      "dd_monthly": 2.2,
+      "worst_month": -13.8,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.52,
+        3.25,
+        6.04
+      ],
+      "worst_fold": 3.25,
+      "nonbull_avg": 4.645,
+      "bull_share": 0.788,
+      "dyn_ok": true,
+      "round": 10,
+      "node": "M/P6_trend_x_stress",
+      "name": "composite P6_trend_x_stress {'UP_CALM': 'GROT', 'UP_STRESS': 'ABS_GROT', 'DN_CALM': 'ABS_GROT', 'DN_STRESS': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_CALM": "GROT",
+        "UP_STRESS": "ABS_GROT",
+        "DN_CALM": "ABS_GROT",
+        "DN_STRESS": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 16.45,
+      "ann_roi": 521.8,
+      "max_dd": 50.2,
+      "calmar": 10.39,
+      "dd_monthly": 3.1,
+      "worst_month": -16.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        35.08,
+        7.94,
+        6.46
+      ],
+      "worst_fold": 6.46,
+      "nonbull_avg": 7.2,
+      "bull_share": 0.709,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M/P7_vollevel_x_voltrend",
+      "name": "composite P7_vollevel_x_voltrend {'LO_FELL': 'VOL_GROT', 'LO_RISE': 'FVG_LONG', 'HI_FELL': 'ABS_GROT', 'HI_RISE': 'FVG_LONG'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "LO_FELL": "VOL_GROT",
+        "LO_RISE": "FVG_LONG",
+        "HI_FELL": "ABS_GROT",
+        "HI_RISE": "FVG_LONG"
+      }
+    },
+    {
+      "monthly_roi": 13.23,
+      "ann_roi": 344.3,
+      "max_dd": 40.1,
+      "calmar": 8.6,
+      "dd_monthly": 3.0,
+      "worst_month": -21.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        34.05,
+        1.24,
+        3.88
+      ],
+      "worst_fold": 1.24,
+      "nonbull_avg": 2.56,
+      "bull_share": 0.869,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M/P8_breadth3",
+      "name": "composite P8_breadth3 {'BHI': 'ABS_GROT', 'BMID': 'GROT', 'BLO': 'FVG_LS'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "BHI": "ABS_GROT",
+        "BMID": "GROT",
+        "BLO": "FVG_LS"
+      }
+    },
+    {
+      "monthly_roi": 12.17,
+      "ann_roi": 296.8,
+      "max_dd": 24.4,
+      "calmar": 12.18,
+      "dd_monthly": 2.0,
+      "worst_month": -10.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.28,
+        1.03,
+        2.44
+      ],
+      "worst_fold": 1.03,
+      "nonbull_avg": 1.7349999999999999,
+      "bull_share": 0.9,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P1_trend100",
+      "name": "composite-ddrule P1_trend100 {'UP': 'GROT', 'DOWN': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP": "GROT",
+        "DOWN": "ABS_GROT"
+      }
+    },
+    {
+      "monthly_roi": 11.78,
+      "ann_roi": 280.7,
+      "max_dd": 34.5,
+      "calmar": 8.13,
+      "dd_monthly": 2.9,
+      "worst_month": -20.1,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.54,
+        0.15,
+        2.04
+      ],
+      "worst_fold": 0.15,
+      "nonbull_avg": 1.095,
+      "bull_share": 0.935,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P2_trend150",
+      "name": "composite-ddrule P2_trend150 {'UP': 'ABS_GROT', 'DOWN': 'VOL_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP": "ABS_GROT",
+        "DOWN": "VOL_GROT"
+      }
+    },
+    {
+      "monthly_roi": 11.87,
+      "ann_roi": 284.3,
+      "max_dd": 24.4,
+      "calmar": 11.67,
+      "dd_monthly": 2.1,
+      "worst_month": -10.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        31.19,
+        0.28,
+        2.44
+      ],
+      "worst_fold": 0.28,
+      "nonbull_avg": 1.3599999999999999,
+      "bull_share": 0.92,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P3_hyst100",
+      "name": "composite-ddrule P3_hyst100 {'ON': 'GROT', 'OFF': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "ON": "GROT",
+        "OFF": "ABS_GROT"
+      }
+    },
+    {
+      "monthly_roi": 12.94,
+      "ann_roi": 330.5,
+      "max_dd": 22.8,
+      "calmar": 14.49,
+      "dd_monthly": 1.8,
+      "worst_month": -10.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.23,
+        2.74,
+        1.84
+      ],
+      "worst_fold": 1.84,
+      "nonbull_avg": 2.29,
+      "bull_share": 0.876,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P4_trend_x_vol",
+      "name": "composite-ddrule P4_trend_x_vol {'UP_LOVOL': 'VOL_GROT', 'UP_HIVOL': 'ABS_GROT', 'DN_LOVOL': 'ABS_GROT', 'DN_HIVOL': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_LOVOL": "VOL_GROT",
+        "UP_HIVOL": "ABS_GROT",
+        "DN_LOVOL": "ABS_GROT",
+        "DN_HIVOL": "ABS_GROT"
+      }
+    },
+    {
+      "monthly_roi": 12.41,
+      "ann_roi": 307.2,
+      "max_dd": 28.9,
+      "calmar": 10.62,
+      "dd_monthly": 2.3,
+      "worst_month": -13.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        30.63,
+        2.31,
+        2.29
+      ],
+      "worst_fold": 2.29,
+      "nonbull_avg": 2.3,
+      "bull_share": 0.869,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P5_trend_x_breadth",
+      "name": "composite-ddrule P5_trend_x_breadth {'UP_BHI': 'GROT', 'UP_BMID': 'TSMOM', 'UP_BLO': 'ABS_GROT', 'DN_BHI': 'ABS_GROT', 'DN_BLO': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_BHI": "GROT",
+        "UP_BMID": "TSMOM",
+        "UP_BLO": "ABS_GROT",
+        "DN_BHI": "ABS_GROT",
+        "DN_BLO": "ABS_GROT"
+      }
+    },
+    {
+      "monthly_roi": 10.39,
+      "ann_roi": 227.4,
+      "max_dd": 22.8,
+      "calmar": 9.97,
+      "dd_monthly": 2.2,
+      "worst_month": -3.0,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        24.82,
+        2.58,
+        1.73
+      ],
+      "worst_fold": 1.73,
+      "nonbull_avg": 2.1550000000000002,
+      "bull_share": 0.852,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P6_trend_x_stress",
+      "name": "composite-ddrule P6_trend_x_stress {'UP_CALM': 'VOL_GROT', 'UP_STRESS': 'ABS_GROT', 'DN_CALM': 'ABS_GROT', 'DN_STRESS': 'VOL_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "UP_CALM": "VOL_GROT",
+        "UP_STRESS": "ABS_GROT",
+        "DN_CALM": "ABS_GROT",
+        "DN_STRESS": "VOL_GROT"
+      }
+    },
+    {
+      "monthly_roi": 13.02,
+      "ann_roi": 334.2,
+      "max_dd": 22.8,
+      "calmar": 14.65,
+      "dd_monthly": 1.8,
+      "worst_month": -10.3,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        29.78,
+        5.0,
+        1.99
+      ],
+      "worst_fold": 1.99,
+      "nonbull_avg": 3.495,
+      "bull_share": 0.81,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P7_vollevel_x_voltrend",
+      "name": "composite-ddrule P7_vollevel_x_voltrend {'LO_FELL': 'VOL_GROT', 'LO_RISE': 'FVG_LS', 'HI_FELL': 'ABS_GROT', 'HI_RISE': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "LO_FELL": "VOL_GROT",
+        "LO_RISE": "FVG_LS",
+        "HI_FELL": "ABS_GROT",
+        "HI_RISE": "ABS_GROT"
+      }
+    },
+    {
+      "monthly_roi": 12.65,
+      "ann_roi": 317.7,
+      "max_dd": 24.4,
+      "calmar": 13.04,
+      "dd_monthly": 1.9,
+      "worst_month": -6.4,
+      "sharpe": null,
+      "profit_factor": null,
+      "folds": [
+        32.62,
+        1.16,
+        2.35
+      ],
+      "worst_fold": 1.16,
+      "nonbull_avg": 1.755,
+      "bull_share": 0.903,
+      "dyn_ok": false,
+      "round": 10,
+      "node": "M2/P8_breadth3",
+      "name": "composite-ddrule P8_breadth3 {'BHI': 'GROT', 'BMID': 'GROT', 'BLO': 'ABS_GROT'}",
+      "scope": "crypto_1d_21c",
+      "failed": false,
+      "assign": {
+        "BHI": "GROT",
+        "BMID": "GROT",
+        "BLO": "ABS_GROT"
+      }
+    },
+    {
+      "round": 10,
+      "node": "M/LOFO",
+      "name": "LOFO-10 fold1 (P4_trend_x_vol)",
+      "scope": "held-out fold",
+      "monthly_roi": 16.91,
+      "max_dd": 54.6,
+      "calmar": 10.11,
+      "dd_monthly": 3.2,
+      "worst_month": -26.4,
+      "worst_fold": 16.91,
+      "nonbull_avg": 16.91,
+      "bull_share": 0.0,
+      "dyn_ok": false,
+      "failed": false
+    },
+    {
+      "round": 10,
+      "node": "M/LOFO",
+      "name": "LOFO-10 fold2 (P4_trend_x_vol)",
+      "scope": "held-out fold",
+      "monthly_roi": 2.37,
+      "max_dd": 39.1,
+      "calmar": 0.83,
+      "dd_monthly": 16.4,
+      "worst_month": -31.7,
+      "worst_fold": 2.37,
+      "nonbull_avg": 2.37,
+      "bull_share": 0.0,
+      "dyn_ok": false,
+      "failed": false
+    },
+    {
+      "round": 10,
+      "node": "M/LOFO",
+      "name": "LOFO-10 fold3 (P4_trend_x_vol)",
+      "scope": "held-out fold",
+      "monthly_roi": 4.41,
+      "max_dd": 48.2,
+      "calmar": 1.41,
+      "dd_monthly": 10.9,
+      "worst_month": -32.6,
+      "worst_fold": 4.41,
+      "nonbull_avg": 4.41,
+      "bull_share": 0.0,
+      "dyn_ok": false,
+      "failed": false
     }
   ],
   "selection_guide": {
@@ -9088,5 +9604,329 @@
       "bull_share": 1.5
     }
   },
-  "tree_round9_nodes_visited": 37
+  "tree_round9_nodes_visited": 37,
+  "conditional_table": {
+    "P1_trend100": {
+      "UP": {
+        "FVG_LS": 9.29,
+        "FVG_LONG": 18.39,
+        "FVG_SHORT": -2.49,
+        "VOL_GROT": 8.74,
+        "ABS_GROT": 27.56,
+        "GROT": 26.87,
+        "DIP_V2": 3.93,
+        "TSMOM": 13.25,
+        "CASH": 0.0
+      },
+      "DOWN": {
+        "FVG_LS": 5.17,
+        "FVG_LONG": 3.22,
+        "FVG_SHORT": 1.37,
+        "VOL_GROT": 0.09,
+        "ABS_GROT": 2.39,
+        "GROT": 1.33,
+        "DIP_V2": -0.4,
+        "TSMOM": -10.4,
+        "CASH": 0.0
+      }
+    },
+    "P2_trend150": {
+      "UP": {
+        "FVG_LS": 8.85,
+        "FVG_LONG": 18.16,
+        "FVG_SHORT": -2.87,
+        "VOL_GROT": 9.3,
+        "ABS_GROT": 33.77,
+        "GROT": 32.81,
+        "DIP_V2": 5.26,
+        "TSMOM": 24.86,
+        "CASH": 0.0
+      },
+      "DOWN": {
+        "FVG_LS": 5.38,
+        "FVG_LONG": 3.39,
+        "FVG_SHORT": 1.57,
+        "VOL_GROT": 0.87,
+        "ABS_GROT": 0.42,
+        "GROT": 1.09,
+        "DIP_V2": -1.43,
+        "TSMOM": -13.43,
+        "CASH": 0.0
+      }
+    },
+    "P3_hyst100": {
+      "ON": {
+        "FVG_LS": 8.94,
+        "FVG_LONG": 18.73,
+        "FVG_SHORT": -3.07,
+        "VOL_GROT": 8.79,
+        "ABS_GROT": 30.6,
+        "GROT": 29.12,
+        "DIP_V2": 5.08,
+        "TSMOM": 16.68,
+        "CASH": 0.0
+      },
+      "OFF": {
+        "FVG_LS": 4.42,
+        "FVG_LONG": 2.09,
+        "FVG_SHORT": 1.51,
+        "VOL_GROT": 0.01,
+        "ABS_GROT": 0.03,
+        "GROT": -0.36,
+        "DIP_V2": -1.19,
+        "TSMOM": -10.83,
+        "CASH": 0.0
+      }
+    },
+    "P4_trend_x_vol": {
+      "UP_LOVOL": {
+        "FVG_LS": 4.29,
+        "FVG_LONG": 1.71,
+        "FVG_SHORT": 2.22,
+        "VOL_GROT": 7.11,
+        "ABS_GROT": 4.7,
+        "GROT": 8.0,
+        "DIP_V2": -2.25,
+        "TSMOM": -15.61,
+        "CASH": 0.0
+      },
+      "UP_HIVOL": {
+        "FVG_LS": 14.05,
+        "FVG_LONG": 35.99,
+        "FVG_SHORT": -6.59,
+        "VOL_GROT": 10.26,
+        "ABS_GROT": 52.73,
+        "GROT": 46.95,
+        "DIP_V2": 9.91,
+        "TSMOM": 48.11,
+        "CASH": 0.0
+      },
+      "DN_LOVOL": {
+        "FVG_LS": 1.79,
+        "FVG_LONG": 2.88,
+        "FVG_SHORT": -1.26,
+        "VOL_GROT": 0.42,
+        "ABS_GROT": 2.21,
+        "GROT": 2.05,
+        "DIP_V2": -1.08,
+        "TSMOM": -2.23,
+        "CASH": 0.0
+      },
+      "DN_HIVOL": {
+        "FVG_LS": 9.42,
+        "FVG_LONG": 3.64,
+        "FVG_SHORT": 4.65,
+        "VOL_GROT": -0.3,
+        "ABS_GROT": 2.61,
+        "GROT": 0.47,
+        "DIP_V2": 0.44,
+        "TSMOM": -19.42,
+        "CASH": 0.0
+      }
+    },
+    "P5_trend_x_breadth": {
+      "UP_BHI": {
+        "FVG_LS": 11.97,
+        "FVG_LONG": 19.78,
+        "FVG_SHORT": -0.69,
+        "VOL_GROT": 9.71,
+        "ABS_GROT": 33.01,
+        "GROT": 31.91,
+        "DIP_V2": 3.75,
+        "TSMOM": 12.59,
+        "CASH": 0.0
+      },
+      "UP_BMID": {
+        "FVG_LS": -5.49,
+        "FVG_LONG": 0.38,
+        "FVG_SHORT": -6.89,
+        "VOL_GROT": 1.17,
+        "ABS_GROT": -2.38,
+        "GROT": 3.59,
+        "DIP_V2": 4.67,
+        "TSMOM": 19.95,
+        "CASH": 0.0
+      },
+      "UP_BLO": {
+        "FVG_LS": 9.86,
+        "FVG_LONG": 30.37,
+        "FVG_SHORT": -8.02,
+        "VOL_GROT": 11.03,
+        "ABS_GROT": 30.85,
+        "GROT": 24.15,
+        "DIP_V2": 4.23,
+        "TSMOM": 10.66,
+        "CASH": 0.0
+      },
+      "DN_BHI": {
+        "FVG_LS": 5.08,
+        "FVG_LONG": 3.13,
+        "FVG_SHORT": 2.24,
+        "VOL_GROT": 0.8,
+        "ABS_GROT": 0.62,
+        "GROT": 3.59,
+        "DIP_V2": -6.7,
+        "TSMOM": -6.37,
+        "CASH": 0.0
+      },
+      "DN_BLO": {
+        "FVG_LS": 5.41,
+        "FVG_LONG": 2.43,
+        "FVG_SHORT": 2.13,
+        "VOL_GROT": -0.28,
+        "ABS_GROT": 1.35,
+        "GROT": -0.24,
+        "DIP_V2": 0.84,
+        "TSMOM": -4.12,
+        "CASH": 0.0
+      }
+    },
+    "P6_trend_x_stress": {
+      "UP_CALM": {
+        "FVG_LS": 6.55,
+        "FVG_LONG": 10.12,
+        "FVG_SHORT": -0.53,
+        "VOL_GROT": 7.7,
+        "ABS_GROT": 13.89,
+        "GROT": 16.4,
+        "DIP_V2": 1.8,
+        "TSMOM": 1.64,
+        "CASH": 0.0
+      },
+      "UP_STRESS": {
+        "FVG_LS": 18.88,
+        "FVG_LONG": 50.55,
+        "FVG_SHORT": -8.73,
+        "VOL_GROT": 12.27,
+        "ABS_GROT": 85.77,
+        "GROT": 68.83,
+        "DIP_V2": 11.32,
+        "TSMOM": 62.14,
+        "CASH": 0.0
+      },
+      "DN_CALM": {
+        "FVG_LS": 2.77,
+        "FVG_LONG": 0.5,
+        "FVG_SHORT": 0.99,
+        "VOL_GROT": -0.1,
+        "ABS_GROT": 3.04,
+        "GROT": 0.66,
+        "DIP_V2": -0.37,
+        "TSMOM": -4.22,
+        "CASH": 0.0
+      },
+      "DN_STRESS": {
+        "FVG_LS": 14.8,
+        "FVG_LONG": 14.24,
+        "FVG_SHORT": 2.82,
+        "VOL_GROT": 0.81,
+        "ABS_GROT": -0.03,
+        "GROT": 3.93,
+        "DIP_V2": -0.51,
+        "TSMOM": -30.45,
+        "CASH": 0.0
+      }
+    },
+    "P7_vollevel_x_voltrend": {
+      "LO_FELL": {
+        "FVG_LS": -0.35,
+        "FVG_LONG": -4.3,
+        "FVG_SHORT": 1.08,
+        "VOL_GROT": 2.92,
+        "ABS_GROT": 1.9,
+        "GROT": 3.56,
+        "DIP_V2": -2.03,
+        "TSMOM": -3.12,
+        "CASH": 0.0
+      },
+      "LO_RISE": {
+        "FVG_LS": 6.36,
+        "FVG_LONG": 10.15,
+        "FVG_SHORT": -0.76,
+        "VOL_GROT": 2.79,
+        "ABS_GROT": 4.7,
+        "GROT": 4.86,
+        "DIP_V2": -0.08,
+        "TSMOM": -14.97,
+        "CASH": 0.0
+      },
+      "HI_FELL": {
+        "FVG_LS": 7.23,
+        "FVG_LONG": 17.34,
+        "FVG_SHORT": -4.02,
+        "VOL_GROT": 9.43,
+        "ABS_GROT": 52.95,
+        "GROT": 46.61,
+        "DIP_V2": 7.97,
+        "TSMOM": 28.1,
+        "CASH": 0.0
+      },
+      "HI_RISE": {
+        "FVG_LS": 14.53,
+        "FVG_LONG": 21.91,
+        "FVG_SHORT": -0.38,
+        "VOL_GROT": 2.46,
+        "ABS_GROT": 12.15,
+        "GROT": 9.75,
+        "DIP_V2": 3.48,
+        "TSMOM": 1.63,
+        "CASH": 0.0
+      }
+    },
+    "P8_breadth3": {
+      "BHI": {
+        "FVG_LS": 10.96,
+        "FVG_LONG": 16.85,
+        "FVG_SHORT": -0.06,
+        "VOL_GROT": 8.4,
+        "ABS_GROT": 27.87,
+        "GROT": 27.46,
+        "DIP_V2": 2.26,
+        "TSMOM": 9.76,
+        "CASH": 0.0
+      },
+      "BMID": {
+        "FVG_LS": -3.75,
+        "FVG_LONG": 6.26,
+        "FVG_SHORT": -9.22,
+        "VOL_GROT": 2.25,
+        "ABS_GROT": 5.1,
+        "GROT": 9.46,
+        "DIP_V2": 1.11,
+        "TSMOM": -22.85,
+        "CASH": 0.0
+      },
+      "BLO": {
+        "FVG_LS": 4.87,
+        "FVG_LONG": 4.39,
+        "FVG_SHORT": 0.53,
+        "VOL_GROT": 0.9,
+        "ABS_GROT": 3.87,
+        "GROT": 2.12,
+        "DIP_V2": 1.04,
+        "TSMOM": -1.97,
+        "CASH": 0.0
+      }
+    }
+  },
+  "selection_guide_regime": {
+    "rule": "max worst-fold s.t. folds>-1, nonbull>0, bull%<0.8, DD/Mo<=10, Cal>=1.2, DD<=35",
+    "best_composite": {
+      "name": "composite P3_hyst100 {'ON': 'ABS_GROT', 'OFF': 'FVG_LS'}",
+      "node": "M/P3_hyst100",
+      "worst_fold": 3.61,
+      "nonbull_avg": 5.65,
+      "bull_share": 0.746,
+      "monthly_roi": 15.16,
+      "max_dd": 34.5,
+      "calmar": 12.86,
+      "folds": [
+        33.12,
+        3.61,
+        7.69
+      ]
+    },
+    "n_conditional_validations": 26
+  },
+  "tree_round10_nodes_visited": 45
 }

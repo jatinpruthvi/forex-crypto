@@ -344,3 +344,46 @@ mean-reverting - imbalance gaps fill instantly and fees/spread eat the residue. 
 gap-retest edge is crypto-specific (alt-coin liquidity holes). This reproduces the EXP-021
 round-2 forex control (best +0.36%/mo Calmar 0.22) with 37 fresh nodes. **Crypto-only scope
 confirmed; no forex capital allocation.**
+
+
+---
+
+## 12. EXP-029 — Regime-Conditional Policy: Best (Parameter x Strategy) Combinations (2026-10-28)
+
+**User's mathematical framing** (agreed): trading is a probability model over a non-stationary
+random process; one strategy cannot perform well forever. The correct object is a causal
+regime-conditional policy pi(state) -> strategy: divide time by observable parameters, validate
+every strategy inside every parameter-state, then apply the best strategy per state.
+
+### The conditional table (the "best strategy for that parameter") - selected cells
+
+| parameter-state | occupancy | best strategy | in-cell %/mo | next best |
+|---|---|---|---|---|
+| BTC > MA100 (UP) | 44% | ABS_GROT | +27.6 | GROT +26.9 |
+| BTC < MA100 (DOWN) | 47% | FVG_LS | +5.2 | FVG_LONG +3.2 |
+| UP + high vol | 23% | ABS_GROT | +52.7 | TSMOM +48.1 |
+| DOWN + high vol | 21% | FVG_LS | +9.4 | FVG_SHORT +4.7 |
+| DOWN + vol stress | 10% | FVG_LS | +14.8 | FVG_LONG +14.2 |
+| UP + vol calm | 34% | GROT | +16.4 | ABS_GROT +13.9 |
+
+The mapping is stable across 3 trend definitions (MA100/MA150/hysteresis): **UP -> momentum
+rotation, DOWN/stress -> FVG gap retests.**
+
+### Champion composite: hysteresis state -> {ABS_GROT | FVG_LS}
+
+| strategy | %/mo | maxDD | Calmar | folds | bull share |
+|---|---|---|---|---|---|
+| **M/P3 {ON: ABS_GROT, OFF: FVG_LS}** | **+15.2** | **34.5%** | **12.9** | **+33.1/+3.6/+7.7** | **0.75** |
+| M/P6 trend_x_stress composite | +14.7 | 31.9% | 13.2 | +34.5/+3.3/+6.0 | 0.79 |
+| old bull-hold champion | +13.5 | 29.2% | 12.3 | +34.1/+1.7/+2.5 | 0.89 |
+| static FVG_LS | +6.4 | 28.2% | 3.9 | +7.6/+5.7/+5.7 | 0.40 |
+
+The composite captures the bull machine of rotation AND the chop/bear engine of FVG - strictly
+better than either static strategy. **LOFO** (assignment learned on 2 folds, applied held-out):
++16.9 / +2.4 / +4.4 %/mo all positive, and assignments converge on the same structure.
+
+### Honest limits
+Full-period cell assignments are selection-adjusted (LOFO mitigates, 3 folds only). LOFO worst
+months -26..-33% (switching whipsaw around regime transitions). Same single panel/era. Forward
+paper validation required before capital. 253 validation units in
+reports/strategy_leaderboard.json (conditional_table + selection_guide_regime).
