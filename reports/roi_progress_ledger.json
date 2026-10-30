@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "description": "Comprehensive Historical & Multi-Asset Backtest Progress Tracker",
-  "last_updated": "2026-10-28",
+  "last_updated": "2026-10-29",
   "champion_savepoint": "SAVEPOINT_EXP-016-AUDIT-CORRECTED-DUAL-SLOT",
   "experiments": [
     {
@@ -1417,6 +1417,18 @@
       "results": "A 5/5 PASS, zero bugs (champion +16.02/25.1/19.74 and LOFO +31.79/+4.33/+1.88 reproduce exactly; 8 switches, switch fees 0.70% of equity). B2 placebo: null mean +4.33 p90 +6.95 max +10.24; champion +12.67 = percentile 100 (0/50 beat). B1 nested full-procedure: training picked N2 3/3 (overfit) -> held -0.77/+3.26/+5.39 avg +2.63 NOT all-positive. B1b P3-fixed nested: +30.14/+2.70/+2.04 all positive (avg 11.63). B1c frozen champion: +34.99/+4.33/+6.85 all positive (avg 15.39). C: fee15bp +15.5%/mo Cal 17.3 dyn_ok; drop best month (2021-01 +188.7%) -> +12.3%/mo; top3 coins 52.7% of gross (DOGE 24.1%); 36% negative months, worst -21.3%; worst DD -25.1% = Sep-2021 crash, both engines negative in-window.",
       "honest_summary": "Champion P3+smooth10 edge is REAL (placebo p100, robust to costs, months, concentration) and its numbers are bug-free and exactly reproducible. NEW CAVEAT: the meta-procedure of re-selecting the regime definition by training performance is unreliable (picked N2 every fold, held-out +2.63 avg w/ one negative block) - deploy the FROZEN P3+smooth10 spec, never re-run def selection at runtime. N2 flagged training-only-favorite. Same 21-coin 2020-2023 panel; forward paper validation still required.",
       "tag": "regime-policy-deep-recheck",
+      "status": "COMPLETED"
+    },
+    {
+      "experiment_id": "EXP-032-FOREX-REGIME",
+      "strategy_name": "Forex regime-conditional policy: best (parameter-state x strategy) per pair",
+      "asset": "4 FX pairs (EURUSD, GBPUSD, EURJPY, XAUUSD), H4->daily 2012-11..2022-03 (~2392 bars)",
+      "timeframe": "1D",
+      "duration_desc": "8 parameter-state families x 4 pairs x 11 strategies in-cell + family composites + 3-tier honesty validation",
+      "methodology": "User framing: divide time by parameter-states, validate each strategy per state, apply best (parameter x strategy) per state. Pre-registered: menu frozen (FVG LS/LONG/SHORT, OB_LS, SWEEP_LS, RANGE_MR, TSMOM_VOL, DIP_V2, GATED_ROT K2, MR_RSI2, CASH); families P1 trend100 / P2 trend150 / P3 hyst100 / P4 trend x vol / P5 trend x stress / P6 vol x voltrend (per-pair) + G1 breadth / G2 XAU driver (global); argmax in-cell monthly (dd/Mo<=10, n>=30); per-column composite, 10-day persistence; fee 5bp. Honesty stack: partition + no-lookahead checks, strict disjoint-block LOFO (38/32/30), NESTED LOFO (family x sm x mapping nested), PLACEBO null (30 block-shuffled draws).",
+      "results": "NO LOFO-VALID FX POLICY. All 8 families fail dyn_ok AND strict LOFO. Best family P3_hyst100: +0.07%/mo full, Cal 0.53, LOFO +0.08/+0.03/-0.05. P4 +0.31%/mo Cal 0.21 LOFO -0.09/-0.28/+0.46. Nested LOFO avg -0.08%/mo. Placebo: champion +0.02 avg vs null mean -0.07, p90 +0.11 -> 70th pct, 9/30 random draws beat it (noise). Checks PASS (partition 100%, no-lookahead). Conditional table saved; best unvalidated cells: XAUUSD stress -> FVG_LONG +1.80%/mo (occ 6%), GBPUSD vol-fell -> TSMOM_VOL +0.97%/mo (occ 29%) - flagged hypotheses only, fail family LOFO.",
+      "honest_summary": "Forex fails the regime-conditional lens exactly as it failed the static lens (EXP-028): no edge at any validation tier, placebo confirms noise. The program's edge is crypto-specific. No FX allocation. Crypto champion P3+smooth10 remains the sole deployable policy candidate; XAU stress FVG_LONG noted as hypothesis for future data, NOT deployable.",
+      "tag": "forex-regime-hunt",
       "status": "COMPLETED"
     }
   ],

@@ -458,3 +458,46 @@ edge is real (placebo p100, robust to costs/months/concentration); what is NOT v
 process of re-selecting the regime definition from data at runtime - N2 is flagged
 training-only-favorite and must not be auto-selected. All numbers in
 reports/strategy_leaderboard.json `exp031_recheck`.
+
+
+## 13. EXP-032 — Forex Regime-Conditional Policy (2026-10-29)
+
+User directive: apply the regime-conditional framing to forex too ("divide time based on some
+parameter... final strategy = apply best strategy per parameter-state"). EXP-028 had tested only
+STATIC FX strategies (37 nodes, all failed); the conditional lens was untested for FX.
+
+**Pre-registered design** (scripts/forex_regime.py): 4 pairs (EURUSD/GBPUSD/EURJPY/XAUUSD),
+H4->daily 2012-11..2022-03 (~2392 bars), fee 5bp. Menu frozen at 10 strategies + CASH (FVG
+LS/LONG/SHORT, OB_LS, SWEEP_LS, RANGE_MR, TSMOM_VOL, DIP_V2, GATED_ROT K2, MR_RSI2). 8 state
+families: P1 trend100, P2 trend150, P3 hyst100 +-2%, P4 trend x vol, P5 trend x vol-stress(q80),
+P6 vollevel x voltrend (all per-pair own price), G1 breadth, G2 XAUUSD hysteresis driver.
+Assignment = argmax in-cell monthly (dd/Mo<=10, n>=30) per (pair, cell); composite = per-column
+strategy selection with 10-day persistence. Champion rule: all strict-LOFO holdouts > 0.
+Honesty stack from EXP-031 built in: partition + no-lookahead checks (both PASS), strict
+disjoint-block LOFO, nested LOFO (family x sm x mapping nested), placebo null (30 draws).
+
+**Result: NO LOFO-VALID FX POLICY.** All 8 families fail both dyn_ok and strict LOFO:
+
+| family | full %/mo | Calmar | strict LOFO (38/32/30 blocks) | dyn_ok |
+|---|---|---|---|---|
+| P3_hyst100 (best) | +0.07 | 0.53 | +0.08/+0.03/-0.05 | no |
+| P4_trend_x_vol | +0.31 | 0.21 | -0.09/-0.28/+0.46 | no |
+| P6_vol_x_voltrend | +0.27 | 0.18 | -0.23/-0.57/-0.00 | no |
+| P5_trend_x_stress | +0.08 | 0.15 | +0.40/-0.08/-0.73 | no |
+| P1/P2/G1/G2 | -0.07..+0.03 | <0.2 | mixed sign | no |
+
+Nested LOFO (procedure-level): +0.40/-0.12/-0.53 (avg -0.08). Placebo null on best family:
+champion avg +0.02 vs null mean -0.07, p90 +0.11 - champion at the 70th percentile, **9/30
+random state draws beat it**. No better than noise.
+
+**Conditional table saved** (selection_guide_forex_regime) - the "best parameter x strategy"
+lookup the user asked for, with honesty flags. Best in-cell observations (NOT validated, flagged
+as hypotheses only): XAUUSD vol-stress cells -> FVG_LONG +1.80%/mo (UP_STRESS, occ 6%) and
++0.61% (DN_STRESS); GBPUSD vol-fell -> TSMOM_VOL +0.97%/mo (occ 29%). None survive family-level
+LOFO - single cells selected post-hoc are exactly the multiple-comparison trap EXP-031 exists to
+catch.
+
+**Conclusion (reinforces EXP-028):** the strategy edge in this program is crypto-specific. Forex
+fails the static lens AND the regime-conditional lens under identical methodology and honesty
+gates. No FX allocation. Crypto champion P3+smooth10 (section 12) remains the sole deployable
+policy candidate.

@@ -9293,6 +9293,346 @@
       "bull_share": 0.0,
       "dyn_ok": false,
       "failed": false
+    },
+    {
+      "family": "P1_trend100",
+      "monthly_roi": 0.02,
+      "max_dd": 3.3,
+      "calmar": 0.07,
+      "folds": [
+        -0.04,
+        0.08,
+        0.02
+      ],
+      "bull_share": -0.667,
+      "dyn_ok": false,
+      "strict_lofo": [
+        0.15,
+        -0.0,
+        -0.69
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "UP": "FVG_SHORT",
+          "DOWN": "MR_RSI2"
+        },
+        "GBPUSD": {
+          "UP": "RANGE_MR",
+          "DOWN": "CASH"
+        },
+        "EURJPY": {
+          "UP": "FVG_SHORT",
+          "DOWN": "MR_RSI2"
+        },
+        "XAUUSD": {
+          "UP": "CASH",
+          "DOWN": "CASH"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "P2_trend150",
+      "monthly_roi": -0.0,
+      "max_dd": 1.3,
+      "calmar": -0.01,
+      "folds": [
+        0.01,
+        0.02,
+        -0.02
+      ],
+      "bull_share": 1.0,
+      "dyn_ok": false,
+      "strict_lofo": [
+        0.0,
+        0.01,
+        -0.53
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "UP": "CASH",
+          "DOWN": "MR_RSI2"
+        },
+        "GBPUSD": {
+          "UP": "CASH",
+          "DOWN": "CASH"
+        },
+        "EURJPY": {
+          "UP": "CASH",
+          "DOWN": "MR_RSI2"
+        },
+        "XAUUSD": {
+          "UP": "CASH",
+          "DOWN": "CASH"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "P3_hyst100",
+      "monthly_roi": 0.07,
+      "max_dd": 1.6,
+      "calmar": 0.53,
+      "folds": [
+        0.03,
+        0.15,
+        0.05
+      ],
+      "bull_share": 0.13,
+      "dyn_ok": false,
+      "strict_lofo": [
+        0.08,
+        0.03,
+        -0.05
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "ON": "CASH",
+          "OFF": "CASH"
+        },
+        "GBPUSD": {
+          "ON": "RANGE_MR",
+          "OFF": "CASH"
+        },
+        "EURJPY": {
+          "ON": "CASH",
+          "OFF": "CASH"
+        },
+        "XAUUSD": {
+          "ON": "CASH",
+          "OFF": "FVG_SHORT"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "P4_trend_x_vol",
+      "monthly_roi": 0.31,
+      "max_dd": 18.7,
+      "calmar": 0.21,
+      "folds": [
+        -0.05,
+        -0.22,
+        0.37
+      ],
+      "bull_share": -0.5,
+      "dyn_ok": false,
+      "strict_lofo": [
+        -0.09,
+        -0.28,
+        0.46
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "UP_LOVOL": "FVG_SHORT",
+          "UP_HIVOL": "TSMOM_VOL",
+          "DN_LOVOL": "GATED_ROT",
+          "DN_HIVOL": "MR_RSI2"
+        },
+        "GBPUSD": {
+          "UP_LOVOL": "TSMOM_VOL",
+          "UP_HIVOL": "RANGE_MR",
+          "DN_LOVOL": "TSMOM_VOL",
+          "DN_HIVOL": "DIP_V2"
+        },
+        "EURJPY": {
+          "UP_LOVOL": "FVG_SHORT",
+          "UP_HIVOL": "TSMOM_VOL",
+          "DN_LOVOL": "MR_RSI2",
+          "DN_HIVOL": "MR_RSI2"
+        },
+        "XAUUSD": {
+          "UP_LOVOL": "CASH",
+          "UP_HIVOL": "DIP_V2",
+          "DN_LOVOL": "CASH",
+          "DN_HIVOL": "FVG_LONG"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "P5_trend_x_stress",
+      "monthly_roi": 0.08,
+      "max_dd": 6.2,
+      "calmar": 0.15,
+      "folds": [
+        0.22,
+        0.06,
+        0.04
+      ],
+      "bull_share": 0.688,
+      "dyn_ok": false,
+      "strict_lofo": [
+        0.4,
+        -0.08,
+        -0.73
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "UP_CALM": "FVG_SHORT",
+          "UP_STRESS": "SWEEP_LS",
+          "DN_CALM": "GATED_ROT",
+          "DN_STRESS": "CASH"
+        },
+        "GBPUSD": {
+          "UP_CALM": "RANGE_MR",
+          "UP_STRESS": "SWEEP_LS",
+          "DN_CALM": "CASH",
+          "DN_STRESS": "DIP_V2"
+        },
+        "EURJPY": {
+          "UP_CALM": "FVG_SHORT",
+          "UP_STRESS": "GATED_ROT",
+          "DN_CALM": "MR_RSI2",
+          "DN_STRESS": "GATED_ROT"
+        },
+        "XAUUSD": {
+          "UP_CALM": "CASH",
+          "UP_STRESS": "FVG_LONG",
+          "DN_CALM": "CASH",
+          "DN_STRESS": "FVG_LONG"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "P6_vol_x_voltrend",
+      "monthly_roi": 0.27,
+      "max_dd": 18.8,
+      "calmar": 0.18,
+      "folds": [
+        0.14,
+        -0.45,
+        0.19
+      ],
+      "bull_share": 1.5,
+      "dyn_ok": false,
+      "strict_lofo": [
+        -0.23,
+        -0.57,
+        -0.0
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "LO_FELL": "CASH",
+          "LO_RISE": "CASH",
+          "HI_FELL": "TSMOM_VOL",
+          "HI_RISE": "CASH"
+        },
+        "GBPUSD": {
+          "LO_FELL": "TSMOM_VOL",
+          "LO_RISE": "CASH",
+          "HI_FELL": "CASH",
+          "HI_RISE": "CASH"
+        },
+        "EURJPY": {
+          "LO_FELL": "CASH",
+          "LO_RISE": "CASH",
+          "HI_FELL": "TSMOM_VOL",
+          "HI_RISE": "CASH"
+        },
+        "XAUUSD": {
+          "LO_FELL": "CASH",
+          "LO_RISE": "FVG_SHORT",
+          "HI_FELL": "SWEEP_LS",
+          "HI_RISE": "FVG_LONG"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "G1_breadth",
+      "monthly_roi": -0.07,
+      "max_dd": 14.2,
+      "calmar": -0.06,
+      "folds": [
+        0.01,
+        -0.09,
+        -0.23
+      ],
+      "bull_share": 1.5,
+      "dyn_ok": false,
+      "strict_lofo": [
+        0.11,
+        -0.14,
+        -1.23
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "BHI": "FVG_SHORT",
+          "BMID": "MR_RSI2",
+          "BLO": "CASH"
+        },
+        "GBPUSD": {
+          "BHI": "CASH",
+          "BMID": "TSMOM_VOL",
+          "BLO": "CASH"
+        },
+        "EURJPY": {
+          "BHI": "FVG_SHORT",
+          "BMID": "GATED_ROT",
+          "BLO": "CASH"
+        },
+        "XAUUSD": {
+          "BHI": "CASH",
+          "BMID": "FVG_SHORT",
+          "BLO": "FVG_LONG"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
+    },
+    {
+      "family": "G2_xau_driver",
+      "monthly_roi": 0.03,
+      "max_dd": 2.0,
+      "calmar": 0.17,
+      "folds": [
+        0.02,
+        0.06,
+        -0.02
+      ],
+      "bull_share": 0.333,
+      "dyn_ok": false,
+      "strict_lofo": [
+        -0.07,
+        0.07,
+        0.26
+      ],
+      "lofo_all_positive": false,
+      "assign": {
+        "EURUSD": {
+          "RISK_ON": "CASH",
+          "RISK_OFF": "CASH"
+        },
+        "GBPUSD": {
+          "RISK_ON": "CASH",
+          "RISK_OFF": "CASH"
+        },
+        "EURJPY": {
+          "RISK_ON": "CASH",
+          "RISK_OFF": "GATED_ROT"
+        },
+        "XAUUSD": {
+          "RISK_ON": "CASH",
+          "RISK_OFF": "FVG_SHORT"
+        }
+      },
+      "round": 11,
+      "scope": "forex_regime_4p_daily_2012-11..2022-03"
     }
   ],
   "selection_guide": {
@@ -10740,5 +11080,1020 @@
       "placebo_pctl": 100.0,
       "placebo_ok_p90": true
     }
-  }
+  },
+  "selection_guide_forex_regime": {
+    "scope": "forex 4-pair daily 2012-11..2022-03, fee 5bp, sm=10 persistence",
+    "conditional_table": {
+      "P1_trend100": {
+        "EURUSD": {
+          "UP": {
+            "best": "FVG_SHORT",
+            "monthly": -0.0,
+            "dd": -0.3,
+            "occupancy": 0.421
+          },
+          "DOWN": {
+            "best": "MR_RSI2",
+            "monthly": 0.02,
+            "dd": -0.4,
+            "occupancy": 0.579
+          }
+        },
+        "GBPUSD": {
+          "UP": {
+            "best": "RANGE_MR",
+            "monthly": 0.17,
+            "dd": -1.4,
+            "occupancy": 0.491
+          },
+          "DOWN": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.509
+          }
+        },
+        "EURJPY": {
+          "UP": {
+            "best": "FVG_SHORT",
+            "monthly": -0.0,
+            "dd": -0.3,
+            "occupancy": 0.421
+          },
+          "DOWN": {
+            "best": "MR_RSI2",
+            "monthly": 0.02,
+            "dd": -0.4,
+            "occupancy": 0.579
+          }
+        },
+        "XAUUSD": {
+          "UP": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.501
+          },
+          "DOWN": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.499
+          }
+        }
+      },
+      "P2_trend150": {
+        "EURUSD": {
+          "UP": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.39
+          },
+          "DOWN": {
+            "best": "MR_RSI2",
+            "monthly": 0.0,
+            "dd": -0.3,
+            "occupancy": 0.61
+          }
+        },
+        "GBPUSD": {
+          "UP": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.453
+          },
+          "DOWN": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.547
+          }
+        },
+        "EURJPY": {
+          "UP": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.39
+          },
+          "DOWN": {
+            "best": "MR_RSI2",
+            "monthly": 0.0,
+            "dd": -0.3,
+            "occupancy": 0.61
+          }
+        },
+        "XAUUSD": {
+          "UP": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.512
+          },
+          "DOWN": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.488
+          }
+        }
+      },
+      "P3_hyst100": {
+        "EURUSD": {
+          "ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.426
+          },
+          "OFF": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.574
+          }
+        },
+        "GBPUSD": {
+          "ON": {
+            "best": "RANGE_MR",
+            "monthly": 0.15,
+            "dd": -1.3,
+            "occupancy": 0.461
+          },
+          "OFF": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.539
+          }
+        },
+        "EURJPY": {
+          "ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.426
+          },
+          "OFF": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.574
+          }
+        },
+        "XAUUSD": {
+          "ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.526
+          },
+          "OFF": {
+            "best": "FVG_SHORT",
+            "monthly": 0.1,
+            "dd": -0.5,
+            "occupancy": 0.474
+          }
+        }
+      },
+      "P4_trend_x_vol": {
+        "EURUSD": {
+          "UP_LOVOL": {
+            "best": "FVG_SHORT",
+            "monthly": 0.01,
+            "dd": -0.3,
+            "occupancy": 0.304
+          },
+          "UP_HIVOL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.42,
+            "dd": -3.2,
+            "occupancy": 0.117
+          },
+          "DN_LOVOL": {
+            "best": "GATED_ROT",
+            "monthly": 0.18,
+            "dd": -0.8,
+            "occupancy": 0.346
+          },
+          "DN_HIVOL": {
+            "best": "MR_RSI2",
+            "monthly": 0.01,
+            "dd": 0.0,
+            "occupancy": 0.233
+          }
+        },
+        "GBPUSD": {
+          "UP_LOVOL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.52,
+            "dd": -4.5,
+            "occupancy": 0.262
+          },
+          "UP_HIVOL": {
+            "best": "RANGE_MR",
+            "monthly": 0.14,
+            "dd": -1.1,
+            "occupancy": 0.229
+          },
+          "DN_LOVOL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.64,
+            "dd": -2.8,
+            "occupancy": 0.186
+          },
+          "DN_HIVOL": {
+            "best": "DIP_V2",
+            "monthly": 0.01,
+            "dd": -0.2,
+            "occupancy": 0.322
+          }
+        },
+        "EURJPY": {
+          "UP_LOVOL": {
+            "best": "FVG_SHORT",
+            "monthly": 0.01,
+            "dd": -0.3,
+            "occupancy": 0.304
+          },
+          "UP_HIVOL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.42,
+            "dd": -3.2,
+            "occupancy": 0.117
+          },
+          "DN_LOVOL": {
+            "best": "MR_RSI2",
+            "monthly": 0.03,
+            "dd": -0.4,
+            "occupancy": 0.346
+          },
+          "DN_HIVOL": {
+            "best": "MR_RSI2",
+            "monthly": 0.01,
+            "dd": 0.0,
+            "occupancy": 0.233
+          }
+        },
+        "XAUUSD": {
+          "UP_LOVOL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.315
+          },
+          "UP_HIVOL": {
+            "best": "DIP_V2",
+            "monthly": 0.29,
+            "dd": -1.7,
+            "occupancy": 0.186
+          },
+          "DN_LOVOL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.293
+          },
+          "DN_HIVOL": {
+            "best": "FVG_LONG",
+            "monthly": 0.42,
+            "dd": -4.2,
+            "occupancy": 0.205
+          }
+        }
+      },
+      "P5_trend_x_stress": {
+        "EURUSD": {
+          "UP_CALM": {
+            "best": "FVG_SHORT",
+            "monthly": 0.0,
+            "dd": -0.3,
+            "occupancy": 0.387
+          },
+          "UP_STRESS": {
+            "best": "SWEEP_LS",
+            "monthly": 0.13,
+            "dd": -0.2,
+            "occupancy": 0.034
+          },
+          "DN_CALM": {
+            "best": "GATED_ROT",
+            "monthly": 0.13,
+            "dd": -1.0,
+            "occupancy": 0.466
+          },
+          "DN_STRESS": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.113
+          }
+        },
+        "GBPUSD": {
+          "UP_CALM": {
+            "best": "RANGE_MR",
+            "monthly": 0.22,
+            "dd": -1.2,
+            "occupancy": 0.409
+          },
+          "UP_STRESS": {
+            "best": "SWEEP_LS",
+            "monthly": 0.46,
+            "dd": -1.0,
+            "occupancy": 0.082
+          },
+          "DN_CALM": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.329
+          },
+          "DN_STRESS": {
+            "best": "DIP_V2",
+            "monthly": 0.01,
+            "dd": -0.2,
+            "occupancy": 0.18
+          }
+        },
+        "EURJPY": {
+          "UP_CALM": {
+            "best": "FVG_SHORT",
+            "monthly": 0.0,
+            "dd": -0.3,
+            "occupancy": 0.387
+          },
+          "UP_STRESS": {
+            "best": "GATED_ROT",
+            "monthly": 0.13,
+            "dd": -0.8,
+            "occupancy": 0.034
+          },
+          "DN_CALM": {
+            "best": "MR_RSI2",
+            "monthly": 0.02,
+            "dd": -0.4,
+            "occupancy": 0.466
+          },
+          "DN_STRESS": {
+            "best": "GATED_ROT",
+            "monthly": 0.05,
+            "dd": -0.0,
+            "occupancy": 0.113
+          }
+        },
+        "XAUUSD": {
+          "UP_CALM": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.445
+          },
+          "UP_STRESS": {
+            "best": "FVG_LONG",
+            "monthly": 1.8,
+            "dd": -2.9,
+            "occupancy": 0.056
+          },
+          "DN_CALM": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.431
+          },
+          "DN_STRESS": {
+            "best": "FVG_LONG",
+            "monthly": 0.61,
+            "dd": -3.2,
+            "occupancy": 0.068
+          }
+        }
+      },
+      "P6_vol_x_voltrend": {
+        "EURUSD": {
+          "LO_FELL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.386
+          },
+          "LO_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.264
+          },
+          "HI_FELL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.77,
+            "dd": -4.3,
+            "occupancy": 0.132
+          },
+          "HI_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.218
+          }
+        },
+        "GBPUSD": {
+          "LO_FELL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.97,
+            "dd": -3.2,
+            "occupancy": 0.289
+          },
+          "LO_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.16
+          },
+          "HI_FELL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.222
+          },
+          "HI_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.329
+          }
+        },
+        "EURJPY": {
+          "LO_FELL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.386
+          },
+          "LO_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.264
+          },
+          "HI_FELL": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.77,
+            "dd": -4.3,
+            "occupancy": 0.132
+          },
+          "HI_RISE": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.218
+          }
+        },
+        "XAUUSD": {
+          "LO_FELL": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.377
+          },
+          "LO_RISE": {
+            "best": "FVG_SHORT",
+            "monthly": 0.06,
+            "dd": -0.6,
+            "occupancy": 0.232
+          },
+          "HI_FELL": {
+            "best": "SWEEP_LS",
+            "monthly": 0.53,
+            "dd": -2.3,
+            "occupancy": 0.153
+          },
+          "HI_RISE": {
+            "best": "FVG_LONG",
+            "monthly": 0.67,
+            "dd": -5.3,
+            "occupancy": 0.239
+          }
+        }
+      },
+      "G1_breadth": {
+        "EURUSD": {
+          "BHI": {
+            "best": "FVG_SHORT",
+            "monthly": 0.01,
+            "dd": -0.4,
+            "occupancy": 0.411
+          },
+          "BMID": {
+            "best": "MR_RSI2",
+            "monthly": -0.01,
+            "dd": -0.4,
+            "occupancy": 0.111
+          },
+          "BLO": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.478
+          }
+        },
+        "GBPUSD": {
+          "BHI": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.411
+          },
+          "BMID": {
+            "best": "TSMOM_VOL",
+            "monthly": 0.83,
+            "dd": -4.5,
+            "occupancy": 0.111
+          },
+          "BLO": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.478
+          }
+        },
+        "EURJPY": {
+          "BHI": {
+            "best": "FVG_SHORT",
+            "monthly": 0.01,
+            "dd": -0.4,
+            "occupancy": 0.411
+          },
+          "BMID": {
+            "best": "GATED_ROT",
+            "monthly": 0.17,
+            "dd": -0.7,
+            "occupancy": 0.111
+          },
+          "BLO": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.478
+          }
+        },
+        "XAUUSD": {
+          "BHI": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.411
+          },
+          "BMID": {
+            "best": "FVG_SHORT",
+            "monthly": 0.08,
+            "dd": -0.3,
+            "occupancy": 0.111
+          },
+          "BLO": {
+            "best": "FVG_LONG",
+            "monthly": 0.74,
+            "dd": -6.1,
+            "occupancy": 0.478
+          }
+        }
+      },
+      "G2_xau_driver": {
+        "EURUSD": {
+          "RISK_ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.526
+          },
+          "RISK_OFF": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.474
+          }
+        },
+        "GBPUSD": {
+          "RISK_ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.526
+          },
+          "RISK_OFF": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.474
+          }
+        },
+        "EURJPY": {
+          "RISK_ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.526
+          },
+          "RISK_OFF": {
+            "best": "GATED_ROT",
+            "monthly": 0.11,
+            "dd": -0.8,
+            "occupancy": 0.474
+          }
+        },
+        "XAUUSD": {
+          "RISK_ON": {
+            "best": "CASH",
+            "monthly": 0.0,
+            "dd": 0.0,
+            "occupancy": 0.526
+          },
+          "RISK_OFF": {
+            "best": "FVG_SHORT",
+            "monthly": 0.1,
+            "dd": -0.5,
+            "occupancy": 0.474
+          }
+        }
+      }
+    },
+    "family_results": [
+      {
+        "family": "P1_trend100",
+        "monthly_roi": 0.02,
+        "max_dd": 3.3,
+        "calmar": 0.07,
+        "folds": [
+          -0.04,
+          0.08,
+          0.02
+        ],
+        "bull_share": -0.667,
+        "dyn_ok": false,
+        "strict_lofo": [
+          0.15,
+          -0.0,
+          -0.69
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "UP": "FVG_SHORT",
+            "DOWN": "MR_RSI2"
+          },
+          "GBPUSD": {
+            "UP": "RANGE_MR",
+            "DOWN": "CASH"
+          },
+          "EURJPY": {
+            "UP": "FVG_SHORT",
+            "DOWN": "MR_RSI2"
+          },
+          "XAUUSD": {
+            "UP": "CASH",
+            "DOWN": "CASH"
+          }
+        }
+      },
+      {
+        "family": "P2_trend150",
+        "monthly_roi": -0.0,
+        "max_dd": 1.3,
+        "calmar": -0.01,
+        "folds": [
+          0.01,
+          0.02,
+          -0.02
+        ],
+        "bull_share": 1.0,
+        "dyn_ok": false,
+        "strict_lofo": [
+          0.0,
+          0.01,
+          -0.53
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "UP": "CASH",
+            "DOWN": "MR_RSI2"
+          },
+          "GBPUSD": {
+            "UP": "CASH",
+            "DOWN": "CASH"
+          },
+          "EURJPY": {
+            "UP": "CASH",
+            "DOWN": "MR_RSI2"
+          },
+          "XAUUSD": {
+            "UP": "CASH",
+            "DOWN": "CASH"
+          }
+        }
+      },
+      {
+        "family": "P3_hyst100",
+        "monthly_roi": 0.07,
+        "max_dd": 1.6,
+        "calmar": 0.53,
+        "folds": [
+          0.03,
+          0.15,
+          0.05
+        ],
+        "bull_share": 0.13,
+        "dyn_ok": false,
+        "strict_lofo": [
+          0.08,
+          0.03,
+          -0.05
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "ON": "CASH",
+            "OFF": "CASH"
+          },
+          "GBPUSD": {
+            "ON": "RANGE_MR",
+            "OFF": "CASH"
+          },
+          "EURJPY": {
+            "ON": "CASH",
+            "OFF": "CASH"
+          },
+          "XAUUSD": {
+            "ON": "CASH",
+            "OFF": "FVG_SHORT"
+          }
+        }
+      },
+      {
+        "family": "P4_trend_x_vol",
+        "monthly_roi": 0.31,
+        "max_dd": 18.7,
+        "calmar": 0.21,
+        "folds": [
+          -0.05,
+          -0.22,
+          0.37
+        ],
+        "bull_share": -0.5,
+        "dyn_ok": false,
+        "strict_lofo": [
+          -0.09,
+          -0.28,
+          0.46
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "UP_LOVOL": "FVG_SHORT",
+            "UP_HIVOL": "TSMOM_VOL",
+            "DN_LOVOL": "GATED_ROT",
+            "DN_HIVOL": "MR_RSI2"
+          },
+          "GBPUSD": {
+            "UP_LOVOL": "TSMOM_VOL",
+            "UP_HIVOL": "RANGE_MR",
+            "DN_LOVOL": "TSMOM_VOL",
+            "DN_HIVOL": "DIP_V2"
+          },
+          "EURJPY": {
+            "UP_LOVOL": "FVG_SHORT",
+            "UP_HIVOL": "TSMOM_VOL",
+            "DN_LOVOL": "MR_RSI2",
+            "DN_HIVOL": "MR_RSI2"
+          },
+          "XAUUSD": {
+            "UP_LOVOL": "CASH",
+            "UP_HIVOL": "DIP_V2",
+            "DN_LOVOL": "CASH",
+            "DN_HIVOL": "FVG_LONG"
+          }
+        }
+      },
+      {
+        "family": "P5_trend_x_stress",
+        "monthly_roi": 0.08,
+        "max_dd": 6.2,
+        "calmar": 0.15,
+        "folds": [
+          0.22,
+          0.06,
+          0.04
+        ],
+        "bull_share": 0.688,
+        "dyn_ok": false,
+        "strict_lofo": [
+          0.4,
+          -0.08,
+          -0.73
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "UP_CALM": "FVG_SHORT",
+            "UP_STRESS": "SWEEP_LS",
+            "DN_CALM": "GATED_ROT",
+            "DN_STRESS": "CASH"
+          },
+          "GBPUSD": {
+            "UP_CALM": "RANGE_MR",
+            "UP_STRESS": "SWEEP_LS",
+            "DN_CALM": "CASH",
+            "DN_STRESS": "DIP_V2"
+          },
+          "EURJPY": {
+            "UP_CALM": "FVG_SHORT",
+            "UP_STRESS": "GATED_ROT",
+            "DN_CALM": "MR_RSI2",
+            "DN_STRESS": "GATED_ROT"
+          },
+          "XAUUSD": {
+            "UP_CALM": "CASH",
+            "UP_STRESS": "FVG_LONG",
+            "DN_CALM": "CASH",
+            "DN_STRESS": "FVG_LONG"
+          }
+        }
+      },
+      {
+        "family": "P6_vol_x_voltrend",
+        "monthly_roi": 0.27,
+        "max_dd": 18.8,
+        "calmar": 0.18,
+        "folds": [
+          0.14,
+          -0.45,
+          0.19
+        ],
+        "bull_share": 1.5,
+        "dyn_ok": false,
+        "strict_lofo": [
+          -0.23,
+          -0.57,
+          -0.0
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "LO_FELL": "CASH",
+            "LO_RISE": "CASH",
+            "HI_FELL": "TSMOM_VOL",
+            "HI_RISE": "CASH"
+          },
+          "GBPUSD": {
+            "LO_FELL": "TSMOM_VOL",
+            "LO_RISE": "CASH",
+            "HI_FELL": "CASH",
+            "HI_RISE": "CASH"
+          },
+          "EURJPY": {
+            "LO_FELL": "CASH",
+            "LO_RISE": "CASH",
+            "HI_FELL": "TSMOM_VOL",
+            "HI_RISE": "CASH"
+          },
+          "XAUUSD": {
+            "LO_FELL": "CASH",
+            "LO_RISE": "FVG_SHORT",
+            "HI_FELL": "SWEEP_LS",
+            "HI_RISE": "FVG_LONG"
+          }
+        }
+      },
+      {
+        "family": "G1_breadth",
+        "monthly_roi": -0.07,
+        "max_dd": 14.2,
+        "calmar": -0.06,
+        "folds": [
+          0.01,
+          -0.09,
+          -0.23
+        ],
+        "bull_share": 1.5,
+        "dyn_ok": false,
+        "strict_lofo": [
+          0.11,
+          -0.14,
+          -1.23
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "BHI": "FVG_SHORT",
+            "BMID": "MR_RSI2",
+            "BLO": "CASH"
+          },
+          "GBPUSD": {
+            "BHI": "CASH",
+            "BMID": "TSMOM_VOL",
+            "BLO": "CASH"
+          },
+          "EURJPY": {
+            "BHI": "FVG_SHORT",
+            "BMID": "GATED_ROT",
+            "BLO": "CASH"
+          },
+          "XAUUSD": {
+            "BHI": "CASH",
+            "BMID": "FVG_SHORT",
+            "BLO": "FVG_LONG"
+          }
+        }
+      },
+      {
+        "family": "G2_xau_driver",
+        "monthly_roi": 0.03,
+        "max_dd": 2.0,
+        "calmar": 0.17,
+        "folds": [
+          0.02,
+          0.06,
+          -0.02
+        ],
+        "bull_share": 0.333,
+        "dyn_ok": false,
+        "strict_lofo": [
+          -0.07,
+          0.07,
+          0.26
+        ],
+        "lofo_all_positive": false,
+        "assign": {
+          "EURUSD": {
+            "RISK_ON": "CASH",
+            "RISK_OFF": "CASH"
+          },
+          "GBPUSD": {
+            "RISK_ON": "CASH",
+            "RISK_OFF": "CASH"
+          },
+          "EURJPY": {
+            "RISK_ON": "CASH",
+            "RISK_OFF": "GATED_ROT"
+          },
+          "XAUUSD": {
+            "RISK_ON": "CASH",
+            "RISK_OFF": "FVG_SHORT"
+          }
+        }
+      }
+    ],
+    "champion": {
+      "family": "P3_hyst100",
+      "status": "NO LOFO-VALID FX POLICY",
+      "strict_lofo": [
+        0.08,
+        0.03,
+        -0.05
+      ]
+    },
+    "nested_lofo": {
+      "rows": [
+        {
+          "held": 1,
+          "chosen": "P5_trend_x_stress",
+          "sm": 10,
+          "train_worst": 0.5,
+          "holdout_monthly": 0.4,
+          "holdout_dd": 26.2
+        },
+        {
+          "held": 2,
+          "chosen": "P6_vol_x_voltrend",
+          "sm": 0,
+          "train_worst": 0.25,
+          "holdout_monthly": -0.12,
+          "holdout_dd": 16.1
+        },
+        {
+          "held": 3,
+          "chosen": "P2_trend150",
+          "sm": 10,
+          "train_worst": 0.57,
+          "holdout_monthly": -0.53,
+          "holdout_dd": 27.3
+        }
+      ],
+      "all_positive": false,
+      "avg": -0.08
+    },
+    "placebo": {
+      "champion_avg": 0.02,
+      "null_mean": -0.07,
+      "null_p90": 0.11,
+      "null_max": 0.42,
+      "champion_percentile": 70.0,
+      "draws_beating": 9
+    },
+    "checks": {
+      "partition": "PASS",
+      "no_lookahead": "PASS"
+    }
+  },
+  "tree_round11_nodes_visited": 8
 }
