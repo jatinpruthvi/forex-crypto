@@ -1430,6 +1430,18 @@
       "honest_summary": "Forex fails the regime-conditional lens exactly as it failed the static lens (EXP-028): no edge at any validation tier, placebo confirms noise. The program's edge is crypto-specific. No FX allocation. Crypto champion P3+smooth10 remains the sole deployable policy candidate; XAU stress FVG_LONG noted as hypothesis for future data, NOT deployable.",
       "tag": "forex-regime-hunt",
       "status": "COMPLETED"
+    },
+    {
+      "experiment_id": "EXP-033-REGIME-EXPANSION",
+      "strategy_name": "Expansion hunt: other families + combinations for the crypto regime policy (best-of-best check)",
+      "asset": "21-coin crypto 1d panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "35 pre-registered configs: 8 new state families x sm, asymmetric persistence, top-2 cell blends, static combos + 28-pair null, policy ensembles",
+      "methodology": "User directive: exhaustively check other families and combinations before calling P3+smooth10 final. Pre-registered scan: H3 hyst x stress / H4 hyst x breadth / H5 slope x trend / H6 DD-state / H7 mom30 x hyst / H8 alt-season x hyst / H9 trend200 / H10 vol-quartile; P3 asymmetric persistence (3,20)/(20,3); top-2 50/50 cell blends on 6 families; static ABS_GROT+FVG_LS / ABS_GROT+GROT combos (all 28 menu pairs as null); ensembles P3xN2 / P3xP6 / P3xH3. Every config: strict disjoint LOFO (mapping learned on 2 blocks -> 3rd) + frozen blocks + nested LOFO of the whole search + placebo (30 block-shuffled draws). Pre-registered replacement rule: min-LOFO-holdout > incumbent AND placebo >=p90 AND nested all-positive. Reproductions certified vs EXP-030/031.",
+      "results": "NO REPLACEMENT - P3+smooth10 stands (rule applied as written; nested LOFO failed +2.67 avg w/ negative block). Challengers by min-holdout: H7_mom_x_hyst_s10 +4.55 (full +16.28, Cal 20.4, frozen 34.99/5.05/6.85) but placebo p73 FAILS; H4_hyst_x_breadth_s10 +4.23 (placebo p90, 3/30); ENS_P3_N2 +3.82 (full +16.08, placebo p93, 2/30). Incumbent: LOFO avg +12.67 (best by far), placebo p100 (0/30). Negatives: top-2 blends < argmax; asymmetric sm < symmetric sm10; static combos dominated (COMBO_A_GF pair-null p86); H6/H9 families fail LOFO. Mid-run bug found+fixed: training masks on window index (deflated B1 holdouts).",
+      "honest_summary": "Best-of-best confirmed as P3+smooth10 under the pre-registered bar, but H4_hyst_x_breadth_s10 and ENS_P3_N2 show better worst-block robustness at p90+ placebo - recommended as side-by-side candidates in the forward paper-trading gate, not as replacements. Incumbent's unmatched bull capture + strongest placebo (p100) keeps it champion. Nested LOFO re-confirms: never re-run def selection at runtime.",
+      "tag": "regime-expansion-hunt",
+      "status": "COMPLETED"
     }
   ],
   "savepoints": {

@@ -12095,5 +12095,917 @@
       "no_lookahead": "PASS"
     }
   },
-  "tree_round11_nodes_visited": 8
+  "tree_round11_nodes_visited": 8,
+  "exp033_expansion": {
+    "scan": [
+      {
+        "name": "P3_s10",
+        "kind": "single",
+        "full": 16.02,
+        "lofo": [
+          31.79,
+          4.33,
+          1.88
+        ],
+        "frozen": [
+          34.99,
+          4.33,
+          6.85
+        ],
+        "min_hold": 1.88,
+        "min_frozen": 4.33,
+        "allpos": true
+      },
+      {
+        "name": "P3_s0",
+        "kind": "single",
+        "full": 15.16,
+        "lofo": [
+          29.96,
+          2.7,
+          2.62
+        ],
+        "frozen": [
+          33.12,
+          2.7,
+          7.9
+        ],
+        "min_hold": 2.62,
+        "min_frozen": 2.7,
+        "allpos": true
+      },
+      {
+        "name": "N2_s10",
+        "kind": "single",
+        "full": 15.92,
+        "lofo": [
+          2.07,
+          3.26,
+          5.48
+        ],
+        "frozen": [
+          37.14,
+          3.35,
+          5.48
+        ],
+        "min_hold": 2.07,
+        "min_frozen": 3.35,
+        "allpos": true
+      },
+      {
+        "name": "N2_s0",
+        "kind": "single",
+        "full": 16.06,
+        "lofo": [
+          -0.77,
+          0.08,
+          5.53
+        ],
+        "frozen": [
+          35.16,
+          5.44,
+          5.53
+        ],
+        "min_hold": -0.77,
+        "min_frozen": 5.44,
+        "allpos": false
+      },
+      {
+        "name": "P6_s10",
+        "kind": "single",
+        "full": 11.85,
+        "lofo": [
+          -0.43,
+          0.95,
+          2.73
+        ],
+        "frozen": [
+          28.88,
+          2.38,
+          2.73
+        ],
+        "min_hold": -0.43,
+        "min_frozen": 2.38,
+        "allpos": false
+      },
+      {
+        "name": "P6_s0",
+        "kind": "single",
+        "full": 15.31,
+        "lofo": [
+          3.02,
+          3.02,
+          4.46
+        ],
+        "frozen": [
+          35.78,
+          4.09,
+          4.46
+        ],
+        "min_hold": 3.02,
+        "min_frozen": 4.09,
+        "allpos": true
+      },
+      {
+        "name": "H3_hyst_x_stress_s10",
+        "kind": "single",
+        "full": 11.92,
+        "lofo": [
+          5.72,
+          -0.13,
+          1.4
+        ],
+        "frozen": [
+          29.4,
+          3.41,
+          1.4
+        ],
+        "min_hold": -0.13,
+        "min_frozen": 1.4,
+        "allpos": false
+      },
+      {
+        "name": "H3_hyst_x_stress_s0",
+        "kind": "single",
+        "full": 15.62,
+        "lofo": [
+          13.04,
+          2.23,
+          3.5
+        ],
+        "frozen": [
+          36.55,
+          5.23,
+          3.5
+        ],
+        "min_hold": 2.23,
+        "min_frozen": 3.5,
+        "allpos": true
+      },
+      {
+        "name": "H4_hyst_x_breadth_s10",
+        "kind": "single",
+        "full": 16.08,
+        "lofo": [
+          8.98,
+          4.23,
+          5.84
+        ],
+        "frozen": [
+          34.52,
+          4.94,
+          6.85
+        ],
+        "min_hold": 4.23,
+        "min_frozen": 4.94,
+        "allpos": true
+      },
+      {
+        "name": "H4_hyst_x_breadth_s0",
+        "kind": "single",
+        "full": 16.11,
+        "lofo": [
+          7.94,
+          2.27,
+          5.26
+        ],
+        "frozen": [
+          37.02,
+          3.59,
+          5.92
+        ],
+        "min_hold": 2.27,
+        "min_frozen": 3.59,
+        "allpos": true
+      },
+      {
+        "name": "H5_slope_x_trend_s10",
+        "kind": "single",
+        "full": 16.51,
+        "lofo": [
+          2.68,
+          6.41,
+          6.93
+        ],
+        "frozen": [
+          36.7,
+          4.07,
+          6.93
+        ],
+        "min_hold": 2.68,
+        "min_frozen": 4.07,
+        "allpos": true
+      },
+      {
+        "name": "H5_slope_x_trend_s0",
+        "kind": "single",
+        "full": 16.07,
+        "lofo": [
+          1.43,
+          1.86,
+          6.96
+        ],
+        "frozen": [
+          34.56,
+          4.69,
+          6.96
+        ],
+        "min_hold": 1.43,
+        "min_frozen": 4.69,
+        "allpos": true
+      },
+      {
+        "name": "H6_dd_state_s10",
+        "kind": "single",
+        "full": 10.97,
+        "lofo": [
+          -0.6,
+          0.17,
+          2.77
+        ],
+        "frozen": [
+          28.58,
+          0.17,
+          2.77
+        ],
+        "min_hold": -0.6,
+        "min_frozen": 0.17,
+        "allpos": false
+      },
+      {
+        "name": "H6_dd_state_s0",
+        "kind": "single",
+        "full": 13.78,
+        "lofo": [
+          -2.23,
+          -0.83,
+          2.77
+        ],
+        "frozen": [
+          38.51,
+          -0.83,
+          2.77
+        ],
+        "min_hold": -2.23,
+        "min_frozen": -0.83,
+        "allpos": false
+      },
+      {
+        "name": "H7_mom_x_hyst_s10",
+        "kind": "single",
+        "full": 16.28,
+        "lofo": [
+          8.15,
+          5.14,
+          4.55
+        ],
+        "frozen": [
+          34.99,
+          5.05,
+          6.85
+        ],
+        "min_hold": 4.55,
+        "min_frozen": 5.05,
+        "allpos": true
+      },
+      {
+        "name": "H7_mom_x_hyst_s0",
+        "kind": "single",
+        "full": 15.16,
+        "lofo": [
+          4.24,
+          -0.31,
+          3.61
+        ],
+        "frozen": [
+          33.12,
+          2.7,
+          7.9
+        ],
+        "min_hold": -0.31,
+        "min_frozen": 2.7,
+        "allpos": false
+      },
+      {
+        "name": "H8_alts_x_hyst_s10",
+        "kind": "single",
+        "full": 15.38,
+        "lofo": [
+          18.06,
+          2.6,
+          1.31
+        ],
+        "frozen": [
+          35.0,
+          2.13,
+          7.23
+        ],
+        "min_hold": 1.31,
+        "min_frozen": 2.13,
+        "allpos": true
+      },
+      {
+        "name": "H8_alts_x_hyst_s0",
+        "kind": "single",
+        "full": 15.33,
+        "lofo": [
+          12.92,
+          0.05,
+          2.8
+        ],
+        "frozen": [
+          32.96,
+          2.01,
+          9.31
+        ],
+        "min_hold": 0.05,
+        "min_frozen": 2.01,
+        "allpos": true
+      },
+      {
+        "name": "H9_trend200_s10",
+        "kind": "single",
+        "full": 12.72,
+        "lofo": [
+          8.98,
+          -2.66,
+          2.32
+        ],
+        "frozen": [
+          25.61,
+          1.94,
+          8.62
+        ],
+        "min_hold": -2.66,
+        "min_frozen": 1.94,
+        "allpos": false
+      },
+      {
+        "name": "H9_trend200_s0",
+        "kind": "single",
+        "full": 13.9,
+        "lofo": [
+          5.59,
+          -3.19,
+          2.32
+        ],
+        "frozen": [
+          27.54,
+          3.58,
+          8.47
+        ],
+        "min_hold": -3.19,
+        "min_frozen": 3.58,
+        "allpos": false
+      },
+      {
+        "name": "H10_vol_quart_s10",
+        "kind": "single",
+        "full": 12.83,
+        "lofo": [
+          16.73,
+          -2.78,
+          -1.02
+        ],
+        "frozen": [
+          34.42,
+          0.73,
+          2.06
+        ],
+        "min_hold": -2.78,
+        "min_frozen": 0.73,
+        "allpos": false
+      },
+      {
+        "name": "H10_vol_quart_s0",
+        "kind": "single",
+        "full": 12.87,
+        "lofo": [
+          18.46,
+          -2.4,
+          -1.54
+        ],
+        "frozen": [
+          32.77,
+          2.01,
+          2.43
+        ],
+        "min_hold": -2.4,
+        "min_frozen": 2.01,
+        "allpos": false
+      },
+      {
+        "name": "P3_asym_onfast",
+        "kind": "asym",
+        "full": 13.98,
+        "lofo": [
+          30.63,
+          1.88,
+          1.32
+        ],
+        "frozen": [
+          33.28,
+          1.88,
+          5.33
+        ],
+        "min_hold": 1.32,
+        "min_frozen": 1.88,
+        "allpos": true
+      },
+      {
+        "name": "P3_asym_offfast",
+        "kind": "asym",
+        "full": 15.06,
+        "lofo": [
+          30.33,
+          4.28,
+          1.57
+        ],
+        "frozen": [
+          32.27,
+          4.28,
+          6.71
+        ],
+        "min_hold": 1.57,
+        "min_frozen": 4.28,
+        "allpos": true
+      },
+      {
+        "name": "P3_hyst100_top2",
+        "kind": "top2",
+        "full": 14.93,
+        "lofo": [
+          18.95,
+          2.93,
+          2.25
+        ],
+        "frozen": [
+          34.23,
+          2.93,
+          5.9
+        ],
+        "min_hold": 2.25,
+        "min_frozen": 2.93,
+        "allpos": true
+      },
+      {
+        "name": "H3_hyst_x_stress_top2",
+        "kind": "top2",
+        "full": 12.16,
+        "lofo": [
+          3.91,
+          0.92,
+          2.53
+        ],
+        "frozen": [
+          30.44,
+          2.01,
+          2.53
+        ],
+        "min_hold": 0.92,
+        "min_frozen": 2.01,
+        "allpos": true
+      },
+      {
+        "name": "H5_slope_x_trend_top2",
+        "kind": "top2",
+        "full": 15.19,
+        "lofo": [
+          0.61,
+          4.44,
+          4.47
+        ],
+        "frozen": [
+          34.46,
+          3.37,
+          5.99
+        ],
+        "min_hold": 0.61,
+        "min_frozen": 3.37,
+        "allpos": true
+      },
+      {
+        "name": "H6_dd_state_top2",
+        "kind": "top2",
+        "full": 12.77,
+        "lofo": [
+          -0.05,
+          -0.24,
+          2.66
+        ],
+        "frozen": [
+          34.73,
+          -0.24,
+          2.66
+        ],
+        "min_hold": -0.24,
+        "min_frozen": -0.24,
+        "allpos": false
+      },
+      {
+        "name": "P6_trend_x_stress_top2",
+        "kind": "top2",
+        "full": 12.87,
+        "lofo": [
+          1.19,
+          1.6,
+          3.16
+        ],
+        "frozen": [
+          30.32,
+          2.61,
+          4.07
+        ],
+        "min_hold": 1.19,
+        "min_frozen": 2.61,
+        "allpos": true
+      },
+      {
+        "name": "N2_top2",
+        "kind": "top2",
+        "full": 14.98,
+        "lofo": [
+          0.66,
+          4.03,
+          4.51
+        ],
+        "frozen": [
+          35.12,
+          2.86,
+          5.26
+        ],
+        "min_hold": 0.66,
+        "min_frozen": 2.86,
+        "allpos": true
+      },
+      {
+        "name": "COMBO_A_GF",
+        "kind": "static",
+        "full": 9.99,
+        "lofo": [
+          21.65,
+          2.53,
+          4.14
+        ],
+        "frozen": [
+          21.65,
+          2.53,
+          4.14
+        ],
+        "min_hold": 2.53,
+        "min_frozen": 2.53,
+        "allpos": true
+      },
+      {
+        "name": "COMBO_A_G",
+        "kind": "static",
+        "full": 12.1,
+        "lofo": [
+          33.21,
+          -0.69,
+          2.54
+        ],
+        "frozen": [
+          33.21,
+          -0.69,
+          2.54
+        ],
+        "min_hold": -0.69,
+        "min_frozen": -0.69,
+        "allpos": false
+      },
+      {
+        "name": "ENS_P3_P6",
+        "kind": "ens",
+        "full": 14.09,
+        "lofo": [
+          15.91,
+          2.78,
+          2.43
+        ],
+        "frozen": [
+          32.13,
+          3.51,
+          4.91
+        ],
+        "min_hold": 2.43,
+        "min_frozen": 3.51,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_N2",
+        "kind": "ens",
+        "full": 16.08,
+        "lofo": [
+          17.53,
+          4.05,
+          3.82
+        ],
+        "frozen": [
+          36.16,
+          3.98,
+          6.24
+        ],
+        "min_hold": 3.82,
+        "min_frozen": 3.98,
+        "allpos": true
+      },
+      {
+        "name": "ENS_P3_H3",
+        "kind": "ens",
+        "full": 14.17,
+        "lofo": [
+          19.19,
+          2.24,
+          1.73
+        ],
+        "frozen": [
+          32.4,
+          4.09,
+          4.27
+        ],
+        "min_hold": 1.73,
+        "min_frozen": 4.09,
+        "allpos": true
+      }
+    ],
+    "nested_lofo": {
+      "rows": [
+        {
+          "held": 1,
+          "chosen": "N2_s0",
+          "train_worst": 8.08,
+          "holdout_monthly": -0.77
+        },
+        {
+          "held": 2,
+          "chosen": "N2_s10",
+          "train_worst": 9.47,
+          "holdout_monthly": 3.26
+        },
+        {
+          "held": 3,
+          "chosen": "N2_s0",
+          "train_worst": 5.44,
+          "holdout_monthly": 5.53
+        }
+      ],
+      "all_positive": false,
+      "avg": 2.67
+    },
+    "finalists": [
+      {
+        "name": "H7_mom_x_hyst_s10",
+        "full_dyn": {
+          "monthly_roi": 16.28,
+          "max_dd": 25.1,
+          "calmar": 20.37,
+          "folds": [
+            34.99,
+            5.5,
+            6.77
+          ],
+          "worst_fold": 5.5,
+          "bull_share": 0.74,
+          "dyn_ok": true
+        },
+        "lofo": [
+          8.15,
+          5.14,
+          4.55
+        ],
+        "frozen": [
+          34.99,
+          5.05,
+          6.85
+        ],
+        "placebo": {
+          "champion_avg": 5.95,
+          "null_mean": 4.41,
+          "null_p90": 8.6,
+          "null_max": 11.89,
+          "champion_percentile": 73.3,
+          "draws_beating": 8,
+          "n_draws": 30
+        }
+      },
+      {
+        "name": "H4_hyst_x_breadth_s10",
+        "full_dyn": {
+          "monthly_roi": 16.08,
+          "max_dd": 27.9,
+          "calmar": 17.85,
+          "folds": [
+            34.52,
+            5.4,
+            6.77
+          ],
+          "worst_fold": 5.4,
+          "bull_share": 0.739,
+          "dyn_ok": true
+        },
+        "lofo": [
+          8.98,
+          4.23,
+          5.84
+        ],
+        "frozen": [
+          34.52,
+          4.94,
+          6.85
+        ],
+        "placebo": {
+          "champion_avg": 6.35,
+          "null_mean": 3.64,
+          "null_p90": 6.12,
+          "null_max": 8.68,
+          "champion_percentile": 90.0,
+          "draws_beating": 3,
+          "n_draws": 30
+        }
+      },
+      {
+        "name": "ENS_P3_N2",
+        "full_dyn": {
+          "monthly_roi": 16.08,
+          "max_dd": 28.6,
+          "calmar": 17.39,
+          "folds": [
+            36.16,
+            4.54,
+            6.24
+          ],
+          "worst_fold": 4.54,
+          "bull_share": 0.77,
+          "dyn_ok": true
+        },
+        "lofo": [
+          17.53,
+          4.05,
+          3.82
+        ],
+        "frozen": [
+          36.16,
+          3.98,
+          6.24
+        ],
+        "placebo": {
+          "champion_avg": 8.47,
+          "null_mean": 4.27,
+          "null_p90": 8.23,
+          "null_max": 9.1,
+          "champion_percentile": 93.3,
+          "draws_beating": 2,
+          "n_draws": 30
+        }
+      },
+      {
+        "name": "P3_s10",
+        "full_dyn": {
+          "monthly_roi": 16.02,
+          "max_dd": 25.1,
+          "calmar": 19.74,
+          "folds": [
+            34.99,
+            4.86,
+            6.77
+          ],
+          "worst_fold": 4.86,
+          "bull_share": 0.751,
+          "dyn_ok": true
+        },
+        "lofo": [
+          31.79,
+          4.33,
+          1.88
+        ],
+        "frozen": [
+          34.99,
+          4.33,
+          6.85
+        ],
+        "placebo": {
+          "champion_avg": 12.67,
+          "null_mean": 4.32,
+          "null_p90": 7.47,
+          "null_max": 12.24,
+          "champion_percentile": 100.0,
+          "draws_beating": 0,
+          "n_draws": 30
+        }
+      }
+    ],
+    "verdict": {
+      "configs_tested": 35,
+      "incumbent_min_hold": 1.88,
+      "incumbent_avg": 12.67,
+      "incumbent_min_frozen": 4.33,
+      "incumbent_frozen": [
+        34.99,
+        4.33,
+        6.85
+      ],
+      "best_challenger": "H7_mom_x_hyst_s10",
+      "best_challenger_min_hold": 4.55,
+      "best_challenger_frozen": [
+        34.99,
+        5.05,
+        6.85
+      ],
+      "nested_all_positive": false,
+      "nested_avg": 2.67,
+      "replacement": null,
+      "final": "P3_s10 (incumbent stands)"
+    },
+    "static_pair_null": {
+      "COMBO_A_GF": {
+        "note": "static pair null over 28 menu pairs (this = FVG_LS+ABS_GROT)",
+        "this_pair": "FVG_LS+ABS_GROT",
+        "this_min": 2.53,
+        "this_avg": 9.44,
+        "this_full": 9.99,
+        "n_pairs": 28,
+        "pair_p90": 2.73,
+        "pair_max": 4.11,
+        "pair_percentile": 85.7,
+        "pairs_beating": 4,
+        "best_pairs": [
+          {
+            "pair": "FVG_LS+FVG_LONG",
+            "full": 8.08,
+            "min_block": 4.11,
+            "avg_block": 7.663333333333334
+          },
+          {
+            "pair": "FVG_LONG+FVG_SHORT",
+            "full": 5.48,
+            "min_block": 3.57,
+            "avg_block": 5.233333333333333
+          },
+          {
+            "pair": "FVG_LS+VOL_GROT",
+            "full": 5.33,
+            "min_block": 3.19,
+            "avg_block": 5.079999999999999
+          },
+          {
+            "pair": "FVG_LS+ABS_GROT",
+            "full": 9.99,
+            "min_block": 2.53,
+            "avg_block": 9.44
+          },
+          {
+            "pair": "FVG_LS+GROT",
+            "full": 9.61,
+            "min_block": 2.39,
+            "avg_block": 9.076666666666666
+          }
+        ]
+      },
+      "COMBO_A_G": {
+        "note": "static pair null over 28 menu pairs (this = ABS_GROT+GROT)",
+        "this_pair": "ABS_GROT+GROT",
+        "this_min": -0.69,
+        "this_avg": 11.69,
+        "this_full": 12.1,
+        "n_pairs": 28,
+        "pair_p90": 2.73,
+        "pair_max": 4.11,
+        "pair_percentile": 25.0,
+        "pairs_beating": 21,
+        "best_pairs": [
+          {
+            "pair": "FVG_LS+FVG_LONG",
+            "full": 8.08,
+            "min_block": 4.11,
+            "avg_block": 7.663333333333334
+          },
+          {
+            "pair": "FVG_LONG+FVG_SHORT",
+            "full": 5.48,
+            "min_block": 3.57,
+            "avg_block": 5.233333333333333
+          },
+          {
+            "pair": "FVG_LS+VOL_GROT",
+            "full": 5.33,
+            "min_block": 3.19,
+            "avg_block": 5.079999999999999
+          },
+          {
+            "pair": "FVG_LS+ABS_GROT",
+            "full": 9.99,
+            "min_block": 2.53,
+            "avg_block": 9.44
+          },
+          {
+            "pair": "FVG_LS+GROT",
+            "full": 9.61,
+            "min_block": 2.39,
+            "avg_block": 9.076666666666666
+          }
+        ]
+      }
+    }
+  }
 }

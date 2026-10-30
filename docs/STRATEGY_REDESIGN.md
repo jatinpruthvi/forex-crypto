@@ -501,3 +501,46 @@ catch.
 fails the static lens AND the regime-conditional lens under identical methodology and honesty
 gates. No FX allocation. Crypto champion P3+smooth10 (section 12) remains the sole deployable
 policy candidate.
+
+
+### 12.3 EXP-033 — Expansion Hunt: are we missing a best-of-best setup? (2026-10-29)
+
+User: "check other families as well or combination just to make sure we are not missing any
+best of best setup... test on real data, answer realistic." Pre-registered 35 configs on the
+21-coin panel: **8 new state families** (H3 hyst x stress, H4 hyst x breadth, H5 MA100-slope x
+trend, H6 drawdown-state, H7 mom30 x hyst, H8 alt-season ETH/BTC x hyst, H9 trend200,
+H10 vol-quartile) x smoothing {0,10}, **asymmetric persistence** on P3 (ON-fast/OFF-slow and
+reverse), **top-2 50/50 cell blends** (6 families), **static combo strategies** (ABS_GROT+FVG_LS,
+ABS_GROT+GROT; 28-pair null), and **policy ensembles** (P3xN2, P3xP6, P3xH3 weight blends).
+Every config: full period + strict disjoint-block LOFO (mapping learned on 2 blocks -> 3rd)
++ frozen blocks + nested LOFO of the whole search + placebo null. Reproduction certified:
+P3_s10 learned LOFO = +31.79/+4.33/+1.88 and frozen = +34.99/+4.33/+6.85 exactly match
+EXP-030/031. (Also caught + fixed a real bug mid-run: training masks built on window index
+instead of full-period index.)
+
+**Result: the pre-registered rule selects NO replacement - P3+smooth10 stands.** Top scans:
+
+| config | full %/mo | strict LOFO | frozen blocks | min-hold | placebo |
+|---|---|---|---|---|---|
+| H7_mom_x_hyst_s10 | +16.28 | +8.15/+5.14/+4.55 | +34.99/+5.05/+6.85 | +4.55 | p73 - FAILS |
+| H4_hyst_x_breadth_s10 | +16.08 | +8.98/+4.23/+5.84 | +34.52/+4.94/+6.85 | +4.23 | p90 (3/30) |
+| ENS_P3_N2 (50/50 blend) | +16.08 | +17.53/+4.05/+3.82 | +36.16/+3.98/+6.24 | +3.82 | p93 (2/30) |
+| **P3_s10 (incumbent)** | **+16.02** | **+31.79/+4.33/+1.88** | **+34.99/+4.33/+6.85** | +1.88 | **p100 (0/30)** |
+
+Why no replacement despite better worst-blocks: (1) the incumbent's LOFO average (+12.67) is
+far above every challenger (next best +8.47) - its bull-block capture is unmatched; (2) its
+placebo remains the strongest signal evidence (0/30 random draws beat vs 2-8/30 for
+challengers); (3) nested LOFO of the whole search still fails (+2.67 avg, one negative block,
+picks N2 every fold) - the EXP-031 warning against runtime def-selection re-confirmed; (4)
+H7's worst-block advantage over noise is weak (placebo p73). Negative results of note:
+top-2 cell blends < single argmax; asymmetric persistence < symmetric sm10; static combos
+dominated (COMBO_A_GF pair-null p86, frozen min +2.53 vs incumbent +4.33); DD-state (H6) and
+trend200 (H9) families fail LOFO.
+
+**Decision guidance (realistic):** deployable champion = **P3+smooth10 unchanged**. For
+risk-averse deployment where worst-block robustness matters more than bull capture,
+ENS_P3_N2 (min +3.82, placebo p93) or H4_hyst_x_breadth_s10 (min +4.23, placebo p90) are
+the only defensible alternatives - both validated at the p90 placebo level but not at the
+pre-registered replacement bar. Recommend running them side-by-side in the 3-month forward
+paper-trading gate rather than switching now. All 35 configs + pair nulls saved in
+reports/strategy_leaderboard.json exp033_expansion.
