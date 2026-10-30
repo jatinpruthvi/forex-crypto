@@ -1351,6 +1351,23 @@
       "honest_summary": "Deepest selection yet (age grid discovered after seeing hold winner) \u2014 selection-adjusted; mitigated by the age10-30 plateau and fold uniformity (+7.6/+5.7/+5.7 beats any single-regime dependence). Short book (bearish gap retests) is the true dynamic engine. Worst month -8.0%. Forward paper validation required before capital.",
       "tag": "STRATEGY_HUNT_SMC",
       "status": "SMC_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-028-FOREX-VALIDATION",
+      "strategy_name": "Forex validation of hunt winners (crypto->FX transfer test) + FX-native FVG sweep",
+      "asset": "4-pair forex daily (EURUSD/GBPUSD/EURJPY/XAUUSD, H4->daily resampled, 2012-11..2022-03)",
+      "timeframe": "1D",
+      "duration_desc": "2392 bars (9.4y), 3 chronological folds + full; 37 nodes",
+      "methodology": "All crypto winners transferred verbatim (FVG_LS champion params + age/hold/K variants, OB/sweep/BOS/CHoCH/premium-discount/vote, rotation family K=2) plus FX-native FVG grid age10-60 x hold2-5; 5bp/turnover side; same dyn_score lens. Script: scripts/forex_validate.py",
+      "results": {
+        "verdict": "NOTHING TRANSFERS. All 37 nodes fail on forex. The crypto SMC champion FVG_LS LOSES on every FX variant (-0.2..-0.5%/mo across the entire FX-native grid). All rotation families slightly negative. ZERO DYN-OK nodes on forex.",
+        "best_forex": "TSMOM_VOL +0.36%/mo, DD 20.4%, Calmar 0.22 (barely positive; same as round-2 finding)",
+        "mechanism": "FX is too liquid/mean-reverting intraday: imbalance gaps fill instantly and fees eat the residue. The FVG gap-retest edge is CRYPTO-SPECIFIC (volatile alt liquidity holes). Hypothesis 'strategy may work on forex but not crypto' = REFUTED in both directions.",
+        "consistent_with": "EXP-021 round-2 forex control (best +0.36%/mo Calmar 0.22) - reproduced with 37 fresh nodes"
+      },
+      "honest_summary": "Forex daily with 4 pairs is a dead venue for every tested archetype; keep the crypto-only scope (user's original constraint was right). No forex capital allocation.",
+      "tag": "FOREX_VALIDATION",
+      "status": "COMPLETE_NEGATIVE_RESULT"
     }
   ],
   "savepoints": {

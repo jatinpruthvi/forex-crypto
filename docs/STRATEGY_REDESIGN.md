@@ -321,3 +321,26 @@ regime-balanced edge on this panel.**
 ### Honest limits
 Deep selection chain (age found after hold winner) - mitigated by plateau + fold uniformity, but forward
 paper validation remains required. Worst month -8.0% (fold2). Same single panel/era.
+
+
+---
+
+## 11. EXP-028 — Forex Validation of the Hunt Winners (2026-10-28)
+
+**Question** (user): do the winning strategies work on Forex too, maybe better than crypto?
+**Answer: NO - nothing transfers, in either direction.** 37 nodes on real 4-pair daily FX
+(2012-11..2022-03, 5bp/side), same fold methodology:
+
+| strategy | crypto result | forex result |
+|---|---|---|
+| FVG_LS age15 h3 (SMC champion) | +6.4%/mo Calmar 3.9 | **-0.35%/mo** Calmar -0.12 |
+| FVG_LS entire FX-native grid (age10-60 x hold2-5) | - | **all negative** (-0.2..-0.5%/mo) |
+| VOL_GROT+hyst (EXP-026 champion) | +3.8%/mo | -0.14%/mo |
+| ABS90_GROT family | +11%/mo | -0.11%/mo |
+| best FX node (TSMOM_VOL) | - | +0.36%/mo, Calmar 0.22 (barely positive) |
+
+ZERO nodes pass the dynamic rule on forex. Mechanism: FX is too liquid and intraday
+mean-reverting - imbalance gaps fill instantly and fees/spread eat the residue. The FVG
+gap-retest edge is crypto-specific (alt-coin liquidity holes). This reproduces the EXP-021
+round-2 forex control (best +0.36%/mo Calmar 0.22) with 37 fresh nodes. **Crypto-only scope
+confirmed; no forex capital allocation.**
