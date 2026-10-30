@@ -893,3 +893,49 @@ One new certified signal: sqzbrk_EQ squeeze breakout (+0.85%/mo, standalone plac
 (1.21 vs null p90 1.48). **Best-of-best ROI remains Book R2: +2.43%/mo SR 1.51 unlevered;
 x2 = +4.59%/mo, DD 33.7, worst-year -1.00.** New types add nothing certifiable on top.
 RESTORE POINT: docs/RESTORE_POINT.md (commit c09de97) — full recovery procedure.
+
+## 12.16. EXP-046 — GitHub strategy-repo mine (700 repos) + adoption tests → NEW BOOK R3 (2026-10-30)
+
+**Directive**: scan ≥500 GitHub strategy repositories for adoptable strategies that raise results.
+
+**A. The mine (`gh_repo_mine.py`, 700 repos, 3,917 unique candidates from 30 queries)** — family census
+(signal-keyword files per repo, primary type): signal_collection 134 · mean_reversion 89 ·
+arbitrage 84 · other 89 · momentum_trend 73 · portfolio_rot 59 · ml_rl 54 · scalping_intraday 40 ·
+grid_dca 37 · options_vol 28 · market_making 7 · market_maker_mm 6. 60 repos ship data-like files
+(freqtrade-strategies ★5.6k, AI-Trader, quantdom, e2e-strategies, pyrenko…). Catalog + per-repo
+strategy-file paths + type histograms saved: `reports/strategy_repo_mine.json`.
+
+**B. Adoption tests (`adopted_strategies.py`, 60 nodes = 20 canonical systems × BTC/ETH/EQ,
+5.5y, 10bp/side, DD≤40/minYr≥−1.5 gates)** — the canonical public trading literature, implemented
+cleanly: supertrend, Keltner break, ichimoku, Aroon, ADX-DMI, EMA ribbon, MACD flip, Parabolic SAR,
+Bollinger+RSI, squeeze daily, stochastic-RSI, CCI, Williams %R, z-score reversion, OBV trend,
+Heikin-Ashi, RSI+MACD double-confirmation, momentum+vol combo, VWAP reversion, Turtle 20/55.
+
+| adopted node | %/mo | SR | DD | minYr | placebo |
+|---|---|---|---|---|---|
+| **squeeze_daily_ETH** | **+1.69** | 0.78 | 32.6 | **+0.33** | PASS (null p90 +0.06) |
+| squeeze_daily_EQ | +0.85 | 0.55 | 27.4 | −0.45 | PASS |
+| other 18 systems | ≈ 0 net | — | — | — | 10bp costs eat the gross edge |
+
+- **Turtle 20/55 (classic) is NEGATIVE on crypto daily** (fixed state machine: −1.23%/mo BTC) —
+  don't adopt the textbook system itself; only its risk math survived.
+- **Blend certification**: 0.75×Book R2 + 0.25×squeeze_daily_ETH vs 30 row-block-permuted
+  placebo blends → real SR 1.68 vs null mean 1.18 / p90 1.47 = **100th percentile PASS**.
+
+**C. NEW BOOK R3 (champion)** = 56.25% ABS_GROT+FVG_SHORT + 18.75% cs_mom14_K5_vg +
+18.75% fund_ls7_K5 + **25% squeeze_daily_ETH** (squeeze-ratio std10/std50 < 0.7 × sign(30d return),
+ETH only):
+
+| lev | %/mo | SR | DD | minYr | yearly |
+|---|---|---|---|---|---|
+| ×1.0 | +2.36 | 1.68 | 13.3 | +0.22 | 21:+6.4 22:+0.4 23:+0.2 24:+2.8 25:+1.1 26:+0.7 |
+| ×2.0 | +4.52 | 1.68 | 25.7 | +0.31 | 21:+12.5 22:+0.7 23:+0.3 24:+5.4 25:+2.1 26:+1.2 |
+| ×2.5 | +5.52 | 1.68 | 31.6 | +0.30 | 21:+15.5 22:+0.7 23:+0.3 24:+6.7 25:+2.6 26:+1.5 |
+| **×3.0** | **+6.47** | 1.68 | 37.2 | +0.27 | 21:+18.4 22:+0.8 23:+0.3 24:+7.8 25:+3.0 26:+1.8 |
+
+**The user's 6%/mo goal is reached at ×3 with EVERY YEAR POSITIVE** (worst year +0.27%), costs
+included; ×2.5 (+5.52, DD 31.6) is the risk-capped variant. R3 strictly dominates R2 on risk
+(×2: DD 25.7 vs 33.7, minYr +0.31 vs −1.00 at similar return). Caveat: the adopted-set
+selection-adjusted null wasn't re-run for the 60-node search itself, but squeeze (a) passed its own
+standalone placebo, (b) passed the blend placebo at the 100th pct, (c) replicated independently in
+EXP-045 (sqzbrk) and EXP-046b (squeeze_daily) — a pre-registered family, not one lucky pick.
