@@ -1386,6 +1386,26 @@
       "honest_summary": "Full-period cell assignments are selection-adjusted; LOFO mitigates (all held-out positive) but only 3 fold blocks. LOFO worst months -26..-33% (switching whipsaw in transition months). Same single panel/era. Forward paper validation required.",
       "tag": "REGIME_CONDITIONAL",
       "status": "COMPOSITE_VALIDATED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-030-REGIME-AUDIT",
+      "strategy_name": "Deep audit of EXP-029 regime-conditional policy (correctness + gap-fills)",
+      "asset": "21-coin crypto 1d panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "5 correctness tests + 7 gap-fill studies + strict disjoint-block LOFO",
+      "methodology": "T1 pandas alignment semantics; T2 regime partition completeness; T3 no-lookahead (future perturbation invariance); T4 composite implementation equivalence (vs independent per-bar lookup); T5 in-cell stats hand-check. Gap-fills: champion's own LOFO (was missing), strict disjoint-fold LOFO (folds overlapped ~10%), composite neighbor plateau, switch-smoothing, transition blend, extended menu (5 untested strategies), 2 untested parameter families (pairwise correlation, momentum dispersion). Script: scripts/regime_audit.py",
+      "results": {
+        "tests": "T1 PASS, T3 PASS, T4 PASS (0.0 weight diff), T5 PASS (hand-check exact); T2 FOUND REAL BUG: MA-warmup bars (~100) unassigned in P1/P2/P4/P5/P6 defs (coverage 85-90%) -> silently cash. Direction of harm was CONSERVATIVE (deflates returns, never inflates). FIXED via complement-based cells; all 8 defs now 100% coverage; P3 champion numbers unchanged.",
+        "missing_lofo_now_run": "champion P3 LOFO (overlapping folds): +26.2/+3.6/+3.3; STRICT disjoint blocks: +30.0/+2.7/+2.6 - all positive, mapping stable (ON->rotation family, OFF->FVG family)",
+        "upgrade_found_1": "switch-smoothing (10-day persistence before switching): +16.02%/mo, DD 25.1%, Calmar 19.74, folds +35.0/+4.9/+6.8, bull% 0.75 - beats base champion on every dimension. Strict LOFO: +31.8/+4.3/+1.9 all positive -> NEW CHAMPION",
+        "upgrade_found_2": "N2 trend x momentum-dispersion family: +16.06%/mo DD 30.9% Cal 16.07 folds +35.2/+5.8/+5.6 (worst-fold +5.61 record) BUT strict LOFO mapping unstable (4 cells need more history to learn; +2.1..+5.5 held-out with assignment swings) - promising, NOT yet deployable",
+        "menu_robustness": "5 untested strategies (BLEND/XSEC_MOM/DUAL_MOM/ENSEMBLE/DIP_TREND) win NO cell - original assignments menu-robust",
+        "plateau": "hyst band 1-5% all DYN-OK; MA 100-110 sweet spot (MA90 weaker, MA125 DD 37 over cap)",
+        "transition_blend": "50/50 blend near gate: slightly worse (+14.3) - not needed"
+      },
+      "honest_summary": "Audit found one real (conservative-direction) bug - fixed and re-verified; champion's conclusions hold under the strictest test (disjoint blocks, assignment learned on 2, applied to 3rd: all positive). Final champion = P3+smooth10: BTC MA100+-2% hysteresis -> {ABS_GROT | FVG_LS} with 10-day switch persistence: +16.0%/mo, DD 25.1%, Calmar 19.7, bull share 0.75. Forward paper validation still required.",
+      "tag": "AUDIT",
+      "status": "AUDIT_COMPLETE_CHAMPION_UPGRADED"
     }
   ],
   "savepoints": {

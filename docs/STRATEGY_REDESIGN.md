@@ -387,3 +387,29 @@ Full-period cell assignments are selection-adjusted (LOFO mitigates, 3 folds onl
 months -26..-33% (switching whipsaw around regime transitions). Same single panel/era. Forward
 paper validation required before capital. 253 validation units in
 reports/strategy_leaderboard.json (conditional_table + selection_guide_regime).
+
+
+### 12.1 EXP-030 — Deep Audit of EXP-029 (2026-10-28)
+
+**Correctness tests**: T1 alignment semantics PASS; T3 no-lookahead PASS (labels invariant under
+future perturbation); T4 composite equivalence PASS (0.0 weight diff vs independent per-bar
+implementation); T5 in-cell stats hand-check PASS. **T2 FOUND A REAL BUG**: MA-warmup bars (~100)
+were unassigned in 5 of 8 regime definitions (coverage 85-90%) and silently traded cash. The error
+direction was conservative (deflates returns). Fixed with complement-based cells; all 8 defs now
+cover 100% of bars; champion numbers unchanged.
+
+**Gap-fills**: (1) champion's own LOFO (missing in EXP-029) now run - positive under both
+overlapping folds (+26.2/+3.6/+3.3) and STRICT disjoint blocks (+30.0/+2.7/+2.6), mapping stable.
+(2) Composite neighbor plateau: hysteresis band 1-5% all pass; MA 100-110 sweet spot. (3) Two
+upgrades discovered:
+
+| upgrade | %/mo | maxDD | Calmar | folds | strict LOFO |
+|---|---|---|---|---|---|
+| **P3 + 10-day switch persistence (NEW CHAMPION)** | **+16.0** | **25.1%** | **19.7** | **+35.0/+4.9/+6.8** | **+31.8/+4.3/+1.9 all +** |
+| N2 trend x momentum-dispersion | +16.1 | 30.9% | 16.1 | +35.2/+5.8/+5.6 | mapping unstable (+2.1..+5.5) |
+| (base P3 champion) | +15.2 | 34.5% | 12.9 | +33.1/+3.6/+7.7 | +30.0/+2.7/+2.6 all + |
+
+Final champion: **BTC MA100 +-2% hysteresis -> {ABS_GROT | FVG_LS}, 10-day persistence before
+switching**. The 4-cell dispersion mapping is promising (record worst-fold +5.61) but its
+assignment cannot yet be learned reliably from 2 blocks - needs more history. Menu robustness:
+5 untested strategies win no cell. Transition blend unnecessary.

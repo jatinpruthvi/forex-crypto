@@ -9928,5 +9928,104 @@
     },
     "n_conditional_validations": 26
   },
-  "tree_round10_nodes_visited": 45
+  "tree_round10_nodes_visited": 45,
+  "exp029_audit": {
+    "tests": [
+      {
+        "name": "t1_alignment",
+        "status": "PASS",
+        "msg": "boolean-row assignment aligns by index (no positional accident)"
+      },
+      {
+        "name": "t2_partition",
+        "status": "FAIL",
+        "msg": "incomplete: [('P1_trend100', 0.901), ('P2_trend150', 0.851), ('P4_trend_x_vol', 0.901), ('P5_trend_x_breadth', 0.901), ('P6_trend_x_stress', 0.901)]"
+      },
+      {
+        "name": "t3_no_lookahead",
+        "status": "PASS",
+        "msg": "labels up to t identical under future perturbation"
+      },
+      {
+        "name": "t4_composite_equivalence",
+        "status": "PASS",
+        "msg": "max weight diff = 0.00e+00"
+      },
+      {
+        "name": "t5_incell_handcheck",
+        "status": "PASS",
+        "msg": "in-cell monthly +4.4248% vs manual +4.4248% (562 days)"
+      }
+    ],
+    "extended_menu_new_winners": [],
+    "note": "G1-G5/G7 numeric rows printed in run log; audit conclusions in docs/STRATEGY_REDESIGN.md section 12.1",
+    "partition_fix": {
+      "coverage_after_fix": true,
+      "affected_defs": [
+        "P1",
+        "P2",
+        "P4",
+        "P5",
+        "P6"
+      ]
+    },
+    "upgrade_results": [
+      {
+        "name": "P3_fixed",
+        "monthly_roi": 15.16,
+        "max_dd": 34.5,
+        "calmar": 12.86,
+        "folds": [
+          33.12,
+          3.61,
+          7.69
+        ],
+        "worst_fold": 3.61,
+        "bull_share": 0.746,
+        "dyn_ok": true
+      },
+      {
+        "name": "P3_smooth10",
+        "monthly_roi": 16.02,
+        "max_dd": 25.1,
+        "calmar": 19.74,
+        "folds": [
+          34.99,
+          4.86,
+          6.77
+        ],
+        "worst_fold": 4.86,
+        "bull_share": 0.751,
+        "dyn_ok": true
+      },
+      {
+        "name": "N2",
+        "monthly_roi": 16.06,
+        "max_dd": 30.9,
+        "calmar": 16.07,
+        "folds": [
+          35.16,
+          5.76,
+          5.61
+        ],
+        "worst_fold": 5.61,
+        "bull_share": 0.756,
+        "dyn_ok": true
+      },
+      {
+        "name": "N2_smooth10",
+        "monthly_roi": 15.92,
+        "max_dd": 32.4,
+        "calmar": 15.09,
+        "folds": [
+          37.14,
+          3.98,
+          5.56
+        ],
+        "worst_fold": 3.98,
+        "bull_share": 0.796,
+        "dyn_ok": true
+      }
+    ]
+  }
 }

@@ -73,8 +73,10 @@ def regime_defs(px):
 
     ma100 = btc.rolling(100).mean()
     ma150 = btc.rolling(150).mean()
-    out["P1_trend100"] = {"UP": (btc > ma100).fillna(False), "DOWN": (btc <= ma100).fillna(False)}
-    out["P2_trend150"] = {"UP": (btc > ma150).fillna(False), "DOWN": (btc <= ma150).fillna(False)}
+    up100 = (btc > ma100).fillna(False)      # warmup bars -> False -> DOWN cell (audit T2 fix)
+    up150 = (btc > ma150).fillna(False)
+    out["P1_trend100"] = {"UP": up100, "DOWN": ~up100}
+    out["P2_trend150"] = {"UP": up150, "DOWN": ~up150}
     hy = sh4.hyst_state(px, 100, 0.02)
     out["P3_hyst100"] = {"ON": (hy > 0.5), "OFF": (hy <= 0.5)}
 
@@ -82,36 +84,36 @@ def regime_defs(px):
     vmed = bvol.expanding().median().shift(1)
     hi_vol = (bvol > vmed).fillna(False)
     out["P4_trend_x_vol"] = {
-        "UP_LOVOL": ((btc > ma100) & ~hi_vol).fillna(False),
-        "UP_HIVOL": ((btc > ma100) & hi_vol).fillna(False),
-        "DN_LOVOL": ((btc <= ma100) & ~hi_vol).fillna(False),
-        "DN_HIVOL": ((btc <= ma100) & hi_vol).fillna(False)}
+        "UP_LOVOL": (up100 & ~hi_vol),
+        "UP_HIVOL": (up100 & hi_vol),
+        "DN_LOVOL": (~up100 & ~hi_vol),
+        "DN_HIVOL": (~up100 & hi_vol)}
 
     breadth = (px > px.rolling(50).mean()).mean(axis=1)
     b_hi = breadth > 0.6
     b_lo = breadth < 0.4
     out["P5_trend_x_breadth"] = {
-        "UP_BHI": ((btc > ma100) & b_hi).fillna(False),
-        "UP_BMID": ((btc > ma100) & ~b_hi & ~b_lo).fillna(False),
-        "UP_BLO": ((btc > ma100) & b_lo).fillna(False),
-        "DN_BHI": ((btc <= ma100) & b_hi).fillna(False),
-        "DN_BMID": ((btc <= ma100) & ~b_hi & ~b_lo).fillna(False),
-        "DN_BLO": ((btc <= ma100) & b_lo).fillna(False)}
+        "UP_BHI": (up100 & b_hi).fillna(False),
+        "UP_BMID": (up100 & ~b_hi & ~b_lo).fillna(False),
+        "UP_BLO": (up100 & b_lo).fillna(False),
+        "DN_BHI": (~up100 & b_hi).fillna(False),
+        "DN_BMID": (~up100 & ~b_hi & ~b_lo).fillna(False),
+        "DN_BLO": (~up100 & b_lo).fillna(False)}
 
     vq80 = bvol.expanding().quantile(0.8).shift(1)
     stress = (bvol > vq80).fillna(False)
     out["P6_trend_x_stress"] = {
-        "UP_CALM": ((btc > ma100) & ~stress).fillna(False),
-        "UP_STRESS": ((btc > ma100) & stress).fillna(False),
-        "DN_CALM": ((btc <= ma100) & ~stress).fillna(False),
-        "DN_STRESS": ((btc <= ma100) & stress).fillna(False)}
+        "UP_CALM": (up100 & ~stress),
+        "UP_STRESS": (up100 & stress),
+        "DN_CALM": (~up100 & ~stress),
+        "DN_STRESS": (~up100 & stress)}
 
-    vrising = bvol > bvol.shift(10)
+    vrising = (bvol > bvol.shift(10)).fillna(False)
     out["P7_vollevel_x_voltrend"] = {
-        "LO_FELL": (~hi_vol & ~vrising).fillna(False),
-        "LO_RISE": (~hi_vol & vrising).fillna(False),
-        "HI_FELL": (hi_vol & ~vrising).fillna(False),
-        "HI_RISE": (hi_vol & vrising).fillna(False)}
+        "LO_FELL": (~hi_vol & ~vrising),
+        "LO_RISE": (~hi_vol & vrising),
+        "HI_FELL": (hi_vol & ~vrising),
+        "HI_RISE": (hi_vol & vrising)}
 
     out["P8_breadth3"] = {"BHI": b_hi.fillna(False), "BMID": (~b_hi & ~b_lo).fillna(False),
                           "BLO": b_lo.fillna(False)}
