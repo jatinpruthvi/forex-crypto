@@ -1333,6 +1333,24 @@
       "honest_summary": "Panel restored from StephanAkkerman/crypto-forecasting-benchmark (1000 bars cap, 2020-07-20..2023-04-15) - identical regime sequence as prior rounds. Selection-adjusted with LOFO mitigation; 3 fold blocks only. Dynamic strategy worst month -9.9% (bull fold). Forward paper validation required before capital.",
       "tag": "STRATEGY_HUNT_DYNAMIC",
       "status": "DYNAMIC_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
+    },
+    {
+      "experiment_id": "EXP-027-SMC-NUCLEAR-HUNT",
+      "strategy_name": "Smart Money Concepts hunt (FVG/order blocks/sweeps/BOS/CHoCH) via BFS+DFS nuclear tree",
+      "asset": "21-coin crypto 1d OHLC panel (2020-07-20..2023-04-15)",
+      "timeframe": "1D",
+      "duration_desc": "1000 bars, 3 chronological folds + LOFO + plateau checks; 164 distinct validated nodes",
+      "methodology": "ICT/SMC mechanics implemented systematically on real daily OHLC: fair value gaps (3-candle imbalance zones with fill/invalidation state machines), order blocks (pre-displacement opposite candles), liquidity sweeps (stop-hunt fades of prior swing extremes), breaks of structure, change of character, premium/discount dealing ranges, volume absorption, AMD weekly fake-outs, confluence combos (BOS+OB, FVG+sweep, 2-of-3 votes). Portfolio wrapper: active setups within hold window, inverse-vol, long/short both sides; 10bp/turnover. Pre-registered DYNAMIC rule (anti bull-hold) as EXP-026. BFS x22 families + L2 adapts, DFS hold/K/age depth, waves on near-miss families. Script: scripts/strategy_hunt5.py",
+      "results": {
+        "champion": "W3/fvg-age15-h3K0 FVG_LS fresh-gap retests (max_age 15 bars), both sides, hold 3: +6.38%/mo, DD 28.2%, Calmar 3.91, folds +7.55/+5.70/+5.72 \u2014 nearly UNIFORM across regimes, worst-fold +5.70 (program record), non-bull avg +5.71%/mo, bull share 0.40",
+        "plateau": "ALL gap lifetimes 10-30 bars DYN-OK (worst-fold +5.1..+5.7, bull share 0.37-0.47, Calmar 3.3-4.7) and hold 2-5 x K 0-5 combos pass \u2014 broad plateau, not a lucky point",
+        "smc_knowledge": "THE one SMC concept with real edge = Fair Value Gaps (imbalance retests). Order blocks weak (best +1.6%/mo, bull-heavy). Liquidity sweeps (stop-hunt fades) LOSE badly (-5.4%/mo long side). CHoCH fails. BOS continuation is bull-hold (bull% 2.0). Premium/discount ~0. Absorption/AMD produce zero trades on daily bars.",
+        "lofo_prior": "h3K0 selected on 2 of 3 training pairs: held-out +8.48/+1.84/+3.23 %/mo all positive",
+        "vs_previous_dynamic": "worst-fold +0.97 -> +5.70; non-bull avg +1.53 -> +5.71%/mo; bull share 0.72 -> 0.40; the FVG family makes chop and bear PAY more than the old family made in bull-adjusted terms"
+      },
+      "honest_summary": "Deepest selection yet (age grid discovered after seeing hold winner) \u2014 selection-adjusted; mitigated by the age10-30 plateau and fold uniformity (+7.6/+5.7/+5.7 beats any single-regime dependence). Short book (bearish gap retests) is the true dynamic engine. Worst month -8.0%. Forward paper validation required before capital.",
+      "tag": "STRATEGY_HUNT_SMC",
+      "status": "SMC_CHAMPION_VALIDATED_NEEDS_FORWARD_VALIDATION"
     }
   ],
   "savepoints": {

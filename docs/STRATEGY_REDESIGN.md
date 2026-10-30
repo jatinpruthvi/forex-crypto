@@ -275,3 +275,49 @@ Dynamic champion: +3.95%/mo, DD 19.5%, regime-balanced (bull share 0.72).
 Bull-hold champion: +13.5%/mo, DD 29.2%, bull share 0.89.
 Same mechanics core (momentum rotation); the difference is risk adaptation. Forward paper validation
 required for both before capital. Worst dynamic month: -9.9%.
+
+
+---
+
+## 10. EXP-027 — Smart Money Concepts Hunt (2026-10-28)
+
+**Trigger**: user — "hunt again for smart money concept using nuclear explosion method." ICT/SMC mechanics
+implemented systematically on the real 21-coin daily OHLC panel, exploded BFS + DFS style, 164 distinct
+validated nodes, all saved to `reports/strategy_leaderboard.json`. Same pre-registered DYNAMIC rule
+(anti bull-hold) as EXP-026.
+
+### What was tested (BFS breadth x22)
+Fair value gaps (3-candle imbalance retests with fill/invalidation state machines), order blocks
+(pre-displacement opposite candles), liquidity sweeps (stop-hunt fades of prior swing extremes), breaks of
+structure, change of character, premium/discount dealing ranges, volume absorption, AMD weekly fake-outs,
+confluence combos (BOS+OB, FVG+sweep, 2-of-3 votes) - long-only and long-short variants of each, plus
+regime adaptations (gate/hyst/vol-target) and DFS parameter depth (hold x K x gap-lifetime).
+
+### Champion: FVG_LS fresh-gap retests — the most dynamic strategy in the program
+
+| config | %/mo | maxDD | Calmar | folds | worst-fold | non-bull | bull share |
+|---|---|---|---|---|---|---|---|
+| **FVG_LS age15 h3** | **+6.38** | **28.2%** | **3.91** | **+7.6/+5.7/+5.7** | **+5.70** | **+5.71** | **0.40** |
+| FVG_LS age10 h3 | +6.88 | 26.2% | 4.67 | +9.6/+5.3/+5.4 | +5.25 | +5.31 | 0.47 |
+| FVG_LS age20 h3 | +6.35 | 30.9% | 3.54 | +6.9/+6.4/+5.6 | +5.59 | +5.97 | 0.37 |
+| (EXP-026 dynamic champ) | +3.95 | 19.5% | 3.04 | +7.7/+1.0/+2.1 | +0.97 | +1.53 | 0.72 |
+| (old bull-hold champ) | +13.54 | 29.2% | 12.28 | +34.1/+1.7/+2.5 | +1.70 | +2.08 | 0.89 |
+
+**Mechanic**: when price returns into a FRESH unfilled fair-value gap (<= ~2-4 weeks old) - the 3-candle
+imbalance zone where "smart money" is theorized to rebalance - take the position in the gap's direction
+(long into bullish gaps, SHORT into bearish gaps), inverse-vol across all active setups, hold ~3 bars.
+The SHORT side of fresh gaps is the true dynamic engine: it made +5.7%/mo in the 2021 chop fold and
++5.7%/mo in the 2022 bear fold.
+
+**Plateau**: gap lifetimes 10-30 all pass (Calmar 3.3-4.7, bull share 0.37-0.47); hold 2-5 x K 0-5 combos
+pass. LOFO (pre-age discovery): +8.48/+1.84/+3.23 held-out, all positive.
+
+### SMC-specific negative knowledge (saved)
+Liquidity sweeps (the signature ICT stop-hunt) LOSE on daily crypto (-5.4%/mo long side); order blocks
+weak and bull-heavy; CHoCH fails; BOS continuation is a bull-hold (bull share 2.0); premium/discount ~0;
+absorption/AMD never fire on daily bars. **FVG imbalance retests are the only SMC concept with real,
+regime-balanced edge on this panel.**
+
+### Honest limits
+Deep selection chain (age found after hold winner) - mitigated by plateau + fold uniformity, but forward
+paper validation remains required. Worst month -8.0% (fold2). Same single panel/era.
