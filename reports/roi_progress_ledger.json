@@ -1496,6 +1496,12 @@
       "date": "2026-10-30",
       "focus": "commission+spread validation of combo results: 10bp/side in-backtest vs HL maker 3bp/taker 6-12bp; turnover 1.4-2.6x/mo; fee sensitivity 0-50bp; funding stress (not modeled) <=0.2%/mo",
       "outcome": "COSTS-VALIDATED"
+    },
+    {
+      "id": "EXP-041-REACH-6PCT",
+      "date": "2026-10-30",
+      "focus": "how to reach 6%/mo from 1.74% on 5.5y with commission+spread: 6 levers tested - leverage ceiling +4.33 (variance drag, DD~80), vol-target +2.32@DD57, ungating HURTS, faster/K3 neutral, brain HURTS (EXP-038 gains don't transfer), small-cap universe +6.6-7.1 on 2020-23 but = 2021 mania (ex-2021 +1.11), unverifiable 2024-26",
+      "outcome": "EXP-041-6PCT-CEILING"
     }
   ],
   "savepoints": {

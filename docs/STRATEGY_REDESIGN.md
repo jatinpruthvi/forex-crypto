@@ -807,3 +807,20 @@ fee drag is only 0.14-0.26%/mo. Sensitivity: recommended combos stay positive ev
 perp funding — quantified at ±0.08-0.13%/mo band (books are low-gross 0.2-0.32), worst
 bull-case drag -0.16 to -0.22%/mo. All-in worst case (15bp + funding): eq5 +1.35%/mo,
 worst-year ~-0.9. Production enters post-only (maker 3bp) — better than backtest.
+
+## 12.11 EXP-041 — Can we reach 6%/mo from 1.74%? The lever ladder (2026-10-30)
+
+Six pre-registered levers, all on 5.5y with commission+spread (10bp/side):
+| lever | best result | verdict |
+|---|---|---|
+| L1 constant leverage | x4: +4.28%/mo DD 75 | **ceiling ~+4.33 (fit 1.99m-0.228m²) — 6% unreachable by scaling** |
+| L2 vol-targeting | vt50c4: +2.32 DD 57 | marginal |
+| L3 ungated rotation | +0.33 (vs +1.74) | HURTS — the 150d MA gate IS the edge |
+| L5 brain (quarterly guarded) | +0.81..+1.34 | HURTS — EXP-038 gains don't transfer to 5y majors |
+| L6 stacks of the above | ≤ +1.03 | fail with their components |
+| L4 small-cap universe | **+6.6-7.1%/mo DD 13 (2020-23)** | ONLY 6%+ number, but ex-2021 = +1.11 → 2021 mania capture; unverifiable 2024-26 |
+
+Verified frontier: **DD≤35 → +2.45%/mo (x1.5); DD≤50 → +3.05-3.07 (x2 / K3 x2);
+DD≤75 → +4.28 (x4)**. 6%/mo on verified majors data at survivable DD = NOT reachable.
+Only historical path: small caps in a 2021-type mania regime (gate saved 2022 on old-21
+(+0.5) so 2025-26 might also be gated out — but unverifiable without 5y small-cap data).
