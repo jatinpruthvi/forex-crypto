@@ -15833,5 +15833,860 @@
       }
     },
     "runtime_sec": 128.4
+  },
+  "exp036_recovery": {
+    "date": "2026-10-30",
+    "question": "recovery rate of deployment menu (EXP-035 frontier)",
+    "policies": {
+      "Champion_P3": {
+        "curve": "deployable_full_learn",
+        "final_mult": 131.33,
+        "max_dd_pct": 25.1,
+        "n_episodes": 59,
+        "n_recovered": 58,
+        "recovery_rate_pct": 98.3,
+        "depth_weighted_recovery_pct": 94.3,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 3.1,
+        "time_underwater_pct": 82.9,
+        "longest_underwater_months": 4.2,
+        "recovery_factor": 519.65,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 33,
+            "recovered": 33,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 12,
+            "recovered": 12,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 7,
+            "recovered": 7,
+            "median_months_to_recover": 0.2
+          },
+          ">=20%": {
+            "n": 7,
+            "recovered": 6,
+            "median_months_to_recover": 1.4
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-09-05",
+            "start": "2021-09-06",
+            "trough": "2021-09-20",
+            "recovery": "2021-12-22",
+            "depth_pct": -25.1,
+            "months_to_trough": 0.5,
+            "months_trough_to_recovery": 3.1,
+            "months_underwater": 3.5,
+            "recovered": true
+          },
+          {
+            "peak": "2021-12-31",
+            "start": "2022-01-01",
+            "trough": "2022-05-01",
+            "recovery": "2022-05-10",
+            "depth_pct": -24.9,
+            "months_to_trough": 4.0,
+            "months_trough_to_recovery": 0.3,
+            "months_underwater": 4.2,
+            "recovered": true
+          },
+          {
+            "peak": "2023-02-19",
+            "start": "2023-02-20",
+            "trough": "2023-03-10",
+            "recovery": null,
+            "depth_pct": -23.8,
+            "months_to_trough": 0.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 1.8,
+            "recovered": false
+          }
+        ],
+        "lofo_spliced": {
+          "final_mult": 58.24,
+          "max_dd_pct": 27.0,
+          "n_episodes": 38,
+          "n_recovered": 37,
+          "recovery_rate_pct": 97.4,
+          "depth_weighted_recovery_pct": 93.3,
+          "median_months_trough_to_recovery": 0.1,
+          "max_months_trough_to_recovery": 3.1,
+          "time_underwater_pct": 87.8,
+          "longest_underwater_months": 4.5,
+          "recovery_factor": 211.81,
+          "by_depth_bucket": {
+            "<5%": {
+              "n": 15,
+              "recovered": 15,
+              "median_months_to_recover": 0.0
+            },
+            "5-10%": {
+              "n": 11,
+              "recovered": 11,
+              "median_months_to_recover": 0.1
+            },
+            "10-20%": {
+              "n": 5,
+              "recovered": 5,
+              "median_months_to_recover": 0.2
+            },
+            ">=20%": {
+              "n": 7,
+              "recovered": 6,
+              "median_months_to_recover": 0.3
+            }
+          },
+          "deepest_episodes": [
+            {
+              "peak": "2020-08-16",
+              "start": "2020-08-17",
+              "trough": "2020-12-22",
+              "recovery": "2021-01-02",
+              "depth_pct": -27.0,
+              "months_to_trough": 4.2,
+              "months_trough_to_recovery": 0.4,
+              "months_underwater": 4.5,
+              "recovered": true
+            },
+            {
+              "peak": "2021-09-05",
+              "start": "2021-09-06",
+              "trough": "2021-09-20",
+              "recovery": "2021-12-22",
+              "depth_pct": -25.1,
+              "months_to_trough": 0.5,
+              "months_trough_to_recovery": 3.1,
+              "months_underwater": 3.5,
+              "recovered": true
+            },
+            {
+              "peak": "2021-12-31",
+              "start": "2022-01-01",
+              "trough": "2022-05-01",
+              "recovery": "2022-05-10",
+              "depth_pct": -24.9,
+              "months_to_trough": 4.0,
+              "months_trough_to_recovery": 0.3,
+              "months_underwater": 4.2,
+              "recovered": true
+            }
+          ]
+        }
+      },
+      "CORR30_s0": {
+        "curve": "deployable_full_learn",
+        "final_mult": 340.94,
+        "max_dd_pct": 63.5,
+        "n_episodes": 51,
+        "n_recovered": 50,
+        "recovery_rate_pct": 98.0,
+        "depth_weighted_recovery_pct": 99.7,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 8.2,
+        "time_underwater_pct": 84.1,
+        "longest_underwater_months": 10.5,
+        "recovery_factor": 534.93,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 21,
+            "recovered": 20,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 8,
+            "recovered": 8,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 12,
+            "recovered": 12,
+            "median_months_to_recover": 0.1
+          },
+          ">=20%": {
+            "n": 10,
+            "recovered": 10,
+            "median_months_to_recover": 0.4
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-07-18",
+            "recovery": "2022-03-26",
+            "depth_pct": -63.5,
+            "months_to_trough": 2.3,
+            "months_trough_to_recovery": 8.2,
+            "months_underwater": 10.5,
+            "recovered": true
+          },
+          {
+            "peak": "2021-02-18",
+            "start": "2021-02-19",
+            "trough": "2021-02-24",
+            "recovery": "2021-03-12",
+            "depth_pct": -41.5,
+            "months_to_trough": 0.2,
+            "months_trough_to_recovery": 0.5,
+            "months_underwater": 0.7,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-24",
+            "recovery": "2021-04-30",
+            "depth_pct": -39.4,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.5,
+            "recovered": true
+          }
+        ]
+      },
+      "H4_s10": {
+        "curve": "deployable_full_learn",
+        "final_mult": 133.62,
+        "max_dd_pct": 27.9,
+        "n_episodes": 59,
+        "n_recovered": 58,
+        "recovery_rate_pct": 98.3,
+        "depth_weighted_recovery_pct": 94.3,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 3.1,
+        "time_underwater_pct": 83.8,
+        "longest_underwater_months": 4.2,
+        "recovery_factor": 474.58,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 32,
+            "recovered": 32,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 13,
+            "recovered": 13,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 7,
+            "recovered": 7,
+            "median_months_to_recover": 0.2
+          },
+          ">=20%": {
+            "n": 7,
+            "recovered": 6,
+            "median_months_to_recover": 2.0
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-06-24",
+            "recovery": "2021-08-19",
+            "depth_pct": -27.9,
+            "months_to_trough": 1.5,
+            "months_trough_to_recovery": 1.8,
+            "months_underwater": 3.4,
+            "recovered": true
+          },
+          {
+            "peak": "2021-09-05",
+            "start": "2021-09-06",
+            "trough": "2021-09-20",
+            "recovery": "2021-12-22",
+            "depth_pct": -25.1,
+            "months_to_trough": 0.5,
+            "months_trough_to_recovery": 3.1,
+            "months_underwater": 3.5,
+            "recovered": true
+          },
+          {
+            "peak": "2023-02-19",
+            "start": "2023-02-20",
+            "trough": "2023-03-10",
+            "recovery": null,
+            "depth_pct": -23.8,
+            "months_to_trough": 0.6,
+            "months_trough_to_recovery": null,
+            "months_underwater": 1.8,
+            "recovered": false
+          }
+        ]
+      },
+      "ENS_CxH4_100": {
+        "curve": "deployable_full_learn",
+        "final_mult": 742.2,
+        "max_dd_pct": 51.0,
+        "n_episodes": 61,
+        "n_recovered": 60,
+        "recovery_rate_pct": 98.4,
+        "depth_weighted_recovery_pct": 99.7,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 7.5,
+        "time_underwater_pct": 83.2,
+        "longest_underwater_months": 9.0,
+        "recovery_factor": 1454.72,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 30,
+            "recovered": 29,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 11,
+            "recovered": 11,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 12,
+            "recovered": 12,
+            "median_months_to_recover": 0.2
+          },
+          ">=20%": {
+            "n": 8,
+            "recovered": 8,
+            "median_months_to_recover": 0.3
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-06-24",
+            "recovery": "2022-02-06",
+            "depth_pct": -51.0,
+            "months_to_trough": 1.5,
+            "months_trough_to_recovery": 7.5,
+            "months_underwater": 9.0,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-23",
+            "recovery": "2021-04-29",
+            "depth_pct": -39.7,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.4,
+            "recovered": true
+          },
+          {
+            "peak": "2021-02-20",
+            "start": "2021-02-21",
+            "trough": "2021-02-22",
+            "recovery": "2021-03-07",
+            "depth_pct": -37.6,
+            "months_to_trough": 0.1,
+            "months_trough_to_recovery": 0.4,
+            "months_underwater": 0.5,
+            "recovered": true
+          }
+        ]
+      },
+      "ENS_CxH4_55": {
+        "curve": "deployable_full_learn",
+        "final_mult": 132.93,
+        "max_dd_pct": 34.3,
+        "n_episodes": 60,
+        "n_recovered": 59,
+        "recovery_rate_pct": 98.3,
+        "depth_weighted_recovery_pct": 99.6,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 2.3,
+        "time_underwater_pct": 83.5,
+        "longest_underwater_months": 8.9,
+        "recovery_factor": 384.14,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 36,
+            "recovered": 35,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 13,
+            "recovered": 13,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 7,
+            "recovered": 7,
+            "median_months_to_recover": 0.3
+          },
+          ">=20%": {
+            "n": 4,
+            "recovered": 4,
+            "median_months_to_recover": 0.3
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-11-25",
+            "recovery": "2022-02-03",
+            "depth_pct": -34.3,
+            "months_to_trough": 6.6,
+            "months_trough_to_recovery": 2.3,
+            "months_underwater": 8.9,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-23",
+            "recovery": "2021-04-29",
+            "depth_pct": -29.1,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.4,
+            "recovered": true
+          },
+          {
+            "peak": "2021-02-20",
+            "start": "2021-02-21",
+            "trough": "2021-02-22",
+            "recovery": "2021-03-07",
+            "depth_pct": -23.7,
+            "months_to_trough": 0.1,
+            "months_trough_to_recovery": 0.4,
+            "months_underwater": 0.5,
+            "recovered": true
+          }
+        ],
+        "lofo_spliced": {
+          "final_mult": 50.05,
+          "max_dd_pct": 36.4,
+          "n_episodes": 56,
+          "n_recovered": 55,
+          "recovery_rate_pct": 98.2,
+          "depth_weighted_recovery_pct": 99.5,
+          "median_months_trough_to_recovery": 0.1,
+          "max_months_trough_to_recovery": 4.1,
+          "time_underwater_pct": 84.7,
+          "longest_underwater_months": 10.7,
+          "recovery_factor": 134.78,
+          "by_depth_bucket": {
+            "<5%": {
+              "n": 37,
+              "recovered": 36,
+              "median_months_to_recover": 0.0
+            },
+            "5-10%": {
+              "n": 10,
+              "recovered": 10,
+              "median_months_to_recover": 0.2
+            },
+            "10-20%": {
+              "n": 6,
+              "recovered": 6,
+              "median_months_to_recover": 0.2
+            },
+            ">=20%": {
+              "n": 3,
+              "recovered": 3,
+              "median_months_to_recover": 0.4
+            }
+          },
+          "deepest_episodes": [
+            {
+              "peak": "2021-05-08",
+              "start": "2021-05-09",
+              "trough": "2021-11-25",
+              "recovery": "2022-03-30",
+              "depth_pct": -36.4,
+              "months_to_trough": 6.6,
+              "months_trough_to_recovery": 4.1,
+              "months_underwater": 10.7,
+              "recovered": true
+            },
+            {
+              "peak": "2021-04-15",
+              "start": "2021-04-16",
+              "trough": "2021-04-24",
+              "recovery": "2021-04-30",
+              "depth_pct": -24.8,
+              "months_to_trough": 0.3,
+              "months_trough_to_recovery": 0.2,
+              "months_underwater": 0.5,
+              "recovered": true
+            },
+            {
+              "peak": "2021-02-18",
+              "start": "2021-02-19",
+              "trough": "2021-02-24",
+              "recovery": "2021-03-08",
+              "depth_pct": -21.3,
+              "months_to_trough": 0.2,
+              "months_trough_to_recovery": 0.4,
+              "months_underwater": 0.6,
+              "recovered": true
+            }
+          ]
+        }
+      },
+      "Blend3_100": {
+        "curve": "deployable_full_learn",
+        "final_mult": 900.72,
+        "max_dd_pct": 44.3,
+        "n_episodes": 63,
+        "n_recovered": 62,
+        "recovery_rate_pct": 98.4,
+        "depth_weighted_recovery_pct": 99.7,
+        "median_months_trough_to_recovery": 0.0,
+        "max_months_trough_to_recovery": 7.4,
+        "time_underwater_pct": 82.3,
+        "longest_underwater_months": 8.9,
+        "recovery_factor": 2030.44,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 35,
+            "recovered": 34,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 10,
+            "recovered": 10,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 11,
+            "recovered": 11,
+            "median_months_to_recover": 0.2
+          },
+          ">=20%": {
+            "n": 7,
+            "recovered": 7,
+            "median_months_to_recover": 0.4
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-06-24",
+            "recovery": "2022-02-05",
+            "depth_pct": -44.3,
+            "months_to_trough": 1.5,
+            "months_trough_to_recovery": 7.4,
+            "months_underwater": 8.9,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-23",
+            "recovery": "2021-04-28",
+            "depth_pct": -39.4,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.4,
+            "recovered": true
+          },
+          {
+            "peak": "2021-02-20",
+            "start": "2021-02-21",
+            "trough": "2021-02-22",
+            "recovery": "2021-03-07",
+            "depth_pct": -33.8,
+            "months_to_trough": 0.1,
+            "months_trough_to_recovery": 0.4,
+            "months_underwater": 0.5,
+            "recovered": true
+          }
+        ]
+      },
+      "Blend3_75": {
+        "curve": "deployable_full_learn",
+        "final_mult": 273.37,
+        "max_dd_pct": 34.5,
+        "n_episodes": 63,
+        "n_recovered": 62,
+        "recovery_rate_pct": 98.4,
+        "depth_weighted_recovery_pct": 99.7,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 4.5,
+        "time_underwater_pct": 82.3,
+        "longest_underwater_months": 6.0,
+        "recovery_factor": 789.86,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 37,
+            "recovered": 36,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 11,
+            "recovered": 11,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 9,
+            "recovered": 9,
+            "median_months_to_recover": 0.3
+          },
+          ">=20%": {
+            "n": 6,
+            "recovered": 6,
+            "median_months_to_recover": 0.3
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-11-08",
+            "start": "2021-11-09",
+            "trough": "2021-11-25",
+            "recovery": "2022-02-06",
+            "depth_pct": -34.5,
+            "months_to_trough": 0.6,
+            "months_trough_to_recovery": 2.4,
+            "months_underwater": 2.9,
+            "recovered": true
+          },
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-06-24",
+            "recovery": "2021-11-07",
+            "depth_pct": -34.0,
+            "months_to_trough": 1.5,
+            "months_trough_to_recovery": 4.5,
+            "months_underwater": 6.0,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-23",
+            "recovery": "2021-04-28",
+            "depth_pct": -31.8,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.4,
+            "recovered": true
+          }
+        ],
+        "lofo_spliced": {
+          "final_mult": 95.75,
+          "max_dd_pct": 34.7,
+          "n_episodes": 54,
+          "n_recovered": 53,
+          "recovery_rate_pct": 98.1,
+          "depth_weighted_recovery_pct": 99.5,
+          "median_months_trough_to_recovery": 0.1,
+          "max_months_trough_to_recovery": 4.0,
+          "time_underwater_pct": 84.1,
+          "longest_underwater_months": 10.5,
+          "recovery_factor": 273.43,
+          "by_depth_bucket": {
+            "<5%": {
+              "n": 35,
+              "recovered": 34,
+              "median_months_to_recover": 0.0
+            },
+            "5-10%": {
+              "n": 10,
+              "recovered": 10,
+              "median_months_to_recover": 0.1
+            },
+            "10-20%": {
+              "n": 6,
+              "recovered": 6,
+              "median_months_to_recover": 0.2
+            },
+            ">=20%": {
+              "n": 3,
+              "recovered": 3,
+              "median_months_to_recover": 0.4
+            }
+          },
+          "deepest_episodes": [
+            {
+              "peak": "2021-05-08",
+              "start": "2021-05-09",
+              "trough": "2021-11-25",
+              "recovery": "2022-03-26",
+              "depth_pct": -34.7,
+              "months_to_trough": 6.6,
+              "months_trough_to_recovery": 4.0,
+              "months_underwater": 10.5,
+              "recovered": true
+            },
+            {
+              "peak": "2021-04-15",
+              "start": "2021-04-16",
+              "trough": "2021-04-23",
+              "recovery": "2021-04-29",
+              "depth_pct": -27.8,
+              "months_to_trough": 0.3,
+              "months_trough_to_recovery": 0.2,
+              "months_underwater": 0.4,
+              "recovered": true
+            },
+            {
+              "peak": "2021-02-20",
+              "start": "2021-02-21",
+              "trough": "2021-02-22",
+              "recovery": "2021-03-07",
+              "depth_pct": -23.1,
+              "months_to_trough": 0.1,
+              "months_trough_to_recovery": 0.4,
+              "months_underwater": 0.5,
+              "recovered": true
+            }
+          ]
+        }
+      },
+      "Blend3_70": {
+        "curve": "deployable_full_learn",
+        "final_mult": 202.95,
+        "max_dd_pct": 32.9,
+        "n_episodes": 63,
+        "n_recovered": 62,
+        "recovery_rate_pct": 98.4,
+        "depth_weighted_recovery_pct": 99.6,
+        "median_months_trough_to_recovery": 0.1,
+        "max_months_trough_to_recovery": 4.5,
+        "time_underwater_pct": 82.3,
+        "longest_underwater_months": 6.0,
+        "recovery_factor": 613.14,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 38,
+            "recovered": 37,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 12,
+            "recovered": 12,
+            "median_months_to_recover": 0.1
+          },
+          "10-20%": {
+            "n": 8,
+            "recovered": 8,
+            "median_months_to_recover": 0.2
+          },
+          ">=20%": {
+            "n": 5,
+            "recovered": 5,
+            "median_months_to_recover": 0.4
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-11-08",
+            "start": "2021-11-09",
+            "trough": "2021-11-25",
+            "recovery": "2022-02-06",
+            "depth_pct": -32.9,
+            "months_to_trough": 0.6,
+            "months_trough_to_recovery": 2.4,
+            "months_underwater": 2.9,
+            "recovered": true
+          },
+          {
+            "peak": "2021-05-08",
+            "start": "2021-05-09",
+            "trough": "2021-06-24",
+            "recovery": "2021-11-07",
+            "depth_pct": -31.9,
+            "months_to_trough": 1.5,
+            "months_trough_to_recovery": 4.5,
+            "months_underwater": 6.0,
+            "recovered": true
+          },
+          {
+            "peak": "2021-04-15",
+            "start": "2021-04-16",
+            "trough": "2021-04-23",
+            "recovery": "2021-04-28",
+            "depth_pct": -29.9,
+            "months_to_trough": 0.3,
+            "months_trough_to_recovery": 0.2,
+            "months_underwater": 0.4,
+            "recovered": true
+          }
+        ]
+      },
+      "BTC_hold": {
+        "curve": "deployable_full_learn",
+        "final_mult": 3.23,
+        "max_dd_pct": 76.6,
+        "n_episodes": 30,
+        "n_recovered": 29,
+        "recovery_rate_pct": 96.7,
+        "depth_weighted_recovery_pct": 73.1,
+        "median_months_trough_to_recovery": 0.0,
+        "max_months_trough_to_recovery": 3.0,
+        "time_underwater_pct": 94.2,
+        "longest_underwater_months": 17.2,
+        "recovery_factor": 2.91,
+        "by_depth_bucket": {
+          "<5%": {
+            "n": 19,
+            "recovered": 19,
+            "median_months_to_recover": 0.0
+          },
+          "5-10%": {
+            "n": 3,
+            "recovered": 3,
+            "median_months_to_recover": 0.2
+          },
+          "10-20%": {
+            "n": 4,
+            "recovered": 4,
+            "median_months_to_recover": 0.5
+          },
+          ">=20%": {
+            "n": 4,
+            "recovered": 3,
+            "median_months_to_recover": 0.4
+          }
+        },
+        "deepest_episodes": [
+          {
+            "peak": "2021-11-07",
+            "start": "2021-11-08",
+            "trough": "2022-11-20",
+            "recovery": null,
+            "depth_pct": -76.6,
+            "months_to_trough": 12.4,
+            "months_trough_to_recovery": null,
+            "months_underwater": 17.2,
+            "recovered": false
+          },
+          {
+            "peak": "2021-04-12",
+            "start": "2021-04-13",
+            "trough": "2021-07-19",
+            "recovery": "2021-10-18",
+            "depth_pct": -53.1,
+            "months_to_trough": 3.2,
+            "months_trough_to_recovery": 3.0,
+            "months_underwater": 6.2,
+            "recovered": true
+          },
+          {
+            "peak": "2021-01-07",
+            "start": "2021-01-08",
+            "trough": "2021-01-26",
+            "recovery": "2021-02-07",
+            "depth_pct": -25.2,
+            "months_to_trough": 0.6,
+            "months_trough_to_recovery": 0.4,
+            "months_underwater": 1.0,
+            "recovered": true
+          }
+        ]
+      }
+    }
   }
 }

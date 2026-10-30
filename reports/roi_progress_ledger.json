@@ -1460,6 +1460,12 @@
       "date": "2026-10-30",
       "focus": "nuclear BFS+DFS (104 nodes) on best-of-best hunt: NEW CORR state family; ENS_CORR30_s0xW_H4 passes ALL FOUR pre-registered gates incl selection-adjusted (real min +8.80 vs pipeline-null p90 +7.25); config placebo p100; full +22.31%/mo but DD 51 -> risk-capped deployable = Blend3@75% +18.64%/mo DD 34.5 blocks +34.90/+6.66/+12.60, worstM -15.6; recommend paper-trade champion vs Blend3@75% vs ENS@55%",
       "outcome": "EXP-035-NUCLEAR-WINNER-CERTIFIED"
+    },
+    {
+      "id": "EXP-036-RECOVERY-RATE",
+      "date": "2026-10-30",
+      "focus": "recovery-rate analysis of deployment menu: drawdown episodes, recovery %, months-to-recover, time underwater, recovery factor on deployable + LOFO-spliced curves",
+      "outcome": "EXP-036-RECOVERY"
     }
   ],
   "savepoints": {

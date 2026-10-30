@@ -621,3 +621,30 @@ selection residue: config placebo p100, selection-adjusted above the pipeline-nu
 corroborated across lookbacks (CORR20/30) and smoothing (s3/s5/s8 all ALL+). Recommend the 3-month forward
 paper-trading gate now runs **champion P3+smooth10 vs Blend3@75% vs ENS@55%** side by side; deployment form
 for the winner is the risk-sized blend, not the full-size 51%-DD version.
+
+## 12.6 EXP-036 — Recovery-rate analysis of the deployment menu (2026-10-30)
+
+Question: when each policy drops, how reliably/fast does it climb back? Drawdown-episode
+analysis on the daily equity curves (deployable full-learn curve + LOFO-spliced OOS curve).
+
+| policy | maxDD | episodes | recovered | depth recovered | median rec | worst rec | deepest episode |
+|---|---|---|---|---|---|---|---|
+| Champion_P3 | 25.1% | 59 | 98.3% | **94.3%** | 0.1m | 3.1m | -25.1% -> 3.1m |
+| ENS_CxH4_100 | 51.0% | 61 | 98.4% | **99.7%** | 0.1m | 7.5m | -51.0% -> 7.5m |
+| ENS_CxH4_55 | 34.3% | 60 | 98.3% | 99.6% | 0.1m | 2.3m | -34.3% -> 2.3m |
+| Blend3_75 | 34.5% | 63 | 98.4% | 99.7% | 0.1m | 4.5m | -34.5% -> 2.4m |
+| Blend3_70 | 32.9% | 63 | 98.4% | 99.6% | 0.1m | 4.5m | -32.9% -> 2.4m |
+| BTC_hold | 76.6% | 30 | 96.7% | 73.1% | 0.0m | 3.0m | **-76.6% NEVER** |
+
+Depth buckets (>=20% dips): Champion 6/7 recovered (median 1.4m) — one still under at panel
+end; ENS_55 4/4, Blend3_75 6/6, Blend3_100 7/7, CORR30_s0 10/10 (median 0.4m; its -63.5%
+crash recovered in 8.2m). BTC: 3/4 (the -76.6% never recovered). Recovery factors:
+Champion 520, ENS 1455, Blend3_100 2030, Blend3_75 790, BTC 2.9.
+
+LOFO-spliced OOS curves confirm: depth recovered 93.3% (Champion) vs 99.5-99.6% (ENS_55 /
+Blend3_75); max trough-to-recovery 3.1m / 4.1m / 4.0m; RF 212 (Champion) vs 273 (Blend3_75).
+
+Conclusion: the nuclear winner family recovers lost depth ~100% within sample and beats the
+champion on every recovery metric except worst-case single-episode speed (champion 3.1m vs
+ENS_100 7.5m). Blend3_75 keeps the fast recoveries (max 4.5m) while lifting depth-recovery
+from 94.3% to 99.7% — recovery evidence favors Blend3@75% for deployment.
