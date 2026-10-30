@@ -1508,6 +1508,12 @@
       "date": "2026-10-30",
       "focus": "nuclear edge hunt 218 nodes>200 (CS/TA/ID/FUND/MACRO), real funding+intraday data, commission+spread: options UNTESTABLE (no data); intraday ALL NEGATIVE after 12bp; funding carry fund_ls7_K5 SR0.87 passes placebo (DD66 standalone); cs_mom14_K5_vg SR0.80 fails 216-node look-elsewhere BUT 25% blend into ABS_SHORT placebo-certified SR1.01->1.17 DD23.6->19.0 minYr-0.55->-0.22; blend x2 -> +3.47/mo DD35.8",
       "outcome": "EXP-042-BLEND-CERTIFIED"
+    },
+    {
+      "id": "EXP-043-SCALPING-NUCLEAR",
+      "date": "2026-10-30",
+      "focus": "scalping nuclear hunt 280 nodes, BTC 5m 5.73y + ETH 5.51y, commission+fees 12bp base + 7-rung ladder: 0/280 net-positive at taker 12bp AND maker 3bp (14/280 at 0.1bp); 5m reversal gross REAL (SR4.9 placebo PASS) but decayed 56->7.7%/mo and breakeven 0.4bp vs 3-12bp costs; blend into certified book destroys it -> scalping does not help retail execution",
+      "outcome": "EXP-043-SCALPING-DEAD-AT-COSTS"
     }
   ],
   "savepoints": {

@@ -843,3 +843,17 @@ liquidity. Costs: daily 10bp/side, intraday 12bp/side, real funding accrual. 218
 worst-year −0.55→−0.22**; blend placebo PASS (93rd pct of 30 shuffled blends).
 Levered frontier: x1.5 → +2.74/mo DD 27.6; **x2 → +3.47/mo DD 35.8, minYr −0.50** (new
 frontier best, beats ABS_SHORT_x2 +3.05/DD43.7). eq5+25-50% same pattern (minYr → +0.07).
+
+## 12.13 EXP-043 — Scalping nuclear hunt: 280 nodes (2026-10-30)
+
+BTC 5m 5.73y (2019-09..2025-06) + ETH 5m 5.51y + 15m set. 280 nodes (mom/rev grids,
+range-z, volume-shock, body, hour-of-day, funding-window, SMA-cross, RSI). Costs: 12bp
+base (taker+spread), ladder 0.1→20bp/side. **Verdict: scalping does NOT help.**
+- 0/280 net-positive at taker 12bp AND at maker 3bp; 14/280 only at 0.1bp.
+- The gross science is REAL: 5m 2-bar reversal SR +4.93 gross (placebo PASS vs shuffled
+  max +0.81) — but alpha-decays 56%→7.7%/mo (2020→2025) while breakeven is ~0.4bp/side
+  vs 3-12bp real costs. HFT market-maker economics only (rebates/queue priority).
+- Borderline: hour-of-day seasonality (ETH 15:00/21:00 UTC) breakeven ~2.6bp — just below
+  post-only maker cost; not enough to deploy.
+- Blend test: any scalp stream into the certified book destroys it (5% weight → SR −14).
+- Alpha-decay pattern implies even maker-viable scalps would decay further.
