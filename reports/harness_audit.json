@@ -1,0 +1,137 @@
+{
+ "date": "2026-10-30",
+ "verdict": "HARNESS VERIFIED",
+ "tests": "tests/test_validation_harness.py: 7/7 pass (lookahead discrimination, validator==engine equivalence, exact cost accounting 2*fee round-trip / 4*fee flip, hand-computed metrics, placebo FP rate on pure noise)",
+ "engine": "nuclear_edges.pnl_from_weights/pnl_from_pos: ret_fwd = pct_change().shift(-1) - weight at close t earns t->t+1. CORRECT.",
+ "book_recompute": {
+  "recomputed_x1_house_metrics": {
+   "monthly": 2.61,
+   "sr": 1.86,
+   "dd": 13.8
+  },
+  "recorded_x1": {
+   "monthly": 2.46,
+   "sr": 1.77,
+   "dd": 14.5
+  },
+  "residual_explained": "cost-netting (recorded streams squeeze-sleeve costs separately = conservative); DD sign convention",
+  "script": "scripts/verify_book_recompute.py"
+ },
+ "bug_scope_entry_lookahead": "ICT-03/04/05 ONLY (fixed + re-run; ICT-04 phantom +95%/mo collapsed to +3/-23). ICT-01/ICT-02 correct from the start (false errata reverted).",
+ "metric_conventions": {
+  "house": "metrics_from_pnl: compounded monthly, SR sqrt(365), DD on compounded equity",
+  "validator_inline": "simple-sum monthly, SR sqrt(252)"
+ },
+ "gates_convention_independent": "DD<=40 and minYr>=-1.5 verdicts unaffected by monthly/SR conventions",
+ "magnitude_alarm": "standing rule: any node >30%/mo at 10bp = suspect bug, audit before recording",
+ "line_by_line_pass_2": {
+  "date": "2026-10-31",
+  "scope": "every line producing a number: signal builders (sig_fvg same-bar trigger test, w_gated_rot 5d-lag, abs_mom_filter, smc_pf, _held ffill, cs_weights ranks/gate), data loader (15 coins 2021-2026, 0 dup dates, 0 NaN closes, 5 coins x 2 minor gaps dropped by intersection), funding carry sign+timing, all 6 validators, placebos",
+  "bugs_found": [
+   {
+    "id": 2,
+    "bug": "units: ICT-03..06 inline metrics returned %/yr labeled %/mo; minYr (%/yr) gated against -1.5 (%/mo) = 12x stricter",
+    "scope": "ICT-03..06 only",
+    "fix": "delegate to metrics_from_pnl",
+    "verdicts_flipped": 0
+   },
+   {
+    "id": 3,
+    "bug": "degenerate placebo: block-permuting P&L leaves SR unchanged (order-free); old percentiles were float noise",
+    "scope": "ICT-03..06 only",
+    "fix": "block-permute positions + recompute P&L (binding null design)",
+    "verdicts_flipped": 0
+   },
+   {
+    "id": "3b",
+    "bug": "placebo scale mismatch after units fix (real SR sqrt365 vs null sqrt252)",
+    "scope": "transient during fix",
+    "fix": "same metric both sides"
+   }
+  ],
+  "clean_bill": [
+   "nuclear_edges engine (ret_fwd shift(-1), costs exact)",
+   "load_all_5y causality",
+   "sig_fvg/sig_ob/smc_pf/w_gated_rot/abs_mom_filter/_held/cs_weights all causal (5d exec lag, shift(1) breaks)",
+   "funding carry sign correct (longs pay)",
+   "ICT-01/ICT-02 metrics+placebo correct from the start",
+   "champion book R3.1 recompute verified"
+  ],
+  "final_verdicts": {
+   "ICT-03": "FAIL near-miss (ote_BTC_h8 p100, minYr -1.83)",
+   "ICT-04": "FAIL",
+   "ICT-05": "FAIL (signal real, untradeable)",
+   "ICT-06": "FAIL"
+  },
+  "pass_rule_binding": "DD<=40 AND min_year>=-1.5 %/mo AND SR>0.5 AND placebo>=90th (position-permute null)"
+ },
+ "line_by_line_pass_3": {
+  "date": "2026-10-31",
+  "scope": "independent re-derivation of flagship number; split-half + 200-draw placebo; funding/intraday integrity; transcription consistency; engine edge cases; ICT-02 windows",
+  "ote_btc_h8_rederivation": "EXACT match (+2.50%/mo SR 1.08 DD 26.7 minYr -1.83 696d) via scratch script; long-only +1.25/0.80, short-only +0.77/0.51",
+  "stability": "split-half DECAY: 2021-23 +1.85%/mo SR 1.09 vs 2024-26 +0.56%/mo SR 0.42; 200-draw placebo p96 (significant 5%, not 1% post-scan)",
+  "data": "funding 3x/day settlements (sum-by-design, 20 symbols 2021-2026); intraday 15m tz-naive UTC no dups (2019->2025-06)",
+  "transcription": "board/JSON/ledger consistency: ZERO issues; ledger 61/61",
+  "known_minor": [
+   "engine row-0 entry cost skipped if position open at start (unreachable: all sleeves flat at row 0)",
+   "cs_weights rank ties can shift membership by 1 coin at K boundary",
+   "COINS5 = 15 survivors (mild XS survivorship; includes -90% coins)",
+   "min_year noisy for <6mo stub years (none present)"
+  ],
+  "ict02_windows": "UTC causal: Asia 0-8, LDN lead 8-9 trade 9-13:30, NY lead 13:30-14:30 trade 14:30-20; sweep checks precede trade windows",
+  "verdict": "HARNESS VERIFIED x3. ote_BTC_h8 = first real lead, but decaying + post-scan p96 -> maker-fee + slot tests required before adoption"
+ },
+ "line_by_line_pass_4": {
+  "date": "2026-10-31",
+  "scope": "rule-fidelity: each strategy logic vs its documented spec (not just causality)",
+  "bug_found": {
+   "id": 4,
+   "bug": "ICT-06 NWOG reference one week too stale (Mon-Sat get 2-weeks-ago's open; resample('W').shift(1)+ffill chain wrong)",
+   "fix": "to_period('W-SUN') week mapping + shift(1) on week-first opens; ground-truth tested on tiny series",
+   "verdicts_flipped": 0
+  },
+  "rule_fidelity_checked": {
+   "ICT-01": "sweep prior 20d low/high (shift1) + close back inside = spec MATCH; known-minor: hold-state machine holds hold+1 days (label vs behavior; DD-driven FAIL unaffected)",
+   "ICT-02": "fade -sign(first-hour move), sweep variants, combo = spec MATCH; windows UTC causal",
+   "ICT-03": "OTE 62-79% retrace zone, trend filter, impulse recency = spec MATCH (independent re-derivation exact)",
+   "ICT-04": "displacement-candle block retest = spec MATCH (levels from prior candles)",
+   "ICT-05": "confirmed turtle soup (0.25 ATR rejection) = spec MATCH",
+   "ICT-06": "NDOG correct from start; NWOG bug #4 fixed + re-run"
+  },
+  "known_minor_total": [
+   "engine row-0 entry cost skip (unreachable)",
+   "cs_weights rank ties K\u00b11",
+   "COINS5 survivorship",
+   "min_year stub-year noise",
+   "ICT-01 hold+1 semantics"
+  ],
+  "verdict": "HARNESS VERIFIED x4. 4 audits, 4 bug classes found and fixed across layers (timing, units, placebo design, rule fidelity); each now regression-tested."
+ },
+ "five_angle_trust_review": {
+  "date": "2026-10-31",
+  "verdict": "ALL FIVE ANGLES PASS",
+  "angle_1_mutation_testing": {
+   "result": "6/6 mutants CAUGHT (lookahead, units, costs, NWOG stale, placebo degenerate x2); clean baselines pass",
+   "artifact": "reports/mutation_audit.json"
+  },
+  "angle_2_edge_cases": {
+   "result": "11/11 (NaN starts, zero-vol, ties, <120 obs guard, -99% guard, inf cleanup, leap day, empty coin, all-zero pos, single asset, flip boundaries)",
+   "artifact": "tests/test_edge_cases.py"
+  },
+  "angle_3_differential_parity": {
+   "result": "100 random pos series + 100 random weight matrices + 50 metric series + 50 rank grids: two independent paths identical",
+   "artifact": "tests/test_parity_determinism.py",
+   "found": "BUG #5 pnl_from_pos row-0 NaN-zeroing inconsistent with pnl_from_weights - FIXED (latent; all recorded positions start flat; no recorded result affected)"
+  },
+  "angle_4_determinism": {
+   "result": "metrics/placebo/cs_weights byte-identical on double runs; fixed seeds verified",
+   "artifact": "tests/test_parity_determinism.py"
+  },
+  "angle_5_end_to_end_digit_match": {
+   "result": "ICT-01 all 6 nodes x {monthly, sharpe, dd, min_year, placebo} reproduced digit-for-digit from raw CSV with zero repo code",
+   "artifact": "reports/verify_ict01_e2e.json"
+  },
+  "bugs_total_across_5_audits": 5,
+  "note": "bug #5 found by the parity angle proves the multi-angle design works; each bug now has a pinned regression test; suite count grows with every angle"
+ }
+}

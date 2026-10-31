@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # BYBIT DEMO SERVICES (Ports 8081 & 8082)
+  # ==========================================
+  freqtrade_bybit_option_a:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_bybit_option_a_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8081:8081"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_a.json
+      --strategy OptionA_BTC_CompressedDonchian
+
+  freqtrade_bybit_option_b:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_bybit_option_b_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8082:8082"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_b.json
+      --strategy OptionB_MultiAsset_Portfolio
+
+  # ==========================================
+  # MEXC DEMO SERVICES (Ports 8083 & 8084)
+  # ==========================================
+  freqtrade_mexc_option_a:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_mexc_option_a_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8083:8083"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_a_mexc.json
+      --strategy OptionA_BTC_CompressedDonchian
+
+  freqtrade_mexc_option_b:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_mexc_option_b_demo
+    restart: unless-stopped
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+    ports:
+      - "8084:8084"
+    command: >
+      trade
+      --config /freqtrade/user_data/config_option_b_mexc.json
+      --strategy OptionB_MultiAsset_Portfolio

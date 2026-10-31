@@ -1,0 +1,113 @@
+{
+ "unit": "AMT-01",
+ "verdict": "FAIL",
+ "pass_nodes": [],
+ "nodes": {
+  "amt_poor_BTC_h5": {
+   "monthly": -0.24,
+   "sr": -0.06,
+   "dd": 32.5,
+   "minyr": -1.03,
+   "trades": 264,
+   "placebo_pct": 49.5,
+   "gate_fails": [
+    "SR",
+    "placebo p50"
+   ]
+  },
+  "amt_poor_BTC_h10": {
+   "monthly": 0.51,
+   "sr": 0.38,
+   "dd": 29.6,
+   "minyr": -0.27,
+   "trades": 440,
+   "placebo_pct": 85.0,
+   "gate_fails": [
+    "SR",
+    "placebo p85"
+   ]
+  },
+  "amt_excess_BTC_h5": {
+   "monthly": 0.16,
+   "sr": 0.19,
+   "dd": 21.0,
+   "minyr": -1.48,
+   "trades": 114,
+   "placebo_pct": 69.5,
+   "gate_fails": [
+    "SR",
+    "placebo p70"
+   ]
+  },
+  "amt_excess_BTC_h10": {
+   "monthly": -0.05,
+   "sr": 0.08,
+   "dd": 43.2,
+   "minyr": -2.9,
+   "trades": 209,
+   "placebo_pct": 59.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p59"
+   ]
+  },
+  "amt_poor_ETH_h5": {
+   "monthly": 0.33,
+   "sr": 0.28,
+   "dd": 44.8,
+   "minyr": -3.11,
+   "trades": 252,
+   "placebo_pct": 76.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p76"
+   ]
+  },
+  "amt_poor_ETH_h10": {
+   "monthly": -0.49,
+   "sr": -0.03,
+   "dd": 65.5,
+   "minyr": -3.3,
+   "trades": 406,
+   "placebo_pct": 38.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p38"
+   ]
+  },
+  "amt_excess_ETH_h5": {
+   "monthly": -0.62,
+   "sr": -0.3,
+   "dd": 46.4,
+   "minyr": -3.12,
+   "trades": 78,
+   "placebo_pct": 24.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p24"
+   ]
+  },
+  "amt_excess_ETH_h10": {
+   "monthly": -1.08,
+   "sr": -0.42,
+   "dd": 57.8,
+   "minyr": -5.09,
+   "trades": 143,
+   "placebo_pct": 16.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p16"
+   ]
+  }
+ }
+}

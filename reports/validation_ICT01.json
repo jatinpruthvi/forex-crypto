@@ -1,0 +1,64 @@
+{
+ "unit": "ICT-01",
+ "name": "Turtle Soup / liquidity-sweep fade",
+ "nodes_tested": 6,
+ "nodes": {
+  "turtle_soup_BTC_hold1": {
+   "sharpe": -0.0,
+   "monthly": -0.28,
+   "dd": 45.1,
+   "min_year": -2.04,
+   "min_month": -21.74,
+   "months": 67
+  },
+  "turtle_soup_BTC_hold3": {
+   "sharpe": 0.22,
+   "monthly": 0.12,
+   "dd": 45.5,
+   "min_year": -4.02,
+   "min_month": -23.06,
+   "months": 67
+  },
+  "turtle_soup_BTC_hold5": {
+   "sharpe": 0.02,
+   "monthly": -0.59,
+   "dd": 56.1,
+   "min_year": -5.9,
+   "min_month": -28.74,
+   "months": 67
+  },
+  "turtle_soup_ETH_hold1": {
+   "sharpe": -0.7,
+   "monthly": -2.73,
+   "dd": 86.2,
+   "min_year": -5.63,
+   "min_month": -37.12,
+   "months": 67
+  },
+  "turtle_soup_ETH_hold3": {
+   "sharpe": -0.72,
+   "monthly": -3.75,
+   "dd": 93.1,
+   "min_year": -9.33,
+   "min_month": -34.04,
+   "months": 67
+  },
+  "turtle_soup_ETH_hold5": {
+   "sharpe": -0.65,
+   "monthly": -3.91,
+   "dd": 93.7,
+   "min_year": -8.79,
+   "min_month": -34.82,
+   "months": 67
+  }
+ },
+ "best": "turtle_soup_BTC_hold3",
+ "placebo": {
+  "real": 0.22,
+  "null_mean": -0.3986666666666666,
+  "p90": 0.05100000000000002,
+  "pct": 96.66666666666667
+ },
+ "verdict": "FAIL",
+ "date": "2026-10-30"
+}

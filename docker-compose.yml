@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  brain-api:
+    build:
+      context: .
+      dockerfile: services/brain_api/Dockerfile
+    container_name: amats_brain_api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  data-collector:
+    build:
+      context: .
+      dockerfile: services/data_collector/Dockerfile
+    container_name: amats_collector
+    restart: always
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - BYBIT_API_KEY=${BYBIT_API_KEY}
+      - BYBIT_API_SECRET=${BYBIT_API_SECRET}
+    depends_on:
+      - brain-api
+
+  freqtrade:
+    image: freqtradeorg/freqtrade:stable
+    container_name: amats_freqtrade
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./services/freqtrade/user_data:/freqtrade/user_data
+      - ./data:/freqtrade/data
+      - ./models:/freqtrade/models
+      - ./core:/freqtrade/core
+    command: >
+      trade
+      --config /freqtrade/user_data/config_production.json
+      --strategy CombinedStrategy
+    depends_on:
+      - brain-api

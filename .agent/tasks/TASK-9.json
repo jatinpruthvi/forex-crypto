@@ -1,0 +1,7 @@
+{
+  "id": "9",
+  "title": "P1: Regime-Adaptive Trailing Stops and Dynamic Profit-Taking",
+  "priority": "P1",
+  "passes": true,
+  "description": "Implement regime-aware trailing multipliers (3.0x ATR for strong trends, 1.6x ATR for ranges) in fast_backtester.py and CombinedStrategy.py."
+}

@@ -1,0 +1,48 @@
+{
+ "recomputed": {
+  "turtle_soup_BTC_hold1": {
+   "sharpe": -0.0,
+   "monthly": -0.28,
+   "dd": 45.1,
+   "min_year": -2.04,
+   "placebo_pct": 86.7
+  },
+  "turtle_soup_BTC_hold3": {
+   "sharpe": 0.22,
+   "monthly": 0.12,
+   "dd": 45.5,
+   "min_year": -4.02,
+   "placebo_pct": 96.7
+  },
+  "turtle_soup_BTC_hold5": {
+   "sharpe": 0.02,
+   "monthly": -0.59,
+   "dd": 56.1,
+   "min_year": -5.9,
+   "placebo_pct": 83.3
+  },
+  "turtle_soup_ETH_hold1": {
+   "sharpe": -0.7,
+   "monthly": -2.73,
+   "dd": 86.2,
+   "min_year": -5.63,
+   "placebo_pct": 3.3
+  },
+  "turtle_soup_ETH_hold3": {
+   "sharpe": -0.72,
+   "monthly": -3.75,
+   "dd": 93.1,
+   "min_year": -9.33,
+   "placebo_pct": 10.0
+  },
+  "turtle_soup_ETH_hold5": {
+   "sharpe": -0.65,
+   "monthly": -3.91,
+   "dd": 93.7,
+   "min_year": -8.79,
+   "placebo_pct": 13.3
+  }
+ },
+ "diffs": [],
+ "match": true
+}

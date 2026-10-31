@@ -1,0 +1,7 @@
+{
+  "id": "3",
+  "title": "Integrate 4-Signal Fusion Filter & Fractional Kelly Compounding",
+  "priority": "P2",
+  "passes": false,
+  "description": "Add Funding rate, Open Interest change, and Long/Short contrarian filter to eliminate whipsaws, and apply fractional Kelly position sizing targeting ~20-25% monthly ROI with <8% DD."
+}

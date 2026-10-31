@@ -1,0 +1,81 @@
+{
+ "unit": "ICT-03",
+ "verdict": "FAIL",
+ "nodes": {
+  "ote_BTC_h3": {
+   "monthly": 0.97,
+   "sr": 0.62,
+   "dd": 26.7,
+   "minyr": -2.1,
+   "trades": 417,
+   "placebo_pct": 93.3,
+   "gate_fails": [
+    "minYr"
+   ]
+  },
+  "ote_BTC_h5": {
+   "monthly": 1.02,
+   "sr": 0.58,
+   "dd": 33.0,
+   "minyr": -3.5,
+   "trades": 532,
+   "placebo_pct": 93.3,
+   "gate_fails": [
+    "minYr"
+   ]
+  },
+  "ote_BTC_h8": {
+   "monthly": 2.5,
+   "sr": 1.08,
+   "dd": 26.7,
+   "minyr": -1.83,
+   "trades": 696,
+   "placebo_pct": 100.0,
+   "gate_fails": [
+    "minYr"
+   ]
+  },
+  "ote_ETH_h3": {
+   "monthly": -0.59,
+   "sr": -0.03,
+   "dd": 63.8,
+   "minyr": -4.41,
+   "trades": 441,
+   "placebo_pct": 56.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p57"
+   ]
+  },
+  "ote_ETH_h5": {
+   "monthly": -0.96,
+   "sr": -0.09,
+   "dd": 69.1,
+   "minyr": -5.29,
+   "trades": 560,
+   "placebo_pct": 50.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p50"
+   ]
+  },
+  "ote_ETH_h8": {
+   "monthly": -0.29,
+   "sr": 0.15,
+   "dd": 64.0,
+   "minyr": -4.13,
+   "trades": 710,
+   "placebo_pct": 83.3,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p83"
+   ]
+  }
+ }
+}

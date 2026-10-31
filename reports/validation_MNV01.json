@@ -1,0 +1,79 @@
+{
+ "unit": "MNV-01",
+ "verdict": "FAIL",
+ "pass_nodes": [],
+ "nodes": {
+  "vcp_BTC_h5": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  },
+  "vcp_BTC_h10": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  },
+  "vcp_BTC_h20": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  },
+  "vcp_ETH_h5": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  },
+  "vcp_ETH_h10": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  },
+  "vcp_ETH_h20": {
+   "monthly": 0.0,
+   "sr": 0.0,
+   "dd": -0.0,
+   "minyr": 0.0,
+   "trades": 0,
+   "placebo_pct": 0.0,
+   "gate_fails": [
+    "SR",
+    "placebo p0"
+   ]
+  }
+ }
+}

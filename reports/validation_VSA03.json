@@ -1,0 +1,90 @@
+{
+ "unit": "VSA-03",
+ "verdict": "FAIL",
+ "pass_nodes": [],
+ "nodes": {
+  "vsa03_BTC_h3": {
+   "monthly": -1.1,
+   "sr": -0.75,
+   "dd": 54.2,
+   "minyr": -4.01,
+   "trades": 143,
+   "placebo_pct": 2.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p2"
+   ]
+  },
+  "vsa03_BTC_h5": {
+   "monthly": -0.59,
+   "sr": -0.26,
+   "dd": 37.8,
+   "minyr": -2.73,
+   "trades": 204,
+   "placebo_pct": 29.5,
+   "gate_fails": [
+    "minYr",
+    "SR",
+    "placebo p30"
+   ]
+  },
+  "vsa03_BTC_h10": {
+   "monthly": -0.75,
+   "sr": -0.25,
+   "dd": 50.4,
+   "minyr": -3.87,
+   "trades": 341,
+   "placebo_pct": 29.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p29"
+   ]
+  },
+  "vsa03_ETH_h3": {
+   "monthly": -0.48,
+   "sr": -0.32,
+   "dd": 46.0,
+   "minyr": -2.1,
+   "trades": 92,
+   "placebo_pct": 25.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p26"
+   ]
+  },
+  "vsa03_ETH_h5": {
+   "monthly": -0.87,
+   "sr": -0.43,
+   "dd": 52.7,
+   "minyr": -3.44,
+   "trades": 138,
+   "placebo_pct": 19.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p19"
+   ]
+  },
+  "vsa03_ETH_h10": {
+   "monthly": -1.83,
+   "sr": -0.74,
+   "dd": 73.1,
+   "minyr": -7.9,
+   "trades": 242,
+   "placebo_pct": 7.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p8"
+   ]
+  }
+ }
+}

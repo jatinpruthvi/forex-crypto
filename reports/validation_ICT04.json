@@ -1,0 +1,62 @@
+{
+ "unit": "ICT-04",
+ "verdict": "FAIL",
+ "nodes": {
+  "mitig_BTC_h3": {
+   "monthly": -0.31,
+   "sr": 0.08,
+   "dd": 73.8,
+   "minyr": -6.42,
+   "trades": 1025,
+   "placebo_pct": 76.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p77"
+   ]
+  },
+  "mitig_BTC_h5": {
+   "monthly": -0.75,
+   "sr": -0.02,
+   "dd": 76.0,
+   "minyr": -5.23,
+   "trades": 1174,
+   "placebo_pct": 70.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p70"
+   ]
+  },
+  "mitig_ETH_h3": {
+   "monthly": -2.89,
+   "sr": -0.45,
+   "dd": 87.3,
+   "minyr": -5.52,
+   "trades": 1063,
+   "placebo_pct": 20.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p20"
+   ]
+  },
+  "mitig_ETH_h5": {
+   "monthly": -1.98,
+   "sr": -0.19,
+   "dd": 78.7,
+   "minyr": -4.53,
+   "trades": 1160,
+   "placebo_pct": 56.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p57"
+   ]
+  }
+ }
+}

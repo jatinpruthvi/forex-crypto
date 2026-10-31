@@ -1,0 +1,1145 @@
+{
+  "crypto": {
+    "A XSEC_MOM": {
+      "fold1": {
+        "monthly_roi": 25.55,
+        "ann_roi": 1434.2,
+        "max_dd": 60.0,
+        "calmar": 23.92,
+        "dd_monthly": 2.3,
+        "pos_months": 46.0,
+        "worst_month": -28.8
+      },
+      "fold2": {
+        "monthly_roi": -8.46,
+        "ann_roi": -65.4,
+        "max_dd": 80.4,
+        "calmar": -0.81,
+        "dd_monthly": 9.5,
+        "pos_months": 25.0,
+        "worst_month": -36.5
+      },
+      "fold3": {
+        "monthly_roi": -0.37,
+        "ann_roi": -4.3,
+        "max_dd": 45.3,
+        "calmar": -0.1,
+        "dd_monthly": 123.6,
+        "pos_months": 45.0,
+        "worst_month": -30.5
+      },
+      "full": {
+        "monthly_roi": 5.82,
+        "ann_roi": 97.1,
+        "max_dd": 85.9,
+        "calmar": 1.13,
+        "dd_monthly": 14.8,
+        "pos_months": 42.0,
+        "worst_month": -36.5
+      }
+    },
+    "B TSMOM_VOL": {
+      "fold1": {
+        "monthly_roi": 16.67,
+        "ann_roi": 535.9,
+        "max_dd": 85.1,
+        "calmar": 6.3,
+        "dd_monthly": 5.1,
+        "pos_months": 46.0,
+        "worst_month": -59.0
+      },
+      "fold2": {
+        "monthly_roi": -7.63,
+        "ann_roi": -61.4,
+        "max_dd": 85.2,
+        "calmar": -0.72,
+        "dd_monthly": 11.2,
+        "pos_months": 42.0,
+        "worst_month": -47.2
+      },
+      "fold3": {
+        "monthly_roi": -9.75,
+        "ann_roi": -70.8,
+        "max_dd": 79.4,
+        "calmar": -0.89,
+        "dd_monthly": 8.1,
+        "pos_months": 45.0,
+        "worst_month": -45.8
+      },
+      "full": {
+        "monthly_roi": 0.32,
+        "ann_roi": 3.9,
+        "max_dd": 97.9,
+        "calmar": 0.04,
+        "dd_monthly": 308.4,
+        "pos_months": 42.0,
+        "worst_month": -59.0
+      }
+    },
+    "C XSEC_TREND": {
+      "fold1": {
+        "monthly_roi": 24.42,
+        "ann_roi": 1275.6,
+        "max_dd": 66.1,
+        "calmar": 19.31,
+        "dd_monthly": 2.7,
+        "pos_months": 62.0,
+        "worst_month": -43.6
+      },
+      "fold2": {
+        "monthly_roi": -10.07,
+        "ann_roi": -72.0,
+        "max_dd": 81.6,
+        "calmar": -0.88,
+        "dd_monthly": 8.1,
+        "pos_months": 25.0,
+        "worst_month": -42.4
+      },
+      "fold3": {
+        "monthly_roi": 1.18,
+        "ann_roi": 15.2,
+        "max_dd": 40.2,
+        "calmar": 0.38,
+        "dd_monthly": 34.0,
+        "pos_months": 45.0,
+        "worst_month": -29.2
+      },
+      "full": {
+        "monthly_roi": 5.93,
+        "ann_roi": 99.7,
+        "max_dd": 90.0,
+        "calmar": 1.11,
+        "dd_monthly": 15.2,
+        "pos_months": 48.0,
+        "worst_month": -43.6
+      }
+    },
+    "D XSEC_LS": {
+      "fold1": {
+        "monthly_roi": 1.56,
+        "ann_roi": 20.4,
+        "max_dd": 30.4,
+        "calmar": 0.67,
+        "dd_monthly": 19.5,
+        "pos_months": 31.0,
+        "worst_month": -14.8
+      },
+      "fold2": {
+        "monthly_roi": -2.5,
+        "ann_roi": -26.2,
+        "max_dd": 33.0,
+        "calmar": -0.8,
+        "dd_monthly": 13.2,
+        "pos_months": 33.0,
+        "worst_month": -14.1
+      },
+      "fold3": {
+        "monthly_roi": -1.68,
+        "ann_roi": -18.4,
+        "max_dd": 21.0,
+        "calmar": -0.87,
+        "dd_monthly": 12.5,
+        "pos_months": 27.0,
+        "worst_month": -9.0
+      },
+      "full": {
+        "monthly_roi": -0.75,
+        "ann_roi": -8.6,
+        "max_dd": 54.5,
+        "calmar": -0.16,
+        "dd_monthly": 72.7,
+        "pos_months": 33.0,
+        "worst_month": -14.8
+      }
+    },
+    "E MR_RSI2": {
+      "fold1": {
+        "monthly_roi": -0.85,
+        "ann_roi": -9.7,
+        "max_dd": 33.2,
+        "calmar": -0.29,
+        "dd_monthly": 39.3,
+        "pos_months": 15.0,
+        "worst_month": -9.0
+      },
+      "fold2": {
+        "monthly_roi": -0.3,
+        "ann_roi": -3.6,
+        "max_dd": 15.8,
+        "calmar": -0.23,
+        "dd_monthly": 51.8,
+        "pos_months": 42.0,
+        "worst_month": -4.6
+      },
+      "fold3": {
+        "monthly_roi": -0.49,
+        "ann_roi": -5.7,
+        "max_dd": 10.3,
+        "calmar": -0.56,
+        "dd_monthly": 20.9,
+        "pos_months": 27.0,
+        "worst_month": -4.1
+      },
+      "full": {
+        "monthly_roi": -0.45,
+        "ann_roi": -5.3,
+        "max_dd": 33.2,
+        "calmar": -0.16,
+        "dd_monthly": 73.1,
+        "pos_months": 30.0,
+        "worst_month": -9.0
+      }
+    },
+    "F XSEC_REV": {
+      "fold1": {
+        "monthly_roi": 6.94,
+        "ann_roi": 123.6,
+        "max_dd": 79.9,
+        "calmar": 1.55,
+        "dd_monthly": 11.5,
+        "pos_months": 46.0,
+        "worst_month": -61.4
+      },
+      "fold2": {
+        "monthly_roi": -8.98,
+        "ann_roi": -67.7,
+        "max_dd": 91.0,
+        "calmar": -0.74,
+        "dd_monthly": 10.1,
+        "pos_months": 33.0,
+        "worst_month": -45.7
+      },
+      "fold3": {
+        "monthly_roi": 2.53,
+        "ann_roi": 35.0,
+        "max_dd": 48.7,
+        "calmar": 0.72,
+        "dd_monthly": 19.3,
+        "pos_months": 45.0,
+        "worst_month": -27.7
+      },
+      "full": {
+        "monthly_roi": 0.8,
+        "ann_roi": 10.0,
+        "max_dd": 91.9,
+        "calmar": 0.11,
+        "dd_monthly": 114.9,
+        "pos_months": 45.0,
+        "worst_month": -61.4
+      }
+    },
+    "G DIP_TREND": {
+      "fold1": {
+        "monthly_roi": 3.91,
+        "ann_roi": 58.4,
+        "max_dd": 25.0,
+        "calmar": 2.33,
+        "dd_monthly": 6.4,
+        "pos_months": 54.0,
+        "worst_month": -10.3
+      },
+      "fold2": {
+        "monthly_roi": 0.96,
+        "ann_roi": 12.1,
+        "max_dd": 15.1,
+        "calmar": 0.8,
+        "dd_monthly": 15.8,
+        "pos_months": 50.0,
+        "worst_month": -8.9
+      },
+      "fold3": {
+        "monthly_roi": -1.64,
+        "ann_roi": -18.0,
+        "max_dd": 20.8,
+        "calmar": -0.87,
+        "dd_monthly": 12.7,
+        "pos_months": 36.0,
+        "worst_month": -6.1
+      },
+      "full": {
+        "monthly_roi": 1.25,
+        "ann_roi": 16.0,
+        "max_dd": 31.0,
+        "calmar": 0.52,
+        "dd_monthly": 24.9,
+        "pos_months": 52.0,
+        "worst_month": -10.3
+      }
+    },
+    "H BTC_TSMOM": {
+      "fold1": {
+        "monthly_roi": 2.84,
+        "ann_roi": 39.9,
+        "max_dd": 23.9,
+        "calmar": 1.67,
+        "dd_monthly": 8.4,
+        "pos_months": 54.0,
+        "worst_month": -11.2
+      },
+      "fold2": {
+        "monthly_roi": -1.04,
+        "ann_roi": -11.8,
+        "max_dd": 29.8,
+        "calmar": -0.4,
+        "dd_monthly": 28.6,
+        "pos_months": 33.0,
+        "worst_month": -8.6
+      },
+      "fold3": {
+        "monthly_roi": 1.2,
+        "ann_roi": 15.4,
+        "max_dd": 23.2,
+        "calmar": 0.67,
+        "dd_monthly": 19.3,
+        "pos_months": 64.0,
+        "worst_month": -15.2
+      },
+      "full": {
+        "monthly_roi": 1.01,
+        "ann_roi": 12.9,
+        "max_dd": 37.1,
+        "calmar": 0.35,
+        "dd_monthly": 36.6,
+        "pos_months": 48.0,
+        "worst_month": -15.2
+      }
+    },
+    "I BLEND_60_40": {
+      "fold1": {
+        "monthly_roi": 10.28,
+        "ann_roi": 223.7,
+        "max_dd": 30.8,
+        "calmar": 7.27,
+        "dd_monthly": 3.0,
+        "pos_months": 54.0,
+        "worst_month": -17.4
+      },
+      "fold2": {
+        "monthly_roi": -0.2,
+        "ann_roi": -2.4,
+        "max_dd": 23.1,
+        "calmar": -0.1,
+        "dd_monthly": 115.5,
+        "pos_months": 33.0,
+        "worst_month": -13.2
+      },
+      "fold3": {
+        "monthly_roi": 0.03,
+        "ann_roi": 0.3,
+        "max_dd": 22.3,
+        "calmar": 0.01,
+        "dd_monthly": Infinity,
+        "pos_months": 27.0,
+        "worst_month": -6.7
+      },
+      "full": {
+        "monthly_roi": 3.73,
+        "ann_roi": 55.2,
+        "max_dd": 36.5,
+        "calmar": 1.51,
+        "dd_monthly": 9.8,
+        "pos_months": 42.0,
+        "worst_month": -17.4
+      }
+    },
+    "J XSEC_GATED": {
+      "fold1": {
+        "monthly_roi": 14.94,
+        "ann_roi": 431.5,
+        "max_dd": 43.2,
+        "calmar": 9.98,
+        "dd_monthly": 2.9,
+        "pos_months": 23.0,
+        "worst_month": -30.9
+      },
+      "fold2": {
+        "monthly_roi": -4.09,
+        "ann_roi": -39.4,
+        "max_dd": 46.0,
+        "calmar": -0.86,
+        "dd_monthly": 11.3,
+        "pos_months": 8.0,
+        "worst_month": -20.0
+      },
+      "fold3": {
+        "monthly_roi": 1.21,
+        "ann_roi": 15.6,
+        "max_dd": 31.5,
+        "calmar": 0.5,
+        "dd_monthly": 25.9,
+        "pos_months": 27.0,
+        "worst_month": -9.6
+      },
+      "full": {
+        "monthly_roi": 4.28,
+        "ann_roi": 65.3,
+        "max_dd": 67.6,
+        "calmar": 0.97,
+        "dd_monthly": 15.8,
+        "pos_months": 21.0,
+        "worst_month": -30.9
+      }
+    },
+    "K DIP_V2": {
+      "fold1": {
+        "monthly_roi": 4.37,
+        "ann_roi": 67.1,
+        "max_dd": 23.6,
+        "calmar": 2.84,
+        "dd_monthly": 5.4,
+        "pos_months": 62.0,
+        "worst_month": -6.0
+      },
+      "fold2": {
+        "monthly_roi": 0.88,
+        "ann_roi": 11.1,
+        "max_dd": 14.2,
+        "calmar": 0.79,
+        "dd_monthly": 16.0,
+        "pos_months": 42.0,
+        "worst_month": -6.9
+      },
+      "fold3": {
+        "monthly_roi": -1.35,
+        "ann_roi": -15.1,
+        "max_dd": 20.0,
+        "calmar": -0.75,
+        "dd_monthly": 14.8,
+        "pos_months": 27.0,
+        "worst_month": -4.7
+      },
+      "full": {
+        "monthly_roi": 1.51,
+        "ann_roi": 19.7,
+        "max_dd": 30.2,
+        "calmar": 0.65,
+        "dd_monthly": 20.0,
+        "pos_months": 48.0,
+        "worst_month": -6.9
+      }
+    },
+    "L DUAL_MOM": {
+      "fold1": {
+        "monthly_roi": 4.84,
+        "ann_roi": 76.4,
+        "max_dd": 12.6,
+        "calmar": 6.08,
+        "dd_monthly": 2.6,
+        "pos_months": 62.0,
+        "worst_month": -3.0
+      },
+      "fold2": {
+        "monthly_roi": -0.99,
+        "ann_roi": -11.3,
+        "max_dd": 26.3,
+        "calmar": -0.43,
+        "dd_monthly": 26.5,
+        "pos_months": 33.0,
+        "worst_month": -11.5
+      },
+      "fold3": {
+        "monthly_roi": 1.76,
+        "ann_roi": 23.3,
+        "max_dd": 8.6,
+        "calmar": 2.7,
+        "dd_monthly": 4.9,
+        "pos_months": 36.0,
+        "worst_month": -0.3
+      },
+      "full": {
+        "monthly_roi": 1.46,
+        "ann_roi": 19.0,
+        "max_dd": 34.4,
+        "calmar": 0.55,
+        "dd_monthly": 23.6,
+        "pos_months": 48.0,
+        "worst_month": -19.7
+      }
+    },
+    "M GATED_ROT": {
+      "fold1": {
+        "monthly_roi": 15.31,
+        "ann_roi": 452.7,
+        "max_dd": 40.2,
+        "calmar": 11.26,
+        "dd_monthly": 2.6,
+        "pos_months": 23.0,
+        "worst_month": -35.0
+      },
+      "fold2": {
+        "monthly_roi": -1.63,
+        "ann_roi": -17.9,
+        "max_dd": 36.0,
+        "calmar": -0.5,
+        "dd_monthly": 22.1,
+        "pos_months": 8.0,
+        "worst_month": -24.5
+      },
+      "fold3": {
+        "monthly_roi": 1.19,
+        "ann_roi": 15.3,
+        "max_dd": 31.2,
+        "calmar": 0.49,
+        "dd_monthly": 26.1,
+        "pos_months": 27.0,
+        "worst_month": -9.6
+      },
+      "full": {
+        "monthly_roi": 5.36,
+        "ann_roi": 87.0,
+        "max_dd": 54.6,
+        "calmar": 1.59,
+        "dd_monthly": 10.2,
+        "pos_months": 21.0,
+        "worst_month": -35.0
+      }
+    }
+  },
+  "forex": {
+    "A XSEC_MOM": {
+      "fold1": {
+        "monthly_roi": -0.31,
+        "ann_roi": -3.7,
+        "max_dd": 20.2,
+        "calmar": -0.18,
+        "dd_monthly": 65.4,
+        "pos_months": 44.0,
+        "worst_month": -4.0
+      },
+      "fold2": {
+        "monthly_roi": 0.08,
+        "ann_roi": 0.9,
+        "max_dd": 11.8,
+        "calmar": 0.08,
+        "dd_monthly": Infinity,
+        "pos_months": 45.0,
+        "worst_month": -3.5
+      },
+      "fold3": {
+        "monthly_roi": 0.26,
+        "ann_roi": 3.1,
+        "max_dd": 9.5,
+        "calmar": 0.33,
+        "dd_monthly": 36.9,
+        "pos_months": 50.0,
+        "worst_month": -3.8
+      },
+      "full": {
+        "monthly_roi": -0.04,
+        "ann_roi": -0.5,
+        "max_dd": 23.1,
+        "calmar": -0.02,
+        "dd_monthly": Infinity,
+        "pos_months": 46.0,
+        "worst_month": -4.0
+      }
+    },
+    "B TSMOM_VOL": {
+      "fold1": {
+        "monthly_roi": 0.42,
+        "ann_roi": 5.1,
+        "max_dd": 16.0,
+        "calmar": 0.32,
+        "dd_monthly": 38.1,
+        "pos_months": 53.0,
+        "worst_month": -5.3
+      },
+      "fold2": {
+        "monthly_roi": 0.27,
+        "ann_roi": 3.3,
+        "max_dd": 12.2,
+        "calmar": 0.27,
+        "dd_monthly": 45.2,
+        "pos_months": 55.0,
+        "worst_month": -6.8
+      },
+      "fold3": {
+        "monthly_roi": -0.09,
+        "ann_roi": -1.1,
+        "max_dd": 18.1,
+        "calmar": -0.06,
+        "dd_monthly": Infinity,
+        "pos_months": 39.0,
+        "worst_month": -9.6
+      },
+      "full": {
+        "monthly_roi": 0.36,
+        "ann_roi": 4.5,
+        "max_dd": 20.4,
+        "calmar": 0.22,
+        "dd_monthly": 56.0,
+        "pos_months": 54.0,
+        "worst_month": -10.9
+      }
+    },
+    "C XSEC_TREND": {
+      "fold1": {
+        "monthly_roi": -0.31,
+        "ann_roi": -3.7,
+        "max_dd": 21.5,
+        "calmar": -0.17,
+        "dd_monthly": 68.9,
+        "pos_months": 35.0,
+        "worst_month": -5.2
+      },
+      "fold2": {
+        "monthly_roi": -0.07,
+        "ann_roi": -0.8,
+        "max_dd": 15.4,
+        "calmar": -0.05,
+        "dd_monthly": Infinity,
+        "pos_months": 42.0,
+        "worst_month": -4.5
+      },
+      "fold3": {
+        "monthly_roi": 0.45,
+        "ann_roi": 5.5,
+        "max_dd": 10.2,
+        "calmar": 0.54,
+        "dd_monthly": 22.8,
+        "pos_months": 53.0,
+        "worst_month": -4.0
+      },
+      "full": {
+        "monthly_roi": -0.1,
+        "ann_roi": -1.2,
+        "max_dd": 32.6,
+        "calmar": -0.04,
+        "dd_monthly": 317.0,
+        "pos_months": 44.0,
+        "worst_month": -7.3
+      }
+    },
+    "D XSEC_LS": {
+      "fold1": {
+        "monthly_roi": 0.0,
+        "ann_roi": 0.0,
+        "max_dd": -0.0,
+        "calmar": Infinity,
+        "dd_monthly": Infinity,
+        "pos_months": 0.0,
+        "worst_month": 0.0
+      },
+      "fold2": {
+        "monthly_roi": 0.0,
+        "ann_roi": 0.0,
+        "max_dd": -0.0,
+        "calmar": Infinity,
+        "dd_monthly": Infinity,
+        "pos_months": 0.0,
+        "worst_month": 0.0
+      },
+      "fold3": {
+        "monthly_roi": 0.0,
+        "ann_roi": 0.0,
+        "max_dd": -0.0,
+        "calmar": Infinity,
+        "dd_monthly": Infinity,
+        "pos_months": 0.0,
+        "worst_month": 0.0
+      },
+      "full": {
+        "monthly_roi": 0.0,
+        "ann_roi": 0.0,
+        "max_dd": -0.0,
+        "calmar": Infinity,
+        "dd_monthly": Infinity,
+        "pos_months": 0.0,
+        "worst_month": 0.0
+      }
+    },
+    "E MR_RSI2": {
+      "fold1": {
+        "monthly_roi": -0.08,
+        "ann_roi": -1.0,
+        "max_dd": 4.9,
+        "calmar": -0.2,
+        "dd_monthly": Infinity,
+        "pos_months": 23.0,
+        "worst_month": -1.8
+      },
+      "fold2": {
+        "monthly_roi": -0.1,
+        "ann_roi": -1.2,
+        "max_dd": 6.6,
+        "calmar": -0.19,
+        "dd_monthly": 63.3,
+        "pos_months": 35.0,
+        "worst_month": -2.8
+      },
+      "fold3": {
+        "monthly_roi": -0.05,
+        "ann_roi": -0.6,
+        "max_dd": 4.7,
+        "calmar": -0.12,
+        "dd_monthly": Infinity,
+        "pos_months": 58.0,
+        "worst_month": -3.2
+      },
+      "full": {
+        "monthly_roi": -0.08,
+        "ann_roi": -1.0,
+        "max_dd": 10.8,
+        "calmar": -0.09,
+        "dd_monthly": Infinity,
+        "pos_months": 38.0,
+        "worst_month": -3.2
+      }
+    },
+    "F XSEC_REV": {
+      "fold1": {
+        "monthly_roi": -0.77,
+        "ann_roi": -8.8,
+        "max_dd": 32.4,
+        "calmar": -0.27,
+        "dd_monthly": 42.1,
+        "pos_months": 37.0,
+        "worst_month": -4.7
+      },
+      "fold2": {
+        "monthly_roi": -0.07,
+        "ann_roi": -0.8,
+        "max_dd": 13.1,
+        "calmar": -0.06,
+        "dd_monthly": Infinity,
+        "pos_months": 50.0,
+        "worst_month": -4.6
+      },
+      "fold3": {
+        "monthly_roi": 0.02,
+        "ann_roi": 0.2,
+        "max_dd": 11.4,
+        "calmar": 0.02,
+        "dd_monthly": Infinity,
+        "pos_months": 45.0,
+        "worst_month": -4.2
+      },
+      "full": {
+        "monthly_roi": -0.35,
+        "ann_roi": -4.1,
+        "max_dd": 38.7,
+        "calmar": -0.11,
+        "dd_monthly": 111.4,
+        "pos_months": 42.0,
+        "worst_month": -4.7
+      }
+    },
+    "G DIP_TREND": {
+      "fold1": {
+        "monthly_roi": -0.08,
+        "ann_roi": -1.0,
+        "max_dd": 4.8,
+        "calmar": -0.2,
+        "dd_monthly": Infinity,
+        "pos_months": 30.0,
+        "worst_month": -1.7
+      },
+      "fold2": {
+        "monthly_roi": -0.12,
+        "ann_roi": -1.4,
+        "max_dd": 6.9,
+        "calmar": -0.21,
+        "dd_monthly": 56.5,
+        "pos_months": 32.0,
+        "worst_month": -1.9
+      },
+      "fold3": {
+        "monthly_roi": -0.05,
+        "ann_roi": -0.6,
+        "max_dd": 4.3,
+        "calmar": -0.15,
+        "dd_monthly": Infinity,
+        "pos_months": 50.0,
+        "worst_month": -2.8
+      },
+      "full": {
+        "monthly_roi": -0.09,
+        "ann_roi": -1.1,
+        "max_dd": 11.2,
+        "calmar": -0.09,
+        "dd_monthly": Infinity,
+        "pos_months": 37.0,
+        "worst_month": -2.8
+      }
+    },
+    "H BTC_TSMOM": {
+      "fold1": {
+        "monthly_roi": 0.12,
+        "ann_roi": 1.5,
+        "max_dd": 22.4,
+        "calmar": 0.07,
+        "dd_monthly": 180.5,
+        "pos_months": 42.0,
+        "worst_month": -7.9
+      },
+      "fold2": {
+        "monthly_roi": 0.01,
+        "ann_roi": 0.2,
+        "max_dd": 19.2,
+        "calmar": 0.01,
+        "dd_monthly": Infinity,
+        "pos_months": 52.0,
+        "worst_month": -6.1
+      },
+      "fold3": {
+        "monthly_roi": -0.01,
+        "ann_roi": -0.1,
+        "max_dd": 35.4,
+        "calmar": -0.0,
+        "dd_monthly": Infinity,
+        "pos_months": 39.0,
+        "worst_month": -8.0
+      },
+      "full": {
+        "monthly_roi": 0.01,
+        "ann_roi": 0.1,
+        "max_dd": 35.4,
+        "calmar": 0.0,
+        "dd_monthly": Infinity,
+        "pos_months": 45.0,
+        "worst_month": -8.0
+      }
+    },
+    "I BLEND_60_40": {
+      "fold1": {
+        "monthly_roi": -0.13,
+        "ann_roi": -1.6,
+        "max_dd": 7.7,
+        "calmar": -0.21,
+        "dd_monthly": 57.4,
+        "pos_months": 23.0,
+        "worst_month": -2.4
+      },
+      "fold2": {
+        "monthly_roi": -0.09,
+        "ann_roi": -1.1,
+        "max_dd": 5.6,
+        "calmar": -0.19,
+        "dd_monthly": Infinity,
+        "pos_months": 28.0,
+        "worst_month": -2.8
+      },
+      "fold3": {
+        "monthly_roi": 0.05,
+        "ann_roi": 0.5,
+        "max_dd": 6.2,
+        "calmar": 0.09,
+        "dd_monthly": Infinity,
+        "pos_months": 34.0,
+        "worst_month": -2.6
+      },
+      "full": {
+        "monthly_roi": -0.11,
+        "ann_roi": -1.3,
+        "max_dd": 13.5,
+        "calmar": -0.1,
+        "dd_monthly": 123.3,
+        "pos_months": 29.0,
+        "worst_month": -4.4
+      }
+    },
+    "J XSEC_GATED": {
+      "fold1": {
+        "monthly_roi": -0.18,
+        "ann_roi": -2.2,
+        "max_dd": 12.3,
+        "calmar": -0.18,
+        "dd_monthly": 67.5,
+        "pos_months": 12.0,
+        "worst_month": -3.5
+      },
+      "fold2": {
+        "monthly_roi": 0.08,
+        "ann_roi": 0.9,
+        "max_dd": 6.3,
+        "calmar": 0.15,
+        "dd_monthly": Infinity,
+        "pos_months": 30.0,
+        "worst_month": -3.5
+      },
+      "fold3": {
+        "monthly_roi": 0.07,
+        "ann_roi": 0.9,
+        "max_dd": 11.1,
+        "calmar": 0.08,
+        "dd_monthly": Infinity,
+        "pos_months": 42.0,
+        "worst_month": -2.6
+      },
+      "full": {
+        "monthly_roi": -0.03,
+        "ann_roi": -0.4,
+        "max_dd": 13.2,
+        "calmar": -0.03,
+        "dd_monthly": Infinity,
+        "pos_months": 27.0,
+        "worst_month": -3.5
+      }
+    },
+    "K DIP_V2": {
+      "fold1": {
+        "monthly_roi": -0.16,
+        "ann_roi": -1.9,
+        "max_dd": 7.0,
+        "calmar": -0.27,
+        "dd_monthly": 43.9,
+        "pos_months": 23.0,
+        "worst_month": -2.3
+      },
+      "fold2": {
+        "monthly_roi": -0.19,
+        "ann_roi": -2.2,
+        "max_dd": 8.1,
+        "calmar": -0.27,
+        "dd_monthly": 43.3,
+        "pos_months": 28.0,
+        "worst_month": -2.8
+      },
+      "fold3": {
+        "monthly_roi": 0.06,
+        "ann_roi": 0.7,
+        "max_dd": 4.8,
+        "calmar": 0.14,
+        "dd_monthly": Infinity,
+        "pos_months": 42.0,
+        "worst_month": -2.3
+      },
+      "full": {
+        "monthly_roi": -0.08,
+        "ann_roi": -1.0,
+        "max_dd": 14.4,
+        "calmar": -0.07,
+        "dd_monthly": Infinity,
+        "pos_months": 30.0,
+        "worst_month": -2.8
+      }
+    },
+    "L DUAL_MOM": {
+      "fold1": {
+        "monthly_roi": -0.3,
+        "ann_roi": -3.5,
+        "max_dd": 20.0,
+        "calmar": -0.18,
+        "dd_monthly": 66.7,
+        "pos_months": 26.0,
+        "worst_month": -6.3
+      },
+      "fold2": {
+        "monthly_roi": 0.2,
+        "ann_roi": 2.5,
+        "max_dd": 15.8,
+        "calmar": 0.16,
+        "dd_monthly": 77.2,
+        "pos_months": 38.0,
+        "worst_month": -8.1
+      },
+      "fold3": {
+        "monthly_roi": 0.43,
+        "ann_roi": 5.3,
+        "max_dd": 20.9,
+        "calmar": 0.25,
+        "dd_monthly": 48.5,
+        "pos_months": 42.0,
+        "worst_month": -5.1
+      },
+      "full": {
+        "monthly_roi": 0.27,
+        "ann_roi": 3.2,
+        "max_dd": 21.5,
+        "calmar": 0.15,
+        "dd_monthly": 80.4,
+        "pos_months": 40.0,
+        "worst_month": -6.5
+      }
+    },
+    "M GATED_ROT": {
+      "fold1": {
+        "monthly_roi": -0.11,
+        "ann_roi": -1.3,
+        "max_dd": 9.4,
+        "calmar": -0.14,
+        "dd_monthly": 83.5,
+        "pos_months": 12.0,
+        "worst_month": -3.0
+      },
+      "fold2": {
+        "monthly_roi": 0.0,
+        "ann_roi": 0.0,
+        "max_dd": 6.5,
+        "calmar": 0.0,
+        "dd_monthly": Infinity,
+        "pos_months": 30.0,
+        "worst_month": -3.0
+      },
+      "fold3": {
+        "monthly_roi": 0.03,
+        "ann_roi": 0.3,
+        "max_dd": 8.9,
+        "calmar": 0.04,
+        "dd_monthly": Infinity,
+        "pos_months": 39.0,
+        "worst_month": -3.7
+      },
+      "full": {
+        "monthly_roi": -0.14,
+        "ann_roi": -1.7,
+        "max_dd": 15.5,
+        "calmar": -0.11,
+        "dd_monthly": 109.8,
+        "pos_months": 26.0,
+        "worst_month": -7.1
+      }
+    }
+  },
+  "refine_winners": [
+    [
+      "BLEND ma150 rot50/dip50",
+      {
+        "monthly_roi": 6.66,
+        "ann_roi": 116.8,
+        "max_dd": 29.8,
+        "calmar": 3.92,
+        "dd_monthly": 4.5,
+        "pos_months": 42.0,
+        "worst_month": -12.0
+      }
+    ],
+    [
+      "BLEND ma150 rot40/dip60",
+      {
+        "monthly_roi": 5.69,
+        "ann_roi": 94.2,
+        "max_dd": 29.5,
+        "calmar": 3.19,
+        "dd_monthly": 5.2,
+        "pos_months": 42.0,
+        "worst_month": -9.8
+      }
+    ],
+    [
+      "GATED_ROT ma150 K7 lb40",
+      {
+        "monthly_roi": 9.96,
+        "ann_roi": 212.4,
+        "max_dd": 34.9,
+        "calmar": 6.08,
+        "dd_monthly": 3.5,
+        "pos_months": 36.0,
+        "worst_month": -25.3
+      }
+    ],
+    [
+      "BLEND ma150 rot60/dip40",
+      {
+        "monthly_roi": 7.61,
+        "ann_roi": 141.0,
+        "max_dd": 30.3,
+        "calmar": 4.66,
+        "dd_monthly": 4.0,
+        "pos_months": 42.0,
+        "worst_month": -14.1
+      }
+    ],
+    [
+      "BLEND ma200 rot40/dip60",
+      {
+        "monthly_roi": 3.33,
+        "ann_roi": 48.2,
+        "max_dd": 33.0,
+        "calmar": 1.46,
+        "dd_monthly": 9.9,
+        "pos_months": 42.0,
+        "worst_month": -13.7
+      }
+    ],
+    [
+      "GATED_ROT ma150 K4 lb40",
+      {
+        "monthly_roi": 11.21,
+        "ann_roi": 258.0,
+        "max_dd": 34.8,
+        "calmar": 7.41,
+        "dd_monthly": 3.1,
+        "pos_months": 33.0,
+        "worst_month": -20.6
+      }
+    ],
+    [
+      "GATED_ROT ma150 K5 lb90",
+      {
+        "monthly_roi": 11.63,
+        "ann_roi": 274.5,
+        "max_dd": 32.8,
+        "calmar": 8.37,
+        "dd_monthly": 2.8,
+        "pos_months": 33.0,
+        "worst_month": -19.0
+      }
+    ],
+    [
+      "GATED_ROT ma150 K7 lb90",
+      {
+        "monthly_roi": 10.41,
+        "ann_roi": 228.2,
+        "max_dd": 31.9,
+        "calmar": 7.16,
+        "dd_monthly": 3.1,
+        "pos_months": 30.0,
+        "worst_month": -21.7
+      }
+    ],
+    [
+      "GATED_ROT ma150 K5 lb60",
+      {
+        "monthly_roi": 11.11,
+        "ann_roi": 254.1,
+        "max_dd": 35.0,
+        "calmar": 7.26,
+        "dd_monthly": 3.2,
+        "pos_months": 30.0,
+        "worst_month": -22.2
+      }
+    ]
+  ],
+  "lofo": [
+    [
+      "GATED_ROT ma150 K5 lb40",
+      1,
+      {
+        "monthly_roi": 29.87,
+        "ann_roi": 2202.8,
+        "max_dd": 29.6,
+        "calmar": 74.37,
+        "dd_monthly": 1.0,
+        "pos_months": 38.0,
+        "worst_month": -6.0
+      }
+    ],
+    [
+      "GATED_ROT ma150 K5 lb90",
+      2,
+      {
+        "monthly_roi": -0.8,
+        "ann_roi": -9.2,
+        "max_dd": 32.8,
+        "calmar": -0.28,
+        "dd_monthly": 40.7,
+        "pos_months": 25.0,
+        "worst_month": -19.0
+      }
+    ],
+    [
+      "DIP_V2",
+      3,
+      {
+        "monthly_roi": -1.35,
+        "ann_roi": -15.1,
+        "max_dd": 20.0,
+        "calmar": -0.75,
+        "dd_monthly": 14.8,
+        "pos_months": 27.0,
+        "worst_month": -4.7
+      }
+    ]
+  ]
+}

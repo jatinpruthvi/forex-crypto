@@ -1,0 +1,118 @@
+{
+ "unit": "ICT-06",
+ "verdict": "FAIL",
+ "nodes": {
+  "NWOG_MR_BTC": {
+   "monthly": -3.47,
+   "sr": -0.47,
+   "dd": 92.6,
+   "minyr": -6.67,
+   "trades": 2014,
+   "placebo_pct": 20.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p20"
+   ]
+  },
+  "NWOG_MOM_BTC": {
+   "monthly": -0.49,
+   "sr": 0.17,
+   "dd": 73.8,
+   "minyr": -4.38,
+   "trades": 2014,
+   "placebo_pct": 80.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p80"
+   ]
+  },
+  "NDOG_MR_BTC": {
+   "monthly": -5.13,
+   "sr": -0.88,
+   "dd": 97.6,
+   "minyr": -9.45,
+   "trades": 1975,
+   "placebo_pct": 30.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p30"
+   ]
+  },
+  "NDOG_MOM_BTC": {
+   "monthly": -1.28,
+   "sr": -0.01,
+   "dd": 74.9,
+   "minyr": -4.15,
+   "trades": 1975,
+   "placebo_pct": 76.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p77"
+   ]
+  },
+  "NWOG_MR_ETH": {
+   "monthly": -4.54,
+   "sr": -0.35,
+   "dd": 97.6,
+   "minyr": -10.43,
+   "trades": 2018,
+   "placebo_pct": 33.3,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p33"
+   ]
+  },
+  "NWOG_MOM_ETH": {
+   "monthly": -1.6,
+   "sr": 0.13,
+   "dd": 81.4,
+   "minyr": -4.03,
+   "trades": 2018,
+   "placebo_pct": 66.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p67"
+   ]
+  },
+  "NDOG_MR_ETH": {
+   "monthly": -3.69,
+   "sr": -0.23,
+   "dd": 93.5,
+   "minyr": -8.51,
+   "trades": 2002,
+   "placebo_pct": 53.3,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p53"
+   ]
+  },
+  "NDOG_MOM_ETH": {
+   "monthly": -4.95,
+   "sr": -0.44,
+   "dd": 98.9,
+   "minyr": -14.48,
+   "trades": 2002,
+   "placebo_pct": 50.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p50"
+   ]
+  }
+ }
+}

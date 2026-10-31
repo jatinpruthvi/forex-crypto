@@ -1,0 +1,391 @@
+{
+ "champion_book": "R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (x2 +5.19%/mo SR 2.12 DD 23.0 minYr +0.62)",
+ "passing_units": [
+  "I-01 squeeze-family pair slot",
+  "ICT-03 ote_BTC_h8 (VIA SLOT -> R3.2 champion)",
+  "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)",
+  "CH-20 tweezer_ETH_h10 (standalone PASS)",
+  "CH-22 ww_ETH_h3 (standalone PASS)",
+  "HLD-01 hld_predrift (PROVISIONAL - decay)"
+ ],
+ "results": {
+  "ICT-01": {
+   "verdict": "FAIL",
+   "best_node": "turtle_soup_BTC_hold3",
+   "metrics": {
+    "monthly": 0.12,
+    "sharpe": 0.22,
+    "dd": 45.5,
+    "min_year": -4.02
+   },
+   "placebo_pct": 97,
+   "note": "fade signal statistically real but fails gates; ETH deeply negative"
+  },
+  "ICT-02": {
+   "verdict": "FAIL",
+   "best_node": "judas_NY_sweep_ETH (gate-ineligible)",
+   "nodes_tested": 10,
+   "range_monthly": [
+    -6.15,
+    -1.14
+   ],
+   "note": "session-open fade loses on all nodes; combined with SS-04/06 momentum failure => first-hour move is cost-burn on both sides; sweep-restricted variants lose less"
+  },
+  "ICT-03": {
+   "verdict": "PASS (via slot)",
+   "best_node": "ote_BTC_h8",
+   "best_house": {
+    "monthly": 2.5,
+    "sr": 1.08,
+    "dd": 26.7,
+    "minyr": -1.83,
+    "placebo_pct": 100
+   },
+   "gate_fails": [
+    "minYr (-1.83 vs -1.5)"
+   ],
+   "note": "FIRST real signal content (placebo p100, h3/h5 p93); fails only minYr by 0.33; ETH nodes <=0; flagged for relaxed-gate or portfolio-slot review",
+   "slot_adoption": {
+    "exp": "EXP-059",
+    "lambda": 0.15,
+    "blend_x1": {
+     "monthly": 2.66,
+     "sr": 2.12,
+     "dd": 12.1,
+     "minyr": 0.37
+    },
+    "slot_placebo_500_pct": 99.6,
+    "split_sr": {
+     "21-23": 2.46,
+     "24-26": 1.65
+    },
+    "baseline_x1": {
+     "monthly": 2.61,
+     "sr": 1.86,
+     "dd": 13.8,
+     "minyr": 0.19
+    },
+    "note": "all 3 lambdas adopted (10/15/20%); standalone verdict remains gates-failed but slot in book is champion upgrade R3.2"
+   }
+  },
+  "ICT-04": {
+   "verdict": "FAIL",
+   "best_node": "mitig_BTC_h3",
+   "best_house": {
+    "monthly": -0.31,
+    "sr": 0.08,
+    "dd": 73.8,
+    "minyr": -6.42,
+    "placebo_pct": 77
+   },
+   "note": "all nodes gate-fail"
+  },
+  "ICT-05": {
+   "verdict": "FAIL",
+   "best_node": "tsoup2_BTC_h5",
+   "best_house": {
+    "monthly": 0.75,
+    "sr": 0.45,
+    "dd": 42.7,
+    "minyr": -3.72,
+    "placebo_pct": 90
+   },
+   "note": "signal content real (p90) but untradeable at 10bp - same pattern as ICT-01; maker-fee regime only"
+  },
+  "ICT-06": {
+   "verdict": "FAIL",
+   "best_node": "NWOG_MOM_BTC",
+   "best_house": {
+    "monthly": -0.49,
+    "sr": 0.17,
+    "dd": 73.8,
+    "minyr": -4.38,
+    "placebo_pct": 80
+   },
+   "note": "bug#4 (2-week-stale NWOG reference) fixed + re-run: all 8 nodes <= 0 still; NDOG unchanged (was always correct); verdict robust"
+  },
+  "VSA-01": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -2.43,
+    -0.81
+   ],
+   "note": "narrow-spread low-volume bars with close-position fade: all 6 nodes negative net of 10bp; VSA weakness signals do not predict reversals at daily frequency"
+  },
+  "VSA-02": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -0.93,
+    -0.1
+   ],
+   "note": "volume>2xV30 climax bars closing off extreme at trend end: no reversal edge at daily frequency net of costs"
+  },
+  "MNV-01": {
+   "verdict": "BLOCKED",
+   "trades": 0,
+   "fire_rates": {
+    "BTC": {
+     "pre_state": 10,
+     "pre_and_breakout": 1,
+     "full_chain": 0
+    },
+    "ETH": {
+     "pre_state": 28,
+     "pre_and_breakout": 2,
+     "full_chain": 0
+    }
+   },
+   "note": "VCP too rare on crypto daily to validate (0 trades 2021-26 x BTC/ETH). Diagnosis also caught a rule-sequencing flaw (volume dry-up must live on pre-breakout bars, not the breakout bar - the spec's dry-up vs +40% volume are different bars). Would need intraday/stock-universe data to test properly."
+  },
+  "MNV-02": {
+   "verdict": "FAIL",
+   "gated_BTC": {
+    "monthly": 0.68,
+    "sr": 0.49,
+    "dd": 26.6,
+    "minyr": -1.39,
+    "placebo_pct": 86
+   },
+   "base_BTC": {
+    "monthly": 0.8,
+    "sr": 0.45,
+    "dd": 57.0,
+    "minyr": -5.18,
+    "placebo_pct": 68
+   },
+   "note": "SEPA/Trend-Template gate improves every risk metric on BTC gated Donchian (DD -30pp, minYr +3.8pp, SR +0.04) but misses SR 0.5 and placebo 90 narrowly; hurts ETH (-0.35%/mo). Gate direction real; could matter as a portfolio-level filter in later experiments."
+  },
+  "VSA-03": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -1.83,
+    -0.48
+   ],
+   "note": "wide-bar break-and-reject on high volume: no reversal edge; VSA family (01/02/03) conclusively dead at daily frequency"
+  },
+  "DAR-01": {
+   "verdict": "FAIL (near-miss)",
+   "best_nodes": {
+    "darvas_ETH_h10": {
+     "monthly": 1.17,
+     "sr": 0.75,
+     "dd": 28.6,
+     "minyr": -2.22,
+     "placebo_pct": 96
+    },
+    "darvas_BTC_h10": {
+     "monthly": 1.06,
+     "sr": 0.72,
+     "dd": 26.3,
+     "minyr": -2.44,
+     "placebo_pct": 97
+    }
+   },
+   "note": "ALL 6 nodes positive with real signal content (4/6 placebo>=92); fails ONLY minYr gate (worst year -2.0..-2.9 vs -1.5). Third near-miss after ICT-03 OTE and MNV-02 SEPA - volume-confirmed breakout family looks genuinely real but with bad worst years; portfolio-slot candidates."
+  },
+  "AMT-01": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -1.08,
+    0.51
+   ],
+   "note": "poor-extreme fade + excess-rejection follow, 8 nodes: best SR 0.38 p85; no gate-passing node"
+  },
+  "ICT-10": {
+   "verdict": "PASS (provisional)",
+   "pass_node": "qm_ETH_h5",
+   "full_sample": {
+    "monthly": 0.61,
+    "sr": 0.6,
+    "dd": 17.6,
+    "minyr": -0.14,
+    "placebo_pct": 96,
+    "trades": 102
+   },
+   "placebo_500draw_pct": 97.4,
+   "split_half": {
+    "2021-2023": {
+     "monthly": 1.23,
+     "sr": 1.08,
+     "dd": 15.2,
+     "trades": 60
+    },
+    "2024-2026": {
+     "monthly": -0.1,
+     "sr": -0.03,
+     "dd": 16.1,
+     "trades": 42
+    }
+   },
+   "decomposition": "SHORT-side Quasimodo only (long mirror fires 0x on ETH h5); BTC nodes fail (best qm_BTC_h5 SR 0.01)",
+   "note": "First node since I-01 to clear ALL pre-registered gates, but split-half shows edge entirely in 2021-23 (like a sample-concentration artifact). Multiple-testing context: 1 p96+ node among ~200 scanned is within scan-wide chance expectation. NOT eligible for champion book without out-of-sample/re-confirmation; added to slot-review slate with ICT-03 OTE and MNV-02 SEPA."
+  },
+  "PRT-01": {
+   "verdict": "FAIL",
+   "nodes": {
+    "ew_minus_btc": {
+     "monthly": 1.42,
+     "sr": 0.6,
+     "dd": 71.8,
+     "minyr": -3.54,
+     "placebo_pct": 88
+    },
+    "ew_monthly": {
+     "monthly": 1.54,
+     "sr": 0.63,
+     "dd": 72.5,
+     "minyr": -3.83,
+     "placebo_pct": 90
+    }
+   },
+   "note": "EW-BTC premium is real-ish pre-2024 but the 24-26 half is negative (premium decayed); rebalance alpha +0.12%/mo only. BUGS CAUGHT PRE-RECORDING: node definition (subtracted wrong spread) + weight-path double-count (end-of-day weight re-applied same-day return, phantom +5.85%/mo killed by magnitude alarm vs static node)."
+  },
+  "CH-20": {
+   "verdict": "PASS",
+   "pass_nodes": [
+    "tweezer_ETH_h3",
+    "tweezer_ETH_h5",
+    "tweezer_ETH_h10"
+   ],
+   "best_node": "tweezer_ETH_h10",
+   "best_house": {
+    "monthly": 1.91,
+    "sr": 1.0,
+    "dd": 23.3,
+    "minyr": -0.26,
+    "trades": 339,
+    "placebo_pct_200": 100,
+    "placebo_pct_500": 99.6
+   },
+   "split_half": {
+    "2021-2023": {
+     "monthly": 2.63,
+     "sr": 1.23
+    },
+    "2024-2026": {
+     "monthly": 1.08,
+     "sr": 0.69
+    }
+   },
+   "decomposition": {
+    "short_only": {
+     "monthly": 1.17,
+     "sr": 0.74
+    },
+    "long_only": {
+     "monthly": 0.34,
+     "sr": 0.3
+    }
+   },
+   "caveats": [
+    "BTC tweezer nodes fail/negative - ETH-only edge",
+    "split-half decay 1.23->0.69 but recent half alive (recency guard PASS)"
+   ],
+   "note": "First standalone unit since I-01 to clear pre-registered gates AND confirmation (500-draw placebo p99.6, recency alive). Equal-extreme 2-bar reversals at 10d extremes on ETH carry real mean-reversion content. Slot-review candidate #5."
+  },
+  "CH-21": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -4.26,
+    -0.97
+   ],
+   "note": "1-2-3 reversal (A/B/C swing sequence + break of B): all nodes negative; pattern fires loosely (1400-1750 trade-days) but no reversal content net of costs"
+  },
+  "CH-22": {
+   "verdict": "PASS",
+   "pass_nodes": [
+    "ww_ETH_h3"
+   ],
+   "best_house": {
+    "monthly": 1.32,
+    "sr": 0.77,
+    "dd": 22.4,
+    "minyr": -1.33,
+    "trades": 239,
+    "placebo_pct_500": 98.8
+   },
+   "split_half": {
+    "2021-2023": {
+     "monthly": 1.58,
+     "sr": 0.82
+    },
+    "2024-2026": {
+     "monthly": 1.02,
+     "sr": 0.74
+    }
+   },
+   "decomposition": {
+    "long_only": {
+     "monthly": 0.86,
+     "sr": 0.76
+    },
+    "short_only": {
+     "monthly": 0.46,
+     "sr": 0.38
+    }
+   },
+   "caveats": [
+    "BTC nodes fail - ETH-only",
+    "simplified WW (no point-4 TP target)"
+   ],
+   "note": "Second standalone PASS this batch. Most stable signal found to date: split-half decay minimal (0.82->0.74), two-sided, placebo p98.8. 5-point channel overshoot reversal on ETH is real."
+  },
+  "SEAS-01": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "SEAS-02": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "SEAS-03": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "HLD-01": {
+   "verdict": "PASS (provisional)",
+   "pass_nodes": [
+    "hld_predrift_BTC",
+    "hld_predrift_ETH"
+   ],
+   "best_house": {
+    "monthly": 0.74,
+    "sr": 0.72,
+    "dd": 14.0,
+    "minyr": -0.2,
+    "placebo_pct_500": 95.8
+   },
+   "split_sr": {
+    "21-23": 1.16,
+    "24-26": 0.12
+   },
+   "note": "pre-holiday drift real in 21-23, faded 24-26 (front-loaded like ICT-10); post-holiday reversal node fails; PROVISIONAL pass; slot-review candidate (calendar diversifier)"
+  }
+ },
+ "errata": {
+  "entry_lookahead_fix": "Bug scope CORRECTED: entry-day lookahead existed only in ICT-03/04/05 validator scripts (written faulty, fixed same session via +95%/mo magnitude alarm, re-run before final records). ICT-01/ICT-02 used pos.shift(1) correctly throughout - their recorded numbers stand. Engine (nuclear_edges.pnl_from_weights, ret_fwd=shift(-1)) verified correct by tests. Champion book recompute: +2.61/1.86/13.8 vs recorded +2.46/1.77/14.5; residual = cost-netting convention (recorded conservative).",
+  "units_bug_fix": "ICT-03..06 inline metrics() returned %/yr labeled %/mo and compared %/yr minyr to the -1.5 %/mo gate. Fixed to metrics_from_pnl (house units). ICT-01/ICT-02 used house metrics from the start. No verdicts flipped on re-run. Gates are house-unit: DD<=40, min_year>=-1.5 (%/mo), SR>0.5, placebo>=90th.",
+  "placebo_bug_fix": "BUG #3: ICT-03..06 block-permuted the P&L series (SR is order-free -> degenerate null; prior percentiles were floating-point noise). Fixed to binding null design: block-permute POSITIONS, recompute P&L. All four re-run; verdicts unchanged; ICT-03 revealed as near-miss (ote_BTC_h8 p100, fails only minYr). ICT-01/ICT-02 used the valid position-permute design from the start.",
+  "nwog_reference_fix": "Bug #4 (audit #4 rule-fidelity): ICT-06 prev-week-open was one week stale Mon-Sat (resample('W').shift(1)+ffill chain). Fixed via to_period('W-SUN') mapping; re-run unchanged verdict. Regression test: test_nwog_prev_week_open_reference."
+ },
+ "slot_review_EXP059": {
+  "adopted": [
+   "ote_BTC_h8@0.15"
+  ],
+  "marginal_reject": "darvas_h10 (minYr 0.02-0.06 below baseline at all lambdas; slot-p94-98; runner-up)",
+  "rejected": [
+   "qm_ETH_h5",
+   "sepa_gated_BTC"
+  ],
+  "report": "reports/slot_review.json"
+ }
+}

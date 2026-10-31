@@ -1,0 +1,61 @@
+{
+ "independent_metrics": {
+  "sharpe": 0.8,
+  "monthly": 1.25,
+  "dd": 25.7,
+  "min_year": -2.11,
+  "min_month": -7.83,
+  "yearly": {
+   "2021": 4.7,
+   "2022": -2.11,
+   "2023": 3.54,
+   "2024": 3.89,
+   "2025": -0.63,
+   "2026": -1.19
+  },
+  "months": 67
+ },
+ "trades": 42,
+ "split": {
+  "2021-2023": {
+   "sharpe": 1.09,
+   "monthly": 1.85,
+   "dd": 25.7,
+   "min_year": -2.11,
+   "min_month": -7.83,
+   "yearly": {
+    "2021": 4.7,
+    "2022": -2.11,
+    "2023": 3.54
+   },
+   "months": 36
+  },
+  "2024-2026": {
+   "sharpe": 0.42,
+   "monthly": 0.56,
+   "dd": 20.9,
+   "min_year": -1.19,
+   "min_month": -5.79,
+   "yearly": {
+    "2024": 3.89,
+    "2025": -0.63,
+    "2026": -1.19
+   },
+   "months": 31
+  }
+ },
+ "placebo_200_pct": 96.0,
+ "note": "first draft of this script was LONG-ONLY (+1.25%/mo SR 0.80) - the validator node trades both sides; extended check reproduces validator EXACTLY (both: +2.50/1.08/26.7/-1.83/696d; long-only: +1.25/0.80; short-only: +0.77/0.51). Validator number CONFIRMED.",
+ "both_sides": {
+  "monthly": 2.5,
+  "sr": 1.08,
+  "dd": 26.7,
+  "minyr": -1.83,
+  "tradedays": 696
+ },
+ "caveats": [
+  "split-half decays: 2021-23 +1.85%/mo SR 1.09 vs 2024-26 +0.56%/mo SR 0.42 (positive in both, weaker recent)",
+  "200-draw placebo p96: significant at 5%, NOT at 1% after 156-node scan (multiple testing)",
+  "recommend: maker-fee regime check (I-07) + portfolio-slot minYr dilution test before any adoption"
+ ]
+}

@@ -1,0 +1,82 @@
+{
+ "unit": "CH-22",
+ "verdict": "PASS",
+ "pass_nodes": [
+  "ww_ETH_h3"
+ ],
+ "nodes": {
+  "ww_BTC_h3": {
+   "monthly": 0.03,
+   "sr": 0.12,
+   "dd": 36.6,
+   "minyr": -1.64,
+   "trades": 299,
+   "placebo_pct": 69.0,
+   "gate_fails": [
+    "minYr",
+    "SR",
+    "placebo p69"
+   ]
+  },
+  "ww_BTC_h5": {
+   "monthly": -0.39,
+   "sr": -0.07,
+   "dd": 39.1,
+   "minyr": -1.22,
+   "trades": 416,
+   "placebo_pct": 52.5,
+   "gate_fails": [
+    "SR",
+    "placebo p52"
+   ]
+  },
+  "ww_BTC_h10": {
+   "monthly": -1.84,
+   "sr": -0.53,
+   "dd": 76.1,
+   "minyr": -4.03,
+   "trades": 655,
+   "placebo_pct": 16.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p16"
+   ]
+  },
+  "ww_ETH_h3": {
+   "monthly": 1.32,
+   "sr": 0.77,
+   "dd": 22.4,
+   "minyr": -1.33,
+   "trades": 239,
+   "placebo_pct": 99.5,
+   "gate_fails": []
+  },
+  "ww_ETH_h5": {
+   "monthly": 0.63,
+   "sr": 0.41,
+   "dd": 26.1,
+   "minyr": -0.12,
+   "trades": 328,
+   "placebo_pct": 96.0,
+   "gate_fails": [
+    "SR"
+   ]
+  },
+  "ww_ETH_h10": {
+   "monthly": -0.18,
+   "sr": 0.12,
+   "dd": 49.9,
+   "minyr": -2.46,
+   "trades": 547,
+   "placebo_pct": 70.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p70"
+   ]
+  }
+ }
+}

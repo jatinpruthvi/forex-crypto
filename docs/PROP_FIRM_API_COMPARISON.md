@@ -1,0 +1,251 @@
+# 🏦 Prop Firms with API Access — Full Comparison & ROI vs. Invested Capital
+
+**Date**: October 28, 2026
+**Question**: Which funded-account prop firms allow our automated strategy via API, and what ROI does each deliver versus trading our own invested capital?
+**Previous verdict**: Vest Markets REJECTED — no API trading on funded accounts, 6% max drawdown, XRP banned.
+
+---
+
+## ✅ 1. Screening Criteria (What Our Strategy Demands)
+
+| Requirement | Why It Matters |
+|---|---|
+| **API / Bot automation allowed** | Our engine is 100% automated Python (CCXT / WebSocket / MQL5 bridge). Manual execution is a non-starter. |
+| **Crypto pairs (8-coin universe)** | DOGE, BNB, XRP, ADA, BTC, LTC, ETH, LINK — XRP must be tradable (Vest failed here). |
+| **Max Drawdown ≥ 8–10%** | Our champion runs 21.86% Max DD at 1.5% risk. Even throttled, we need DD headroom. |
+| **Daily Loss Limit ≥ 4–5%** | 4H crypto candles with 2 open slots produce 1.5–3% daily swings at throttled risk. |
+| **Static (non-trailing) drawdown preferred** | Trailing drawdowns ratchet against floating profits — hostile to our pyramiding ratchet. |
+| **Reasonable fee / refundable deposit** | Fee is the "invested capital" at risk on the prop route. |
+
+---
+
+## 📊 2. The Candidate Field (Verified October 2026)
+
+| Firm | Market | Automation Route | Max DD | Daily Loss | Profit Split | Entry Fee (50K) | Bots Policy |
+|---|---|---|---|---|---|---|---|
+| **HyroTrader** | Crypto perps (700+ pairs, real Bybit/Binance) | **Native Bybit REST API** (same as our bot) | 10% static (2-Step) / 6% (1-Step) | 5% (2-Step) / 4% (1-Step) | 80% → 90% | ~$499 (1-Step) / ~$579 per 100K (2-Step) | ✅ Own + third-party bots via API (funded); HFT banned |
+| **Propr.xyz** | Crypto perps (Hyperliquid, 160+ markets) | **Public REST API + Python/JS SDK**, Beta sandbox, 1,200 req/min | 6% static (Classic 1-Step) | 3% | 80% | $495 (Classic) / $245 (Turbo, 3% DD) | ✅ Bots, copy-trading, third-party tools all allowed |
+| **FTMO** | Forex / CFD + ~22 crypto CFDs | **MT4/MT5 Expert Advisors** (our MQL5 bridge fits) | 10% static (2-Step) | 5% | 80% → 90% | ~€345 (~$370) | ✅ EAs allowed, no pre-approval; $400K per-strategy cap |
+| **FundedNext** | Forex / CFD + crypto CFDs | **MT4/MT5 EAs** ($5/mo EA fee below 50K; EAs prohibited at 50K Stellar) | 10% static (Stellar 2-Step) | 5% | 80% → 95% | $299.99 | ⚠️ EAs allowed below $50K only on Stellar |
+| **Topstep / TopstepX** | CME Futures (NOT crypto) | TopstepX / ProjectX API ($29/mo) | Trailing | Intraday | 90%+ | $49/mo + $149 | ⚠️ Bots off at Live; futures-only — wrong asset class |
+| **Vest Markets** | Crypto / FX / Equities | ❌ **NO API on funded accounts** | 6% fixed | 3–4% | 80–95% | — | ❌ REJECTED |
+| **Apex / Take Profit Trader** | Futures | ❌ Manual order entry required | — | — | — | — | ❌ REJECTED (bots prohibited) |
+
+---
+
+## 📐 3. Risk Throttling Math — Fitting Our Strategy into Prop Rules
+
+Our Dual-Slot crypto engine's verified risk spectrum (ledger EXP-013 / risk sweep):
+
+| Base Risk | Monthly ROI | Max Drawdown |
+|---|---|---|
+| 0.75% | +12.09%/mo | 14.72% |
+| 1.25% | +21.71%/mo | 19.51% |
+| **1.50% (Champion)** | **+25.01%/mo** | **21.86%** |
+
+Scaling to fit prop-firm drawdown limits (with our built-in Dynamic Drawdown Throttle as safety net):
+
+| Prop DD Limit | Safe Operating DD | Throttled Base Risk | Expected Monthly ROI | Daily Swing |
+|---|---|---|---|---|
+| **10%** (FTMO, FundedNext, Hyro 2-Step) | ~8% | **0.40–0.50%** | **+6.5% – +8%/mo** | ~1.5–2.5% |
+| **6%** (Propr Classic, Hyro 1-Step) | ~5% | **0.25%** | **+4% – +5%/mo** | ~1–1.5% |
+| **3%** (Propr Turbo) | ~2.5% | **0.10–0.15%** | **+2%/mo** | ~0.5% |
+
+> 💡 **Forex variant bonus**: For FTMO/FundedNext (forex brokers), our 5-Year Forex Macro engine (2-Slot, 0.75% risk) delivers **+25.43%/mo at 15.35% DD** (Calmar 19.88). Throttled to 8% DD → ~0.39% risk → **~+13%/mo** — nearly double the crypto-throttled rate on forex prop accounts.
+
+---
+
+## 💰 4. ROI Comparison — 12-Month Projection (Starting Capital: $1,000 of Your Money)
+
+### Route A: Invested Account (Self-Funded on MEXC / Bybit)
+| Month | Balance (Champion 1.5% risk, +25.01%/mo) |
+|---|---|
+| 0 | $1,000 |
+| 3 | $1,953 |
+| 6 | $3,817 |
+| 9 | $7,459 |
+| 12 | **$14,567** |
+- **Your take-home**: 100% of profits. True compounding. No rules, no termination.
+- **Your risk**: 21.86% Max DD is your own money ($218 of every $1,000).
+- **Monthly ROI on invested capital**: **+25.01%/mo**.
+
+### Route B: HyroTrader 2-Step $50K (Fee ≈ $400–500, refunded with first payout)
+| Phase | Duration | Result |
+|---|---|---|
+| Eval Phase 1 (+10% target @ 0.45% risk, ~7.5%/mo) | ~1.4 months | Pass |
+| Eval Phase 2 (+5% target) | ~0.7 months | Pass → Funded |
+| Funded $50K @ ~7.5%/mo, 80% split | Month 3 onward | **≈ $3,000/month take-home** |
+| After 12 months total | ~10 months funded | **≈ $28,000–32,000 collected** |
+- **ROI on your fee**: $3,000/mo ÷ $450 ≈ **+660%/mo on capital at risk** once funded.
+- **Fee is refunded** with first payout → cost basis returns to ~$0.
+- Crypto-native: our 8-pair universe (incl. XRP) trades on real Bybit perps. Our CCXT bot connects **without code changes**.
+
+### Route C: FTMO 2-Step $100K (Fee ≈ €540 ≈ $580)
+| Phase | Duration | Result |
+|---|---|---|
+| Eval (10% + 5% targets @ 0.40% risk) | ~2 months | Pass → Funded |
+| Funded $100K (forex engine @ ~13%/mo throttled, 80% split) | Month 3 onward | **≈ $10,400/month take-home** |
+| After 12 months total | ~10 months funded | **≈ $95,000–105,000 collected** |
+- **ROI on your fee**: $10,400 ÷ $580 ≈ **+1,790%/mo on capital at risk** once funded.
+- Requires our **MQL5 bridge** (`services/mql5/PythonBrainEA.mq5`) on MT5 — already built in this repo.
+
+### Route D: Propr.xyz Classic 1-Step $50K (Fee $495, non-refundable)
+| Phase | Duration | Result |
+|---|---|---|
+| Eval (+10% target @ 0.25% risk, ~4.5%/mo, 6% static DD) | ~2.2 months | Pass → Funded |
+| Funded $50K @ ~4.5%/mo, 80% split | Month 3 onward | **≈ $1,800/month take-home** |
+- **ROI on your fee**: $1,800 ÷ $495 ≈ **+364%/mo on capital at risk**.
+- Best developer experience: live REST API, Python SDK, Beta sandbox, 1,200 req/min, per-trade A/B-book labels, on-chain USDC payouts with published tx hashes.
+
+### 🏆 Route E (Recommended Hybrid): Invested + 2 Prop Accounts
+| Vehicle | Capital at Risk | Monthly Take-Home (Steady State) | Role |
+|---|---|---|---|
+| Invested $1,000 (MEXC, 1.5% risk, full champion) | $1,000 (yours) | Grows 25%/mo compounding → $14.6K by M12 | **Wealth engine** (unbounded compounding) |
+| HyroTrader $50K 2-Step (crypto, 0.45% risk) | ~$450 fee (refundable) | ~$3,000/mo | **Crypto prop income** (native Bybit API fit) |
+| FTMO $100K 2-Step (forex engine, 0.40% risk) | ~$580 fee | ~$10,400/mo | **Forex prop income** (MQL5 bridge fit) |
+| **Total** | **~$2,030** | **~$13,400/mo + compounding account** | |
+
+---
+
+## ⚖️ 5. Head-to-Head: Invested Account vs. Funded Account
+
+| Dimension | Invested (Self-Funded) | Funded (Prop) | Winner |
+|---|---|---|---|
+| **Monthly ROI on your capital** | +25.01%/mo on $1,000 | +360% to +1,790%/mo on the fee | 🏆 Prop (capital leverage 50–100x) |
+| **Absolute monthly $** | $250 → $3,000/mo (growing) | $1,800 – $10,400/mo flat | 🏆 Prop |
+| **Compounding** | True exponential (12.5x in 12 months) | None — payouts extracted; account resets to base | 🏆 Invested |
+| **Rule-termination risk** | None — drawdowns are survivable | One bad streak kills account + fee | 🏆 Invested |
+| **Max usable risk** | 1.5% (full champion) | 0.25–0.50% (throttled to fit DD rules) | 🏆 Invested |
+| **Strategy fit** | Perfect (all 8 pairs, pyramiding, 2.0x leverage) | Constrained (throttled risk, daily loss caps) | 🏆 Invested |
+| **Automation** | Full API freedom | Allowed at API-friendly firms (Hyro, Propr, FTMO) | Tie |
+| **Sweat/ops** | Set and monitor | Eval passing, rule compliance, payout cycles | 🏆 Invested |
+
+**The math verdict**: Prop firms win on **income per dollar at risk** (you rent $50–100K of notional capital for ~$500). Invested accounts win on **wealth compounding and freedom**. They are complementary, not competing.
+
+---
+
+## 🎯 6. Final Recommendation
+
+1. **DO run the invested account** as the core compounding engine at full 1.5% champion risk. This is where exponential wealth is built (12.5x/yr).
+2. **ADD prop income from API-friendly firms only**:
+   - **#1 HyroTrader (2-Step $50K–$100K)** — the only crypto prop with **native Bybit API** execution; our existing CCXT/Bybit bot runs unchanged. Throttle to 0.45% risk. Verify "own strategy" declaration at signup.
+   - **#2 FTMO ($100K 2-Step)** — the most proven payout history (since 2015); deploy the **forex macro engine via our MQL5 bridge** throttled to 0.40% risk (~13%/mo).
+   - **#3 Propr.xyz (optional, $25–$495)** — best-in-class API/SDK + Beta sandbox for testing; ideal for validating the bot under prop rules cheaply before committing larger fees. Choose **Classic 1-Step (6% static DD)** — never Turbo (3% DD is hostile to our pyramiding).
+3. **NEVER use** Vest Markets (no API), Apex, or Take Profit Trader (bots banned) for this strategy.
+4. **Risk discipline on prop accounts**: enable our Dynamic Drawdown Throttle at 4% (not 8%) on prop accounts, and cap daily loss at 2.5% internally to stay inside the 3–5% firm limits.
+
+### Integration Status in This Repo
+| Integration | Status |
+|---|---|
+| Bybit API (CCXT) — HyroTrader route | ✅ Already live in `services/demo_runner/` + Freqtrade config |
+| MQL5 bridge — FTMO route | ✅ `services/mql5/PythonBrainEA.mq5` + `MasterRiskEA.mq5` |
+| Propr REST API (Python SDK) | 🔧 Adapter needed (~1 day: map our signals to `api.propr.xyz/v1` orders) |
+| Risk throttle preset for prop rules | 🔧 Add `PROP_SAFE_MODE` config (0.45% risk, 4% throttle threshold) |
+
+---
+
+---
+
+## 💵 7. Equal-Capital Head-to-Head ($1,000 vs $1,000 — Same Initial Amount)
+
+Both routes start with exactly **$1,000 of your money**. Route A deposits it on an exchange; Route B spends it on prop evaluation fee(s).
+
+### Assumptions
+- Route A: Champion Dual-Slot @ full 1.50% risk → **+25.01%/mo compounded** (ledger EXP-013).
+- Route B: forex engine @ 0.40% risk on FTMO 100K → **~+13%/mo gross** → $10,400/mo × 80% split = **$10,400/mo take-home** (flat, no compounding; fee refunded with first payout).
+- Route C: crypto engine @ 0.45% risk on HyroTrader 50K → **~+7.5%/mo gross** → **$3,000/mo take-home**.
+- Conservative timing: evaluation takes ~6–8 weeks (P1 10% + P2 5% at throttled risk); first payout lands in Month 3.
+
+### Month-by-Month Cumulative Cash/Equity
+
+| Month | A · Invested $1,000 (equity) | B · FTMO 100K (cash collected) | C · Hyro 50K (cash collected) | D · Both B+C (cash collected) |
+|---|---|---|---|---|
+| 0 | **$1,000** | $1,000 ($580 fee + $420 reserve) | $1,000 ($450 fee + $550 reserve) | $1,030 fees (≈$1,000) |
+| 3 | $1,954 | $11,400 | $4,000 | $15,400 |
+| 6 | $3,817 | $42,600 | $13,000 | $55,600 |
+| 9 | $7,456 | $73,800 | $22,000 | $95,800 |
+| **12** | **$14,567** | **$105,000** | **$31,000** | **$135,000** |
+| Multiple on $1,000 | **14.6x** | **105x** | **31x** | **135x** |
+| Nature of gains | Compounding equity (still at risk) | Cash in pocket (account flat at base) | Cash in pocket | Cash in pocket |
+
+*Route B month-3 figure = $420 reserve + $580 fee refund + $10,400 first payout. Assumed passes on first attempt; no re-buys.*
+
+### The "Truly Everything Equal" Test (Same Account Size AND Same Risk)
+Notional $100K vs $100K, both run at the prop-safe 0.40–0.45% risk, 12 months:
+
+| | Invested $100K (throttled 0.45%) | FTMO $100K Funded (0.40%) |
+|---|---|---|
+| Monthly ROI | +8.0%/mo → **compounds** | +13%/mo gross → +10.4% take-home, **flat** |
+| 12-Month profit | **+$151,800** (equity $251,800) | **+$124,800** (cash; account stays $100K with firm) |
+| Rule/termination risk | None | 5% daily / 10% total limits; account can die |
+| Fee | $0 | $580 (refunded on pass) |
+
+➡️ **On equal notional and equal risk, the invested account wins outright** (+$151,800 vs +$124,800) — and at full champion risk it wins 10x (+$1,356,600). The prop route's only structural advantage is **fee leverage**: $580 rents $100,000 of notional (172x).
+
+### Risk-Adjusted Reality Check
+- Retail prop pass rates run ~10–20% (Propr publishes 15.4%); a disciplined throttled bot should beat that — assume 50–70% first-try.
+- **EV of Route B at M12 with 50% pass probability** = 0.5 × $105,000 + 0.5 × $420 ≈ **$52,700** → still **3.6x** Route A's $14,567.
+- Even if throttled performance delivers **half** the backtest (~6.5%/mo → $5,200/mo), Route B still collects ~$53,000 → 3.6x Route A.
+- Counterweight risks: prop firm solvency (MyForexFunds collapse, 2023), payout reviews, rule changes; Route A risks: backtest ≠ live, slippage, and a 21.86% drawdown is real money.
+
+### Verdict (Equal $1,000 In)
+1. **Route D (prop combo) collects ~9x more cash in year 1** ($135K vs $14.6K) — but only because fees rent 50–100x notional capital, and only if the evals pass and the firms pay.
+2. **Route A is the compounding engine** — its $14.6K keeps growing exponentially (→ ~$212K by year 2 theoretical) while prop accounts stay flat at base size.
+3. **Optimal play with $1,000**: put ~$1,030 into FTMO 100K + HyroTrader 50K evals (income), and route every payout back into the invested account (wealth), scaling prop accounts via firm scaling plans (FTMO +25% per 4 months) as track record builds.
+
+---
+
+---
+
+## ⛓️ 8. Hyperliquid (On-Chain Perp DEX) — Venue Comparison
+
+**What it is**: Decentralized L1 with fully on-chain order books (perps + spot), USDC collateral (Arbitrum bridge), no KYC, own wallet custody. Not a prop firm — an **invested-account venue** like Bybit/MEXC, and also the **execution venue behind Propr.xyz** (its A-book trades route to Hyperliquid perps).
+
+### Venue Specification Comparison (Oct 2026)
+
+| Dimension | **Hyperliquid** | MEXC (futures) | Bybit (linear) |
+|---|---|---|---|
+| Perp fees (base tier) | **0.015% maker / 0.045% taker** | 0.00% maker / 0.05% taker | 0.02% maker / 0.055% taker |
+| Fee discounts | HYPE staking 5–40%; 7 volume tiers (maker → 0%) | MX token discounts | VIP tiers |
+| Lot granularity (BTC) | **0.00001 BTC** (szDecimals 5) | 0.0001 BTC | 0.001 BTC |
+| Min order | **$10 USDC notional** (no min qty) | ~$5 notional + min lots | $5 notional + min lots |
+| 8-pair universe (BTC/ETH/BNB/XRP/ADA/DOGE/LTC/LINK) | ✅ All 8 (231 perps total; CCXT 4.5.20+) | ✅ All 8 | ✅ All 8 |
+| Funding settlement | Hourly | 8-hourly | 8-hourly |
+| API | REST + WebSocket, `hyperliquid-python-sdk`, API wallets, testnet | CCXT / WebSocket | CCXT / WebSocket |
+| Max leverage | 40–50x majors | up to 100x+ | up to 100x+ |
+| Custody / counterparty | Self-custody wallet (bridge + validator risk) | Exchange custodial | Exchange custodial |
+| KYC | None (geo-restricted jurisdictions excluded) | Required | Required |
+
+### Authentic Fee-Drag Backtest (EXP-015A/B/C — real 179-trade, 5.47-month, 8-pair panel)
+Same champion config (1.5% risk, 2.0x lev, 2 slots), only the venue fee model changes:
+
+| Venue Fee Model | Final Balance | Monthly ROI | Max DD | Δ vs MEXC |
+|---|---|---|---|---|
+| Baseline EXP-013 (maker 0.015% both sides) | $3,391 | +25.01%/mo | 21.86% | — |
+| **MEXC** (0% maker entries + 0.05% taker stops) | $3,269 | **+24.18%/mo** | 22.16% | — |
+| **Hyperliquid** (0.015% maker + 0.045% taker) | $3,210 | **+23.76%/mo** | 22.31% | −0.42%/mo |
+| **Bybit** (0.02% maker + 0.055% taker) | $3,173 | **+23.50%/mo** | 21.29% | −0.68%/mo |
+
+➡️ **Fee drag is a second-order effect (~0.7%/mo spread across all three venues).** Venue choice should be driven by lot granularity, custody preference, and reliability — not fees.
+
+### MICRO_ACCOUNT_MODE on Hyperliquid (`LOT_VENUE=hyperliquid`)
+Hyperliquid's fine lots + $10 min-notional **eliminate the micro-account min-lot wall**:
+
+| Equity | Hyperliquid | MEXC | Bybit |
+|---|---|---|---|
+| **$25** | ✅ **All 8 pairs trade** (≤3% distortion) | ❌ BTC+BNB rejected | ❌ BTC+BNB rejected |
+| $100 | ✅ All 8, <1% distortion | ⚠️ BTC+BNB skipped | ❌ BTC skipped (−19.3%) |
+| $500 | ✅ All 8, <1% | ✅ All 8, ≤2% | ⚠️ BTC skipped (tier-2 −9.3%) |
+
+*Floor note: at ~$15–20 the $10 min-notional on Tier-2 pyramid adds starts rejecting pairs; $25 is the safe all-pairs floor.*
+
+### Verdict — Hyperliquid vs the Field
+1. **Best venue for small-account live testing** ($25–$100): fine lots mean the 1.5%-risk sizing survives intact on every pair.
+2. **Fee-wise it splits the difference**: −0.42%/mo vs MEXC, +0.26%/mo vs Bybit (EXP-015B). Negligible next to +23.76%/mo.
+3. **Trade-offs**: bridge/validator risk instead of exchange risk, hourly funding (more neutral), no chargeback/KYC friction, US-restricted (fine for IN users). Withdrawals: 0.2 USDC flat.
+4. **Also unlocks Propr.xyz**: since Propr routes A-book fills to Hyperliquid, running the same bot on both Hyperliquid (invested) and Propr (funded) gives identical execution microstructure across both accounts.
+5. **Recommendation**: run the invested account on **Hyperliquid if starting ≤$500** (granularity), **MEXC if fee-min-maxing at scale** (0% maker), and keep Bybit for its deepest liquidity in BTC/ETH.
+
+---
+
+*Sources: docs.vestmarkets.com (Vest rules), propfirmpal.com & hyrotrader.com (HyroTrader rules/fees), fundedtrading.com & propfirmbridge.com (Propr rules/fees), bestprops.com & propfirmautotrade.com (FTMO/FundedNext/bot policies), sentinel.redclawey.com & pickmytrade.io (futures firm bot policies), dwellir.com & cipher-intelligence.io (Hyperliquid fee schedule), buildix.trade & docs.chainstack.com (Hyperliquid lot/min-notional rules), cryptostruct.com (Hyperliquid lot sizes), github.com/freqtrade/freqtrade#12534 (Hyperliquid pair coverage) — all verified October 2026.*

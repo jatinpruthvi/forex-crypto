@@ -1,0 +1,42 @@
+{
+  "max_open_trades": 3,
+  "stake_currency": "USDT",
+  "stake_amount": "unlimited",
+  "tradable_balance_ratio": 0.99,
+  "fiat_display_currency": "USD",
+  "timeframe": "1h",
+  "dry_run": true,
+  "dry_run_wallet": 323,
+  "trading_mode": "futures",
+  "margin_mode": "isolated",
+  "exchange": {
+    "name": "bybit",
+    "key": "",
+    "secret": "",
+    "testnet": true,
+    "pair_whitelist": [
+      "BTC/USDT:USDT",
+      "ETH/USDT:USDT",
+      "SOL/USDT:USDT"
+    ],
+    "pair_blacklist": []
+  },
+  "fee": 0.00055,
+  "slippage": {
+    "market_orders": 0.001
+  },
+  "protections": [
+    {
+      "method": "MaxDrawdown",
+      "lookback_period_candles": 24,
+      "trade_limit": 1,
+      "stop_duration_candles": 12,
+      "max_allowed_drawdown": 0.02
+    }
+  ],
+  "api_server": {
+    "enabled": true,
+    "listen_ip_address": "0.0.0.0",
+    "listen_port": 8080
+  }
+}

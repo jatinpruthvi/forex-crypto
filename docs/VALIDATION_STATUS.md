@@ -1,0 +1,226 @@
+# VALIDATION STATUS BOARD — one unit per turn, real data + costs
+
+**Champion book (updated as units land): R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE slot, EXP-059) — x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37 | x2 +5.19%/mo DD 23.0 minYr +0.62 | x3 +7.58%/mo DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). R3.1 retained as baseline (x2 +4.73%/mo SR 1.77 DD 27.4).**
+
+**Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
+**Progress: 42/184 units validated · 142 pending.**
+
+**EXP-059 SLOT REVIEW (2026-10-31):** near-miss slate slotted into R3.1 at 10/15/20%. **ADOPT: ote_BTC_h8** (all lambdas; best l=0.15: SR 2.12 DD 12.1 minYr +0.37, slot placebo p99.6@500, recency PASS) -> champion R3.2. MARGINAL REJECT: darvas_h10 (SR/DD/improvement all good, slot-p94-98, but minYr +0.13..0.17 < baseline +0.19 by 0.02-0.06 - closest runner-up). REJECT: qm_ETH_h5, sepa_gated_BTC (blend SR up but monthly and minYr dilute). 4x5% slate: SR 2.11 DD 11.5 minYr +0.33 (interesting risk profile, monthly diluted).
+
+**RE-TEST CERTIFICATE (2026-10-31, post 5-bug fixes): ALL COMPLETED UNITS VERIFIED.** Every completed unit re-run through the final verified harness and compared digit-for-digit against its record (reports/retest_certificate.json): ICT-01..06 all 28 nodes x {monthly, SR, DD, minYr, trades, placebo} = ZERO diffs, verdicts identical; champion book R3.1 recomputed = MATCH (within documented cost-netting convention); I-01 passing squeeze pair (sqz_20_100_0.7_30_ETH +1.80%/mo SR 0.94, sqz_10_50_0.8_30_ETH +2.31%/mo SR 0.88) = MATCH exactly. No recorded number changed by any of the 5 bug fixes (all 5 were either in later-written validators before final records, or latent/unreachable).
+
+Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (no data).
+
+| unit | status | result | note |
+|---|---|---|---|
+| **Earlier waves (done in EXP-047/048)** | | | |
+| I-01 | PASS | +2.46%/mo SR 1.77 (slot placebo 100pct) | -> Book R3.1 |
+| I-02 | FAIL | claims unverified; blend 67pct | |
+| I-03 | FAIL | +0.12%/mo; blend 43pct | |
+| I-04 | FAIL | inv-vol/vol-scale dominated | |
+| I-05 | FAIL | 12h/common/EW squeeze dead | |
+| I-06 | FAIL | causal hour-z 0 trades | |
+| I-11 | BLOCKED | no basis data | |
+| I-18 | FAIL | weekend split no edge | |
+| **Volume Profile** | | | |
+| VP-01 | FAIL | prescreen -3.0/-6.3%/mo |  |
+| VP-02 | PENDING | - | - |
+| VP-03 | FAIL | prescreen SR 0.12 placebo 77pct |  |
+| VP-04 | FAIL | prescreen -2.2/-2.2%/mo |  |
+| VP-05 | PENDING | - | - |
+| VP-06 | PENDING | - | - |
+| VP-07 | PENDING | - | - |
+| VP-08 | PENDING | - | - |
+| VP-09 | FAIL | prescreen -2.7/-3.1%/mo |  |
+| VP-10 | PENDING | - | - |
+| VP-11 | PENDING | - | - |
+| VP-12 | PENDING | - | - |
+| VP-13 | PENDING | - | - |
+| VP-14 | PENDING | - | - |
+| VP-15 | PENDING | - | - |
+| VP-16 | PENDING | - | - |
+| VP-17 | PENDING | - | - |
+| VP-18 | FAIL | RVOL gating worsens R3.1 |  |
+| VP-19 | PENDING | - | - |
+| VP-20 | PENDING | - | - |
+| VP-21 | PENDING | - | - |
+| VP-22 | PENDING | - | - |
+| **VP x SS combos** | | | |
+| VPSS-01 | PENDING | - | - |
+| VPSS-02 | PENDING | - | - |
+| VPSS-03 | PENDING | - | - |
+| **Sessions & Calendar** | | | |
+| SS-01 | FAIL | prescreen -6.3/-3.5%/mo |  |
+| SS-02 | PENDING | - | - |
+| SS-03 | PENDING | - | - |
+| SS-04 | FAIL | prescreen -5.7/-5.0%/mo |  |
+| SS-05 | PENDING | - | - |
+| SS-06 | FAIL | prescreen -6.1/-6.6%/mo |  |
+| SS-07 | PENDING | - | - |
+| SS-08 | PENDING | - | - |
+| SS-09 | FAIL | prescreen cost burn 2.95%/day |  |
+| SS-10 | FAIL | prescreen cost burn |  |
+| SS-11 | PENDING | - | - |
+| SS-12 | PENDING | - | - |
+| SS-13 | FAIL | prescreen 0 trades |  |
+| SS-14 | PENDING | - | - |
+| SS-15 | PENDING | - | - |
+| SS-16 | PENDING | - | - |
+| SS-17 | PENDING | - | - |
+| SS-18 | PENDING | - | - |
+| SS-19 | PENDING | - | - |
+| SS-20 | PENDING | - | - |
+| SS-21 | PENDING | - | - |
+| SS-22 | PENDING | - | - |
+| SS-23 | PENDING | - | - |
+| HLD-01 | PASS* (PROVISIONAL) | pre-holiday drift (long 2d before US bank holidays): BOTH assets clear gates (BTC +0.47%/mo SR 0.65 DD 12.6 minYr -0.01 p98; ETH +0.74 SR 0.72 DD 14.0 p96; 500-draw p95+). BUT split-half front-loaded (21-23 SR 1.03/1.16 -> 24-26 SR 0.12). Post-holiday reversal part FAILS | same decay pattern as ICT-10; slot-review candidate |
+| SEAS-01 | FAIL | Oct-Nov long: +0.7/+0.7%/mo but minYr -2.9/-3.9, placebo p78/p70 | Uptober/Nov bias not tradeable at these gates |
+| SEAS-02 | FAIL | Halloween long: +1.5%/mo BTC SR 0.64 but DD 56/minYr -2.6; ETH DD 78 | six-month-long exposure = giant DD |
+| SEAS-03 | FAIL | Lunar NY pre/post: negative both assets (-0.8/-0.8%/mo) | CNY folklore refuted |
+| **Patterns & Candles** | | | |
+| CH-01 | PENDING | - | - |
+| CH-02 | PENDING | - | - |
+| CH-03 | PENDING | - | - |
+| CH-04 | PENDING | - | - |
+| CH-05 | PENDING | - | - |
+| CH-06 | PENDING | - | - |
+| CH-07 | PENDING | - | - |
+| CH-08 | PENDING | - | - |
+| CH-09 | PENDING | - | - |
+| CH-10 | PENDING | - | - |
+| CH-11 | PENDING | - | - |
+| CH-12 | PENDING | - | - |
+| CH-13 | PENDING | - | - |
+| CH-14 | PENDING | - | - |
+| CH-15 | PENDING | - | - |
+| CH-16 | PENDING | - | - |
+| CH-17 | PENDING | - | - |
+| CH-18 | PENDING | - | - |
+| CH-19 | PENDING | - | - |
+| CH-20 | PASS | tweezer ETH: ALL 3 holds clear gates (h10: +1.91%/mo SR 1.00 DD 23.3 minYr -0.26, placebo p99.6@500). Split-half 21-23 SR 1.23 -> 24-26 SR 0.69 (decays but ALIVE - recency guard PASS). Two-sided (short +1.17, long +0.34). CAVEAT: BTC tweezer nodes fail/negative (ETH-only edge) | first standalone PASS since I-01 to clear gates + confirmation; slot-review candidate |
+| CH-21 | FAIL | Joe Ross 1-2-3 reversal: 6 nodes all negative (-1.0..-4.3%/mo, high trade counts) | swing-based reversal entries lose to costs at daily freq |
+| CH-22 | PASS | Wolfe waves (simplified 5-point): ww_ETH_h3 +1.32%/mo SR 0.77 DD 22.4 minYr -1.33, placebo p98.8@500. Split-half STABLE (21-23 SR 0.82 -> 24-26 SR 0.74 - least decay of any signal). Two-sided (long +0.86, short +0.46). CAVEAT: BTC nodes fail (ETH-only again) | second standalone PASS of the batch; slot-review candidate |
+| CH-23 | PENDING | - | - |
+| CH-24 | PENDING | - | - |
+| CH-25 | PENDING | - | - |
+| SD-01 | PENDING | - | - |
+| SD-02 | PENDING | - | - |
+| DAR-01 | FAIL (NEAR-MISS) | Darvas breakout w/ volume confirm: ALL 6 nodes positive (+0.67..+1.17%/mo SR 0.58-0.75 DD 24-33) and 4/6 pass placebo (p92-97) but ALL fail minYr (-2.0..-2.9 vs -1.5) | 3rd 'real but worst-year' result (after ICT-03 OTE, MNV-02 SEPA); volume-confirmed breakout content is real |
+| AMT-01 | FAIL | excess-vs-poor extremes (8 nodes): mixed to negative; best amt_poor_BTC_h10 +0.51%/mo SR 0.38 p85 | thin-extreme retest and rejection-follow carry no tradeable edge at daily freq |
+| LV-01 | PENDING | - | - |
+| **ICT / SMC** | | | |
+| ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
+| ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
+| ICT-03 | PASS (VIA SLOT) | standalone gates failed but EXP-059 slot review ADOPTED ote_BTC_h8 at 15% into the book (all 3 lambdas adopt, slot placebo p100/200, p99.6/500): R3.1->R3.2 champion upgrade (SR 1.86->2.12, minYr +0.19->+0.37, DD 13.8->12.1; BOTH halves improve). Standalone note: | FINAL: ote_BTC_h8 +2.50%/mo SR 1.08 DD 26.7 minYr -1.83 placebo p100 -> fails ONLY minYr by 0.33; h3/h5 also p93 but minYr -2.1/-3.5; ETH <= 0 | FIRST real signal content found (p100); flag for relaxed-gate/portfolio-slot review |
+| ICT-04 | FAIL | FINAL: best mitig_BTC_h3 -0.31%/mo SR 0.08 DD 74 -> all nodes gate-fail (3 bugs caught: lookahead, units, placebo) |
+| ICT-05 | FAIL | FINAL: best tsoup2_BTC_h5 +0.75%/mo SR 0.45 DD 42.7 minYr -3.72 placebo p90 (signal real, untradeable at 10bp - same pattern as ICT-01) |
+| ICT-06 | FAIL | FINAL (bug#4 NWOG 2-week-stale ref fixed + re-run): 8 nodes all <= 0 (best NWOG_MOM_BTC -0.49%/mo SR 0.17 DD 74) | verdict robust to the fix |
+| ICT-07 | PENDING | - | - |
+| ICT-08 | PENDING | - | - |
+| ICT-09 | PENDING | - | - |
+| ICT-10 | PASS* (PROVISIONAL) | Quasimodo: qm_ETH_h5 CLEARS all gates (+0.61%/mo SR 0.60 DD 17.6 minYr -0.14, 500-draw placebo p97.4, 102 trades) BUT split-half 21-23 +1.23%/mo SR 1.08 vs 24-26 -0.10 SR -0.03 = edge entirely front-loaded; short-side only; BTC nodes fail | gates PASSED (pre-registered bar) but split-half decay = do NOT adopt without re-confirmation; slot-review slate |
+| **VSA / Wyckoff** | | | |
+| VSA-01 | FAIL | no-demand/no-supply fade: 6 nodes all negative (-0.8..-2.4%/mo) | weak-leg fade loses to costs |
+| VSA-02 | FAIL | stopping volume/climax reversal: 6 nodes all <=0 (best vsa02_BTC_h5 -0.10%/mo SR 0.02) | ultra-high-volume bars don't mark reversal points net |
+| VSA-03 | FAIL | upthrust/shakeout fade: 6 nodes all negative (-0.5..-1.8%/mo) | wide-bar rejection bars don't reverse net of costs; VSA family 3/3 dead at daily freq |
+| WCK-01 | PENDING | - | - |
+| WCK-02 | PENDING | - | - |
+| **Educator systems** | | | |
+| MNV-01 | BLOCKED | VCP full chain (compression+dry-up+3 contractions -> breakout on +40% vol) fires 0x in 2038d x 2 assets; pre&breakout near-misses 1-2x but never with volume surge | setup too rare at daily freq; rule-sequencing bug (dry-up vs vol-confirm same-bar contradiction) found+fixed during diagnosis |
+| MNV-02 | FAIL | SEPA gate on Donchian breakout: gated_BTC improves all risk metrics (DD 57->26.6, minYr -5.2->-1.4, SR 0.45->0.49) but SR<0.5 + placebo p86; gated_ETH negative | gate direction real on BTC, not enough; hurts ETH |
+| STR-01 | PENDING | - | - |
+| WST-01 | PENDING | - | - |
+| RSH-01 | PENDING | - | - |
+| BRO-01 | PENDING | - | - |
+| BRO-02 | PENDING | - | - |
+| ELD-01 | PENDING | - | - |
+| ELD-02 | PENDING | - | - |
+| **Indicator zoo** | | | |
+| IND-01 | PENDING | - | - |
+| IND-02 | PENDING | - | - |
+| IND-03 | PENDING | - | - |
+| IND-04 | PENDING | - | - |
+| IND-05 | PENDING | - | - |
+| IND-06 | PENDING | - | - |
+| IND-07 | PENDING | - | - |
+| IND-08 | PENDING | - | - |
+| IND-09 | PENDING | - | - |
+| IND-10 | PENDING | - | - |
+| IND-11 | PENDING | - | - |
+| IND-12 | PENDING | - | - |
+| IND-13 | PENDING | - | - |
+| IND-14 | PENDING | - | - |
+| IND-15 | PENDING | - | - |
+| **Quant methods** | | | |
+| QNT-01 | PENDING | - | - |
+| QNT-02 | PENDING | - | - |
+| QNT-03 | PENDING | - | - |
+| QNT-04 | PENDING | - | - |
+| QNT-05 | PENDING | - | - |
+| QNT-06 | PENDING | - | - |
+| **Anomalies** | | | |
+| ANM-01 | PENDING | - | - |
+| ANM-02 | PENDING | - | - |
+| ANM-03 | PENDING | - | - |
+| ANM-04 | PENDING | - | - |
+| ANM-05 | PENDING | - | - |
+| ANM-06 | PENDING | - | - |
+| **Sentiment / Macro** | | | |
+| SNT-01 | PENDING | - | - |
+| SNT-02 | PENDING | - | - |
+| SNT-03 | PENDING | - | - |
+| SNT-04 | PENDING | - | - |
+| SNT-05 | PENDING | - | - |
+| FG-01 | PENDING | - | - |
+| FG-02 | PENDING | - | - |
+| MAC-01 | PENDING | - | - |
+| MAC-02 | PENDING | - | - |
+| MAC-03 | PENDING | - | - |
+| MAC-04 | PENDING | - | - |
+| MAC-05 | PENDING | - | - |
+| **Carry / Arb** | | | |
+| CC-01 | PENDING | - | - |
+| CC-02 | PENDING | - | - |
+| CAR-03 | PENDING | - | - |
+| CAR-04 | PENDING | - | - |
+| PRT-01 | FAIL | EW-minus-BTC premium: +1.4-1.5%/mo real-ish (p88-90) but DD 72, minYr -3.5, and 24-26 half NEGATIVE (-0.5); rebalance alpha only +0.12%/mo | 2 bugs caught pre-recording (node def, weight-path double-count); premium died recently |
+| **Book overlays & Sizing** | | | |
+| REG-01 | PENDING | - | - |
+| REG-02 | PENDING | - | - |
+| REG-03 | PENDING | - | - |
+| TM-01 | PENDING | - | - |
+| TM-02 | PENDING | - | - |
+| TM-03 | PENDING | - | - |
+| TM-04 | PENDING | - | - |
+| TM-05 | PENDING | - | - |
+| TM-06 | PENDING | - | - |
+| RBT-01 | PENDING | - | - |
+| RBT-02 | PENDING | - | - |
+| RSK-01 | PENDING | - | - |
+| RSK-02 | PENDING | - | - |
+| **Execution & Deployment** | | | |
+| EXE-02 | PENDING | - | - |
+| EXE-03 | PENDING | - | - |
+| GRD-02 | PENDING | - | - |
+| **Wave-2 mechanisms** | | | |
+| I-07 | PENDING | - | - |
+| I-08 | PENDING | - | - |
+| I-09 | PENDING | - | - |
+| I-10 | PENDING | - | - |
+| I-12 | PENDING | - | - |
+| I-13 | PENDING | - | - |
+| I-14 | PENDING | - | - |
+| I-16 | PENDING | - | - |
+| I-17 | PENDING | - | - |
+| **Options probes** | | | |
+| I-19 | PENDING | - | - |
+| I-20 | PENDING | - | - |
+| IV-01 | PENDING | - | - |
+| **Truth & Robustness** | | | |
+| I-21 | PENDING | - | - |
+| I-22 | PENDING | - | - |
+| I-23 | PENDING | - | - |
+| I-24 | PENDING | - | - |
+| **Meta (endgame)** | | | |
+| END-01 | PENDING | - | - |
+| END-02 | PENDING | - | - |
