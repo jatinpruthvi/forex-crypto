@@ -135,6 +135,26 @@
     -0.48
    ],
    "note": "wide-bar break-and-reject on high volume: no reversal edge; VSA family (01/02/03) conclusively dead at daily frequency"
+  },
+  "DAR-01": {
+   "verdict": "FAIL (near-miss)",
+   "best_nodes": {
+    "darvas_ETH_h10": {
+     "monthly": 1.17,
+     "sr": 0.75,
+     "dd": 28.6,
+     "minyr": -2.22,
+     "placebo_pct": 96
+    },
+    "darvas_BTC_h10": {
+     "monthly": 1.06,
+     "sr": 0.72,
+     "dd": 26.3,
+     "minyr": -2.44,
+     "placebo_pct": 97
+    }
+   },
+   "note": "ALL 6 nodes positive with real signal content (4/6 placebo>=92); fails ONLY minYr gate (worst year -2.0..-2.9 vs -1.5). Third near-miss after ICT-03 OTE and MNV-02 SEPA - volume-confirmed breakout family looks genuinely real but with bad worst years; portfolio-slot candidates."
   }
  },
  "errata": {
