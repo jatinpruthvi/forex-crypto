@@ -105,8 +105,8 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | AMT-01 | PENDING | - | - |
 | LV-01 | PENDING | - | - |
 | **ICT / SMC** | | | |
-| ICT-01 | FAIL* | *entry-day-lookahead errata: true numbers are <= recorded; FAIL verdict robust. | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
-| ICT-02 | FAIL* | *1-bar timing errata (conservative direction); FAIL robust. | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
+| ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
+| ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
 | ICT-03 | FAIL | corrected (entry-lookahead bug fixed): ote_BTC_h8 +34.6%/mo SR 0.90 but minYr -9.6 -> gates FAIL; ETH nodes negative | placebo p0-27 |
 | ICT-04 | FAIL | mitigation retest: corrected numbers +3/-0.7/-22.7/-10.2%/mo all gate-fail (first run had entry-day lookahead, +95% phantom) | bug caught by magnitude alarm |
 | ICT-05 | FAIL | confirmed turtle soup: all nodes gate-fail (best tsoup2_BTC_h5 +13%/mo but SR 0.38 DD 43 minYr -31) | ICT-01 sibling confirmed dead |

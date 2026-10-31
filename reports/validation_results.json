@@ -62,6 +62,6 @@
   }
  },
  "errata": {
-  "entry_lookahead_fix": "All validate_*.py with sequential hold loops credit pos[t]*ret[t] where pos is decided at close[t] -> fixed to pos.shift(1)*ret. Affects ICT-01 (recorded numbers optimistic; FAIL robust), ICT-03/04 re-run (records overwritten). ICT-02/06 used shift(1) already."
+  "entry_lookahead_fix": "Bug scope CORRECTED: entry-day lookahead existed only in ICT-03/04/05 validator scripts (written faulty, fixed same session via +95%/mo magnitude alarm, re-run before final records). ICT-01/ICT-02 used pos.shift(1) correctly throughout - their recorded numbers stand. Engine (nuclear_edges.pnl_from_weights, ret_fwd=shift(-1)) verified correct by tests. Champion book recompute: +2.61/1.86/13.8 vs recorded +2.46/1.77/14.5; residual = cost-netting convention (recorded conservative)."
  }
 }

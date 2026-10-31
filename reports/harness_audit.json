@@ -1,0 +1,27 @@
+{
+ "date": "2026-10-30",
+ "verdict": "HARNESS VERIFIED",
+ "tests": "tests/test_validation_harness.py: 7/7 pass (lookahead discrimination, validator==engine equivalence, exact cost accounting 2*fee round-trip / 4*fee flip, hand-computed metrics, placebo FP rate on pure noise)",
+ "engine": "nuclear_edges.pnl_from_weights/pnl_from_pos: ret_fwd = pct_change().shift(-1) - weight at close t earns t->t+1. CORRECT.",
+ "book_recompute": {
+  "recomputed_x1_house_metrics": {
+   "monthly": 2.61,
+   "sr": 1.86,
+   "dd": 13.8
+  },
+  "recorded_x1": {
+   "monthly": 2.46,
+   "sr": 1.77,
+   "dd": 14.5
+  },
+  "residual_explained": "cost-netting (recorded streams squeeze-sleeve costs separately = conservative); DD sign convention",
+  "script": "scripts/verify_book_recompute.py"
+ },
+ "bug_scope_entry_lookahead": "ICT-03/04/05 ONLY (fixed + re-run; ICT-04 phantom +95%/mo collapsed to +3/-23). ICT-01/ICT-02 correct from the start (false errata reverted).",
+ "metric_conventions": {
+  "house": "metrics_from_pnl: compounded monthly, SR sqrt(365), DD on compounded equity",
+  "validator_inline": "simple-sum monthly, SR sqrt(252)"
+ },
+ "gates_convention_independent": "DD<=40 and minYr>=-1.5 verdicts unaffected by monthly/SR conventions",
+ "magnitude_alarm": "standing rule: any node >30%/mo at 10bp = suspect bug, audit before recording"
+}
