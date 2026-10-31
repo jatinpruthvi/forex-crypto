@@ -48,26 +48,24 @@ def main():
         "ew_monthly": None,                # built below (rebalanced)
     }
     # monthly-rebalanced EW basket: hold 1/15 each, rebalance monthly (cost on |dw|)
-    w_ew = pd.DataFrame(1.0 / 15.0, index=idx, columns=px.columns)
+    w_target = pd.DataFrame(1.0 / 15.0, index=idx, columns=px.columns)
     reb = pd.Series(False, index=idx)
     reb.iloc[0] = True
     reb.loc[~reb.index.to_period("M").duplicated()] = True
-    w_target = w_ew.copy()
-    w_path = w_target.copy()  # constant target; turnover only at rebalances due to drift
-    w_act = pd.DataFrame(np.nan, index=idx, columns=px.columns)
-    w_act.iloc[0] = w_target.iloc[0]
-    for i in range(1, len(idx)):
-        prev = w_act.iloc[i - 1] * (1 + rets.iloc[i])
-        prev = prev / prev.sum()
-        if bool(reb.iloc[i]):
-            w_act.iloc[i] = w_target.iloc[i]
-        else:
-            w_act.iloc[i] = prev
-    dw = w_act.diff().abs().sum(axis=1) * 0
-    dw.iloc[1:] = w_act.diff().abs().sum(axis=1).iloc[1:]
+    # CORRECT weight path (bug #6 fix): w_start[i] earns rets[i]; drift carries to i+1.
+    w_start = pd.DataFrame(np.nan, index=idx, columns=px.columns)
     turn_cost = pd.Series(0.0, index=idx)
-    turn_cost.iloc[1:] = w_act.diff().abs().sum(axis=1).iloc[1:] * COST
-    ew_monthly = (w_act * rets).sum(axis=1) - turn_cost - (ew - btc)  # EW book minus BTC leg = spread w/ rebalance costs
+    w_end_prev = None
+    for i in range(len(idx)):
+        if w_end_prev is None or bool(reb.iloc[i]):
+            ws = w_target.iloc[i].astype(float)
+            if w_end_prev is not None:
+                turn_cost.iloc[i] = float((ws - w_end_prev / w_end_prev.sum()).abs().sum()) * COST
+        else:
+            ws = w_end_prev / w_end_prev.sum()
+        w_start.iloc[i] = ws
+        w_end_prev = ws * (1 + rets.iloc[i])
+    ew_monthly = (w_start * rets).sum(axis=1) - turn_cost - btc  # rebalanced EW book MINUS BTC
     nodes["ew_monthly"] = ew_monthly
 
     for name, series in nodes.items():

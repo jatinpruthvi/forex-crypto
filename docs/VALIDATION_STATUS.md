@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE slot, EXP-059) — x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37 | x2 +5.19%/mo DD 23.0 minYr +0.62 | x3 +7.58%/mo DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). R3.1 retained as baseline (x2 +4.73%/mo SR 1.77 DD 27.4).**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 34/184 units validated · 150 pending.**
+**Progress: 35/184 units validated · 149 pending.**
 
 **EXP-059 SLOT REVIEW (2026-10-31):** near-miss slate slotted into R3.1 at 10/15/20%. **ADOPT: ote_BTC_h8** (all lambdas; best l=0.15: SR 2.12 DD 12.1 minYr +0.37, slot placebo p99.6@500, recency PASS) -> champion R3.2. MARGINAL REJECT: darvas_h10 (SR/DD/improvement all good, slot-p94-98, but minYr +0.13..0.17 < baseline +0.19 by 0.02-0.06 - closest runner-up). REJECT: qm_ETH_h5, sepa_gated_BTC (blend SR up but monthly and minYr dilute). 4x5% slate: SR 2.11 DD 11.5 minYr +0.33 (interesting risk profile, monthly diluted).
 
@@ -183,7 +183,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | CC-02 | PENDING | - | - |
 | CAR-03 | PENDING | - | - |
 | CAR-04 | PENDING | - | - |
-| PRT-01 | PENDING | - | - |
+| PRT-01 | FAIL | EW-minus-BTC premium: +1.4-1.5%/mo real-ish (p88-90) but DD 72, minYr -3.5, and 24-26 half NEGATIVE (-0.5); rebalance alpha only +0.12%/mo | 2 bugs caught pre-recording (node def, weight-path double-count); premium died recently |
 | **Book overlays & Sizing** | | | |
 | REG-01 | PENDING | - | - |
 | REG-02 | PENDING | - | - |

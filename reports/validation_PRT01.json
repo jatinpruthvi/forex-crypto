@@ -1,0 +1,56 @@
+{
+ "unit": "PRT-01",
+ "verdict": "FAIL",
+ "pass_nodes": [],
+ "nodes": {
+  "ew_minus_btc": {
+   "monthly": 1.42,
+   "sr": 0.6,
+   "dd": 71.8,
+   "minyr": -3.54,
+   "placebo_pct": 87.6,
+   "split_sr": {
+    "21-23": 1.39,
+    "24-26": -0.54
+   },
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "placebo p88"
+   ]
+  },
+  "btc_minus_ew": {
+   "monthly": -3.08,
+   "sr": -0.6,
+   "dd": 92.9,
+   "minyr": -14.07,
+   "placebo_pct": 12.4,
+   "split_sr": {
+    "21-23": -1.39,
+    "24-26": 0.54
+   },
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p12"
+   ]
+  },
+  "ew_monthly": {
+   "monthly": 1.54,
+   "sr": 0.63,
+   "dd": 72.5,
+   "minyr": -3.83,
+   "placebo_pct": 89.6,
+   "split_sr": {
+    "21-23": 1.44,
+    "24-26": -0.56
+   },
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "placebo p90"
+   ]
+  }
+ }
+}

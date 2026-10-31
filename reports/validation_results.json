@@ -216,6 +216,26 @@
    },
    "decomposition": "SHORT-side Quasimodo only (long mirror fires 0x on ETH h5); BTC nodes fail (best qm_BTC_h5 SR 0.01)",
    "note": "First node since I-01 to clear ALL pre-registered gates, but split-half shows edge entirely in 2021-23 (like a sample-concentration artifact). Multiple-testing context: 1 p96+ node among ~200 scanned is within scan-wide chance expectation. NOT eligible for champion book without out-of-sample/re-confirmation; added to slot-review slate with ICT-03 OTE and MNV-02 SEPA."
+  },
+  "PRT-01": {
+   "verdict": "FAIL",
+   "nodes": {
+    "ew_minus_btc": {
+     "monthly": 1.42,
+     "sr": 0.6,
+     "dd": 71.8,
+     "minyr": -3.54,
+     "placebo_pct": 88
+    },
+    "ew_monthly": {
+     "monthly": 1.54,
+     "sr": 0.63,
+     "dd": 72.5,
+     "minyr": -3.83,
+     "placebo_pct": 90
+    }
+   },
+   "note": "EW-BTC premium is real-ish pre-2024 but the 24-26 half is negative (premium decayed); rebalance alpha +0.12%/mo only. BUGS CAUGHT PRE-RECORDING: node definition (subtracted wrong spread) + weight-path double-count (end-of-day weight re-applied same-day return, phantom +5.85%/mo killed by magnitude alarm vs static node)."
   }
  },
  "errata": {
