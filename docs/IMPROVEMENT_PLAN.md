@@ -148,6 +148,54 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
   (n≈1-2 cycles — statistically unvalidatable; do not claim) · borrow/margin rates (no source) ·
   L2 order book, liquidations (already closed).
 
+## C3. WEB-RESEARCH ADDITIONS (2026-10-30) — sourced from ICT/YouTube educators, Instagram-style price-action schools, quant Reddit, Wyckoff literature
+
+### ICT / liquidity family (ICT) — the dominant retail educator methodology
+| ID | strategy (exact rule) | source concept | status |
+|---|---|---|---|
+| ICT-01 | **Turtle Soup / liquidity-sweep fade** — price wicks through prior high/low (PDH/PDL/equal highs), closes back inside → fade the raid | fluxcharts, liquidityscan | UNTESTED |
+| ICT-02 | **Judas Swing / Power-of-3 (AMD)** — fade the first 30-60min fake move after London/NY session open; trade the distribution leg | grandalgo ICT guide | UNTESTED |
+| ICT-03 | **OTE (Optimal Trade Entry)** — after structure shift, enter on 62-79% fib retracement of the impulse leg | altrady/ICT glossary | UNTESTED |
+| ICT-04 | **Breaker block retest** — failed order block (swept swing, reversed) retested from the other side → polarity-flip entry | liquidityscan | UNTESTED |
+| ICT-05 | **Unicorn model** — breaker block ∩ FVG same price window (confluence zone, tight stop) | liquidityscan | UNTESTED |
+| ICT-06 | **Silver bullet** — FVG entry inside the one-hour killzone window (London/NY macro hours) | innercircletrader | UNTESTED |
+| ICT-07 | **Midnight-open anchor** (00:00 NY open) — bullish-bias dips below buy / bearish rallies above sell | liquidityscan | UNTESTED |
+| ICT-08 | **SMT divergence** — BTC makes higher high while ETH fails (or vice versa) → intermarket reversal signal | ICT bias tools | UNTESTED |
+| ICT-09 | **CISD confirmation** — candle closes back through the open of the last opposing candle run → shift-of-control entry | grandalgo | UNTESTED |
+
+### Supply/demand + pattern additions (SD/CH) — Instagram/trading-school price action
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| SD-01 | **Supply/demand zones (RBR/DBR/Drop-Base-Rally)** — base candle zone + retest entry | ebc.com, maktradingschool | UNTESTED |
+| SD-02 | **Golden zone** — supply/demand zone ∩ 50%/61.8% fib retracement confluence | protradingschool | UNTESTED |
+| CH-06 | **Inside bar / NR7 narrow-range breakout** — narrowest range 7 days + inside bar → breakout with the break direction | unofficed NR7 | UNTESTED |
+| CH-07 | **Fakey** — inside bar false breakout, fade the failure | price-action canon | UNTESTED |
+| CH-08 | **Marubozu / strong-close continuation** — full-body candle → next-bar continuation | candle canon | UNTESTED |
+| CH-09 | **RSI/MACD divergence** — price vs oscillator peak divergence → reversal | classic TA | UNTESTED |
+| CH-10 | **Trendline / LinReg-channel break** — regression channel violation | classic TA | UNTESTED |
+| CH-11 | **Renko / Point-and-Figure reversal-continuation** (alternative-bar signals) | classic TA | UNTESTED |
+
+### Quant-Reddit additions (QNT)
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| QNT-01 | **Z-score trend state machine** — (c − EMA65)/σ65 > bull-filter long / < bear-filter cash | r/algotrading (Dual Signal Trend Sentinel) | UNTESTED |
+| QNT-02 | **Mean-reversion eligibility gate** — Hurst < 0.4 + variance-ratio + lag-autocorrelation pre-screen per asset before running MR signals | r/algotrading | UNTESTED |
+| QNT-03 | **BTC-ETH 30d correlation regime gate for MR** — skip mean-reversion when market moves together (reported SR 1.86→2.13 in one thread) | r/algotrading | UNTESTED |
+
+### Wyckoff units (WCK) — simplified rule forms (full method is untestable as a whole)
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| WCK-01 | **Spring / UTAD fade** — range-break on LIGHT volume, recovery within 1-3 bars → fade back into range | tradingwyckoff, denntech | UNTESTED |
+| WCK-02 | **SOS/LPS continuation** — sign-of-strength bar on rising volume + light-volume pullback (LPS) → trend entry | capital.com | UNTESTED |
+
+### Anomaly additions (ANM) — cross-sectional finance anomalies never tested here
+| ID | strategy | status |
+|---|---|---|
+| ANM-01 | **52-week-high proximity momentum** — proximity to 52w high predicts continuation (published equity anomaly) | UNTESTED |
+| ANM-02 | **MAX/lottery effect** — coins with extreme max daily return in past month underperform (short bias) / low-MAX outperform | UNTESTED |
+
+**METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
+
 ## C. OTHER WAVES (unchanged inventory)
 
 ### Wave 1 — direct book upgrades (DONE)
@@ -205,7 +253,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..05 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~55 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~79 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
