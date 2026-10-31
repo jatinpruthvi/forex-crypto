@@ -3,36 +3,59 @@
  "verdict": "FAIL",
  "nodes": {
   "tsoup2_BTC_h3": {
-   "monthly": -11.64,
-   "sr": -0.39,
-   "dd": -66.9,
-   "minyr": -35.95,
+   "monthly": -1.22,
+   "sr": -0.47,
+   "dd": 66.9,
+   "minyr": -4.24,
    "trades": 498,
-   "placebo_pct": 0.0
+   "placebo_pct": 40.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p40"
+   ]
   },
   "tsoup2_BTC_h5": {
-   "monthly": 13.03,
-   "sr": 0.38,
-   "dd": -42.7,
-   "minyr": -31.33,
+   "monthly": 0.75,
+   "sr": 0.45,
+   "dd": 42.7,
+   "minyr": -3.72,
    "trades": 657,
-   "placebo_pct": 23.3
+   "placebo_pct": 90.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR"
+   ]
   },
   "tsoup2_ETH_h3": {
-   "monthly": -13.91,
-   "sr": -0.34,
-   "dd": -76.6,
-   "minyr": -53.5,
+   "monthly": -1.64,
+   "sr": -0.41,
+   "dd": 76.6,
+   "minyr": -8.81,
    "trades": 475,
-   "placebo_pct": 10.0
+   "placebo_pct": 26.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p27"
+   ]
   },
   "tsoup2_ETH_h5": {
-   "monthly": -28.14,
-   "sr": -0.56,
-   "dd": -89.7,
-   "minyr": -43.39,
+   "monthly": -3.05,
+   "sr": -0.67,
+   "dd": 89.7,
+   "minyr": -7.47,
    "trades": 646,
-   "placebo_pct": 0.0
+   "placebo_pct": 6.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p7"
+   ]
   }
  }
 }

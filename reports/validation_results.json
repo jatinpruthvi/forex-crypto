@@ -27,41 +27,60 @@
    "note": "session-open fade loses on all nodes; combined with SS-04/06 momentum failure => first-hour move is cost-burn on both sides; sweep-restricted variants lose less"
   },
   "ICT-03": {
-   "verdict": "FAIL",
-   "best_node": "ote_BTC_h8 (gates fail: minYr -9.6)",
-   "range_monthly": [
-    -3.48,
-    34.56
+   "verdict": "FAIL (near-miss)",
+   "best_node": "ote_BTC_h8",
+   "best_house": {
+    "monthly": 2.5,
+    "sr": 1.08,
+    "dd": 26.7,
+    "minyr": -1.83,
+    "placebo_pct": 100
+   },
+   "gate_fails": [
+    "minYr (-1.83 vs -1.5)"
    ],
-   "note": "entry-day-lookahead bug FIXED and re-run; OTE retracement no gate-passing node"
+   "note": "FIRST real signal content (placebo p100, h3/h5 p93); fails only minYr by 0.33; ETH nodes <=0; flagged for relaxed-gate or portfolio-slot review"
   },
   "ICT-04": {
    "verdict": "FAIL",
-   "best_node": "mitig_BTC_h3 +2.98%/mo SR 0.07 DD 73.8 (gates fail)",
-   "range_monthly": [
-    -22.72,
-    2.98
-   ],
-   "note": "first run +95%/mo = entry-day lookahead phantom; corrected run collapses; magnitude alarm worked"
+   "best_node": "mitig_BTC_h3",
+   "best_house": {
+    "monthly": -0.31,
+    "sr": 0.08,
+    "dd": 73.8,
+    "minyr": -6.42,
+    "placebo_pct": 77
+   },
+   "note": "all nodes gate-fail"
   },
   "ICT-05": {
    "verdict": "FAIL",
-   "range_monthly": [
-    -28.14,
-    13.03
-   ],
-   "note": "strict-rejection turtle soup dead like ICT-01"
+   "best_node": "tsoup2_BTC_h5",
+   "best_house": {
+    "monthly": 0.75,
+    "sr": 0.45,
+    "dd": 42.7,
+    "minyr": -3.72,
+    "placebo_pct": 90
+   },
+   "note": "signal content real (p90) but untradeable at 10bp - same pattern as ICT-01; maker-fee regime only"
   },
   "ICT-06": {
    "verdict": "FAIL",
-   "range_monthly": [
-    -48.17,
-    3.71
-   ],
-   "note": "NWOG/NDOG MR+MOM all 8 nodes fail; prev-period open levels = no edge at daily frequency"
+   "best_node": "NWOG_MR_BTC",
+   "best_house": {
+    "monthly": -1.0,
+    "sr": 0.07,
+    "dd": 83.0,
+    "minyr": -3.66,
+    "placebo_pct": 73
+   },
+   "note": "8 nodes all <=0"
   }
  },
  "errata": {
-  "entry_lookahead_fix": "Bug scope CORRECTED: entry-day lookahead existed only in ICT-03/04/05 validator scripts (written faulty, fixed same session via +95%/mo magnitude alarm, re-run before final records). ICT-01/ICT-02 used pos.shift(1) correctly throughout - their recorded numbers stand. Engine (nuclear_edges.pnl_from_weights, ret_fwd=shift(-1)) verified correct by tests. Champion book recompute: +2.61/1.86/13.8 vs recorded +2.46/1.77/14.5; residual = cost-netting convention (recorded conservative)."
+  "entry_lookahead_fix": "Bug scope CORRECTED: entry-day lookahead existed only in ICT-03/04/05 validator scripts (written faulty, fixed same session via +95%/mo magnitude alarm, re-run before final records). ICT-01/ICT-02 used pos.shift(1) correctly throughout - their recorded numbers stand. Engine (nuclear_edges.pnl_from_weights, ret_fwd=shift(-1)) verified correct by tests. Champion book recompute: +2.61/1.86/13.8 vs recorded +2.46/1.77/14.5; residual = cost-netting convention (recorded conservative).",
+  "units_bug_fix": "ICT-03..06 inline metrics() returned %/yr labeled %/mo and compared %/yr minyr to the -1.5 %/mo gate. Fixed to metrics_from_pnl (house units). ICT-01/ICT-02 used house metrics from the start. No verdicts flipped on re-run. Gates are house-unit: DD<=40, min_year>=-1.5 (%/mo), SR>0.5, placebo>=90th.",
+  "placebo_bug_fix": "BUG #3: ICT-03..06 block-permuted the P&L series (SR is order-free -> degenerate null; prior percentiles were floating-point noise). Fixed to binding null design: block-permute POSITIONS, recompute P&L. All four re-run; verdicts unchanged; ICT-03 revealed as near-miss (ote_BTC_h8 p100, fails only minYr). ICT-01/ICT-02 used the valid position-permute design from the start."
  }
 }

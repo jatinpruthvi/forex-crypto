@@ -139,3 +139,51 @@ def test_pnl_from_weights_panel_no_cross_lookahead():
     ret_fwd = px.pct_change().shift(-1)
     expected = (w * ret_fwd).sum(axis=1)
     assert np.allclose(pnl.fillna(0).values, expected.fillna(0).values, atol=1e-12)
+
+
+def test_house_metric_units():
+    """REGRESSION (bug found 2026-10-31): min_year and monthly must be %/MONTH scale.
+    A year that loses 17% total must show min_year ~ -1.5, NOT -17."""
+    from nuclear_edges import metrics_from_pnl
+    idx = pd.bdate_range("2021-01-01", periods=252)
+    daily = pd.Series(-0.0015, index=idx)       # -0.15%/day ~= -3.1%/mo compounded
+    m = metrics_from_pnl(daily)
+    expected_mo = ((1 - 0.0015) ** 21.0 - 1) * 100   # ~ -3.1 %/mo
+    assert abs(m["min_year"] - expected_mo) < 0.5, f"min_year units wrong: {m['min_year']}"
+    assert abs(m["monthly"] - expected_mo) < 0.6, f"monthly units wrong: {m['monthly']}"
+    assert abs(m["dd"]) < 45                     # monotone loss DD bounded
+
+
+def test_gate_threshold_units_match():
+    """The gate min_year >= -1.5 must accept -1.5%/mo and reject -17%/yr-scale numbers."""
+    from nuclear_edges import metrics_from_pnl
+    ok_series = pd.Series(-0.0007, index=pd.bdate_range("2021-01-01", periods=252))   # ~-1.5%/mo
+    bad_series = pd.Series(-0.015, index=pd.bdate_range("2021-01-01", periods=252))   # ~-27%/mo
+    assert metrics_from_pnl(ok_series)["min_year"] >= -1.5
+    assert metrics_from_pnl(bad_series)["min_year"] < -1.5
+
+
+def test_placebo_design_not_degenerate():
+    """REGRESSION (bug found 2026-10-31): permuting P&L blocks is NOT a valid placebo
+    (SR is order-free -> nulls identical to real). Permuting POSITIONS and recomputing
+    P&L must produce a genuine spread of null SRs."""
+    from nuclear_edges import metrics_from_pnl
+    rng = np.random.default_rng(5)
+    n = 1200
+    idx = pd.bdate_range("2021-01-01", periods=n)
+    ret = pd.Series(rng.normal(0, 0.01, n), index=idx)
+    pos = pd.Series(0.0, index=idx)
+    pos[rng.random(n) < 0.2] = 1.0
+    pnl = pos.shift(1).fillna(0) * ret
+    sr = metrics_from_pnl(pnl)["sharpe"]
+    srs_bad, srs_good = [], []
+    for k in range(20):
+        blocks = np.array_split(np.arange(n), 20)
+        perm = np.concatenate([blocks[j] for j in rng.permutation(20)])
+        bp_bad = pd.Series(pnl.values[perm], index=pnl.index)          # degenerate
+        pq = pos.iloc[perm].copy(); pq.index = pos.index
+        bp_good = pq.shift(1).fillna(0) * ret                          # valid
+        srs_bad.append(metrics_from_pnl(bp_bad)["sharpe"])
+        srs_good.append(metrics_from_pnl(bp_good)["sharpe"])
+    assert np.allclose(srs_bad, sr, atol=1e-9), "pnl-permute placebo should be degenerate"
+    assert np.std(srs_good) > 0.01, "position-permute placebo must spread"

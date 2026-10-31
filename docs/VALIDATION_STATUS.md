@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 26/184 units validated · 158 pending.**
+**Progress: 26/184 units validated · 158 pending (ICT-03..06 re-verified in house units).**
 
 Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (no data).
 
@@ -107,10 +107,10 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | **ICT / SMC** | | | |
 | ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
 | ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
-| ICT-03 | FAIL | corrected (entry-lookahead bug fixed): ote_BTC_h8 +34.6%/mo SR 0.90 but minYr -9.6 -> gates FAIL; ETH nodes negative | placebo p0-27 |
-| ICT-04 | FAIL | mitigation retest: corrected numbers +3/-0.7/-22.7/-10.2%/mo all gate-fail (first run had entry-day lookahead, +95% phantom) | bug caught by magnitude alarm |
-| ICT-05 | FAIL | confirmed turtle soup: all nodes gate-fail (best tsoup2_BTC_h5 +13%/mo but SR 0.38 DD 43 minYr -31) | ICT-01 sibling confirmed dead |
-| ICT-06 | FAIL | NWOG/NDOG MR+MOM x BTC/ETH: 8 nodes, all <=0 net (best NWOG_MR_BTC +3.7%/mo SR 0.05 DD 83) | daily gap levels carry no edge |
+| ICT-03 | FAIL (NEAR-MISS) | FINAL: ote_BTC_h8 +2.50%/mo SR 1.08 DD 26.7 minYr -1.83 placebo p100 -> fails ONLY minYr by 0.33; h3/h5 also p93 but minYr -2.1/-3.5; ETH <= 0 | FIRST real signal content found (p100); flag for relaxed-gate/portfolio-slot review |
+| ICT-04 | FAIL | FINAL: best mitig_BTC_h3 -0.31%/mo SR 0.08 DD 74 -> all nodes gate-fail (3 bugs caught: lookahead, units, placebo) |
+| ICT-05 | FAIL | FINAL: best tsoup2_BTC_h5 +0.75%/mo SR 0.45 DD 42.7 minYr -3.72 placebo p90 (signal real, untradeable at 10bp - same pattern as ICT-01) |
+| ICT-06 | FAIL | FINAL: 8 nodes all <= 0 (best NWOG_MR_BTC -1.00%/mo DD 83) | daily gap levels carry no edge |
 | ICT-07 | PENDING | - | - |
 | ICT-08 | PENDING | - | - |
 | ICT-09 | PENDING | - | - |

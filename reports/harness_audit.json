@@ -23,5 +23,46 @@
   "validator_inline": "simple-sum monthly, SR sqrt(252)"
  },
  "gates_convention_independent": "DD<=40 and minYr>=-1.5 verdicts unaffected by monthly/SR conventions",
- "magnitude_alarm": "standing rule: any node >30%/mo at 10bp = suspect bug, audit before recording"
+ "magnitude_alarm": "standing rule: any node >30%/mo at 10bp = suspect bug, audit before recording",
+ "line_by_line_pass_2": {
+  "date": "2026-10-31",
+  "scope": "every line producing a number: signal builders (sig_fvg same-bar trigger test, w_gated_rot 5d-lag, abs_mom_filter, smc_pf, _held ffill, cs_weights ranks/gate), data loader (15 coins 2021-2026, 0 dup dates, 0 NaN closes, 5 coins x 2 minor gaps dropped by intersection), funding carry sign+timing, all 6 validators, placebos",
+  "bugs_found": [
+   {
+    "id": 2,
+    "bug": "units: ICT-03..06 inline metrics returned %/yr labeled %/mo; minYr (%/yr) gated against -1.5 (%/mo) = 12x stricter",
+    "scope": "ICT-03..06 only",
+    "fix": "delegate to metrics_from_pnl",
+    "verdicts_flipped": 0
+   },
+   {
+    "id": 3,
+    "bug": "degenerate placebo: block-permuting P&L leaves SR unchanged (order-free); old percentiles were float noise",
+    "scope": "ICT-03..06 only",
+    "fix": "block-permute positions + recompute P&L (binding null design)",
+    "verdicts_flipped": 0
+   },
+   {
+    "id": "3b",
+    "bug": "placebo scale mismatch after units fix (real SR sqrt365 vs null sqrt252)",
+    "scope": "transient during fix",
+    "fix": "same metric both sides"
+   }
+  ],
+  "clean_bill": [
+   "nuclear_edges engine (ret_fwd shift(-1), costs exact)",
+   "load_all_5y causality",
+   "sig_fvg/sig_ob/smc_pf/w_gated_rot/abs_mom_filter/_held/cs_weights all causal (5d exec lag, shift(1) breaks)",
+   "funding carry sign correct (longs pay)",
+   "ICT-01/ICT-02 metrics+placebo correct from the start",
+   "champion book R3.1 recompute verified"
+  ],
+  "final_verdicts": {
+   "ICT-03": "FAIL near-miss (ote_BTC_h8 p100, minYr -1.83)",
+   "ICT-04": "FAIL",
+   "ICT-05": "FAIL (signal real, untradeable)",
+   "ICT-06": "FAIL"
+  },
+  "pass_rule_binding": "DD<=40 AND min_year>=-1.5 %/mo AND SR>0.5 AND placebo>=90th (position-permute null)"
+ }
 }

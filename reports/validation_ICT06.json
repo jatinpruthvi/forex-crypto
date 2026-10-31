@@ -3,68 +3,116 @@
  "verdict": "FAIL",
  "nodes": {
   "NWOG_MR_BTC": {
-   "monthly": 3.71,
-   "sr": 0.05,
-   "dd": -83.0,
-   "minyr": -26.95,
+   "monthly": -1.0,
+   "sr": 0.07,
+   "dd": 83.0,
+   "minyr": -3.66,
    "trades": 2008,
-   "placebo_pct": 3.3
+   "placebo_pct": 73.3,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p73"
+   ]
   },
   "NWOG_MOM_BTC": {
-   "monthly": -17.59,
-   "sr": -0.26,
-   "dd": -88.0,
-   "minyr": -69.87,
+   "monthly": -2.74,
+   "sr": -0.31,
+   "dd": 88.0,
+   "minyr": -5.93,
    "trades": 2008,
-   "placebo_pct": 6.7
+   "placebo_pct": 30.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p30"
+   ]
   },
   "NDOG_MR_BTC": {
-   "monthly": -48.17,
-   "sr": -0.73,
-   "dd": -97.6,
-   "minyr": -84.83,
+   "monthly": -5.13,
+   "sr": -0.88,
+   "dd": 97.6,
+   "minyr": -9.45,
    "trades": 1975,
-   "placebo_pct": 20.0
+   "placebo_pct": 30.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p30"
+   ]
   },
   "NDOG_MOM_BTC": {
-   "monthly": -0.71,
+   "monthly": -1.28,
    "sr": -0.01,
-   "dd": -74.9,
-   "minyr": -21.71,
+   "dd": 74.9,
+   "minyr": -4.15,
    "trades": 1975,
-   "placebo_pct": 3.3
+   "placebo_pct": 76.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p77"
+   ]
   },
   "NWOG_MR_ETH": {
-   "monthly": -0.17,
+   "monthly": -2.4,
    "sr": -0.0,
-   "dd": -88.7,
-   "minyr": -70.79,
+   "dd": 88.7,
+   "minyr": -8.92,
    "trades": 2020,
-   "placebo_pct": 6.7
+   "placebo_pct": 76.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p77"
+   ]
   },
   "NWOG_MOM_ETH": {
-   "monthly": -13.13,
-   "sr": -0.14,
-   "dd": -96.1,
-   "minyr": -77.26,
+   "monthly": -3.47,
+   "sr": -0.17,
+   "dd": 96.1,
+   "minyr": -9.02,
    "trades": 2020,
-   "placebo_pct": 36.7
+   "placebo_pct": 26.7,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p27"
+   ]
   },
   "NDOG_MR_ETH": {
-   "monthly": -17.02,
-   "sr": -0.19,
-   "dd": -93.5,
-   "minyr": -110.58,
+   "monthly": -3.69,
+   "sr": -0.23,
+   "dd": 93.5,
+   "minyr": -8.51,
    "trades": 2002,
-   "placebo_pct": 40.0
+   "placebo_pct": 53.3,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p53"
+   ]
   },
   "NDOG_MOM_ETH": {
-   "monthly": -32.76,
-   "sr": -0.36,
-   "dd": -98.9,
-   "minyr": -104.77,
+   "monthly": -4.95,
+   "sr": -0.44,
+   "dd": 98.9,
+   "minyr": -14.48,
    "trades": 2002,
-   "placebo_pct": 0.0
+   "placebo_pct": 50.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p50"
+   ]
   }
  }
 }
