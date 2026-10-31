@@ -36246,5 +36246,63 @@
    "2025": 2.1,
    "2026": 1.2
   }
+ },
+ "exp047_wave1": {
+  "nodes": 110,
+  "note": "improvement-plan wave 1",
+  "i01_squeeze_family": {
+   "best_standalone": "sqz_20_100_0.7_30_ETH +1.80/mo SR 0.94 (placebo 100pct)",
+   "slot_upgrade_pair": {
+    "real_SR": 1.77,
+    "null_p90": 1.52,
+    "pct": 100
+   }
+  },
+  "i02_tf_blend": "FAIL - EXP-044 claims unverified on reimpl; blend pct 67",
+  "i03_basis_mr": "tiny +0.12%/mo DD 2.2; blend pct 43 FAIL",
+  "i04_engineering": "inv-vol SR 1.44 / vol-scale SR 1.54 - dominated by R3 1.68",
+  "i05": "12h squeeze + common/EW squeeze dead"
+ },
+ "certified_book_r3_1": {
+  "composition": "56.25% base(0.375 ABS_GROT + 0.375 FVG_SHORT + 0.25 cs_mom14_K5_vg) + 18.75% fund_ls7_K5 + 25% pair-squeeze (0.5 sqz20_100_0.7_30_ETH + 0.5 sqz10_50_0.8_30_ETH)",
+  "note": "certified 2026-10-30 via slot placebo (30 shuffles, real SR 1.77 vs null p90 1.52 = 100th pct) + component placebos. Highest book Sharpe to date. R3 keeps all-positive-years profile; R3.1 trades minYr ~0 at x1 for +0.10%/mo and +0.09 SR. Costs 10bp/side; 5.5y BTC/ETH panel.",
+  "x1.0": {
+   "monthly_pct": 2.46,
+   "sharpe": 1.77,
+   "dd_pct": 14.5,
+   "min_year": 0.04
+  },
+  "x1.5": {
+   "monthly_pct": 3.62,
+   "sharpe": 1.77,
+   "dd_pct": 21.2,
+   "min_year": 0.01
+  },
+  "x2.0": {
+   "monthly_pct": 4.73,
+   "sharpe": 1.77,
+   "dd_pct": 27.4,
+   "min_year": -0.06
+  },
+  "x2.5": {
+   "monthly_pct": 5.79,
+   "sharpe": 1.77,
+   "dd_pct": 33.3,
+   "min_year": -0.16
+  },
+  "x3.0": {
+   "monthly_pct": 6.8,
+   "sharpe": 1.77,
+   "dd_pct": 39.0,
+   "min_year": -0.3
+  },
+  "yearly_x2": {
+   "2021": 13.8,
+   "2022": 0.1,
+   "2023": -0.1,
+   "2024": 5.3,
+   "2025": 3.5,
+   "2026": 1.1
+  }
  }
 }

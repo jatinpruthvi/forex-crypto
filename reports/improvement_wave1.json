@@ -1,0 +1,170 @@
+{
+ "I-01": {
+  "best": "sqz_20_100_0.7_30_ETH",
+  "metrics": {
+   "sharpe": 0.94,
+   "monthly": 1.8,
+   "dd": 25.8,
+   "min_year": -1.61,
+   "min_month": -14.43,
+   "months": 67
+  },
+  "placebo": {
+   "real": 0.94,
+   "null_mean": -0.06866666666666667,
+   "p90": 0.28700000000000014,
+   "pct": 100.0
+  },
+  "top5": [
+   [
+    "sqz_20_100_0.7_30_ETH",
+    1.8,
+    0.94
+   ],
+   [
+    "sqz_10_50_0.8_30_ETH",
+    2.31,
+    0.88
+   ],
+   [
+    "sqz_20_100_0.8_30_ETH",
+    1.94,
+    0.81
+   ],
+   [
+    "sqz_EW_20_100_0.8_30",
+    1.12,
+    0.79
+   ],
+   [
+    "sqz_10_50_0.7_30_ETH",
+    1.69,
+    0.78
+   ]
+  ],
+  "blend25": {
+   "real": 1.73,
+   "p90": 1.633,
+   "pct": 100.0
+  },
+  "blend25_b": {
+   "node": "sqz_10_50_0.8_30_ETH",
+   "real": 1.58,
+   "p90": 1.566,
+   "pct": 90.0
+  },
+  "blend25_pair": {
+   "real": 1.69,
+   "p90": 1.5890000000000002,
+   "pct": 96.66666666666667
+  },
+  "slot_upgrade": {
+   "metrics": {
+    "sharpe": 1.77,
+    "monthly": 2.46,
+    "dd": 14.5,
+    "min_year": 0.04,
+    "min_month": -4.36,
+    "months": 67
+   },
+   "placebo": {
+    "real": 1.77,
+    "p90": 1.522,
+    "pct": 100.0
+   }
+  }
+ },
+ "I-05_btc": {
+  "sharpe": 0.49,
+  "monthly": 0.81,
+  "dd": 42.9,
+  "min_year": -1.56,
+  "min_month": -14.83,
+  "months": 67
+ },
+ "I-05_eth": {
+  "sharpe": 0.07,
+  "monthly": -0.18,
+  "dd": 56.1,
+  "min_year": -5.54,
+  "min_month": -18.91,
+  "months": 67
+ },
+ "I-02": {
+  "don": {
+   "sharpe": 0.33,
+   "monthly": 0.32,
+   "dd": 63.5,
+   "min_year": -4.33,
+   "min_month": -26.36,
+   "months": 67
+  },
+  "sma": {
+   "sharpe": 0.27,
+   "monthly": -0.66,
+   "dd": 84.5,
+   "min_year": -5.95,
+   "min_month": -37.54,
+   "months": 67
+  },
+  "combo": {
+   "sharpe": 0.4,
+   "monthly": 0.68,
+   "dd": 63.5,
+   "min_year": -3.01,
+   "min_month": -19.64,
+   "months": 67
+  },
+  "blend20": {
+   "real": 1.34,
+   "p90": 1.657,
+   "pct": 66.66666666666666
+  }
+ },
+ "I-03": {
+  "metrics": {
+   "sharpe": 0.6,
+   "monthly": 0.12,
+   "dd": 2.2,
+   "min_year": 0.0,
+   "min_month": 0.0,
+   "months": 67
+  },
+  "placebo": {
+   "real": 0.6,
+   "p90": 0.521,
+   "pct": 96.66666666666667
+  },
+  "blend15": {
+   "real": 1.69,
+   "p90": 1.7,
+   "pct": 43.333333333333336
+  }
+ },
+ "I-04": {
+  "invvol_x1": {
+   "sharpe": 1.44,
+   "monthly": 2.54,
+   "dd": 18.3,
+   "min_year": -0.61,
+   "min_month": -8.74,
+   "months": 67
+  },
+  "invvol_x2": {
+   "sharpe": 1.44,
+   "monthly": 4.74,
+   "dd": 33.8,
+   "min_year": -1.35,
+   "min_month": -17.15,
+   "months": 67
+  },
+  "volscaled": {
+   "sharpe": 1.54,
+   "monthly": 2.03,
+   "dd": 17.4,
+   "min_year": 0.33,
+   "min_month": -6.33,
+   "months": 67
+  }
+ }
+}

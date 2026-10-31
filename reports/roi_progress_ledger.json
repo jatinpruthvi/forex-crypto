@@ -1537,6 +1537,17 @@
    "status": "complete",
    "date": "2026-10-30",
    "insight": "NEW BOOK R3 = 56.25% ABS_GROT+FVG_SHORT + 18.75% cs_mom14_K5_vg + 18.75% fund_ls7_K5 + 25% squeeze_daily_ETH: x1 +2.36%/mo SR 1.68 DD 13.3 minYr +0.22; x2 +4.52 DD 25.7 minYr +0.31; x3 +6.47%/mo DD 37.2 minYr +0.27 = user 6%/mo goal met, every year positive, costs in."
+  },
+  {
+   "id": 56,
+   "exp": "EXP-047 improvement_wave1 (I-01 squeeze family, I-02 tf-blends, I-03 basis-MR, I-04 engineering)",
+   "nodes": 110,
+   "budget_usd": 1.0,
+   "total_spent_usd": 43.5,
+   "result": "I-01 PASS: squeeze pair (sqz_20_100_0.7_30 + sqz_10_50_0.8_30, ETH) slot-upgrades R3 -> R3.1 SR 1.77 (slot placebo 100th pct). I-02 FAIL: EXP-044 tf-winner claims UNVERIFIED (reimpl +0.32/-0.66 vs claimed +2.68/+2.23; blend pct 67). I-03 basis-MR tiny (+0.12%/mo DD 2.2, blend pct 43 FAIL). I-04 inv-vol/vol-scale dominated (SR 1.44/1.54 < 1.68). I-05 12h squeeze + common/EW squeeze dead.",
+   "status": "complete",
+   "date": "2026-10-30",
+   "insight": "BOOK R3.1 = 56.25% base(ABS+FVG+mom) + 18.75% fund + 25% pair-squeeze: x1 +2.46%/mo SR 1.77 DD 14.5; x2 +4.73 DD 27.4; x3 +6.80%/mo DD 39.0. Highest book SR ever (1.77). R3 keeps the all-positive-yr profile (minYr +0.22..+0.31)."
   }
  ],
  "savepoints": {
@@ -2257,5 +2268,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 55
+ "count": 56
 }

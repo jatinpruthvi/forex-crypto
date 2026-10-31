@@ -939,3 +939,26 @@ included; ×2.5 (+5.52, DD 31.6) is the risk-capped variant. R3 strictly dominat
 selection-adjusted null wasn't re-run for the 60-node search itself, but squeeze (a) passed its own
 standalone placebo, (b) passed the blend placebo at the 100th pct, (c) replicated independently in
 EXP-045 (sqzbrk) and EXP-046b (squeeze_daily) — a pre-registered family, not one lucky pick.
+
+## 12.17. EXP-047 — Improvement Plan Wave 1 → Book R3.1 (2026-10-30)
+
+Master plan: `docs/IMPROVEMENT_PLAN.md` (24 untested ideas inventoried, ROI tracker live). Wave 1 results:
+
+- **I-01 squeeze-family expansion — PASS → BOOK R3.1.** 126-node grid (n1,n2,thresh,horizon ×
+  BTC/ETH/EW). Best solo: sqz_20_100_0.7_30_ETH +1.80%/mo SR 0.94 (standalone placebo 100th pct);
+  sqz_10_50_0.8_30_ETH +2.31%/mo. **Slot upgrade** (pair 0.5/0.5 replaces the old squeeze node):
+  R3.1 = 56.25% base(ABS+FVG+mom) + 18.75% fund + 25% pair-squeeze → **x1 +2.46%/mo SR 1.77 DD 14.5**;
+  x2 +4.73 DD 27.4; x3 **+6.80%/mo** DD 39.0. Slot placebo **100th pct** (null p90 1.52 vs real 1.77).
+  Highest book Sharpe to date. R3 stays the all-positive-years champion (minYr +0.22..+0.31).
+  Common/EW-basket squeeze and 12h squeeze are dead (DD 90+, SR < 0.5).
+- **I-02 tf-winner blends — FAIL (truth finding).** The EXP-044 claims (don55_4h_ETH +2.68,
+  sma20_50_1d_ETH +2.23) could NOT be reproduced from any surviving definition (textbook reimpl:
+  +0.32 / −0.66); blend placebo 67th pct. **Those EXP-044 standalone numbers are demoted to
+  UNVERIFIED** — do not cite them as expected returns. This is exactly why the placebo/reproduction
+  discipline stays.
+- **I-03 basis-MR sleeve — FAIL admission.** Daily perp-vs-spot basis z-reversion: +0.12%/mo SR 0.60
+  DD 2.2 (thin, mostly 2025+); blend placebo 43rd pct. Recorded, not bookable.
+- **I-04 book engineering — dominated.** Inverse-vol sleeve weights SR 1.44; vol-scaled leverage
+  SR 1.54; both below R3's 1.68 (consistent with prior "vol-targeting dominated" finding).
+- Wave 2 queued next: I-06 intraday seasonality, I-07 maker-fill MR, I-08 lead-lag/breadth,
+  I-09 extreme-funding fade, I-10 TVL regime, I-12 maker-fee grid.
