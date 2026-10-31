@@ -1,0 +1,20 @@
+{
+ "champion_book": "R3.1 (x2 +4.73%/mo SR 1.77 DD 27.4)",
+ "passing_units": [
+  "I-01 squeeze-family pair slot"
+ ],
+ "results": {
+  "ICT-01": {
+   "verdict": "FAIL",
+   "best_node": "turtle_soup_BTC_hold3",
+   "metrics": {
+    "monthly": 0.12,
+    "sharpe": 0.22,
+    "dd": 45.5,
+    "min_year": -4.02
+   },
+   "placebo_pct": 97,
+   "note": "fade signal statistically real but fails gates; ETH deeply negative"
+  }
+ }
+}
