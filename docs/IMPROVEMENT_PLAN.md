@@ -218,7 +218,7 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
 | TM-04 | **Chandelier exit** (ATR-based trailing from highest high) vs time-hold | exits | UNTESTED |
 | TM-05 | **Time-stop exit** — flat after N bars regardless of P&L | exits | UNTESTED |
 | RBT-02 | **Threshold-band rebalancing** (only trade when weight drifts > x%) vs calendar rebalance | portfolio | UNTESTED |
-| I-04b | **ERC / HRP sleeve weighting** (equal-risk-contribution & hierarchical risk parity — distinct math from inv-vol) | portfolio | UNTESTED |
+| I-04b | **MVO / ERC / HRP sleeve weighting** (Markowitz mean-variance, equal-risk-contribution, hierarchical risk parity — distinct math from inv-vol) | portfolio | UNTESTED |
 | IV-01 | **Options IV term-structure slope** (front vs back expiry IV) as vol signal — IF deribit snapshots carry multiple expiries (data-check first) | options probe | UNTESTED |
 | QNT-04 | **Kaufman efficiency-ratio regime filter** (ER = |net move|/sum|moves|; trade trend only when ER high) | filters | UNTESTED |
 | IND-01 | **Bill Williams Alligator + fractals** (the one classic indicator never in the EXP-046 adopted zoo) | indicator zoo | UNTESTED |
@@ -274,6 +274,25 @@ The list stays open until one-by-one validation begins.
 | SNT-05 | **Keyword event studies** from daily_titles.jsonl (ETF/hack/SEC keyword days) | UNTESTED |
 
 **NOTE:** FRED also carries sp500_index (feeds I-08 lead-lag with real data). No M2/gold in the file.
+
+### EDUCATOR-SYSTEMS PASS (2026-10-30, named-author methodologies)
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| MNV-01 | **Minervini VCP** — progressive contractions (e.g. 18%->12%->6%, ATR shrinks to ~1/3 of 50d avg), volume dry-up, breakout of final pivot on +40-50% volume; stop under last contraction low | tradingsim, finwiz | UNTESTED |
+| MNV-02 | **Minervini Trend Template (SEPA filter)** — >150d & >200d MA (200 rising), near 52w high, strong relative strength -> market-direction gate for breakout units | clearcurve, finwiz | UNTESTED |
+| STR-01 | **The Strat (Rob Smith)** — bar taxonomy 1(inside)/2(directional 2U/2D)/3(outside) + combos (2-1-2, 3-1-2, 2-2, 1-2-2) + FTFC (full timeframe continuity) gate | luxalgo, forexmt4indicators | UNTESTED |
+| WST-01 | **Weinstein stage analysis** — 30-week MA slope + price position -> stage 1-4 regime; trade stage 2/4 only | classic named system | UNTESTED |
+| RSH-01 | **Raschke Holy Grail** — strong trend (ADX>30) first pullback to 20-MA -> continuation entry | Linda Raschke canon | UNTESTED |
+| BRO-01 | **Al Brooks second entry / H2-L2** — second failed attempt at a signal bar level -> entry with trend | Al Brooks price action | UNTESTED |
+| BRO-02 | **Brooks wedge (3-push) reversal + measured-move target** | Al Brooks | UNTESTED |
+| ELD-01 | **Elder Triple Screen** — weekly trend (MACD-hist) x daily oscillator x intraday trigger | Alexander Elder | UNTESTED |
+| ANM-04 | **Idiosyncratic-volatility effect** — low-idio-vol coins outperform (cross-sectional) | equity anomaly | UNTESTED |
+| CAR-03 | **Funding & basis momentum** (delta signals: acceleration of funding/basis, not level) | crypto-native variant | UNTESTED |
+| TM-06 | **Fib-extension profit targets** (1.618/2.618 measured moves) vs fixed exits | retail canon | UNTESTED |
+| GRD-02 | **Laddered DCA profit-ladder** — staged buys below last buy + sell ladder above average cost | r/algotrading live systems | UNTESTED |
+| EXE-02 | **Fee-tier optimization** — BNB fee discount (25%), maker rebates, referral tiers = pure cost ROI | venue mechanics | UNTESTED |
+
+**BLOCKED-DATA register additions:** on-chain metric family (MVRV/NUPL/SOPR/Puell Multiple/hash ribbons) — no dataset in reach; options max-pain/GEX — needs option OI history.
 
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
@@ -334,7 +353,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~120 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~135 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
