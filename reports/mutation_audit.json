@@ -1,0 +1,58 @@
+{
+ "date": "2026-10-31",
+ "angle": "1-mutation-testing",
+ "mutants": {
+  "M1-lookahead": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_timing_signal_earns_next_day_only",
+    "tests/test_validation_harness.py::test_validator_hold_pattern_matches_engine"
+   ]
+  },
+  "M2-units-annual": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_house_metric_units",
+    "tests/test_validation_harness.py::test_gate_threshold_units_match"
+   ]
+  },
+  "M3-costs-halved": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_costs_entry_exit_exact",
+    "tests/test_validation_harness.py::test_flip_costs_two_sides"
+   ]
+  },
+  "M4-nwog-stale": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_nwog_prev_week_open_reference"
+   ]
+  },
+  "M5-placebo-degenerate": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_placebo_design_not_degenerate"
+   ]
+  },
+  "M6-metrics-order-free-null": {
+   "baseline_pass": true,
+   "mutant_fails_tests": true,
+   "caught": true,
+   "tests": [
+    "tests/test_validation_harness.py::test_placebo_design_not_degenerate"
+   ]
+  }
+ },
+ "all_caught": true
+}
