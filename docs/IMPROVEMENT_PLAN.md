@@ -204,6 +204,31 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
 | END-01 | **Ensemble harvest (meta-unit)** — after one-by-one validation, blend ALL placebo-passing units into Book R4 with blend placebo certification | the plan had no step connecting validated units to the book | UNTESTED |
 | END-02 | **Regime dispatch (meta-unit)** — route validated units by state (trend regime -> trend units, range -> MR units), CPCV-validated | regime-conditional use of units was implicit only | UNTESTED |
 
+### DEEP-PASS ADDITIONS (2026-10-30, category-by-category walk)
+| ID | strategy (exact rule) | category | status |
+|---|---|---|---|
+| CH-14 | **Flags & pennants** — tight continuation wedge after impulse; trade measured-move breakout | chart patterns | UNTESTED |
+| CH-15 | **Cup & handle** (incl. rounded bottom) — trade handle breakout | chart patterns | UNTESTED |
+| CH-16 | **Head & shoulders** (incl. inverse) — neckline break entry | chart patterns | UNTESTED |
+| CH-17 | **Triangles** — ascending/descending/symmetric breakout with the trend | chart patterns | UNTESTED |
+| CH-18 | **Morning / evening star** (3-bar reversal) | candles | UNTESTED |
+| CH-19 | **Three white soldiers / three black crows** (3-bar continuation) | candles | UNTESTED |
+| LV-01 | **Round-number levels** — x000/x500 psychological magnet & fade (documented intraday effect) | levels | UNTESTED |
+| ANM-03 | **Streak effects** — k consecutive up/down days → continuation or exhaustion (test both signs) | anomalies | UNTESTED |
+| TM-04 | **Chandelier exit** (ATR-based trailing from highest high) vs time-hold | exits | UNTESTED |
+| TM-05 | **Time-stop exit** — flat after N bars regardless of P&L | exits | UNTESTED |
+| RBT-02 | **Threshold-band rebalancing** (only trade when weight drifts > x%) vs calendar rebalance | portfolio | UNTESTED |
+| I-04b | **ERC / HRP sleeve weighting** (equal-risk-contribution & hierarchical risk parity — distinct math from inv-vol) | portfolio | UNTESTED |
+| IV-01 | **Options IV term-structure slope** (front vs back expiry IV) as vol signal — IF deribit snapshots carry multiple expiries (data-check first) | options probe | UNTESTED |
+| QNT-04 | **Kaufman efficiency-ratio regime filter** (ER = |net move|/sum|moves|; trade trend only when ER high) | filters | UNTESTED |
+| IND-01 | **Bill Williams Alligator + fractals** (the one classic indicator never in the EXP-046 adopted zoo) | indicator zoo | UNTESTED |
+
+**COMPLETENESS STATEMENT (2026-10-30):** the inventory is now CLOSED against the strategy-universe map.
+Anything further found in the wild is one of: (a) a recombination of listed units (handled by END-01
+ensemble + END-02 dispatch after one-by-one validation), (b) an indicator-zoo repackage already
+covered by EXP-022..046 tests or IND-01, (c) data-blocked (listed explicitly), or (d) discretionary
+method (Wyckoff full method, Elliott full counting, Gann) — only its rule-formable units are listed.
+
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
 ## C. OTHER WAVES (unchanged inventory)
@@ -263,7 +288,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~85 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~100 units, inventory CLOSED)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
