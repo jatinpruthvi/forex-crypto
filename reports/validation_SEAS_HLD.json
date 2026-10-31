@@ -1,0 +1,148 @@
+{
+ "family": "F6+F3-lite",
+ "units": {
+  "SEAS-01": {
+   "verdict": "FAIL",
+   "pass_nodes": []
+  },
+  "SEAS-02": {
+   "verdict": "FAIL",
+   "pass_nodes": []
+  },
+  "SEAS-03": {
+   "verdict": "FAIL",
+   "pass_nodes": []
+  },
+  "HLD-01": {
+   "verdict": "PASS",
+   "pass_nodes": [
+    "hld_predrift_BTC",
+    "hld_predrift_ETH"
+   ]
+  }
+ },
+ "nodes": {
+  "seas_octnov_BTC": {
+   "monthly": 0.76,
+   "sr": 0.55,
+   "dd": 32.0,
+   "minyr": -2.87,
+   "trades": 310,
+   "placebo_pct": 77.5,
+   "gate_fails": [
+    "minYr",
+    "placebo p78"
+   ]
+  },
+  "seas_halloween_BTC": {
+   "monthly": 1.52,
+   "sr": 0.64,
+   "dd": 56.3,
+   "minyr": -2.56,
+   "trades": 1037,
+   "placebo_pct": 81.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "placebo p81"
+   ]
+  },
+  "seas_lunar_BTC": {
+   "monthly": -0.83,
+   "sr": -0.42,
+   "dd": 50.1,
+   "minyr": -3.9,
+   "trades": 174,
+   "placebo_pct": 16.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p16"
+   ]
+  },
+  "hld_predrift_BTC": {
+   "monthly": 0.47,
+   "sr": 0.65,
+   "dd": 12.6,
+   "minyr": -0.01,
+   "trades": 133,
+   "placebo_pct": 98.0,
+   "gate_fails": []
+  },
+  "hld_postrev_BTC": {
+   "monthly": -0.2,
+   "sr": -0.35,
+   "dd": 20.3,
+   "minyr": -0.55,
+   "trades": 88,
+   "placebo_pct": 35.5,
+   "gate_fails": [
+    "SR",
+    "placebo p36"
+   ]
+  },
+  "seas_octnov_ETH": {
+   "monthly": 0.68,
+   "sr": 0.43,
+   "dd": 41.0,
+   "minyr": -3.94,
+   "trades": 310,
+   "placebo_pct": 70.5,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p70"
+   ]
+  },
+  "seas_halloween_ETH": {
+   "monthly": 1.17,
+   "sr": 0.53,
+   "dd": 78.3,
+   "minyr": -7.4,
+   "trades": 1037,
+   "placebo_pct": 65.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "placebo p65"
+   ]
+  },
+  "seas_lunar_ETH": {
+   "monthly": -0.78,
+   "sr": -0.3,
+   "dd": 53.4,
+   "minyr": -5.55,
+   "trades": 174,
+   "placebo_pct": 26.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p26"
+   ]
+  },
+  "hld_predrift_ETH": {
+   "monthly": 0.74,
+   "sr": 0.72,
+   "dd": 14.0,
+   "minyr": -0.2,
+   "trades": 133,
+   "placebo_pct": 96.0,
+   "gate_fails": []
+  },
+  "hld_postrev_ETH": {
+   "monthly": -0.08,
+   "sr": -0.08,
+   "dd": 15.3,
+   "minyr": -0.85,
+   "trades": 88,
+   "placebo_pct": 55.5,
+   "gate_fails": [
+    "SR",
+    "placebo p56"
+   ]
+  }
+ }
+}

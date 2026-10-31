@@ -90,8 +90,8 @@ def main():
             cd = pd.Timestamp(c)
             pre = (idx >= cd - pd.Timedelta(days=14)) & (idx < cd)
             post = (idx >= cd) & (idx < cd + pd.Timedelta(days=14))
-            pos[pre.values] = -1.0
-            pos[post.values] = 1.0
+            pos[pre] = -1.0
+            pos[post] = 1.0
         score(f"seas_lunar_{sym}", pos, d, out)
 
         # HLD-01a: pre-holiday drift (long 2 trading days before)

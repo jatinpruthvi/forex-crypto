@@ -5,7 +5,8 @@
   "ICT-03 ote_BTC_h8 (VIA SLOT -> R3.2 champion)",
   "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)",
   "CH-20 tweezer_ETH_h10 (standalone PASS)",
-  "CH-22 ww_ETH_h3 (standalone PASS)"
+  "CH-22 ww_ETH_h3 (standalone PASS)",
+  "HLD-01 hld_predrift (PROVISIONAL - decay)"
  ],
  "results": {
   "ICT-01": {
@@ -328,6 +329,46 @@
     "simplified WW (no point-4 TP target)"
    ],
    "note": "Second standalone PASS this batch. Most stable signal found to date: split-half decay minimal (0.82->0.74), two-sided, placebo p98.8. 5-point channel overshoot reversal on ETH is real."
+  },
+  "SEAS-01": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "SEAS-02": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "SEAS-03": {
+   "verdict": "FAIL",
+   "note": {
+    "verdict": "FAIL",
+    "pass_nodes": []
+   }
+  },
+  "HLD-01": {
+   "verdict": "PASS (provisional)",
+   "pass_nodes": [
+    "hld_predrift_BTC",
+    "hld_predrift_ETH"
+   ],
+   "best_house": {
+    "monthly": 0.74,
+    "sr": 0.72,
+    "dd": 14.0,
+    "minyr": -0.2,
+    "placebo_pct_500": 95.8
+   },
+   "split_sr": {
+    "21-23": 1.16,
+    "24-26": 0.12
+   },
+   "note": "pre-holiday drift real in 21-23, faded 24-26 (front-loaded like ICT-10); post-holiday reversal node fails; PROVISIONAL pass; slot-review candidate (calendar diversifier)"
   }
  },
  "errata": {

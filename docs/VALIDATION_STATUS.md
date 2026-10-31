@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE slot, EXP-059) — x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37 | x2 +5.19%/mo DD 23.0 minYr +0.62 | x3 +7.58%/mo DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). R3.1 retained as baseline (x2 +4.73%/mo SR 1.77 DD 27.4).**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 38/184 units validated · 146 pending.**
+**Progress: 42/184 units validated · 142 pending.**
 
 **EXP-059 SLOT REVIEW (2026-10-31):** near-miss slate slotted into R3.1 at 10/15/20%. **ADOPT: ote_BTC_h8** (all lambdas; best l=0.15: SR 2.12 DD 12.1 minYr +0.37, slot placebo p99.6@500, recency PASS) -> champion R3.2. MARGINAL REJECT: darvas_h10 (SR/DD/improvement all good, slot-p94-98, but minYr +0.13..0.17 < baseline +0.19 by 0.02-0.06 - closest runner-up). REJECT: qm_ETH_h5, sepa_gated_BTC (blend SR up but monthly and minYr dilute). 4x5% slate: SR 2.11 DD 11.5 minYr +0.33 (interesting risk profile, monthly diluted).
 
@@ -73,10 +73,10 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | SS-21 | PENDING | - | - |
 | SS-22 | PENDING | - | - |
 | SS-23 | PENDING | - | - |
-| HLD-01 | PENDING | - | - |
-| SEAS-01 | PENDING | - | - |
-| SEAS-02 | PENDING | - | - |
-| SEAS-03 | PENDING | - | - |
+| HLD-01 | PASS* (PROVISIONAL) | pre-holiday drift (long 2d before US bank holidays): BOTH assets clear gates (BTC +0.47%/mo SR 0.65 DD 12.6 minYr -0.01 p98; ETH +0.74 SR 0.72 DD 14.0 p96; 500-draw p95+). BUT split-half front-loaded (21-23 SR 1.03/1.16 -> 24-26 SR 0.12). Post-holiday reversal part FAILS | same decay pattern as ICT-10; slot-review candidate |
+| SEAS-01 | FAIL | Oct-Nov long: +0.7/+0.7%/mo but minYr -2.9/-3.9, placebo p78/p70 | Uptober/Nov bias not tradeable at these gates |
+| SEAS-02 | FAIL | Halloween long: +1.5%/mo BTC SR 0.64 but DD 56/minYr -2.6; ETH DD 78 | six-month-long exposure = giant DD |
+| SEAS-03 | FAIL | Lunar NY pre/post: negative both assets (-0.8/-0.8%/mo) | CNY folklore refuted |
 | **Patterns & Candles** | | | |
 | CH-01 | PENDING | - | - |
 | CH-02 | PENDING | - | - |

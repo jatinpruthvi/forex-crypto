@@ -1691,6 +1691,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "2 standalone PASSes in one batch (CH-20, CH-22) after 34 units of failures - ETH mean-reversion at extremes (tweezer equal-extremes, WW channel overshoot) is the emerging theme, alongside BTC OTE retracement. Slot-review batch #2 should test tweezer_ETH + ww_ETH + darvas_h10 runner-up. Note: ETH-only asymmetry persists across all findings."
+  },
+  {
+   "id": 70,
+   "exp": "EXP-061 F6+F3-lite: SEAS-01/02/03 + HLD-01 (50-unit batch plan started)",
+   "nodes": 10,
+   "budget_usd": 1.0,
+   "total_spent_usd": 51.5,
+   "result": "SEAS-01 FAIL (Oct/Nov, minYr -2.9). SEAS-02 FAIL (Halloween, DD 56-78). SEAS-03 FAIL (Lunar NY, negative). HLD-01 PASS* PROVISIONAL (pre-holiday drift: BTC +0.47 SR 0.65 DD 12.6 p95.2@500; ETH +0.74 SR 0.72 DD 14.0 p95.8; split-half 21-23 SR 1.1 -> 24-26 SR 0.12 front-loaded like ICT-10; post-rev fails).",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "50-unit batch plan (F1-F7 family scripts) approved-by-user; slot reviews deferred to end. Calendar seasonality mostly dead except pre-holiday drift (3rd front-loaded real signal after ICT-10 and... pattern: real content concentrated 2021-23). Next: F3 VPSS session units or F1 VP part 1."
   }
  ],
  "savepoints": {
@@ -2411,5 +2422,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 69
+ "count": 70
 }
