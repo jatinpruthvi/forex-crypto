@@ -1603,6 +1603,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "OTE BTC retracement is the first statistically-real signal content in 26 units; worth a portfolio-slot test (minYr dilution) in a later experiment. Placebo MUST permute positions/weights and recompute P&L - never the P&L series itself."
+  },
+  {
+   "id": 62,
+   "exp": "EXP-053 line-by-line harness audit #3 (user: 'make sure we do not miss anything')",
+   "nodes": 0,
+   "budget_usd": 0.0,
+   "total_spent_usd": 47.5,
+   "result": "ote_BTC_h8 independently re-derived EXACT (+2.50%/mo SR 1.08 DD 26.7 minYr -1.83); long-only +1.25, short-only +0.77. Split-half: 21-23 +1.85/1.09 vs 24-26 +0.56/0.42 = REAL BUT DECAYING. 200-draw placebo p96 (not p100; fails 1% post-scan). Data integrity clean (funding 3x/day by design; intraday UTC). Transcription consistency zero issues. Known-minor documented (row-0 cost, rank ties, survivorship, stub years).",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "ote_BTC_h8 is a genuine but decaying signal: candidate ONLY under maker fees (I-07) or as portfolio slot where minYr dilutes; never as standalone at 10bp with the -1.5 gate. 3 audits, 3 bug classes found each time - the layering works."
   }
  ],
  "savepoints": {
@@ -2323,5 +2334,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 61
+ "count": 62
 }

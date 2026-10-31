@@ -64,5 +64,21 @@
    "ICT-06": "FAIL"
   },
   "pass_rule_binding": "DD<=40 AND min_year>=-1.5 %/mo AND SR>0.5 AND placebo>=90th (position-permute null)"
+ },
+ "line_by_line_pass_3": {
+  "date": "2026-10-31",
+  "scope": "independent re-derivation of flagship number; split-half + 200-draw placebo; funding/intraday integrity; transcription consistency; engine edge cases; ICT-02 windows",
+  "ote_btc_h8_rederivation": "EXACT match (+2.50%/mo SR 1.08 DD 26.7 minYr -1.83 696d) via scratch script; long-only +1.25/0.80, short-only +0.77/0.51",
+  "stability": "split-half DECAY: 2021-23 +1.85%/mo SR 1.09 vs 2024-26 +0.56%/mo SR 0.42; 200-draw placebo p96 (significant 5%, not 1% post-scan)",
+  "data": "funding 3x/day settlements (sum-by-design, 20 symbols 2021-2026); intraday 15m tz-naive UTC no dups (2019->2025-06)",
+  "transcription": "board/JSON/ledger consistency: ZERO issues; ledger 61/61",
+  "known_minor": [
+   "engine row-0 entry cost skipped if position open at start (unreachable: all sleeves flat at row 0)",
+   "cs_weights rank ties can shift membership by 1 coin at K boundary",
+   "COINS5 = 15 survivors (mild XS survivorship; includes -90% coins)",
+   "min_year noisy for <6mo stub years (none present)"
+  ],
+  "ict02_windows": "UTC causal: Asia 0-8, LDN lead 8-9 trade 9-13:30, NY lead 13:30-14:30 trade 14:30-20; sweep checks precede trade windows",
+  "verdict": "HARNESS VERIFIED x3. ote_BTC_h8 = first real lead, but decaying + post-scan p96 -> maker-fee + slot tests required before adoption"
  }
 }
