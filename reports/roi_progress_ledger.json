@@ -1581,6 +1581,17 @@
    "status": "complete",
    "date": "2026-10-30",
    "insight": "The first hour of London/NY is not systematically fake (fade) nor persistent (momentum) after 10bp; the session-open edge is zero-sum noise + costs. Close this sub-family unless maker fees (I-07) change the arithmetic."
+  },
+  {
+   "id": 60,
+   "exp": "EXP-051 validation batch ICT-03..06 (OTE, mitigation, confirmed soup, NWOG/NDOG)",
+   "nodes": 22,
+   "budget_usd": 1.0,
+   "total_spent_usd": 47.5,
+   "result": "ICT-03 OTE FAIL (best ote_BTC_h8 +34.6%/mo SR 0.90 but minYr -9.6; ETH negative). ICT-04 mitigation FAIL (+3/-0.7/-22.7/-10.2 after lookahead fix). ICT-05 confirmed soup FAIL. ICT-06 NWOG/NDOG FAIL (8 nodes all <=0). CRITICAL BUG CAUGHT: entry-day lookahead (pos[t]*ret[t]) in hold-loop scripts gave ICT-04 a phantom +95%/mo; fixed to pos.shift(1)*ret; ICT-01 errata noted (FAIL robust).",
+   "status": "complete",
+   "date": "2026-10-30",
+   "insight": "Magnitude alarm (>30%/mo at 10bp) is now a standing bug detector. Hold-loop validators must always shift positions before applying returns. ICT family: 6/6 units FAIL so far."
   }
  ],
  "savepoints": {
@@ -2301,5 +2312,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 59
+ "count": 60
 }

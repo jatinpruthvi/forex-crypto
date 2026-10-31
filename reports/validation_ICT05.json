@@ -1,0 +1,38 @@
+{
+ "unit": "ICT-05",
+ "verdict": "FAIL",
+ "nodes": {
+  "tsoup2_BTC_h3": {
+   "monthly": -11.64,
+   "sr": -0.39,
+   "dd": -66.9,
+   "minyr": -35.95,
+   "trades": 498,
+   "placebo_pct": 0.0
+  },
+  "tsoup2_BTC_h5": {
+   "monthly": 13.03,
+   "sr": 0.38,
+   "dd": -42.7,
+   "minyr": -31.33,
+   "trades": 657,
+   "placebo_pct": 23.3
+  },
+  "tsoup2_ETH_h3": {
+   "monthly": -13.91,
+   "sr": -0.34,
+   "dd": -76.6,
+   "minyr": -53.5,
+   "trades": 475,
+   "placebo_pct": 10.0
+  },
+  "tsoup2_ETH_h5": {
+   "monthly": -28.14,
+   "sr": -0.56,
+   "dd": -89.7,
+   "minyr": -43.39,
+   "trades": 646,
+   "placebo_pct": 0.0
+  }
+ }
+}

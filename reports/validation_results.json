@@ -43,6 +43,22 @@
     2.98
    ],
    "note": "first run +95%/mo = entry-day lookahead phantom; corrected run collapses; magnitude alarm worked"
+  },
+  "ICT-05": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -28.14,
+    13.03
+   ],
+   "note": "strict-rejection turtle soup dead like ICT-01"
+  },
+  "ICT-06": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -48.17,
+    3.71
+   ],
+   "note": "NWOG/NDOG MR+MOM all 8 nodes fail; prev-period open levels = no edge at daily frequency"
   }
  },
  "errata": {
