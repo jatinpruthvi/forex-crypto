@@ -127,6 +127,14 @@
     "placebo_pct": 68
    },
    "note": "SEPA/Trend-Template gate improves every risk metric on BTC gated Donchian (DD -30pp, minYr +3.8pp, SR +0.04) but misses SR 0.5 and placebo 90 narrowly; hurts ETH (-0.35%/mo). Gate direction real; could matter as a portfolio-level filter in later experiments."
+  },
+  "VSA-03": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -1.83,
+    -0.48
+   ],
+   "note": "wide-bar break-and-reject on high volume: no reversal edge; VSA family (01/02/03) conclusively dead at daily frequency"
   }
  },
  "errata": {
