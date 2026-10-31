@@ -92,6 +92,23 @@
     -0.1
    ],
    "note": "volume>2xV30 climax bars closing off extreme at trend end: no reversal edge at daily frequency net of costs"
+  },
+  "MNV-01": {
+   "verdict": "BLOCKED",
+   "trades": 0,
+   "fire_rates": {
+    "BTC": {
+     "pre_state": 10,
+     "pre_and_breakout": 1,
+     "full_chain": 0
+    },
+    "ETH": {
+     "pre_state": 28,
+     "pre_and_breakout": 2,
+     "full_chain": 0
+    }
+   },
+   "note": "VCP too rare on crypto daily to validate (0 trades 2021-26 x BTC/ETH). Diagnosis also caught a rule-sequencing flaw (volume dry-up must live on pre-breakout bars, not the breakout bar - the spec's dry-up vs +40% volume are different bars). Would need intraday/stock-universe data to test properly."
   }
  },
  "errata": {

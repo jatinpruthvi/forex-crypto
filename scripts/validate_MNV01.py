@@ -49,14 +49,18 @@ def main():
         atr50 = spread.rolling(50).mean()
         v30 = d["volume"].rolling(30).mean()
         r20 = (d["high"].rolling(20).max() - d["low"].rolling(20).min()) / d["close"]
+        # spec sequence: dry-up DURING contraction (prior bars), breakout ON +40% volume.
+        # (fire-rate diagnosis: requiring dry-up on the breakout bar contradicts vol_confirm
+        # by construction -> 0 trades; conditions now live on their spec bars.)
         compression = atr10 < 0.6 * atr50
-        dry_up = d["volume"] < 0.8 * v30
+        dry_prior = d["volume"].rolling(5).mean().shift(1) < 0.8 * v30.shift(1)
         contractions = (r20 < r20.shift(20)) & (r20.shift(20) < r20.shift(40))
         pivot_hi = d["high"].rolling(20).max().shift(1)
         stop_lo = d["low"].rolling(20).min().shift(1)
         breakout = d["close"] > pivot_hi
         vol_confirm = d["volume"] > 1.4 * v30
-        sig = compression & dry_up & contractions & breakout & vol_confirm
+        pre_state = compression & dry_prior & contractions        # contraction-phase states
+        sig = pre_state.shift(1) & breakout & vol_confirm         # signal bar: breakout + volume
         for hold in [5, 10, 20]:
             pos = np.zeros(len(d))
             i = 0
