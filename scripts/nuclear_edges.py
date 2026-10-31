@@ -105,8 +105,12 @@ def pnl_from_weights(w, px, fee=FEE_D):
 
 
 def pnl_from_pos(pos, close, fee=FEE_I):
+    """pos set at close t earns t->t+1; fee on |dpos|. Row-0 semantics MATCH
+    pnl_from_weights: row-0 return is kept, row-0 entry cost is not charged
+    (bug #5 fix: previously the whole row 0 was NaN-zeroed whenever pos[0]!=0)."""
     ret_fwd = close.pct_change().shift(-1)
-    return (pos * ret_fwd - pos.diff().abs() * fee).fillna(0.0)
+    cost = pos.diff().abs().fillna(0.0) * fee
+    return (pos * ret_fwd - cost).fillna(0.0)
 
 
 def cs_weights(score, K, px, invert=False, rebal=5, gate=None):
