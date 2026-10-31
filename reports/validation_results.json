@@ -76,6 +76,14 @@
     "placebo_pct": 80
    },
    "note": "bug#4 (2-week-stale NWOG reference) fixed + re-run: all 8 nodes <= 0 still; NDOG unchanged (was always correct); verdict robust"
+  },
+  "VSA-01": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -2.43,
+    -0.81
+   ],
+   "note": "narrow-spread low-volume bars with close-position fade: all 6 nodes negative net of 10bp; VSA weakness signals do not predict reversals at daily frequency"
   }
  },
  "errata": {

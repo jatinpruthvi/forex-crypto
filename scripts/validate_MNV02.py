@@ -25,7 +25,7 @@ def load(sym):
     return d.loc["2021-01-01":]
 
 
-def placebo_pct(pos, ret, cost, sr_real, n=200, seed=7):
+def placebo_pct(pos, ret, cost, sr_real, idx, n=200, seed=7):
     rng = np.random.default_rng(seed)
     nblk = max(2, len(pos) // 20)
     srs = []
@@ -34,7 +34,7 @@ def placebo_pct(pos, ret, cost, sr_real, n=200, seed=7):
         perm = np.concatenate([blocks[j] for j in rng.permutation(nblk)])
         pq = pos[perm]
         pq_s = np.concatenate([[0.0], pq[:-1]])
-        bp = pd.Series(pq_s * ret - np.abs(np.diff(np.concatenate([[0.0], pq_s]))) * cost, index=d.index)
+        bp = pd.Series(pq_s * ret - np.abs(np.diff(np.concatenate([[0.0], pq_s]))) * cost, index=idx)
         m = metrics_from_pnl(bp)
         srs.append(m["sharpe"] if m else -9.0)
     return float((np.array(srs) < sr_real).mean() * 100)
@@ -80,7 +80,7 @@ def main():
                 print(f"  {label}_{sym:4s}               [no trades]")
                 continue
             mo, sr, dd, myr, nt = m["monthly"], m["sharpe"], m["dd"], m["min_year"], int((pnl != 0).sum())
-            pct = placebo_pct(pos, rets, COST, sr)
+            pct = placebo_pct(pos, rets, COST, sr, d.index)
             key = f"sepa_{label}_{sym}"
             out[key] = {"monthly": round(mo, 2), "sr": round(sr, 2), "dd": round(dd, 1),
                         "minyr": round(myr, 2), "trades": nt, "placebo_pct": round(pct, 1)}

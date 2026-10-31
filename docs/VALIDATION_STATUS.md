@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 26/184 units validated · 158 pending.**
+**Progress: 27/184 units validated · 157 pending.**
 
 **RE-TEST CERTIFICATE (2026-10-31, post 5-bug fixes): ALL COMPLETED UNITS VERIFIED.** Every completed unit re-run through the final verified harness and compared digit-for-digit against its record (reports/retest_certificate.json): ICT-01..06 all 28 nodes x {monthly, SR, DD, minYr, trades, placebo} = ZERO diffs, verdicts identical; champion book R3.1 recomputed = MATCH (within documented cost-netting convention); I-01 passing squeeze pair (sqz_20_100_0.7_30_ETH +1.80%/mo SR 0.94, sqz_10_50_0.8_30_ETH +2.31%/mo SR 0.88) = MATCH exactly. No recorded number changed by any of the 5 bug fixes (all 5 were either in later-written validators before final records, or latent/unreachable).
 
@@ -118,7 +118,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | ICT-09 | PENDING | - | - |
 | ICT-10 | PENDING | - | - |
 | **VSA / Wyckoff** | | | |
-| VSA-01 | PENDING | - | - |
+| VSA-01 | FAIL | no-demand/no-supply fade: 6 nodes all negative (-0.8..-2.4%/mo) | weak-leg fade loses to costs |
 | VSA-02 | PENDING | - | - |
 | VSA-03 | PENDING | - | - |
 | WCK-01 | PENDING | - | - |
