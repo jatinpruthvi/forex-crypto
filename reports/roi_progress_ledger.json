@@ -1570,6 +1570,17 @@
    "status": "complete",
    "date": "2026-10-30",
    "insight": "Turtle-soup fade content exists (placebo 97pct) but the ~320-trade frequency at 10bp + weak drift kills it standalone; might reappear only in maker-fee regime (I-07)."
+  },
+  {
+   "id": 59,
+   "exp": "EXP-050 validation ICT-02 (Judas Swing / Power-of-3 fade)",
+   "nodes": 10,
+   "budget_usd": 1.0,
+   "total_spent_usd": 46.5,
+   "result": "10 nodes (LDN/NY plain+sweep+combo x BTC/ETH, 15m 2019-2025, 10bp): ALL negative -1.1..-6.2%/mo. Judas fade hypothesis refuted at daily-trade frequency: paired with SS-04/06 momentum failures, BOTH sides of the first-hour move lose ~cost burn. VERDICT FAIL.",
+   "status": "complete",
+   "date": "2026-10-30",
+   "insight": "The first hour of London/NY is not systematically fake (fade) nor persistent (momentum) after 10bp; the session-open edge is zero-sum noise + costs. Close this sub-family unless maker fees (I-07) change the arithmetic."
   }
  ],
  "savepoints": {
@@ -2290,5 +2301,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 58
+ "count": 59
 }

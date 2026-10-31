@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 20/184 units validated · 164 pending.**
+**Progress: 21/184 units validated · 163 pending.**
 
 Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (no data).
 
@@ -106,7 +106,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | LV-01 | PENDING | - | - |
 | **ICT / SMC** | | | |
 | ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
-| ICT-02 | PENDING | - | - |
+| ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
 | ICT-03 | PENDING | - | - |
 | ICT-04 | PENDING | - | - |
 | ICT-05 | PENDING | - | - |

@@ -1,0 +1,96 @@
+{
+ "unit": "ICT-02",
+ "name": "Judas Swing / Power-of-3 fade",
+ "nodes_tested": 10,
+ "nodes": {
+  "judas_LDN_BTC": {
+   "sharpe": -2.34,
+   "monthly": -4.36,
+   "dd": 95.2,
+   "min_year": -7.54,
+   "min_month": -16.35,
+   "months": 67
+  },
+  "judas_NY_BTC": {
+   "sharpe": -2.35,
+   "monthly": -6.15,
+   "dd": 98.7,
+   "min_year": -11.61,
+   "min_month": -25.11,
+   "months": 67
+  },
+  "judas_LDN_sweep_BTC": {
+   "sharpe": -1.32,
+   "monthly": -1.14,
+   "dd": 53.9,
+   "min_year": -1.62,
+   "min_month": -7.11,
+   "months": 67
+  },
+  "judas_NY_sweep_BTC": {
+   "sharpe": -1.42,
+   "monthly": -2.5,
+   "dd": 82.4,
+   "min_year": -4.27,
+   "min_month": -14.07,
+   "months": 67
+  },
+  "judas_combo_BTC": {
+   "sharpe": -1.87,
+   "monthly": -1.77,
+   "dd": 69.9,
+   "min_year": -2.91,
+   "min_month": -8.59,
+   "months": 67
+  },
+  "judas_LDN_ETH": {
+   "sharpe": -2.26,
+   "monthly": -5.54,
+   "dd": 98.1,
+   "min_year": -10.04,
+   "min_month": -21.38,
+   "months": 67
+  },
+  "judas_NY_ETH": {
+   "sharpe": -1.75,
+   "monthly": -6.01,
+   "dd": 98.7,
+   "min_year": -11.11,
+   "min_month": -29.74,
+   "months": 67
+  },
+  "judas_LDN_sweep_ETH": {
+   "sharpe": -1.03,
+   "monthly": -1.3,
+   "dd": 61.2,
+   "min_year": -3.08,
+   "min_month": -10.42,
+   "months": 67
+  },
+  "judas_NY_sweep_ETH": {
+   "sharpe": -0.99,
+   "monthly": -2.16,
+   "dd": 80.0,
+   "min_year": -4.7,
+   "min_month": -22.69,
+   "months": 67
+  },
+  "judas_combo_ETH": {
+   "sharpe": -1.37,
+   "monthly": -1.65,
+   "dd": 69.2,
+   "min_year": -2.14,
+   "min_month": -12.96,
+   "months": 67
+  }
+ },
+ "best": "judas_NY_sweep_ETH",
+ "placebo": {
+  "real": 0.0,
+  "null_mean": 0.0,
+  "p90": 0.0,
+  "pct": 0.0
+ },
+ "verdict": "FAIL",
+ "date": "2026-10-30"
+}
