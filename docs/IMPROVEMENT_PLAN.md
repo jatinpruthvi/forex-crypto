@@ -313,6 +313,21 @@ The list stays open until one-by-one validation begins.
 
 Edits: CH-11 now includes Kagi / Three-Line Break; SS-21 now includes NFP (first Friday). Blocked register += single-stock crypto proxies (MSTR/COIN) — no data.
 
+### TAIL-CONSOLIDATION PASS (2026-10-30) — folk calendar, encyclopedia tails, named tools, meta-search
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| SEAS-03 | **Lunar New Year / China-holiday effect** (crypto folk seasonality: pre-CNY selling, post-CNY re-entry) | crypto folklore; test not assume | UNTESTED |
+| MAC-05 | **Term-spread regime** (10y minus fed-funds, computable from FRED columns) — inverted/spread state -> risk posture | macro canon | UNTESTED |
+| IND-15 | **Secondary-oscillator batch** (ONE unit, batch-tested): SMI, RVI, KST, QStick, Chande, Vortex, Force Index | named zoo tail | UNTESTED |
+| CH-24 | **Bulkowski encyclopedia batch** (ONE unit): bump-and-run reversal, horn pattern, island reversal | Bulkowski encyclopedia | UNTESTED |
+| CH-25 | **Andrews pitchfork** (median-line channel reaction/continuation) | named tool system | UNTESTED |
+| QNT-06 | **Genetic-programming rule discovery** — symbolic search over rule space WITH CPCV + search-level nulls (method: finds candidates for the queue; claims only after END-01 gates) | quant practice | UNTESTED |
+| PRT-01 | **Equal-weight top-15 basket vs BTC** — monthly rebalance premium (testable; cap-weighted needs caps = blocked) | index construction | UNTESTED |
+
+**Precision edits:** VP-20 += Woodie/DeMark pivot variants · ICT-04 += mitigation block · ICT-07 += NWOG/NDOG (new week/day opening gaps) · SS-20 += quarterly major expiry distinction · MAC-04 += WTI impulse (inflation proxy).
+
+**TAIL POLICY:** endless secondary oscillators and encyclopedia pattern variants are absorbed into BATCH units (IND-15, CH-24) tested as one validation unit each — not infinite single rows.
+
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
 ## C. OTHER WAVES (unchanged inventory)
@@ -372,7 +387,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~150 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~155 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
