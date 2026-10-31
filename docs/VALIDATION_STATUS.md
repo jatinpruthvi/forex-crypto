@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 32/184 units validated · 152 pending.**
+**Progress: 33/184 units validated · 151 pending.**
 
 **RE-TEST CERTIFICATE (2026-10-31, post 5-bug fixes): ALL COMPLETED UNITS VERIFIED.** Every completed unit re-run through the final verified harness and compared digit-for-digit against its record (reports/retest_certificate.json): ICT-01..06 all 28 nodes x {monthly, SR, DD, minYr, trades, placebo} = ZERO diffs, verdicts identical; champion book R3.1 recomputed = MATCH (within documented cost-netting convention); I-01 passing squeeze pair (sqz_20_100_0.7_30_ETH +1.80%/mo SR 0.94, sqz_10_50_0.8_30_ETH +2.31%/mo SR 0.88) = MATCH exactly. No recorded number changed by any of the 5 bug fixes (all 5 were either in later-written validators before final records, or latent/unreachable).
 
@@ -104,7 +104,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | SD-01 | PENDING | - | - |
 | SD-02 | PENDING | - | - |
 | DAR-01 | FAIL (NEAR-MISS) | Darvas breakout w/ volume confirm: ALL 6 nodes positive (+0.67..+1.17%/mo SR 0.58-0.75 DD 24-33) and 4/6 pass placebo (p92-97) but ALL fail minYr (-2.0..-2.9 vs -1.5) | 3rd 'real but worst-year' result (after ICT-03 OTE, MNV-02 SEPA); volume-confirmed breakout content is real |
-| AMT-01 | PENDING | - | - |
+| AMT-01 | FAIL | excess-vs-poor extremes (8 nodes): mixed to negative; best amt_poor_BTC_h10 +0.51%/mo SR 0.38 p85 | thin-extreme retest and rejection-follow carry no tradeable edge at daily freq |
 | LV-01 | PENDING | - | - |
 | **ICT / SMC** | | | |
 | ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |

@@ -155,6 +155,14 @@
     }
    },
    "note": "ALL 6 nodes positive with real signal content (4/6 placebo>=92); fails ONLY minYr gate (worst year -2.0..-2.9 vs -1.5). Third near-miss after ICT-03 OTE and MNV-02 SEPA - volume-confirmed breakout family looks genuinely real but with bad worst years; portfolio-slot candidates."
+  },
+  "AMT-01": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -1.08,
+    0.51
+   ],
+   "note": "poor-extreme fade + excess-rejection follow, 8 nodes: best SR 0.38 p85; no gate-passing node"
   }
  },
  "errata": {
