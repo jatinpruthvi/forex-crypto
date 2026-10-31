@@ -1,7 +1,8 @@
 {
- "champion_book": "R3.1 (x2 +4.73%/mo SR 1.77 DD 27.4)",
+ "champion_book": "R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (x2 +5.19%/mo SR 2.12 DD 23.0 minYr +0.62)",
  "passing_units": [
   "I-01 squeeze-family pair slot",
+  "ICT-03 ote_BTC_h8 (VIA SLOT -> R3.2 champion)",
   "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)"
  ],
  "results": {
@@ -28,7 +29,7 @@
    "note": "session-open fade loses on all nodes; combined with SS-04/06 momentum failure => first-hour move is cost-burn on both sides; sweep-restricted variants lose less"
   },
   "ICT-03": {
-   "verdict": "FAIL (near-miss)",
+   "verdict": "PASS (via slot)",
    "best_node": "ote_BTC_h8",
    "best_house": {
     "monthly": 2.5,
@@ -40,7 +41,29 @@
    "gate_fails": [
     "minYr (-1.83 vs -1.5)"
    ],
-   "note": "FIRST real signal content (placebo p100, h3/h5 p93); fails only minYr by 0.33; ETH nodes <=0; flagged for relaxed-gate or portfolio-slot review"
+   "note": "FIRST real signal content (placebo p100, h3/h5 p93); fails only minYr by 0.33; ETH nodes <=0; flagged for relaxed-gate or portfolio-slot review",
+   "slot_adoption": {
+    "exp": "EXP-059",
+    "lambda": 0.15,
+    "blend_x1": {
+     "monthly": 2.66,
+     "sr": 2.12,
+     "dd": 12.1,
+     "minyr": 0.37
+    },
+    "slot_placebo_500_pct": 99.6,
+    "split_sr": {
+     "21-23": 2.46,
+     "24-26": 1.65
+    },
+    "baseline_x1": {
+     "monthly": 2.61,
+     "sr": 1.86,
+     "dd": 13.8,
+     "minyr": 0.19
+    },
+    "note": "all 3 lambdas adopted (10/15/20%); standalone verdict remains gates-failed but slot in book is champion upgrade R3.2"
+   }
   },
   "ICT-04": {
    "verdict": "FAIL",
@@ -200,5 +223,16 @@
   "units_bug_fix": "ICT-03..06 inline metrics() returned %/yr labeled %/mo and compared %/yr minyr to the -1.5 %/mo gate. Fixed to metrics_from_pnl (house units). ICT-01/ICT-02 used house metrics from the start. No verdicts flipped on re-run. Gates are house-unit: DD<=40, min_year>=-1.5 (%/mo), SR>0.5, placebo>=90th.",
   "placebo_bug_fix": "BUG #3: ICT-03..06 block-permuted the P&L series (SR is order-free -> degenerate null; prior percentiles were floating-point noise). Fixed to binding null design: block-permute POSITIONS, recompute P&L. All four re-run; verdicts unchanged; ICT-03 revealed as near-miss (ote_BTC_h8 p100, fails only minYr). ICT-01/ICT-02 used the valid position-permute design from the start.",
   "nwog_reference_fix": "Bug #4 (audit #4 rule-fidelity): ICT-06 prev-week-open was one week stale Mon-Sat (resample('W').shift(1)+ffill chain). Fixed via to_period('W-SUN') mapping; re-run unchanged verdict. Regression test: test_nwog_prev_week_open_reference."
+ },
+ "slot_review_EXP059": {
+  "adopted": [
+   "ote_BTC_h8@0.15"
+  ],
+  "marginal_reject": "darvas_h10 (minYr 0.02-0.06 below baseline at all lambdas; slot-p94-98; runner-up)",
+  "rejected": [
+   "qm_ETH_h5",
+   "sepa_gated_BTC"
+  ],
+  "report": "reports/slot_review.json"
  }
 }

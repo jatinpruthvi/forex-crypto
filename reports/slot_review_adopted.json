@@ -1,0 +1,41 @@
+{
+ "lam": 0.15,
+ "slot_placebo_500_pct": 99.6,
+ "headline": {
+  "x1": {
+   "monthly": 2.66,
+   "sr": 2.12,
+   "dd": 12.1,
+   "minyr": 0.37
+  },
+  "x2": {
+   "monthly": 5.19,
+   "sr": 2.12,
+   "dd": 23.0,
+   "minyr": 0.62
+  },
+  "x3": {
+   "monthly": 7.58,
+   "sr": 2.12,
+   "dd": 32.7,
+   "minyr": 0.76
+  }
+ },
+ "blend_x1_house": {
+  "sharpe": 2.12,
+  "monthly": 2.66,
+  "dd": 12.1,
+  "min_year": 0.37,
+  "min_month": -3.74,
+  "yearly": {
+   "2021": 7.53,
+   "2022": 0.37,
+   "2023": 0.68,
+   "2024": 2.78,
+   "2025": 2.14,
+   "2026": 0.37
+  },
+  "months": 67
+ },
+ "note": "blend = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE both-sides BTC hold8)"
+}

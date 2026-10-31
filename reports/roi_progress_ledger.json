@@ -1669,6 +1669,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "BREAKTHROUGH + CAUTION in one batch: DAR-01 (volume-confirmed breakout) and ICT-10 (QM short) both show statistically real content, continuing the 'real but bad worst year / front-loaded' pattern. The split-half discipline is what separates these from fantasy results - 2024-26 is where signals go to die. Next: PRT/meta batches; slot-review experiment should gather ICT-03/DAR-01/ICT-10/MNV-02 candidates."
+  },
+  {
+   "id": 68,
+   "exp": "EXP-059 SLOT REVIEW (near-miss slate into champion book)",
+   "nodes": 13,
+   "budget_usd": 0.0,
+   "total_spent_usd": 49.5,
+   "result": "ADOPTED ote_BTC_h8 @15% -> CHAMPION UPGRADE R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8: x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37; x2 +5.19 DD 23.0 minYr +0.62; x3 +7.58 DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). All 3 lambdas adopt. MARGINAL REJECT darvas_h10 (minYr 0.02-0.06 below baseline; runner-up). REJECT qm_ETH_h5/sepa_gated_BTC (minYr+monthly dilute). 4x5% slate SR 2.11 DD 11.5 minYr +0.33.",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "The slot mechanism VALIDATED: a standalone FAIL (minYr -1.83) became champion glue (blend minYr +0.37) - diversification converts real-but-ugly signal into book-grade risk metrics. ICT-03 OTE is the 2nd adopted family (after I-01 squeeze). darvas_h10 is one minYr hair away - keep visible."
   }
  ],
  "savepoints": {
@@ -2389,5 +2400,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 67
+ "count": 68
 }

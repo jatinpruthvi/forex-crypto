@@ -1,9 +1,11 @@
 # VALIDATION STATUS BOARD — one unit per turn, real data + costs
 
-**Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
+**Champion book (updated as units land): R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE slot, EXP-059) — x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37 | x2 +5.19%/mo DD 23.0 minYr +0.62 | x3 +7.58%/mo DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). R3.1 retained as baseline (x2 +4.73%/mo SR 1.77 DD 27.4).**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
 **Progress: 34/184 units validated · 150 pending.**
+
+**EXP-059 SLOT REVIEW (2026-10-31):** near-miss slate slotted into R3.1 at 10/15/20%. **ADOPT: ote_BTC_h8** (all lambdas; best l=0.15: SR 2.12 DD 12.1 minYr +0.37, slot placebo p99.6@500, recency PASS) -> champion R3.2. MARGINAL REJECT: darvas_h10 (SR/DD/improvement all good, slot-p94-98, but minYr +0.13..0.17 < baseline +0.19 by 0.02-0.06 - closest runner-up). REJECT: qm_ETH_h5, sepa_gated_BTC (blend SR up but monthly and minYr dilute). 4x5% slate: SR 2.11 DD 11.5 minYr +0.33 (interesting risk profile, monthly diluted).
 
 **RE-TEST CERTIFICATE (2026-10-31, post 5-bug fixes): ALL COMPLETED UNITS VERIFIED.** Every completed unit re-run through the final verified harness and compared digit-for-digit against its record (reports/retest_certificate.json): ICT-01..06 all 28 nodes x {monthly, SR, DD, minYr, trades, placebo} = ZERO diffs, verdicts identical; champion book R3.1 recomputed = MATCH (within documented cost-netting convention); I-01 passing squeeze pair (sqz_20_100_0.7_30_ETH +1.80%/mo SR 0.94, sqz_10_50_0.8_30_ETH +2.31%/mo SR 0.88) = MATCH exactly. No recorded number changed by any of the 5 bug fixes (all 5 were either in later-written validators before final records, or latent/unreachable).
 
@@ -109,7 +111,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | **ICT / SMC** | | | |
 | ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
 | ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
-| ICT-03 | FAIL (NEAR-MISS) | FINAL: ote_BTC_h8 +2.50%/mo SR 1.08 DD 26.7 minYr -1.83 placebo p100 -> fails ONLY minYr by 0.33; h3/h5 also p93 but minYr -2.1/-3.5; ETH <= 0 | FIRST real signal content found (p100); flag for relaxed-gate/portfolio-slot review |
+| ICT-03 | PASS (VIA SLOT) | standalone gates failed but EXP-059 slot review ADOPTED ote_BTC_h8 at 15% into the book (all 3 lambdas adopt, slot placebo p100/200, p99.6/500): R3.1->R3.2 champion upgrade (SR 1.86->2.12, minYr +0.19->+0.37, DD 13.8->12.1; BOTH halves improve). Standalone note: | FINAL: ote_BTC_h8 +2.50%/mo SR 1.08 DD 26.7 minYr -1.83 placebo p100 -> fails ONLY minYr by 0.33; h3/h5 also p93 but minYr -2.1/-3.5; ETH <= 0 | FIRST real signal content found (p100); flag for relaxed-gate/portfolio-slot review |
 | ICT-04 | FAIL | FINAL: best mitig_BTC_h3 -0.31%/mo SR 0.08 DD 74 -> all nodes gate-fail (3 bugs caught: lookahead, units, placebo) |
 | ICT-05 | FAIL | FINAL: best tsoup2_BTC_h5 +0.75%/mo SR 0.45 DD 42.7 minYr -3.72 placebo p90 (signal real, untradeable at 10bp - same pattern as ICT-01) |
 | ICT-06 | FAIL | FINAL (bug#4 NWOG 2-week-stale ref fixed + re-run): 8 nodes all <= 0 (best NWOG_MOM_BTC -0.49%/mo SR 0.17 DD 74) | verdict robust to the fix |
