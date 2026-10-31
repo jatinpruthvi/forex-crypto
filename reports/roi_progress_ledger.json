@@ -1658,6 +1658,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "MNV-02's SEPA gate is the second 'real direction, insufficient' result after ICT-03's OTE - both flagged for portfolio-slot tests. VSA family (2/3 units) dead at daily frequency; MNV-03 STR etc. remain in queue."
+  },
+  {
+   "id": 67,
+   "exp": "EXP-058 validation batch VSA-03/DAR-01/AMT-01/ICT-10",
+   "nodes": 26,
+   "budget_usd": 1.0,
+   "total_spent_usd": 49.5,
+   "result": "VSA-03 FAIL (upthrust fade, 6 nodes all negative; VSA family 3/3 dead). DAR-01 FAIL NEAR-MISS (Darvas+volume: ALL 6 nodes positive +0.67..+1.17%/mo SR 0.58-0.75, 4/6 placebo p92-97, fail only minYr -2.0..-2.9 -> 3rd near-miss). AMT-01 FAIL (8 nodes, best SR 0.38). ICT-10 qm_ETH_h5 CLEARS ALL GATES (+0.61%/mo SR 0.60 DD 17.6 minYr -0.14 p97.4@500draws) BUT split-half 21-23 +1.23/1.08 vs 24-26 -0.10/-0.03 = front-loaded; short-side only; BTC fails -> recorded PASS PROVISIONAL, not champion-eligible without re-confirmation.",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "BREAKTHROUGH + CAUTION in one batch: DAR-01 (volume-confirmed breakout) and ICT-10 (QM short) both show statistically real content, continuing the 'real but bad worst year / front-loaded' pattern. The split-half discipline is what separates these from fantasy results - 2024-26 is where signals go to die. Next: PRT/meta batches; slot-review experiment should gather ICT-03/DAR-01/ICT-10/MNV-02 candidates."
   }
  ],
  "savepoints": {
@@ -2378,5 +2389,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 66
+ "count": 67
 }

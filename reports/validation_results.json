@@ -1,7 +1,8 @@
 {
  "champion_book": "R3.1 (x2 +4.73%/mo SR 1.77 DD 27.4)",
  "passing_units": [
-  "I-01 squeeze-family pair slot"
+  "I-01 squeeze-family pair slot",
+  "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)"
  ],
  "results": {
   "ICT-01": {
@@ -163,6 +164,35 @@
     0.51
    ],
    "note": "poor-extreme fade + excess-rejection follow, 8 nodes: best SR 0.38 p85; no gate-passing node"
+  },
+  "ICT-10": {
+   "verdict": "PASS (provisional)",
+   "pass_node": "qm_ETH_h5",
+   "full_sample": {
+    "monthly": 0.61,
+    "sr": 0.6,
+    "dd": 17.6,
+    "minyr": -0.14,
+    "placebo_pct": 96,
+    "trades": 102
+   },
+   "placebo_500draw_pct": 97.4,
+   "split_half": {
+    "2021-2023": {
+     "monthly": 1.23,
+     "sr": 1.08,
+     "dd": 15.2,
+     "trades": 60
+    },
+    "2024-2026": {
+     "monthly": -0.1,
+     "sr": -0.03,
+     "dd": 16.1,
+     "trades": 42
+    }
+   },
+   "decomposition": "SHORT-side Quasimodo only (long mirror fires 0x on ETH h5); BTC nodes fail (best qm_BTC_h5 SR 0.01)",
+   "note": "First node since I-01 to clear ALL pre-registered gates, but split-half shows edge entirely in 2021-23 (like a sample-concentration artifact). Multiple-testing context: 1 p96+ node among ~200 scanned is within scan-wide chance expectation. NOT eligible for champion book without out-of-sample/re-confirmation; added to slot-review slate with ICT-03 OTE and MNV-02 SEPA."
   }
  },
  "errata": {
