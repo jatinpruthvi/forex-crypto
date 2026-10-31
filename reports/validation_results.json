@@ -25,6 +25,15 @@
     -1.14
    ],
    "note": "session-open fade loses on all nodes; combined with SS-04/06 momentum failure => first-hour move is cost-burn on both sides; sweep-restricted variants lose less"
+  },
+  "ICT-03": {
+   "verdict": "FAIL",
+   "best_node": "ote_BTC_h8 (fails gates)",
+   "range_monthly": [
+    -12.74,
+    16.31
+   ],
+   "note": "OTE fib retracement: no node passes gates; trend-following retracement entry loses at 10bp"
   }
  }
 }

@@ -1,0 +1,54 @@
+{
+ "unit": "ICT-03",
+ "verdict": "FAIL",
+ "nodes": {
+  "ote_BTC_h3": {
+   "monthly": -1.76,
+   "sr": -0.06,
+   "dd": -58.1,
+   "minyr": -29.88,
+   "trades": 417,
+   "placebo_pct": 0.0
+  },
+  "ote_BTC_h5": {
+   "monthly": -1.98,
+   "sr": -0.06,
+   "dd": -54.7,
+   "minyr": -22.16,
+   "trades": 533,
+   "placebo_pct": 6.7
+  },
+  "ote_BTC_h8": {
+   "monthly": 16.31,
+   "sr": 0.4,
+   "dd": -46.4,
+   "minyr": -19.91,
+   "trades": 697,
+   "placebo_pct": 0.0
+  },
+  "ote_ETH_h3": {
+   "monthly": -12.74,
+   "sr": -0.3,
+   "dd": -77.2,
+   "minyr": -65.83,
+   "trades": 441,
+   "placebo_pct": 10.0
+  },
+  "ote_ETH_h5": {
+   "monthly": -9.0,
+   "sr": -0.18,
+   "dd": -73.0,
+   "minyr": -49.82,
+   "trades": 560,
+   "placebo_pct": 10.0
+  },
+  "ote_ETH_h8": {
+   "monthly": 1.82,
+   "sr": 0.03,
+   "dd": -60.9,
+   "minyr": -42.57,
+   "trades": 710,
+   "placebo_pct": 3.3
+  }
+ }
+}
