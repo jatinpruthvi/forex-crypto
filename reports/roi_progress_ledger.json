@@ -1625,6 +1625,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "4 audits, 4 distinct bug classes (lookahead, units, placebo design, rule fidelity) - each in a different layer. No layer found the same bug twice; regression tests now pin each one."
+  },
+  {
+   "id": 64,
+   "exp": "EXP-055 five-angle trust review (user: '5 times review with different angle')",
+   "nodes": 0,
+   "budget_usd": 0.0,
+   "total_spent_usd": 47.5,
+   "result": "ALL FIVE ANGLES PASS. (1) Mutation testing 6/6 injected bug classes caught. (2) Edge cases 11/11. (3) Differential parity on 300 random inputs - FOUND+FIXED bug #5 (pnl_from_pos row-0 NaN-zeroing vs pnl_from_weights; latent, no recorded result affected). (4) Determinism byte-identical. (5) ICT-01 record reproduced digit-for-digit from raw CSV, zero repo code.",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "5 audits, 5 distinct bug classes, each found by a different angle and each now pinned by mutation-tested regression tests. The parity angle finding bug #5 validates the multi-angle design: no single pass would have caught all."
   }
  ],
  "savepoints": {
@@ -2345,5 +2356,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 63
+ "count": 64
 }

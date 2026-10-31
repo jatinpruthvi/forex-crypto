@@ -106,5 +106,32 @@
    "ICT-01 hold+1 semantics"
   ],
   "verdict": "HARNESS VERIFIED x4. 4 audits, 4 bug classes found and fixed across layers (timing, units, placebo design, rule fidelity); each now regression-tested."
+ },
+ "five_angle_trust_review": {
+  "date": "2026-10-31",
+  "verdict": "ALL FIVE ANGLES PASS",
+  "angle_1_mutation_testing": {
+   "result": "6/6 mutants CAUGHT (lookahead, units, costs, NWOG stale, placebo degenerate x2); clean baselines pass",
+   "artifact": "reports/mutation_audit.json"
+  },
+  "angle_2_edge_cases": {
+   "result": "11/11 (NaN starts, zero-vol, ties, <120 obs guard, -99% guard, inf cleanup, leap day, empty coin, all-zero pos, single asset, flip boundaries)",
+   "artifact": "tests/test_edge_cases.py"
+  },
+  "angle_3_differential_parity": {
+   "result": "100 random pos series + 100 random weight matrices + 50 metric series + 50 rank grids: two independent paths identical",
+   "artifact": "tests/test_parity_determinism.py",
+   "found": "BUG #5 pnl_from_pos row-0 NaN-zeroing inconsistent with pnl_from_weights - FIXED (latent; all recorded positions start flat; no recorded result affected)"
+  },
+  "angle_4_determinism": {
+   "result": "metrics/placebo/cs_weights byte-identical on double runs; fixed seeds verified",
+   "artifact": "tests/test_parity_determinism.py"
+  },
+  "angle_5_end_to_end_digit_match": {
+   "result": "ICT-01 all 6 nodes x {monthly, sharpe, dd, min_year, placebo} reproduced digit-for-digit from raw CSV with zero repo code",
+   "artifact": "reports/verify_ict01_e2e.json"
+  },
+  "bugs_total_across_5_audits": 5,
+  "note": "bug #5 found by the parity angle proves the multi-angle design works; each bug now has a pinned regression test; suite count grows with every angle"
  }
 }
