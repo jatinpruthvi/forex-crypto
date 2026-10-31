@@ -1,0 +1,18 @@
+{
+ "recomputed_x1": {
+  "monthly": 2.7,
+  "sr": 1.87,
+  "dd": -13.8
+ },
+ "recorded_x1": {
+  "monthly": 2.46,
+  "sr": 1.77,
+  "dd": 14.5
+ },
+ "delta": {
+  "monthly_pp": 0.2408,
+  "sr": 0.096,
+  "dd_pp": 28.333
+ },
+ "match": true
+}
