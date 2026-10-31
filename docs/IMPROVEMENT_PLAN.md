@@ -82,6 +82,17 @@ Sessions (UTC): Asia 00:00–08:00 · London 08:00–13:30 · US 13:30–20:00 �
 | SS-17 | **Friday-close / Sunday-open effects** — Friday 20:00–24:00 and Sunday 00:00–08:00 specific rules | weekly positioning | UNTESTED |
 | SS-18 | **Multi-session confluence** — Asia range + London break + NY confirmation chain (all three must agree) | staged confirmation | UNTESTED |
 
+### Volume profile + session additions found in gap-audit (2026-10-30)
+| ID | strategy (exact rule) | mechanism | status |
+|---|---|---|---|
+| VP-19 | **CVD divergence** — cumulative volume delta (up-bar minus down-bar volume) diverges from price → fade price | informed flow vs price | UNTESTED |
+| VP-20 | **Classic pivot levels** — floor pivots PP/R1/R2/S1/S2 and Camarilla from prior-day HLC; breakout/fade at levels | institutional reference levels | UNTESTED |
+| VP-21 | **Market Profile TPO** — value area from time-price-opportunity counts (not volume); trade TPO value edges | time-based value | UNTESTED |
+| SS-19 | **Turn-of-month** — first 3/last 3 trading days of month long-bias (documented equity/crypto effect) | month-end flows | UNTESTED |
+| SS-20 | **Deribit options-expiry day effect** — last Friday of month: pre/post-expiry positioning rules (calendar is computable) | dealer hedging flows | UNTESTED |
+| SS-21 | **FOMC / CPI event days** — fixed public calendar; day-of and day-after directional/ vol rules | macro event flows | UNTESTED |
+| SS-22 | **London-fix time (16:00 UTC)** — mean reversion or drift around the fixing window | fix-related flows | UNTESTED |
+
 ### PRE-SCREEN NOTE (EXP-048, 2026-10-30)
 The PRE-SCREENED rows above were run as a batch at 10bp taker and failed. The screen covered only
 those exact rules — **it does NOT close the family**: every UNTESTED row remains a validation unit.
@@ -89,6 +100,53 @@ Additionally, all 15m-frequency rules must be re-tested under the maker-fee regi
 post-only) before final closure, since the screen showed the deaths were cost-burn driven.
 
 ---
+
+## C2. GAP-AUDIT ADDITIONS (2026-10-30) — families missed in the original inventory
+
+### Candle & chart patterns (CH) — classical TA signals never tested here
+| ID | strategy | status |
+|---|---|---|
+| CH-01 | Engulfing / harami reversal patterns (daily & 4h) | UNTESTED |
+| CH-02 | Pin bar / hammer / shooting-star reversal | UNTESTED |
+| CH-03 | Doji indecision → breakout direction filter | UNTESTED |
+| CH-04 | Double top / double bottom (swing-based detector) | UNTESTED |
+| CH-05 | Support/resistance retest (prior swing high/low touch → fade/hold) | UNTESTED |
+
+### Sentiment & positioning (SNT/FG) — DATA FOUND, never used (olaxbt repo)
+Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/macro/fear_greed_daily.csv`
++ `fred_daily.csv` (restore via gh api blobs; not yet downloaded).
+| ID | strategy | status |
+|---|---|---|
+| SNT-01 | Sentiment momentum — daily per-coin sentiment level/change → position | UNTESTED |
+| SNT-02 | Sentiment extremes fade — top/bottom decile sentiment → reverse | UNTESTED |
+| SNT-03 | Sentiment × funding cross-confirmation (crowded = sentiment + funding both extreme) | UNTESTED |
+| SNT-04 | News-volume spike (titles/day surge) → volatility/event positioning | UNTESTED |
+| FG-01 | Fear & Greed regime: extreme fear (<25) long-bias / extreme greed (>75) de-risk | UNTESTED |
+| FG-02 | Fear & Greed change-velocity as contrarian signal | UNTESTED |
+| MAC-01 | FRED rates/macro level changes → crypto risk-on/off (weekly rebalance) | UNTESTED |
+| MAC-02 | Macro surprise direction (rates ↑/↓ regime) as book leverage modifier | UNTESTED |
+
+### Two-leg arbitrage (CC) — market-neutral constructions never tested
+| ID | strategy | status |
+|---|---|---|
+| CC-01 | **Delta-neutral cash-and-carry**: long spot + short perp when funding annualized > costs (harvest funding + basis convergence, zero delta). Needs two-leg P&L (spot daily = olaxbt panel, perp = binanceusdm intraday) | UNTESTED |
+| CC-02 | **Basis convergence trade**: enter when basis z extreme, exit at convergence (two legs) | UNTESTED |
+
+### Book-level overlays (REG/TM/RBT) — applied to the champion book, not standalone
+| ID | strategy | status |
+|---|---|---|
+| REG-01 | Correlation/dispersion regime: avg pairwise 30d corr > threshold → halve book exposure | UNTESTED |
+| REG-02 | 2-state HMM (trend/range) filter on the book — trade only in trend state | UNTESTED |
+| REG-03 | Realized-vol percentile gate (30d RV > 80th pct → scale down) — ON/OFF, distinct from tested continuous vol-targeting | UNTESTED |
+| TM-01 | ATR trailing stop on the book's trend entries (vs time-exit) | UNTESTED |
+| TM-02 | Pyramiding — scale into winners on confirmation | UNTESTED |
+| TM-03 | Partial profit-taking at k×risk | UNTESTED |
+| RBT-01 | Rebalance timing alpha — rebalance sleeves at low-vol hours / post-funding timestamps | UNTESTED |
+
+### Newly noted BLOCKED-DATA (don't spend time unless data appears)
+- Open-interest history (no source) · US spot ETF flows (2024+, no source) · BTC halving cycle
+  (n≈1-2 cycles — statistically unvalidatable; do not claim) · borrow/margin rates (no source) ·
+  L2 order book, liquidations (already closed).
 
 ## C. OTHER WAVES (unchanged inventory)
 
@@ -147,7 +205,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18 | **UNTESTED — validate one by one on user's go** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..05 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~55 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
