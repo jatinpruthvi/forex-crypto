@@ -1,10 +1,46 @@
-# Code Quality Standards
+# Agent Working Standards
 
-Always apply these standards to all code you write.
+Always apply these standards to all work in this repository.
+
+## Task Execution — One Unit Per Invocation
+
+- **One task per invocation.** Complete exactly one unit of work, commit, and stop. Never batch.
+- A "unit" is EITHER one task from `.agent/tasks.json` OR one idea from
+  `docs/IMPROVEMENT_PLAN.md` (test one idea → record its ROI row → commit → stop).
+- Do not start the next unit without the user's go. Plan first when asked to plan;
+  test only when asked to taste.
+
+## Quant Research Rules (apply to every experiment)
+
+1. **No fantasy results.** Every number comes from real historical data with real costs
+   (≥10bp/side taker; 3bp maker only with a documented fill model). Assumptions are not results.
+2. **Run the bug gate first.** `python scripts/audit_scan.py <script>` and walk the Tier A
+   checklist in `.agent/skills/quantitative-trading-bug-hunter/SKILL.md`. Record the audit
+   next to the result — an unaudited number must never be claimed.
+3. **Placebo or it doesn't count.** Standalone strategies need their own placebo; book changes
+   need a blend placebo; best-of-N searches need a selection-adjusted honesty note. Permute
+   signals/weights and recompute P&L — never shuffle P&L series.
+4. **Unverified claims never enter a book.** If a historical number can't be reproduced from a
+   runnable committed definition, demote it to UNVERIFIED (precedent: EXP-044 timeframe claims).
+5. **Track everything.** Update the ROI tracker in `docs/IMPROVEMENT_PLAN.md`, the ledger in
+   `reports/roi_progress_ledger.json`, and `reports/strategy_leaderboard.json` before committing —
+   failures included. Persist results so the best strategy can be selected later.
+6. **Adversarial check.** Before reporting, ask what can go wrong and test each failure mode
+   (magnitudes vs cost physics, nonzero-position counts, independent re-derivation of top nodes).
+
+## Repo Operations
+
+- **Data files are never tracked in git** (`.gitignore` excludes `data/**.csv`). Restore data
+  with `python scripts/restore_data.py`; recovery procedure in `docs/RESTORE_POINT.md`.
+- Python env: `python3 -m venv /tmp/venv && /tmp/venv/bin/pip install -r requirements.txt`,
+  then `pip install "plotly<6.0.0" vectorbt scipy pyarrow nautilus_trader`.
+- Work only on the session branch `arena/b657ea09-forex-crypto`; never rename or switch branches.
+- Full test suite must pass (`/tmp/venv/bin/python -m pytest tests/ -q`, currently 170) before
+  every push.
 
 ## Reuse Before Creating
 
-Before writing new code, analyze existing utilities, components, hooks, helpers and tests:
+Before writing new code, analyze existing utilities, helpers and tests:
 
 1. **Search first** — grep/glob for similar functionality before implementing
 2. **Extend if close** — if something exists that's 80% of what you need, extend it
@@ -15,19 +51,8 @@ Before writing new code, analyze existing utilities, components, hooks, helpers 
 Keep files between **200-300 lines max**. If a file exceeds this:
 
 1. **Split by responsibility** — one module = one concern
-2. **Extract sub-components** — UI pieces that can stand alone should
-3. **Separate logic from presentation** — hooks/utils in their own files
-4. **Group by feature** — co-locate related files, not by type
-
-Signs a file needs splitting:
-- Multiple unrelated exports
-- Scrolling to find what you need
-- "Utils" file becoming a junk drawer
-- Component doing data fetching + transformation + rendering
-
-## Task Execution
-
-- **One task per invocation.** When working from `.agent/tasks.json`, complete exactly one task, commit, and stop. Never batch multiple tasks.
+2. **Separate logic from presentation** — helpers in their own modules
+3. **Group by feature** — co-locate related files, not by type
 
 ## Code Style
 
@@ -40,9 +65,6 @@ Signs a file needs splitting:
 If you didn't test it, it doesn't work.
 
 Verify written code by:
-- Running unit tests
-- Running end to end tests
-- Checking for type errors
-- Checking for lint errors
-- Smoke testing and checking for runtime errors with Playwright
-- Taking screenshots and verifying the UI is as expected
+- Running unit tests (`pytest`)
+- Checking for runtime errors on a smoke run of the actual script
+- For UI work only: Playwright smoke tests and screenshots
