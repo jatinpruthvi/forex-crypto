@@ -28,12 +28,24 @@
   },
   "ICT-03": {
    "verdict": "FAIL",
-   "best_node": "ote_BTC_h8 (fails gates)",
+   "best_node": "ote_BTC_h8 (gates fail: minYr -9.6)",
    "range_monthly": [
-    -12.74,
-    16.31
+    -3.48,
+    34.56
    ],
-   "note": "OTE fib retracement: no node passes gates; trend-following retracement entry loses at 10bp"
+   "note": "entry-day-lookahead bug FIXED and re-run; OTE retracement no gate-passing node"
+  },
+  "ICT-04": {
+   "verdict": "FAIL",
+   "best_node": "mitig_BTC_h3 +2.98%/mo SR 0.07 DD 73.8 (gates fail)",
+   "range_monthly": [
+    -22.72,
+    2.98
+   ],
+   "note": "first run +95%/mo = entry-day lookahead phantom; corrected run collapses; magnitude alarm worked"
   }
+ },
+ "errata": {
+  "entry_lookahead_fix": "All validate_*.py with sequential hold loops credit pos[t]*ret[t] where pos is decided at close[t] -> fixed to pos.shift(1)*ret. Affects ICT-01 (recorded numbers optimistic; FAIL robust), ICT-03/04 re-run (records overwritten). ICT-02/06 used shift(1) already."
  }
 }

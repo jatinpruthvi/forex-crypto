@@ -57,8 +57,10 @@ def main():
                     i += hold
                 else:
                     i += 1
-            raw = pos * d["close"].pct_change().fillna(0).values
-            chg = np.abs(np.diff(np.concatenate([[0.0], pos])))
+            # entry at signal-day CLOSE -> position earns NEXT day's return (no lookahead)
+            pos_s = np.concatenate([[0.0], pos[:-1]])
+            raw = pos_s * d["close"].pct_change().fillna(0).values
+            chg = np.abs(np.diff(np.concatenate([[0.0], pos_s])))
             pnl = pd.Series(raw - chg * COST, index=d.index)
             mo, sr, dd, myr, nt = metrics(pnl)
             rng = np.random.default_rng(7)

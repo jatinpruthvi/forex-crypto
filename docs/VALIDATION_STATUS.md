@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.1 — x2 +4.73%/mo SR 1.77 DD 27.4 | x3 +6.80%/mo. All-years-positive: R3 x2 +4.52/minYr +0.31.**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 22/184 units validated · 162 pending.**
+**Progress: 24/184 units validated · 160 pending.**
 
 Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (no data).
 
@@ -105,10 +105,10 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | AMT-01 | PENDING | - | - |
 | LV-01 | PENDING | - | - |
 | **ICT / SMC** | | | |
-| ICT-01 | FAIL | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
-| ICT-02 | FAIL | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
-| ICT-03 | FAIL | 4/6 nodes negative; ote_BTC_h8 +16%/mo is annualization artifact (SR 0.40 DD 46 minYr -19.9) | gates crush all nodes |
-| ICT-04 | PENDING | - | - |
+| ICT-01 | FAIL* | *entry-day-lookahead errata: true numbers are <= recorded; FAIL verdict robust. | best +0.12%/mo SR 0.22 (BTC hold3) but DD 45.5/minYr -4.0 fail gates; ETH nodes -2.7..-3.9%/mo | placebo 97pct (signal real but too weak net) |
+| ICT-02 | FAIL* | *1-bar timing errata (conservative direction); FAIL robust. | all 10 nodes negative (-1.1..-6.2%/mo); fade AND momentum both lose = pure cost burn | placebo degenerate (SR 0); verdict clear on sign |
+| ICT-03 | FAIL | corrected (entry-lookahead bug fixed): ote_BTC_h8 +34.6%/mo SR 0.90 but minYr -9.6 -> gates FAIL; ETH nodes negative | placebo p0-27 |
+| ICT-04 | FAIL | mitigation retest: corrected numbers +3/-0.7/-22.7/-10.2%/mo all gate-fail (first run had entry-day lookahead, +95% phantom) | bug caught by magnitude alarm |
 | ICT-05 | PENDING | - | - |
 | ICT-06 | PENDING | - | - |
 | ICT-07 | PENDING | - | - |
