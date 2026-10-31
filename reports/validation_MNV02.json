@@ -1,0 +1,54 @@
+{
+ "unit": "MNV-02",
+ "verdict": "FAIL",
+ "pass_nodes": [],
+ "nodes": {
+  "sepa_base_BTC": {
+   "monthly": 0.8,
+   "sr": 0.45,
+   "dd": 57.0,
+   "minyr": -5.18,
+   "trades": 852,
+   "placebo_pct": 68.0,
+   "gate_fails": [
+    "(base node)"
+   ]
+  },
+  "sepa_gated_BTC": {
+   "monthly": 0.68,
+   "sr": 0.49,
+   "dd": 26.6,
+   "minyr": -1.39,
+   "trades": 416,
+   "placebo_pct": 85.5,
+   "gate_fails": [
+    "SR",
+    "placebo p86"
+   ]
+  },
+  "sepa_base_ETH": {
+   "monthly": 0.3,
+   "sr": 0.3,
+   "dd": 67.8,
+   "minyr": -4.34,
+   "trades": 769,
+   "placebo_pct": 44.0,
+   "gate_fails": [
+    "(base node)"
+   ]
+  },
+  "sepa_gated_ETH": {
+   "monthly": -0.35,
+   "sr": -0.07,
+   "dd": 38.2,
+   "minyr": -1.1,
+   "trades": 281,
+   "placebo_pct": 26.0,
+   "gate_fails": [
+    "SR",
+    "placebo p26",
+    "gate-no-improvement(SR -0.07 vs base 0.3)"
+   ]
+  }
+ }
+}
