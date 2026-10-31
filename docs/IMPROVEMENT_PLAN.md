@@ -194,6 +194,16 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
 | ANM-01 | **52-week-high proximity momentum** — proximity to 52w high predicts continuation (published equity anomaly) | UNTESTED |
 | ANM-02 | **MAX/lottery effect** — coins with extreme max daily return in past month underperform (short bias) / low-MAX outperform | UNTESTED |
 
+### FINAL SWEEP ADDITIONS (2026-10-30, last pass)
+| ID | strategy (exact rule) | why it was still missing | status |
+|---|---|---|---|
+| CH-12 | **Harmonic patterns** — Gartley/butterfly/bat exact fib-ratio reversal formations (XABCD) | fib-confluence (SD-02) != harmonic pattern detectors | UNTESTED |
+| CH-13 | **Elliott wave simplified** — trade only rule-formable wave-3 impulse continuation (labeled wave counts are untestable) | pattern canon had no wave unit | UNTESTED |
+| VP-22 | **VWAP bands** — fade to / ride along +/-1sd/2sd session-VWAP bands | aVWAP (VP-10) is anchor-based; bands are a distinct rule | UNTESTED |
+| HLD-01 | **Holiday / thin-calendar drift** — pre-holiday drift + first-day-after-holiday reversal | SS-17 covers only Fri/Sun; holidays were never listed | UNTESTED |
+| END-01 | **Ensemble harvest (meta-unit)** — after one-by-one validation, blend ALL placebo-passing units into Book R4 with blend placebo certification | the plan had no step connecting validated units to the book | UNTESTED |
+| END-02 | **Regime dispatch (meta-unit)** — route validated units by state (trend regime -> trend units, range -> MR units), CPCV-validated | regime-conditional use of units was implicit only | UNTESTED |
+
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
 ## C. OTHER WAVES (unchanged inventory)
@@ -253,7 +263,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~79 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~85 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
