@@ -1614,6 +1614,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "ote_BTC_h8 is a genuine but decaying signal: candidate ONLY under maker fees (I-07) or as portfolio slot where minYr dilutes; never as standalone at 10bp with the -1.5 gate. 3 audits, 3 bug classes found each time - the layering works."
+  },
+  {
+   "id": 63,
+   "exp": "EXP-054 line-by-line harness audit #4 (rule-fidelity: each logic vs spec)",
+   "nodes": 8,
+   "budget_usd": 0.0,
+   "total_spent_usd": 47.5,
+   "result": "Bug #4 found+fixed: ICT-06 NWOG reference one week stale (Mon-Sat got 2-weeks-ago's open via resample('W').shift(1)+ffill). Fixed via week-period mapping + ground-truth tested; re-run: verdict robust FAIL (8 nodes <=0, best NWOG_MOM_BTC -0.49%/mo). All other rules verified spec-faithful (ICT-01 sweep rule exact; known-minor: its hold machine = hold+1 days). Regression test added (181 total).",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "4 audits, 4 distinct bug classes (lookahead, units, placebo design, rule fidelity) - each in a different layer. No layer found the same bug twice; regression tests now pin each one."
   }
  ],
  "savepoints": {
@@ -2334,5 +2345,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 62
+ "count": 63
 }

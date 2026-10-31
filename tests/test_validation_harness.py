@@ -187,3 +187,18 @@ def test_placebo_design_not_degenerate():
         srs_good.append(metrics_from_pnl(bp_good)["sharpe"])
     assert np.allclose(srs_bad, sr, atol=1e-9), "pnl-permute placebo should be degenerate"
     assert np.std(srs_good) > 0.01, "position-permute placebo must spread"
+
+
+def test_nwog_prev_week_open_reference():
+    """REGRESSION (bug #4, 2026-10-31): 'previous week open' must be the first open of
+    the week BEFORE the day's own week -- for EVERY day incl. Mon-Sat (the naive
+    resample('W').shift(1).ffill chain returns a two-weeks-stale value Mon-Sat)."""
+    idx = pd.bdate_range("2021-05-24", periods=20)          # weekdays only
+    open_ = pd.Series(np.arange(1.0, 21.0), index=idx)      # Mon May 24 = 1.0 .. Fri Jun 18 = 20.0
+    wk_first = open_.groupby(open_.index.to_period("W-SUN")).first()
+    prev = pd.Series(open_.index.to_period("W-SUN"), index=open_.index).map(wk_first.shift(1))
+    # week W3 = Jun 7-13 -> previous week W2 first open = Mon May 31 = 6.0
+    for day in ["2021-06-07", "2021-06-08", "2021-06-09", "2021-06-10", "2021-06-11"]:
+        assert prev.loc[day] == 6.0, f"{day}: {prev.loc[day]}"
+    # week W4 = Jun 14-20 -> previous week W3 first open = Mon Jun 7 = 11.0
+    assert prev.loc["2021-06-14"] == 11.0

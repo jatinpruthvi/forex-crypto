@@ -80,5 +80,31 @@
   ],
   "ict02_windows": "UTC causal: Asia 0-8, LDN lead 8-9 trade 9-13:30, NY lead 13:30-14:30 trade 14:30-20; sweep checks precede trade windows",
   "verdict": "HARNESS VERIFIED x3. ote_BTC_h8 = first real lead, but decaying + post-scan p96 -> maker-fee + slot tests required before adoption"
+ },
+ "line_by_line_pass_4": {
+  "date": "2026-10-31",
+  "scope": "rule-fidelity: each strategy logic vs its documented spec (not just causality)",
+  "bug_found": {
+   "id": 4,
+   "bug": "ICT-06 NWOG reference one week too stale (Mon-Sat get 2-weeks-ago's open; resample('W').shift(1)+ffill chain wrong)",
+   "fix": "to_period('W-SUN') week mapping + shift(1) on week-first opens; ground-truth tested on tiny series",
+   "verdicts_flipped": 0
+  },
+  "rule_fidelity_checked": {
+   "ICT-01": "sweep prior 20d low/high (shift1) + close back inside = spec MATCH; known-minor: hold-state machine holds hold+1 days (label vs behavior; DD-driven FAIL unaffected)",
+   "ICT-02": "fade -sign(first-hour move), sweep variants, combo = spec MATCH; windows UTC causal",
+   "ICT-03": "OTE 62-79% retrace zone, trend filter, impulse recency = spec MATCH (independent re-derivation exact)",
+   "ICT-04": "displacement-candle block retest = spec MATCH (levels from prior candles)",
+   "ICT-05": "confirmed turtle soup (0.25 ATR rejection) = spec MATCH",
+   "ICT-06": "NDOG correct from start; NWOG bug #4 fixed + re-run"
+  },
+  "known_minor_total": [
+   "engine row-0 entry cost skip (unreachable)",
+   "cs_weights rank ties K\u00b11",
+   "COINS5 survivorship",
+   "min_year stub-year noise",
+   "ICT-01 hold+1 semantics"
+  ],
+  "verdict": "HARNESS VERIFIED x4. 4 audits, 4 bug classes found and fixed across layers (timing, units, placebo design, rule fidelity); each now regression-tested."
  }
 }

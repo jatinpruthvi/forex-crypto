@@ -34,7 +34,8 @@ def main():
     out = {}
     for sym in ["BTC", "ETH"]:
         d = load(sym)
-        prev_wk_open = d["open"].resample("W").first().shift(1).reindex(d.index, method="ffill")
+        wk_first = d["open"].groupby(d.index.to_period("W-SUN")).first()
+        prev_wk_open = pd.Series(d.index.to_period("W-SUN"), index=d.index).map(wk_first.shift(1))   # bug#4 fix: each day maps to ITS week's previous week first-open
         prev_dy_open = d["open"].shift(1)
         ret = d["close"].pct_change().fillna(0)
         for label, ref in [("NWOG", prev_wk_open), ("NDOG", prev_dy_open)]:

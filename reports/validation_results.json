@@ -67,20 +67,21 @@
   },
   "ICT-06": {
    "verdict": "FAIL",
-   "best_node": "NWOG_MR_BTC",
+   "best_node": "NWOG_MOM_BTC",
    "best_house": {
-    "monthly": -1.0,
-    "sr": 0.07,
-    "dd": 83.0,
-    "minyr": -3.66,
-    "placebo_pct": 73
+    "monthly": -0.49,
+    "sr": 0.17,
+    "dd": 73.8,
+    "minyr": -4.38,
+    "placebo_pct": 80
    },
-   "note": "8 nodes all <=0"
+   "note": "bug#4 (2-week-stale NWOG reference) fixed + re-run: all 8 nodes <= 0 still; NDOG unchanged (was always correct); verdict robust"
   }
  },
  "errata": {
   "entry_lookahead_fix": "Bug scope CORRECTED: entry-day lookahead existed only in ICT-03/04/05 validator scripts (written faulty, fixed same session via +95%/mo magnitude alarm, re-run before final records). ICT-01/ICT-02 used pos.shift(1) correctly throughout - their recorded numbers stand. Engine (nuclear_edges.pnl_from_weights, ret_fwd=shift(-1)) verified correct by tests. Champion book recompute: +2.61/1.86/13.8 vs recorded +2.46/1.77/14.5; residual = cost-netting convention (recorded conservative).",
   "units_bug_fix": "ICT-03..06 inline metrics() returned %/yr labeled %/mo and compared %/yr minyr to the -1.5 %/mo gate. Fixed to metrics_from_pnl (house units). ICT-01/ICT-02 used house metrics from the start. No verdicts flipped on re-run. Gates are house-unit: DD<=40, min_year>=-1.5 (%/mo), SR>0.5, placebo>=90th.",
-  "placebo_bug_fix": "BUG #3: ICT-03..06 block-permuted the P&L series (SR is order-free -> degenerate null; prior percentiles were floating-point noise). Fixed to binding null design: block-permute POSITIONS, recompute P&L. All four re-run; verdicts unchanged; ICT-03 revealed as near-miss (ote_BTC_h8 p100, fails only minYr). ICT-01/ICT-02 used the valid position-permute design from the start."
+  "placebo_bug_fix": "BUG #3: ICT-03..06 block-permuted the P&L series (SR is order-free -> degenerate null; prior percentiles were floating-point noise). Fixed to binding null design: block-permute POSITIONS, recompute P&L. All four re-run; verdicts unchanged; ICT-03 revealed as near-miss (ote_BTC_h8 p100, fails only minYr). ICT-01/ICT-02 used the valid position-permute design from the start.",
+  "nwog_reference_fix": "Bug #4 (audit #4 rule-fidelity): ICT-06 prev-week-open was one week stale Mon-Sat (resample('W').shift(1)+ffill chain). Fixed via to_period('W-SUN') mapping; re-run unchanged verdict. Regression test: test_nwog_prev_week_open_reference."
  }
 }

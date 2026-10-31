@@ -110,7 +110,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | ICT-03 | FAIL (NEAR-MISS) | FINAL: ote_BTC_h8 +2.50%/mo SR 1.08 DD 26.7 minYr -1.83 placebo p100 -> fails ONLY minYr by 0.33; h3/h5 also p93 but minYr -2.1/-3.5; ETH <= 0 | FIRST real signal content found (p100); flag for relaxed-gate/portfolio-slot review |
 | ICT-04 | FAIL | FINAL: best mitig_BTC_h3 -0.31%/mo SR 0.08 DD 74 -> all nodes gate-fail (3 bugs caught: lookahead, units, placebo) |
 | ICT-05 | FAIL | FINAL: best tsoup2_BTC_h5 +0.75%/mo SR 0.45 DD 42.7 minYr -3.72 placebo p90 (signal real, untradeable at 10bp - same pattern as ICT-01) |
-| ICT-06 | FAIL | FINAL: 8 nodes all <= 0 (best NWOG_MR_BTC -1.00%/mo DD 83) | daily gap levels carry no edge |
+| ICT-06 | FAIL | FINAL (bug#4 NWOG 2-week-stale ref fixed + re-run): 8 nodes all <= 0 (best NWOG_MOM_BTC -0.49%/mo SR 0.17 DD 74) | verdict robust to the fix |
 | ICT-07 | PENDING | - | - |
 | ICT-08 | PENDING | - | - |
 | ICT-09 | PENDING | - | - |
