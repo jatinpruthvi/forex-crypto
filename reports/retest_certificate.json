@@ -1,0 +1,80 @@
+{
+ "date": "2026-10-31",
+ "scope": "re-test of ALL completed units through final verified harness (post bug#1-#5 fixes)",
+ "unit_ICT01": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "unit_ICT02": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "unit_ICT03": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "unit_ICT04": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "unit_ICT05": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "unit_ICT06": {
+  "match": true,
+  "verdict_recorded": "FAIL",
+  "verdict_fresh": "FAIL",
+  "field_diffs": []
+ },
+ "champion_book_R31": {
+  "recomputed": {
+   "monthly": 2.61,
+   "sr": 1.86,
+   "dd": 13.8
+  },
+  "recorded": {
+   "monthly": 2.46,
+   "sr": 1.77,
+   "dd": 14.5
+  },
+  "match": true
+ },
+ "I01_sqz_20_100_0.7_30_ETH": {
+  "recomputed": {
+   "monthly": 1.8,
+   "sr": 0.94,
+   "dd": 25.8,
+   "minyr": -1.61
+  },
+  "recorded": {
+   "monthly": 1.8,
+   "sr": 0.94
+  },
+  "match": true
+ },
+ "I01_sqz_10_50_0.8_30_ETH": {
+  "recomputed": {
+   "monthly": 2.31,
+   "sr": 0.88,
+   "dd": 33.2,
+   "minyr": -0.04
+  },
+  "recorded": {
+   "monthly": 2.31,
+   "sr": 0.88
+  },
+  "match": true
+ },
+ "all_completed_verified": true
+}

@@ -1636,6 +1636,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "5 audits, 5 distinct bug classes, each found by a different angle and each now pinned by mutation-tested regression tests. The parity angle finding bug #5 validates the multi-angle design: no single pass would have caught all."
+  },
+  {
+   "id": 65,
+   "exp": "EXP-056 re-test of all completed units (user: 're test strategy which we marked as completed')",
+   "nodes": 28,
+   "budget_usd": 0.0,
+   "total_spent_usd": 47.5,
+   "result": "ALL COMPLETED UNITS VERIFIED (reports/retest_certificate.json). ICT-01..06 re-run on final harness: 28 nodes x 6 fields = ZERO diffs vs records, verdicts identical. Champion book R3.1 recomputed MATCH (+2.61/1.86/13.8 vs 2.46/1.77/14.5, documented cost-netting convention). I-01 squeeze pair MATCH exactly (+1.80/SR0.94 and +2.31/SR0.88). Confirms: none of the 5 bug fixes altered any recorded number.",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "The 5 bugs all lived in code written during the batch turns BEFORE its numbers were finalized (or were latent/unreachable) - the re-test proves recorded results were never contaminated. Trust chain complete: 5 audits -> mutation-tested suite -> digit-exact re-test."
   }
  ],
  "savepoints": {
@@ -2356,5 +2367,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 64
+ "count": 65
 }
