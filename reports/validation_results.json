@@ -4,7 +4,8 @@
   "I-01 squeeze-family pair slot",
   "ICT-03 ote_BTC_h8 (VIA SLOT -> R3.2 champion)",
   "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)",
-  "CH-20 tweezer_ETH_h10 (standalone PASS)"
+  "CH-20 tweezer_ETH_h10 (standalone PASS)",
+  "CH-22 ww_ETH_h3 (standalone PASS)"
  ],
  "results": {
   "ICT-01": {
@@ -288,6 +289,45 @@
     -0.97
    ],
    "note": "1-2-3 reversal (A/B/C swing sequence + break of B): all nodes negative; pattern fires loosely (1400-1750 trade-days) but no reversal content net of costs"
+  },
+  "CH-22": {
+   "verdict": "PASS",
+   "pass_nodes": [
+    "ww_ETH_h3"
+   ],
+   "best_house": {
+    "monthly": 1.32,
+    "sr": 0.77,
+    "dd": 22.4,
+    "minyr": -1.33,
+    "trades": 239,
+    "placebo_pct_500": 98.8
+   },
+   "split_half": {
+    "2021-2023": {
+     "monthly": 1.58,
+     "sr": 0.82
+    },
+    "2024-2026": {
+     "monthly": 1.02,
+     "sr": 0.74
+    }
+   },
+   "decomposition": {
+    "long_only": {
+     "monthly": 0.86,
+     "sr": 0.76
+    },
+    "short_only": {
+     "monthly": 0.46,
+     "sr": 0.38
+    }
+   },
+   "caveats": [
+    "BTC nodes fail - ETH-only",
+    "simplified WW (no point-4 TP target)"
+   ],
+   "note": "Second standalone PASS this batch. Most stable signal found to date: split-half decay minimal (0.82->0.74), two-sided, placebo p98.8. 5-point channel overshoot reversal on ETH is real."
   }
  },
  "errata": {

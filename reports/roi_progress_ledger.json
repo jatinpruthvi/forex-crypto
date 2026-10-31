@@ -1680,6 +1680,17 @@
    "status": "complete",
    "date": "2026-10-31",
    "insight": "The slot mechanism VALIDATED: a standalone FAIL (minYr -1.83) became champion glue (blend minYr +0.37) - diversification converts real-but-ugly signal into book-grade risk metrics. ICT-03 OTE is the 2nd adopted family (after I-01 squeeze). darvas_h10 is one minYr hair away - keep visible."
+  },
+  {
+   "id": 69,
+   "exp": "EXP-060 validation batch PRT-01/CH-20/CH-21/CH-22",
+   "nodes": 21,
+   "budget_usd": 1.0,
+   "total_spent_usd": 50.5,
+   "result": "PRT-01 FAIL (EW-BTC premium +1.4%/mo but DD 72, 24-26 half negative; 2 bugs caught pre-recording: node def + weight-path double-count via magnitude alarm). CH-20 PASS (tweezer_ETH_h10 +1.91%/mo SR 1.00 DD 23.3 p99.6@500, split-half 1.23->0.69 alive). CH-21 FAIL (1-2-3 reversal all nodes negative). CH-22 PASS (ww_ETH_h3 +1.32%/mo SR 0.77 DD 22.4 p98.8@500, split-half 0.82->0.74 MOST STABLE yet, two-sided). Both PASS nodes ETH-only (BTC siblings fail).",
+   "status": "complete",
+   "date": "2026-10-31",
+   "insight": "2 standalone PASSes in one batch (CH-20, CH-22) after 34 units of failures - ETH mean-reversion at extremes (tweezer equal-extremes, WW channel overshoot) is the emerging theme, alongside BTC OTE retracement. Slot-review batch #2 should test tweezer_ETH + ww_ETH + darvas_h10 runner-up. Note: ETH-only asymmetry persists across all findings."
   }
  ],
  "savepoints": {
@@ -2400,5 +2411,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 68
+ "count": 69
 }

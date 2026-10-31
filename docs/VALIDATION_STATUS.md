@@ -3,7 +3,7 @@
 **Champion book (updated as units land): R3.2 = 0.85*R3.1 + 0.15*ote_BTC_h8 (ICT-03 OTE slot, EXP-059) — x1 +2.66%/mo SR 2.12 DD 12.1 minYr +0.37 | x2 +5.19%/mo DD 23.0 minYr +0.62 | x3 +7.58%/mo DD 32.7. Slot placebo p99.6@500. Recency guard PASS (24-26 half SR 1.53->1.65). R3.1 retained as baseline (x2 +4.73%/mo SR 1.77 DD 27.4).**
 
 **Winners so far (validated PASS units eligible for END-01 ensemble): I-01 squeeze-family pair slot.**
-**Progress: 37/184 units validated · 147 pending.**
+**Progress: 38/184 units validated · 146 pending.**
 
 **EXP-059 SLOT REVIEW (2026-10-31):** near-miss slate slotted into R3.1 at 10/15/20%. **ADOPT: ote_BTC_h8** (all lambdas; best l=0.15: SR 2.12 DD 12.1 minYr +0.37, slot placebo p99.6@500, recency PASS) -> champion R3.2. MARGINAL REJECT: darvas_h10 (SR/DD/improvement all good, slot-p94-98, but minYr +0.13..0.17 < baseline +0.19 by 0.02-0.06 - closest runner-up). REJECT: qm_ETH_h5, sepa_gated_BTC (blend SR up but monthly and minYr dilute). 4x5% slate: SR 2.11 DD 11.5 minYr +0.33 (interesting risk profile, monthly diluted).
 
@@ -99,7 +99,7 @@ Status legend: PENDING · RUNNING · PASS (placebo cleared) · FAIL · BLOCKED (
 | CH-19 | PENDING | - | - |
 | CH-20 | PASS | tweezer ETH: ALL 3 holds clear gates (h10: +1.91%/mo SR 1.00 DD 23.3 minYr -0.26, placebo p99.6@500). Split-half 21-23 SR 1.23 -> 24-26 SR 0.69 (decays but ALIVE - recency guard PASS). Two-sided (short +1.17, long +0.34). CAVEAT: BTC tweezer nodes fail/negative (ETH-only edge) | first standalone PASS since I-01 to clear gates + confirmation; slot-review candidate |
 | CH-21 | FAIL | Joe Ross 1-2-3 reversal: 6 nodes all negative (-1.0..-4.3%/mo, high trade counts) | swing-based reversal entries lose to costs at daily freq |
-| CH-22 | PENDING | - | - |
+| CH-22 | PASS | Wolfe waves (simplified 5-point): ww_ETH_h3 +1.32%/mo SR 0.77 DD 22.4 minYr -1.33, placebo p98.8@500. Split-half STABLE (21-23 SR 0.82 -> 24-26 SR 0.74 - least decay of any signal). Two-sided (long +0.86, short +0.46). CAVEAT: BTC nodes fail (ETH-only again) | second standalone PASS of the batch; slot-review candidate |
 | CH-23 | PENDING | - | - |
 | CH-24 | PENDING | - | - |
 | CH-25 | PENDING | - | - |
