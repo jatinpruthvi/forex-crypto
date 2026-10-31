@@ -223,11 +223,57 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
 | QNT-04 | **Kaufman efficiency-ratio regime filter** (ER = |net move|/sum|moves|; trade trend only when ER high) | filters | UNTESTED |
 | IND-01 | **Bill Williams Alligator + fractals** (the one classic indicator never in the EXP-046 adopted zoo) | indicator zoo | UNTESTED |
 
-**COMPLETENESS STATEMENT (2026-10-30):** the inventory is now CLOSED against the strategy-universe map.
-Anything further found in the wild is one of: (a) a recombination of listed units (handled by END-01
-ensemble + END-02 dispatch after one-by-one validation), (b) an indicator-zoo repackage already
-covered by EXP-022..046 tests or IND-01, (c) data-blocked (listed explicitly), or (d) discretionary
-method (Wyckoff full method, Elliott full counting, Gann) — only its rule-formable units are listed.
+**COMPLETENESS STATEMENT (v2, 2026-10-30, revised after 3 passes found more):** a prior "CLOSED"
+claim was WRONG twice (VSA methodology + 6 zoo gaps + calendar layer still surfaced). The standing
+rule: anything further found in the wild is one of (a) recombination of listed units (END-01/02 job),
+(b) data-blocked (listed), (c) discretionary method (only rule-formable units listed), or (d) ANOTHER
+named methodology / zoo gap / calendar effect — which must be ADDED as its own unit, not waved away.
+The list stays open until one-by-one validation begins.
+
+### METHODOLOGY-PASS ADDITIONS (2026-10-30, named-methodology + calendar + zoo-gap walk)
+**VSA — Tom Williams Volume Spread Analysis (full quantified bar methodology, was entirely missing)**
+| ID | strategy (exact rule) | status |
+|---|---|---|
+| VSA-01 | **No-demand / no-supply bars** — narrow spread (<0.6xATR20) + low volume (<0.7xV30) + close position; fade weak legs | UNTESTED |
+| VSA-02 | **Stopping volume & climax** — ultra-high volume (>2xV30) bar closing off its extreme at a trend end -> reversal | UNTESTED |
+| VSA-03 | **Upthrust + effort-vs-result** — wide bar spikes past resistance then closes low on high volume -> short; effort-without-result = distribution warning | UNTESTED |
+
+**Named systems & patterns**
+| ID | strategy | status |
+|---|---|---|
+| DAR-01 | **Darvas box breakout** — new-high box definition, trade box breaks with volume confirm | UNTESTED |
+| AMT-01 | **Auction Market Theory: excess vs poor extremes** — fade poor highs/lows (thin retest), follow excess (single prints) | UNTESTED |
+| ICT-10 | **Quasimodo (over-under) reversal** — ICT head-shoulders variant with aligned left shoulder | UNTESTED |
+| CH-20 | **Tweezer tops/bottoms** (equal-extreme 2-bar reversal) | UNTESTED |
+| CH-21 | **Joe Ross 1-2-3 reversal + Ross hook** (named breakout-continuation system) | UNTESTED |
+| CH-22 | **Wolfe waves** (5-point channel reversal) | UNTESTED |
+
+**Classic indicator zoo gaps (none of these ever appeared in EXP-022..046 or EXP-046 adopted)**
+| ID | strategy | status |
+|---|---|---|
+| IND-02 | **Awesome Oscillator** (zero-line cross + saucer) | UNTESTED |
+| IND-03 | **Money Flow Index (MFI)** — volume-weighted RSI | UNTESTED |
+| IND-04 | **Chaikin Money Flow + A/D line** | UNTESTED |
+| IND-05 | **TRIX** (triple-smoothed momentum) | UNTESTED |
+| IND-06 | **Ultimate Oscillator** (multi-timeframe momentum) | UNTESTED |
+| IND-07 | **Elder Ray** (bull power/bear power) | UNTESTED |
+
+**Calendar layer (literature is CONTESTED — test with lockbox, do not assume either way)**
+| ID | strategy | evidence | status |
+|---|---|---|---|
+| SEAS-01 | **Month-of-year seasonality** (Uptober/November bias) | Oct mean +19.9%/median +14.7% 2013-25 [geekmetaverse]; Mueller 2024 calls it artifact | UNTESTED |
+| SEAS-02 | **Halloween effect** (Oct 31-Apr 30 long) | Emerald 2026: strategy beats hold 2018-24 for 4/5 coins; GARCH study finds nothing | UNTESTED |
+| SS-23 | **Pre-FOMC drift** (long into scheduled FOMC days) | documented equity anomaly; crypto untested | UNTESTED |
+
+**Statistical + macro (FRED columns CONFIRMED: vix, us_10y_yield_pct, effective_fed_funds_pct, trade_weighted_usd_index, us_high_yield_oas_pct, sp500_index, wti_crude)**
+| ID | strategy | status |
+|---|---|---|
+| QNT-05 | **Intraday jump effects** — post-jump drift vs reversal after large 15m jumps | UNTESTED |
+| MAC-03 | **VIX & HY credit-spread (OAS) risk regime** -> book de-risk/risk-on | UNTESTED |
+| MAC-04 | **DXY (trade-weighted USD) + 10y yield direction** -> BTC inverse positioning | UNTESTED |
+| SNT-05 | **Keyword event studies** from daily_titles.jsonl (ETF/hack/SEC keyword days) | UNTESTED |
+
+**NOTE:** FRED also carries sp500_index (feeds I-08 lead-lag with real data). No M2/gold in the file.
 
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
@@ -288,7 +334,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~100 units, inventory CLOSED)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~120 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
