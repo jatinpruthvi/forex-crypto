@@ -3,7 +3,8 @@
  "passing_units": [
   "I-01 squeeze-family pair slot",
   "ICT-03 ote_BTC_h8 (VIA SLOT -> R3.2 champion)",
-  "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)"
+  "ICT-10 qm_ETH_h5 (PROVISIONAL - split-half decay)",
+  "CH-20 tweezer_ETH_h10 (standalone PASS)"
  ],
  "results": {
   "ICT-01": {
@@ -236,6 +237,49 @@
     }
    },
    "note": "EW-BTC premium is real-ish pre-2024 but the 24-26 half is negative (premium decayed); rebalance alpha +0.12%/mo only. BUGS CAUGHT PRE-RECORDING: node definition (subtracted wrong spread) + weight-path double-count (end-of-day weight re-applied same-day return, phantom +5.85%/mo killed by magnitude alarm vs static node)."
+  },
+  "CH-20": {
+   "verdict": "PASS",
+   "pass_nodes": [
+    "tweezer_ETH_h3",
+    "tweezer_ETH_h5",
+    "tweezer_ETH_h10"
+   ],
+   "best_node": "tweezer_ETH_h10",
+   "best_house": {
+    "monthly": 1.91,
+    "sr": 1.0,
+    "dd": 23.3,
+    "minyr": -0.26,
+    "trades": 339,
+    "placebo_pct_200": 100,
+    "placebo_pct_500": 99.6
+   },
+   "split_half": {
+    "2021-2023": {
+     "monthly": 2.63,
+     "sr": 1.23
+    },
+    "2024-2026": {
+     "monthly": 1.08,
+     "sr": 0.69
+    }
+   },
+   "decomposition": {
+    "short_only": {
+     "monthly": 1.17,
+     "sr": 0.74
+    },
+    "long_only": {
+     "monthly": 0.34,
+     "sr": 0.3
+    }
+   },
+   "caveats": [
+    "BTC tweezer nodes fail/negative - ETH-only edge",
+    "split-half decay 1.23->0.69 but recent half alive (recency guard PASS)"
+   ],
+   "note": "First standalone unit since I-01 to clear pre-registered gates AND confirmation (500-draw placebo p99.6, recency alive). Equal-extreme 2-bar reversals at 10d extremes on ETH carry real mean-reversion content. Slot-review candidate #5."
   }
  },
  "errata": {

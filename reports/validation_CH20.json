@@ -1,0 +1,77 @@
+{
+ "unit": "CH-20",
+ "verdict": "PASS",
+ "pass_nodes": [
+  "tweezer_ETH_h3",
+  "tweezer_ETH_h5",
+  "tweezer_ETH_h10"
+ ],
+ "nodes": {
+  "tweezer_BTC_h3": {
+   "monthly": -0.12,
+   "sr": -0.07,
+   "dd": 25.4,
+   "minyr": -0.99,
+   "trades": 116,
+   "placebo_pct": 49.5,
+   "gate_fails": [
+    "SR",
+    "placebo p50"
+   ]
+  },
+  "tweezer_BTC_h5": {
+   "monthly": -0.27,
+   "sr": -0.16,
+   "dd": 32.4,
+   "minyr": -3.11,
+   "trades": 174,
+   "placebo_pct": 39.5,
+   "gate_fails": [
+    "minYr",
+    "SR",
+    "placebo p40"
+   ]
+  },
+  "tweezer_BTC_h10": {
+   "monthly": -0.92,
+   "sr": -0.47,
+   "dd": 64.3,
+   "minyr": -3.67,
+   "trades": 285,
+   "placebo_pct": 18.0,
+   "gate_fails": [
+    "DD",
+    "minYr",
+    "SR",
+    "placebo p18"
+   ]
+  },
+  "tweezer_ETH_h3": {
+   "monthly": 0.94,
+   "sr": 0.8,
+   "dd": 15.9,
+   "minyr": -0.34,
+   "trades": 140,
+   "placebo_pct": 100.0,
+   "gate_fails": []
+  },
+  "tweezer_ETH_h5": {
+   "monthly": 1.14,
+   "sr": 0.77,
+   "dd": 25.1,
+   "minyr": -1.03,
+   "trades": 204,
+   "placebo_pct": 98.5,
+   "gate_fails": []
+  },
+  "tweezer_ETH_h10": {
+   "monthly": 1.91,
+   "sr": 1.0,
+   "dd": 23.3,
+   "minyr": -0.26,
+   "trades": 339,
+   "placebo_pct": 100.0,
+   "gate_fails": []
+  }
+ }
+}
