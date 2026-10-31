@@ -84,6 +84,14 @@
     -0.81
    ],
    "note": "narrow-spread low-volume bars with close-position fade: all 6 nodes negative net of 10bp; VSA weakness signals do not predict reversals at daily frequency"
+  },
+  "VSA-02": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -0.93,
+    -0.1
+   ],
+   "note": "volume>2xV30 climax bars closing off extreme at trend end: no reversal edge at daily frequency net of costs"
   }
  },
  "errata": {
