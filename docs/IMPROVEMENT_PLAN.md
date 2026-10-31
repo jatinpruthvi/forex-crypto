@@ -90,7 +90,7 @@ Sessions (UTC): Asia 00:00–08:00 · London 08:00–13:30 · US 13:30–20:00 �
 | VP-21 | **Market Profile TPO** — value area from time-price-opportunity counts (not volume); trade TPO value edges | time-based value | UNTESTED |
 | SS-19 | **Turn-of-month** — first 3/last 3 trading days of month long-bias (documented equity/crypto effect) | month-end flows | UNTESTED |
 | SS-20 | **Deribit options-expiry day effect** — last Friday of month: pre/post-expiry positioning rules (calendar is computable) | dealer hedging flows | UNTESTED |
-| SS-21 | **FOMC / CPI event days** — fixed public calendar; day-of and day-after directional/ vol rules | macro event flows | UNTESTED |
+| SS-21 | **FOMC / CPI / NFP event days** — fixed public calendar; day-of and day-after directional/vol rules | macro event flows | UNTESTED |
 | SS-22 | **London-fix time (16:00 UTC)** — mean reversion or drift around the fixing window | fix-related flows | UNTESTED |
 
 ### PRE-SCREEN NOTE (EXP-048, 2026-10-30)
@@ -173,7 +173,7 @@ Data: `data/news_sentiment/daily_by_coin.csv` + `daily_titles.jsonl` + `data/mac
 | CH-08 | **Marubozu / strong-close continuation** — full-body candle → next-bar continuation | candle canon | UNTESTED |
 | CH-09 | **RSI/MACD divergence** — price vs oscillator peak divergence → reversal | classic TA | UNTESTED |
 | CH-10 | **Trendline / LinReg-channel break** — regression channel violation | classic TA | UNTESTED |
-| CH-11 | **Renko / Point-and-Figure reversal-continuation** (alternative-bar signals) | classic TA | UNTESTED |
+| CH-11 | **Renko / Point-and-Figure / Kagi / Three-Line Break** (alternative-bar signals) | classic TA | UNTESTED |
 
 ### Quant-Reddit additions (QNT)
 | ID | strategy (exact rule) | source | status |
@@ -294,6 +294,25 @@ The list stays open until one-by-one validation begins.
 
 **BLOCKED-DATA register additions:** on-chain metric family (MVRV/NUPL/SOPR/Puell Multiple/hash ribbons) — no dataset in reach; options max-pain/GEX — needs option OI history.
 
+### TRADINGVIEW-SCRIPT + SIZING-SYSTEMS PASS (2026-10-30)
+| ID | strategy (exact rule) | source | status |
+|---|---|---|---|
+| IND-10 | **Nadaraya-Watson envelope** (kernel-regression bands, mean reversion) — MUST implement non-repainting mode; sources warn stock backtests show repaint artifacts (bug-gate Pillar 1!) | quantum-algo, masquant | UNTESTED |
+| IND-11 | **QQE Mod** (smoothed RSI + volatility bands momentum cross) | abovethegreenline | UNTESTED |
+| IND-12 | **GMMA (Guppy multiple moving averages)** — short/long ribbon compression & expansion | TradingView MA strategies | UNTESTED |
+| IND-13 | **MA envelopes** (fixed %-bands fade/continuation) | TradingView MA strategies | UNTESTED |
+| IND-14 | **Coppock curve** (long-horizon smoothed momentum) | classic named indicator | UNTESTED |
+| ELD-02 | **Elder Impulse System** (MACD-hist + EMA-slope bar-color rules as entry/exit filter) | Alexander Elder | UNTESTED |
+| RSK-01 | **Optimal f / fixed-ratio sizing** (Ralph Vince) vs fixed-fractional — sizing-system comparison on the book | named sizing method | UNTESTED |
+| RSK-02 | **CPPI** (constant-proportion portfolio insurance: floor + multiplier exposure) on book equity | named risk method | UNTESTED |
+| CAR-04 | **Funding-snip** — hold only around favorable funding timestamps (8h cycle), flat otherwise | crypto-native execution | UNTESTED |
+| ANM-05 | **Betting-against-beta** (low-beta tilt cross-sectional) | equity anomaly | UNTESTED |
+| ANM-06 | **Amihud illiquidity premium** | equity anomaly | UNTESTED |
+| CH-23 | **3-bar play / hikkake** (named inside-bar failure & continuation variants) | Williams/Capre canon | UNTESTED |
+| EXE-03 | **Prop-firm constraint envelope** — trade sizing/holding adapted to FTMO/Hyro-style daily-LL & profit-target rules (deployment realism for the live path) | live-trading mechanics | UNTESTED |
+
+Edits: CH-11 now includes Kagi / Three-Line Break; SS-21 now includes NFP (first Friday). Blocked register += single-stock crypto proxies (MSTR/COIN) — no data.
+
 **METHOD NOTE (from quant Reddit):** adopt **CPCV (combinatorial purged cross-validation)** for any future walk-forward instead of plain k-fold — purge overlapping labels, 15 folds. Also: feed-latency robustness checks before live.
 
 ## C. OTHER WAVES (unchanged inventory)
@@ -353,7 +372,7 @@ Baseline: R3.1 ×2 = +4.73%/mo SR 1.77 DD 27.4.
 | I-04 | dominated | — | none | no |
 | I-05 | dead | — | none | no |
 | VP-01/03/04/09/18, SS-01/04/06/09/10/13 | pre-screen FAIL (EXP-048) | — | none | no |
-| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~135 units)** | | | |
+| VP-02,05,06,07,08,10,11,12,13,14,15,16,17,19,20,21 · VPSS-01..03 · SS-02,03,05,07,08,11,12,14,15,16,17,18,19,20,21,22 · CH-01..11 · SD-01..02 · ICT-01..09 · QNT-01..03 · WCK-01..02 · ANM-01..02 · SNT-01..04 · FG-01..02 · MAC-01..02 · CC-01..02 · REG-01..03 · TM-01..03 · RBT-01 | **UNTESTED — validate one by one on user's go (~150 units)** | | | |
 | I-07..I-24 (others) | untested | | | |
 
 **Cumulative best: R3.1 ×2 +4.73%/mo SR 1.77 (×3 +6.80%/mo). All-years-positive: R3 ×2 +4.52/minYr +0.31.**
