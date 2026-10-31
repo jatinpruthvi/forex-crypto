@@ -280,6 +280,14 @@
     "split-half decay 1.23->0.69 but recent half alive (recency guard PASS)"
    ],
    "note": "First standalone unit since I-01 to clear pre-registered gates AND confirmation (500-draw placebo p99.6, recency alive). Equal-extreme 2-bar reversals at 10d extremes on ETH carry real mean-reversion content. Slot-review candidate #5."
+  },
+  "CH-21": {
+   "verdict": "FAIL",
+   "range_monthly": [
+    -4.26,
+    -0.97
+   ],
+   "note": "1-2-3 reversal (A/B/C swing sequence + break of B): all nodes negative; pattern fires loosely (1400-1750 trade-days) but no reversal content net of costs"
   }
  },
  "errata": {
