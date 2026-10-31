@@ -36304,5 +36304,15 @@
    "2025": 3.5,
    "2026": 1.1
   }
+ },
+ "exp048_vp_session": {
+  "note": "Wave 1.5 volume profile + sessions at 10bp taker - all fail",
+  "i25_volume_profile": "8 nodes POC-fade/VA-break/VA-fade/z-fade x BTC/ETH: all <=0 net; best placebo 77pct FAIL",
+  "i26_rvol": "RVOL gating squeeze WORSENS R3.1 (SR 1.77->1.60); low-vol-only also worse - reject",
+  "i27_sessions": "Asian-range + London/US session momentum: -3.5..-6.6%/mo (cost burn + negative signal)",
+  "i28_session_vwap": "-45..-57%/mo: turnover 0.31/bar = 2.95%/day cost burn",
+  "i06_hour_seasonality": "causal hour-z max 0.24 -> 0 trades; descriptive pattern ~1bp/bar (h21 +1.2, h23 -0.7) not causally selectable",
+  "i18_weekend": "corrected split: weekday -0.33%/mo, weekend -0.27%/mo SR -0.05 - no edge (day-shift bug caught in audit)",
+  "verdict": "intraday-frequency strategies are cost-dead at 10bp; maker-fee regime (I-07) is the only remaining test"
  }
 }

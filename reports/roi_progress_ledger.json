@@ -1548,6 +1548,17 @@
    "status": "complete",
    "date": "2026-10-30",
    "insight": "BOOK R3.1 = 56.25% base(ABS+FVG+mom) + 18.75% fund + 25% pair-squeeze: x1 +2.46%/mo SR 1.77 DD 14.5; x2 +4.73 DD 27.4; x3 +6.80%/mo DD 39.0. Highest book SR ever (1.77). R3 keeps the all-positive-yr profile (minYr +0.22..+0.31)."
+  },
+  {
+   "id": 57,
+   "exp": "EXP-048 improvement_wave15 (I-25 volume profile, I-26 RVOL, I-27 sessions, I-28 session-VWAP, I-06 hour seasonality, I-18 weekend)",
+   "nodes": 30,
+   "budget_usd": 1.0,
+   "total_spent_usd": 44.5,
+   "result": "ALL FAIL at 10bp taker. I-25 volume profile (8 nodes POC/VAH/VAL/z x BTC/ETH): all <=0 net, best va_break_BTC SR 0.12 placebo 77pct FAIL. I-26 RVOL gating squeeze: WORSENS R3.1 (2.46/1.77 -> 2.06/1.60). I-27 sessions (Asian-range, London/US momentum): -3.5..-6.6%/mo cost burn + negative signal. I-28 session-VWAP: -45..-57%/mo (turnover 0.31/bar = 2.95%/day cost burn - math, not bug). I-06 causal hour-z max 0.24 -> zero trades (hour pattern exists ~1bp/bar, too small to select causally). I-18 weekend corrected (calendar no-shift): weekday -0.33, weekend -0.27 - no edge; earlier 'weekend positive' was a day-shift bug, caught in audit.",
+   "status": "complete",
+   "date": "2026-10-30",
+   "insight": "Everything trading at 15m frequency dies at 10bp/side - cost physics, not signal absence. The only remaining rescue for intraday families is the I-07 maker-fee regime (3bp post-only), queued next in Wave 2. Book R3.1 unchanged and confirmed champion."
   }
  ],
  "savepoints": {
@@ -2268,5 +2279,5 @@
    "created_at": "2026-10-29 12:11:05 UTC"
   }
  },
- "count": 56
+ "count": 57
 }
